@@ -1,0 +1,5 @@
+使用命令清理  PURGE recyclebin;  
+
+
+查看回收站内容
+select * from user_recyclebin 

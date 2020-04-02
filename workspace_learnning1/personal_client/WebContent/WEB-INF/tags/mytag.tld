@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd">
+  <tlib-version>1.0</tlib-version>
+  <short-name>p</short-name>
+  <uri>/tags-my</uri>
+	<tag>		
+		<name>p1</name>
+		<tag-class>tag.testtag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<description><![CDATA[需要打印的字符串]]>  </description>
+			<name>str</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue></attribute>
+		<attribute>
+			<description><![CDATA[打印次数]]> </description>
+			<name>num</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+</taglib>

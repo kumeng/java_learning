@@ -1,0 +1,77 @@
+创建多级目录
+mkdir -p /home/brs/s1/s2/s3
+
+递归删除
+cd /home/brs
+rm -r s1
+
+创建文件
+touch filename
+echo "abc" > filename
+
+压缩文件夹或者文件
+tar -zcvf esignsoft.tar.gz esign-soft/
+解压文件
+tar -zxvf esignsoft.tar.gz    (解压效果包含目录esign-soft及下级目录和文件，没有指定解压目录则解压到了当前目录，可用pwd获取当前目录)
+tar -zxvf esignsoft.tar.gz    /opt (指定解压目录的解压)
+
+
+获取用户对文件的读写及执行权限
+chmod a+x test.sh
+
+查看文件格式（dos 还是 unix）
+vi test.sh
+:set ff
+回车，可以看到 fileformat=dos 或者  fileformat=unix
+linux下执行脚本需使用unix格式，dos格式无法执行
+
+修改文件格式
+vi test.sh
+:set ff=unix
+:wq
+
+
+head -5 log1.log 查看文件开头5行
+tail -100 log1.log 查看结尾100行，即最近打印的日志
+tail -f log1.log  动态查看,循环查看日志
+
+
+
+查看内核信息
+uname -a 
+
+查看weblogic中命名为S1服务的PID(进程ID)
+ps -ef|grep java|grep S1
+
+|grep S1  筛选字符串中包含S1的内容
+
+结束PID=10423的进程
+kill -9 10423
+
+
+>输出重定向，覆盖
+>>输出重定向，追加
+
+echo "abc" > book  用abc覆盖book文件，如果不存在，则创建一个
+
+
+#获取当前路径到变量curr_path，然后打印变量,
+curr_path=`pwd`
+echo "当前路径:$curr_path"
+
+判断变量是否为空
+read -p "input password:"password
+if [ ! -n '$password' ] then
+	echo "please input  password "
+else 
+	echo "the password is $ password"
+fi
+直接变量判断 [! password]
+使用test判断 [ test -z "$ password" ]
+使用=""判断  [ " $password"="" ]
+
+
+
+  
+
+

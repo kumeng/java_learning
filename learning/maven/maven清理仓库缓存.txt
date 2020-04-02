@@ -1,0 +1,6 @@
+cd %userprofile%.m2\repository 
+cd F:\MavenRepository 
+F:
+
+
+for /r %i in (*.lastUpdated) do del %i

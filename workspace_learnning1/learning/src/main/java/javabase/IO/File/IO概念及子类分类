@@ -1,0 +1,44 @@
+IS 与 OS
+InputStream 输入，从外界读入程序，读
+OutputStream 输出，从程序输出到外界，写
+
+
+
+
+
+节点流和处理流
+节点流：面向可以存储的设备（磁盘，内存等）的输入输出流
+处理流：对一个已存在的流的连接封装 来实现读写功能的流
+
+
+InputStream 的子类
+FileInputStream 从文件中读取字节
+BufferedInputStream 缓冲输入流,尽可能多的一次读取若干字节到缓冲区，然后逐一字节返回，全部返回后继续重复此过程，直到读取完毕
+             这样可以减少读取次数，提高效率
+ObejectInputStream 将输入流经行反序列化，得到实例对象             
+ByteArrayInputStream  读取到字节组中，(其他输入流一般都是文件读到内存，这个是内存到内存).例如读取实例对象
+
+
+OutputStream 的子类
+FileOutputStream  写字节到文件，构造默认覆盖原文件内容new FileOutputStream(file) 
+			，如需追加，构造器需为 new FileOutputStream(filepathname,true)
+BufferedOutputStream  缓冲输出流 向硬件设备写出操作时，增大写出操作会降低写出效率,使用此类流 先将数据写入缓冲区
+			，缓冲区的数据会在流关闭前或者存满时或Flush(）方法之前，一次性写出。另外，Flush(）方法会清空缓冲区
+ObjectOutputStream 将对象进行序列化的输出流，要求对象实现Serialized接口，可序列化的标记	
+			,建议显示定义serialVesionUID 方便代码跨平台使用  。transient修饰符 的属性，序列化时会忽略
+ByteArrayOutputStream 		 	 
+			
+Reader 字符输入流
+Writer 字符输出流
+字符流以char为单位写数据，一次处理一个unicode 
+底层是字节流 (InputStream,OutputStream等)	
+字符流涉及编码方式
+
+InputStreamReader  可设置编码规则(如UTF-8)，将按照该规则把读取到的字节转换为字符  (读字节，按编码规则转为字符)
+OutputStreamWriter  可设置编码规则(如UTF-8)，将按照该规则把读取到的字符转换为字节输出  (读字符， 按编码规则转为字节输出)
+PrintWriter     new PrintWriter(fileOutputStream,true) 自动行刷新的缓冲字符输出流,print 和   println(立即写出该字符串)
+BufferedReader  缓冲字符输入流，内部提供了缓冲区，提高了读取效率，String readLine() 会持续读取一行后（即遇到换行符）返回，返回内容没有换行符
+ 
+
+		
+

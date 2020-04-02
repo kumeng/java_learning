@@ -1,0 +1,99 @@
+body { font-size:12px; background:#fff; color:#333; line-height:25px; margin:0; padding:0px 0; font-family:宋体; }
+h2,h4,p,ul,li,dl,dt,dd,form,input { margin:0; padding:0; }
+img { border:0; }
+em { font-style:normal; }
+.wrap { width:800px; margin:0px auto; }
+.red, a.red { color:#f00; }
+.input-text { padding:2px 4px; border:1px solid #79a4cf; }
+.input-button { border:none; }
+a:link, a:visited { color:#06C; text-decoration:none; }
+a:hover, a:active { text-decoration:underline; }
+
+div.header {
+	width:100%;
+	position:relative;
+	padding:0 0;
+	border-top:gray solid 1px;
+	border-bottom:gray dashed 1px;
+}
+
+div.header div.title {
+	margin:10px;
+	padding-top:10px;
+	font-size:32px;
+	height:50px;
+	width:600px;
+}
+
+div.header div.login {
+	position:absolute;
+	top:0;
+	right:0;
+}
+
+a.button {
+	display:block;
+	width:80px;
+	height:25px;
+	border:gray solid 1px;
+	text-decoration: none;
+	text-align:center;
+	background-color:#ffeec2 ;
+	margin-left:5px;
+	margin-top:5px;
+	margin-bottom:5px;
+	float:left;
+}
+
+a.operation {
+	display:block;
+	float:left;
+	height:22px;
+	/*border:gray solid 1px;
+	text-decoration: none;*/
+	text-align:center;
+	width:70px;
+	/*background-color:#8BB8F3 ;*/
+}
+
+table.list{
+	width:100%; text-align:left; color:#3f413e; border-collapse:collapse;
+	margin-top:5px;
+}
+table.list tr th { line-height:26px; background:#8BB8F3; border-top:1px solid #d3d3d3; border-bottom:1px solid #d3d3d3;border-right:1px solid #d3d3d3; }
+table.list tr td {border-bottom:1px solid #d3d3d3;border-right:1px solid #d3d3d3;}
+table.list th.name { width:120px; }
+table.list th.desc { width:420px; }
+table.list th.beginDate { width:100px; }
+table.list th.endDate { width:100px; }
+table.list th.startPrice { width:100px; }
+
+input.input-btn {
+	margin-left:5px; 
+	border:gray solid 1px; background:url(../images/button_search.gif); height:25px; width:80px; 
+}
+
+.modify .input-text{
+  width:400px;	
+}
+tr.button{text-align:center;}
+span.error{color:red;}
+
+table.detail{
+	width:60%; text-align:left; color:#3f413e; border-collapse:collapse;
+	margin-top:5px;
+}
+table.detail tr th { line-height:26px; background:#8BB8F3; border-top:1px solid #d3d3d3; border-bottom:1px solid #d3d3d3;border-right:1px solid #d3d3d3; }
+table.detail tr td {border-bottom:1px solid #d3d3d3;border-right:1px solid #d3d3d3;}
+table.bids th.item { width:150px; }
+table.bids th.value { width:300px; }
+
+table.bids{
+	width:60%; text-align:left; color:#3f413e; border-collapse:collapse;
+	margin-top:5px;
+}
+table.bids tr th { line-height:26px; background:#8BB8F3; border-top:1px solid #d3d3d3; border-bottom:1px solid #d3d3d3;border-right:1px solid #d3d3d3; }
+table.bids tr td {border-bottom:1px solid #d3d3d3;border-right:1px solid #d3d3d3;}
+table.bids th.createTime { width:120px; }
+table.bids th.bidPrice { width:100px; }
+table.bids th.bidder { width:120px; }

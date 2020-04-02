@@ -1,0 +1,12 @@
+ 删除文件
+<delete file="/home/brs/test.sh" />
+删除目录
+<delete file="/home/brs/t1"/>
+复制文件
+<copy file="test.sh" todir="/home/backup"/>
+复制目录
+<copy  todir="/home/backup"><fileset dir="t2"/> </copy>
+移动文件
+<move file="test.sh" todir="/home/backup"/>
+移动目录
+<move  todir="/home/backup"><fileset dir="t2"/> </move>

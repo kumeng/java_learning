@@ -1,0 +1,1 @@
+select * from T_XZYZGL_YZDETAILS t start with t.id = 30005 connect by prior  t.id = t.source_id

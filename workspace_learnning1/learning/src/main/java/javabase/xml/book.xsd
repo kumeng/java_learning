@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://www.myxmlschema2018/bookschema" 
+	elementFormDefault="qualified">
+	<element name="书架">   <!-- 定义书架标签 -->
+		<complexType>	  <!-- 复合类型，表示下面还有子节点 -->
+			<sequence maxOccurs="unbounded">     <!-- 定义复合类型内容， maxOccurs="unbounded"表示不限制 "书" de 出现次数 -->
+					<element name="书"> 
+						<complexType>
+							<sequence>
+								<element name="书名" type="string" />
+								<element name="总页数" type="int" /> 
+								<element name="价格" type="double" /> 
+							</sequence>
+						</complexType>						
+					</element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

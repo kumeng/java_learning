@@ -1,0 +1,28 @@
+
+merge into t_xfqc_sqddtl a using t_xfqc_sqd b
+on ( a.pid = b.id )
+-- matched   匹配  
+when matched then  
+  update set a.shzt = b.shzt
+  ,a.del = b.del
+--- 不匹配  可选
+--  not then 
+  
+示例 
+
+
+merge into T_zcgl_gzsq a  using  zcbase.T_zcgl_gzsq@Zcgldblink  b
+on (a.id = b.id)
+when matched then
+update  set a.djh = a.djh
+  when not matched then
+  insert values (b.id,b.zdr,b.zdsj,b.zdr_phone,b.xqdept_id,b.xqdept_mc,b.djh,b.djmc,b.del,b.shzt,b.cansearch);
+  commit;
+  ----查询插入
+  insert into t_Zcgl_Gzsq_Dtl d 
+  select * from zcbase.t_Zcgl_Gzsq_Dtl@zcgldblink c where c.gzsqid in (
+  select a.id from  T_zcgl_gzsq a  ,t_Zcgl_Gzsq_Dtl b
+  where a.id = b.gzsqid(+)
+  and b.gzsqid is null
+  );
+  ;

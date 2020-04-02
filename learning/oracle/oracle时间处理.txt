@@ -1,0 +1,2 @@
+计算两个timestamp之间的毫秒差
+EXTRACT(SECOND FROM(e.end_time_ - e.start_time_)) * 1000

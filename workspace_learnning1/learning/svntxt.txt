@@ -1,0 +1,10 @@
+笔记本中：
+
+svn服务仓库地址    http://zxxxxk-pc/svn/repository1
+本项目地址   http://zxxxxk-pc/svn/repository1/JAVABasic
+svn仓库地址  C:\SVNRepositories
+
+账户密码
+zcbase
+zcbase
+

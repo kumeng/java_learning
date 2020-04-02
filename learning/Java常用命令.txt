@@ -1,0 +1,11 @@
+jar命令 
+
+把当前工作目录打包为name.war
+jar -cvf game.war ./
+-c创建包
+-v显示打包过程
+
+解压name.war到当前工作目录
+jar -xvf game.war
+
+cd  /home/brs 切换当前工作目录

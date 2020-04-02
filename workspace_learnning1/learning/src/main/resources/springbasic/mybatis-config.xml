@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+
+
+<configuration>
+	<!-- setting 二级缓存  -->
+	
+	<!-- 别名 -->
+	<typeAliases>
+		<!-- <package name="cn.itcast.core.bean"/> -->
+	</typeAliases>
+	
+	
+	
+	<!-- Mapper位置，
+	mybatis-spring 中配置的扫描文件夹位置
+	第一：接口与Mapper在一个文件夹下
+	第二：接口与Mapper文件名相同
+	才能扫描 
+	
+	下面这种配置，无对应接口的方式，需要在这里经行如下配置	
+	-->
+	<mappers>
+	    <mapper  resource="scanerpac/mybatisDao/sys/sys_select1.xml"/>
+	</mappers>
+
+</configuration>

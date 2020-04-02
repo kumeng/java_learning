@@ -1,0 +1,4 @@
+
+在管理员权限下，使用命令可以启用或禁用administrator
+net use administrator /active:yes
+net use administrator /active:no

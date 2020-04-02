@@ -1,0 +1,35 @@
+schema约束  （xml约束）
+一般文件名格式： book.xsd
+
+schema约束 
+1、所有标签和属性都需要在schema标签（.xsd）中定义 (schema已由w3c定义)
+2、所有schema文件都需要一个id，即targetNamespace指定，它的值是一个URL（很有可能不存在）
+4、引入schema文件（.xsd），由属性xmlns值制定该文件的ID
+5、如果引入的schema不是w3c定义（即自定义的.xsd文件），需要指定文件位置（即schemaLocation）
+6、指定schemaLocation  的值 需要引入 xmlns="http://www.w3.org/2001/XMLSchema-instance"
+7、当引入约束有n个时，至少需要指定n-1个别名
+xmlns属性后跟自定义的别名:zxk ，，xmlns:zxk  
+
+schema标签 已由w3c定义在 
+
+<?xml version='1.0' encoding='UTF-8'?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://www.myxmlschema2018/bookschema" 
+	elementFormDefault="qualified"> <!-- 设置约束关联所有子节点，默认只约束更节点 -->
+	<element name="书架">   <!-- 定义书架标签 -->
+		<complexType>	  <!-- 复合类型，表示下面还有子节点 -->
+			<sequence maxOccurs="unbounded">     <!-- 定义复合类型内容， maxOccurs="unbounded"表示不限制 "书" de 出现次数 -->
+					<element name="书"> 
+						<complexType>
+							<sequence>
+								<element name="书名" type="String" />
+								<element name="总页数" type="Integer" /> 
+								<element name="价格" type="Double" /> 
+							</sequence>
+						</complexType>						
+					</element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>
+

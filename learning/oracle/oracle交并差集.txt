@@ -1,0 +1,3 @@
+union/union all并集   (union 会去重，union all不会)
+intersect 交集
+minus 差集

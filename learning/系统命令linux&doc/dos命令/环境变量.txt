@@ -1,0 +1,66 @@
+查看全部环境变量
+set
+
+
+临时环境变量
+
+
+
+修改变量： set PATH=%Path%;%JAVA_HOME%\bin
+
+	含义：表示修改 PATH 的变量。 %PATH% 表示原有的配置，再其后面跟上字符 ;%JAVA_HOME%\bin 表示添加变量
+
+
+
+添加变量： set "JAVA_HOME" %cd%
+
+
+删除变量：set PATH="" ，设置为空即可
+
+
+查看变量： echo %PATH%
+
+
+永久环境变量
+
+
+
+用户变量
+
+
+
+添加变量： setx "JAVA_HOME" %cd% ，表示添加名为 JAVA_HOME 的变量， %cd% 表示当前运行路径
+
+
+删除变量：setx "JAVA_HOME" ""
+
+
+修改变量：setx "path" "%path%;%%JAVA_HOME%%\bin;" ，两个 %% 表示转义，输出一个 %
+
+
+查看变量：echo %PATH%
+
+系统变量
+
+
+系统变量
+
+ENVIRONMENT - 系统环境设置管理
+
+
+
+添加变量：
+wmic ENVIRONMENT create name="JAVA_HOME",username="<system>",VariableValue="%cd%"
+
+	表示添加名为 JAVA_HOME 的变量， %cd% 表示当前运行路径
+
+
+删除变量：wmic ENVIRONMENT where "name='home'" delete ，删除名为home的变量
+
+
+修改变量：
+wmic ENVIRONMENT where "name='path' and username='<system>'" set VariableValue="%path%;%%JAVA_HOME%%\bin;" 
+	，两个 %% 表示转义，输出一个 %
+
+
+获取变量：wmic ENVIRONMENT where "name='path'" get UserName,VariableValue

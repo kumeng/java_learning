@@ -1,0 +1,52 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/task
+   		http://www.springframework.org/schema/task/spring-task-4.0.xsd
+   		http://www.springframework.org/schema/util
+   		http://www.springframework.org/schema/util/spring-util-4.0.xsd
+		http://code.alibabatech.com/schema/dubbo        
+		http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+		
+    
+    <!-- druid数据源    -->
+    <bean id="druidDataSource" class="com.alibaba.druid.pool.DruidDataSource"
+     init-method="init" destroy-method="close" >
+        <property name="driverClassName" value="${driver}" />        
+        <property name="url" value="${url}" />
+        <property name="username" value="${username}" />
+        <!--  dos下进入 jar包位置  cd F:/MyMavenRepository/repository/com/alibaba/druid/1.0.9/   f: -->
+        <!-- java -cp druid-1.0.9.jar com.alibaba.druid.filter.config.ConfigTools you_password 得到加密后的密码，填入文件 -->
+        <property name="password" value="${password}" />
+        <!-- 读取本地 druid配置 -->
+        <property name="filters" value="stat,config" />
+     <!--    <property name="connectionProperties" value="config.file=file://F:\workspace4.5_2\learning\src\main\resources\springbasic\druid.properties" /> -->
+        <property name="connectionProperties" value="config.file=classpath:springbasic/druid.properties" />
+          
+        <!-- 读取http  druid配置 -->
+<!--    <property name="filters" value="config" />
+        <property name="connectionProperties" value="config.file=http://127.0.0.1/druid.properties" />   -->
+        <!-- 提示druid 解密密码  ，这里注释，采用在druid.properties中配置-->
+<!--         <property name="filters" value="config" />
+        <property name="connectionProperties" value="config.decrpt=true;config.decrpt.key=${publickey}" />
+            -->           
+    </bean>
+    
+    
+</beans>    

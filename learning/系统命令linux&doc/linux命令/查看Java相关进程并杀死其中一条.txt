@@ -1,0 +1,15 @@
+
+
+ps -ef | grep java
+
+查看所有Java相关进程
+结果：
+root    17540     1  0  2009 ?        01:42:27 /usr/java/jdk1.5.0_15/bin/java -
+。。。。
+
+xxxxx 是id
+
+kill -9   xxxxx
+kill -9   17540     
+
+

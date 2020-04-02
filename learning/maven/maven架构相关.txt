@@ -1,0 +1,87 @@
+<resource>标签
+
+正常情况下
+
+src/main/java和src/test/java 
+这两个目录中的所有*.java文件会分别在comile和test-comiple阶段被编译，编译结果分别放到了target/classes和targe/test-classes目录中，但是这两个目录中的其他文件都会被忽略掉。
+
+
+src/main/resouces和src/test/resources
+这两个目录中的文件也会分别被复制到target/classes和target/test-classes目录中
+
+
+target/classes
+打包插件默认会把这个目录中的所有内容打入到jar包或者war包中
+
+
+<resource>标签作用
+  <build>
+    .......
+      <resources>
+        <resource>
+            <directory>src/main/resources</directory>
+            <excludes>
+                <exclude>**/*.properties</exclude>
+                <exclude>**/*.xml</exclude>
+             </excludes>
+            <filtering>false</filtering>
+        </resource>
+        <resource>
+            <directory>src/main/java</directory>
+            <includes>
+                <include>**/*.properties</include>
+                <include>**/*.xml</include>
+            </includes>
+            <filtering>false</filtering>
+        </resource>
+    </resources>
+    ......
+</build>
+
+使配置好的路径下相应格式资源文件，也可以被copy到  target  目录
+
+
+也可以用插件
+       <plugin>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>2.5</version>
+            <executions>
+                <execution>
+                    <id>copy-xmls</id>
+                    <phase>process-sources</phase>
+                    <goals>
+                        <goal>copy-resources</goal>
+                    </goals>
+                    <configuration>
+                        <outputDirectory>${basedir}/target/classes</outputDirectory>
+                        <resources>
+                            <resource>
+                                <directory>${basedir}/src/main/java</directory>
+                                <includes>
+                                    <include>**/*.xml</include>
+                                </includes>
+                            </resource>
+                        </resources>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+
+
+打包时target/classes目录中的资源文件会和class字节码一起被打进jar包或war包中。有时候默认的情况不能完全满足需求，如target/classes目录中的一些文件不希望打入jar包中，就需要额外配置maven-jar-plugin插件。
+　　　　　　　<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <excludes>
+                        <exclude>*.properties</exclude>
+                    </excludes>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>xxxxxx.ConsoleLauncher</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>

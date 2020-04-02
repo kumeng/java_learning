@@ -1,0 +1,987 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0038)http://juvenshun.iteye.com/blog/376422 -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="text/javascript" async="" src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/pr.js"></script>
+    
+    <title>Maven最佳实践：版本管理 - Maven中文 - ITeye博客</title>
+    <meta name="description" content="什么是版本管理  首先，这里说的版本管理（version management）不是指版本控制（version control），但是本文假设你拥有基本的版本控制的知识，了解subversion的基本用法。版本管理中说得版本是指构件（artifact）的版本，而非源码的版本（如subversion中常见的rXXX，或者git中一次提交都有个sha1的commit号）。  比如我有一个项目，其arti ...">
+    <meta name="keywords" content="maven, 配置管理, 项目管理, SVN, subversion Maven最佳实践：版本管理">
+    <link rel="shortcut icon" href="http://juvenshun.iteye.com/images/favicon.ico" type="image/x-icon">
+    <link rel="search" type="application/opensearchdescription+xml" href="http://juvenshun.iteye.com/open_search.xml" title="ITeye">
+    <link href="http://juvenshun.iteye.com/rss" rel="alternate" title="Maven中文" type="application/rss+xml">
+    <link href="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/blog.css" media="screen" rel="stylesheet" type="text/css">
+<link href="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/blue.css" media="screen" rel="stylesheet" type="text/css">
+    <script type="text/javascript" async="" src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/jnhlkhlnbnnganmhlfgmk.js"></script><script src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/push.js"></script><script src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/hm.js"></script><script src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/application.js" type="text/javascript"></script>    
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?e19a8b00cf63f716d774540875007664";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+
+
+        //自动推送工具代码
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+
+
+      <link href="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/SyntaxHighlighter.css" media="screen" rel="stylesheet" type="text/css">
+  <script src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/shCoreCommon.js" type="text/javascript"></script>
+<script src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/hotkey.js" type="text/javascript"></script>
+  <script src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/code_favorites.js" type="text/javascript"></script>
+<script src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/weiboshare.js" type="text/javascript"></script>
+
+    <!-- 请置于所有广告位代码之前 -->
+    <script src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/ds.js"></script>
+    <link ref="canonical" href="http://juvenshun.iteye.com/blog/376422">
+    <script src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/c.js"></script><style type="text/css">.cambrian-toast-container{box-sizing:border-box}.cambrian-toast-container ._1aN93p{box-sizing:border-box;position:fixed;top:50%;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%);margin-top:-25px;height:50px;width:100%;text-align:center;z-index:200;transition:opacity .3s;opacity:0}.cambrian-toast-container .gFtqqq{box-sizing:border-box;display:inline-block;width:auto;margin:0 auto;height:45px;min-width:100px;padding:0 17px;font-size:18px;line-height:45px;color:#fff;font-size:14px;font-family:HanHei SC,PingHei,PingFang SC,STHeitiSC-Light,Helvetica Neue,Helvetica,Arial;background-color:rgba(0,0,0,.8);border-radius:4px}.cambrian-toast-container ._2EC2G_{opacity:1}@media screen and (max-width:320px){.cambrian-toast-container .gFtqqq{font-size:16px}}</style><style type="text/css">#cambrian0,#cambrian1,#cambrian2,#cambrian3,#cambrian4{color:#000;font-style:normal;font-weight:400;letter-spacing:normal;word-spacing:normal;white-space:normal}#cambrian0,#cambrian0 div,#cambrian0 img,#cambrian1,#cambrian1 div,#cambrian1 img,#cambrian2,#cambrian2 div,#cambrian2 img,#cambrian3,#cambrian3 div,#cambrian3 img,#cambrian4,#cambrian4 div,#cambrian4 img{width:auto;height:auto;margin:0;padding:0;background-color:transparent;background-position:0 0;background-size:auto;background-repeat:repeat;background-origin:padding-box;background-clip:border-box;background-attachment:scroll;background-image:none;border:none;outline:medium none invert;color:inherit;direction:ltr;letter-spacing:inherit;line-height:normal;text-align:left;text-decoration:none;text-indent:0;text-transform:none;white-space:inherit;word-spacing:normal;font-size:12px;font-family:HanHei SC,PingHei,PingFang SC,STHeitiSC-Light,Helvetica Neue,Helvetica,Arial,sans-serif;font-size-adjust:none;font-stretch:normal;font-style:inherit;font-variant:normal;font-weight:inherit;visibility:visible;overflow:visible;list-style:none;float:none;clear:none;display:block;position:static;top:auto;left:auto;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box}#cambrian0 a,#cambrian0 b,#cambrian0 em,#cambrian0 img,#cambrian0 span,#cambrian0 strong,#cambrian1 a,#cambrian1 b,#cambrian1 em,#cambrian1 img,#cambrian1 span,#cambrian1 strong,#cambrian2 a,#cambrian2 b,#cambrian2 em,#cambrian2 img,#cambrian2 span,#cambrian2 strong,#cambrian3 a,#cambrian3 b,#cambrian3 em,#cambrian3 img,#cambrian3 span,#cambrian3 strong,#cambrian4 a,#cambrian4 b,#cambrian4 em,#cambrian4 img,#cambrian4 span,#cambrian4 strong{display:inline}</style><style type="text/css">#cambrian0 .R2CNzl,#cambrian1 .R2CNzl,#cambrian2 .R2CNzl,#cambrian3 .R2CNzl,#cambrian4 .R2CNzl{width:57px;padding:8px 0;text-align:center;font-weight:300;font-size:12px;line-height:12px;vertical-align:middle;display:inline-block;color:#fff;background:#3897f0;border-radius:3px;-webkit-tap-highlight-color:transparent}#cambrian0 .R2CNzl:active,#cambrian1 .R2CNzl:active,#cambrian2 .R2CNzl:active,#cambrian3 .R2CNzl:active,#cambrian4 .R2CNzl:active{background-color:rgba(56,151,240,.2)}#cambrian0 .j4z1dH,#cambrian1 .j4z1dH,#cambrian2 .j4z1dH,#cambrian3 .j4z1dH,#cambrian4 .j4z1dH{color:#666;background-color:#fff;position:relative;z-index:0;border-radius:2px}#cambrian0 .j4z1dH:after,#cambrian1 .j4z1dH:after,#cambrian2 .j4z1dH:after,#cambrian3 .j4z1dH:after,#cambrian4 .j4z1dH:after{content:"";position:absolute;box-sizing:border-box;top:0;left:0;border:1px solid #ccc;border-radius:4px;width:200%;height:200%;z-index:-1;transform:scale(.5);-webkit-transform:scale(.5);transform-origin:left top;-webkit-transform-origin:left top}#cambrian0 .j4z1dH:active,#cambrian1 .j4z1dH:active,#cambrian2 .j4z1dH:active,#cambrian3 .j4z1dH:active,#cambrian4 .j4z1dH:active{background-color:#fff}#cambrian0 ._1hqmP7,#cambrian1 ._1hqmP7,#cambrian2 ._1hqmP7,#cambrian3 ._1hqmP7,#cambrian4 ._1hqmP7{width:120px}#cambrian0 ._1hqmP7:active,#cambrian1 ._1hqmP7:active,#cambrian2 ._1hqmP7:active,#cambrian3 ._1hqmP7:active,#cambrian4 ._1hqmP7:active{background-color:rgba(56,151,240,.2)}#cambrian0 ._3VoMI3,#cambrian1 ._3VoMI3,#cambrian2 ._3VoMI3,#cambrian3 ._3VoMI3,#cambrian4 ._3VoMI3{padding:8px 0;width:120px;background-color:#fff;color:#666;position:relative;z-index:0;border-radius:3px}#cambrian0 ._3VoMI3:after,#cambrian1 ._3VoMI3:after,#cambrian2 ._3VoMI3:after,#cambrian3 ._3VoMI3:after,#cambrian4 ._3VoMI3:after{content:"";position:absolute;box-sizing:border-box;top:0;left:0;border:1px solid #eee;border-radius:6px;width:200%;height:200%;z-index:-1;transform:scale(.5);-webkit-transform:scale(.5);transform-origin:left top;-webkit-transform-origin:left top}#cambrian0 ._3VoMI3:active,#cambrian1 ._3VoMI3:active,#cambrian2 ._3VoMI3:active,#cambrian3 ._3VoMI3:active,#cambrian4 ._3VoMI3:active{background-color:#fff}</style><style type="text/css">#cambrian0 .tH6Qv7,#cambrian1 .tH6Qv7,#cambrian2 .tH6Qv7,#cambrian3 .tH6Qv7,#cambrian4 .tH6Qv7{background-color:#fff;overflow:hidden;-webkit-tap-highlight-color:transparent}#cambrian0 .tH6Qv7 ._1NMJVn,#cambrian1 .tH6Qv7 ._1NMJVn,#cambrian2 .tH6Qv7 ._1NMJVn,#cambrian3 .tH6Qv7 ._1NMJVn,#cambrian4 .tH6Qv7 ._1NMJVn{padding-top:2px;float:right}#cambrian0 .tH6Qv7 ._26Hteq,#cambrian1 .tH6Qv7 ._26Hteq,#cambrian2 .tH6Qv7 ._26Hteq,#cambrian3 .tH6Qv7 ._26Hteq,#cambrian4 .tH6Qv7 ._26Hteq{margin-right:60px;overflow:hidden}#cambrian0 .tH6Qv7 ._26Hteq ._1UhIYm,#cambrian1 .tH6Qv7 ._26Hteq ._1UhIYm,#cambrian2 .tH6Qv7 ._26Hteq ._1UhIYm,#cambrian3 .tH6Qv7 ._26Hteq ._1UhIYm,#cambrian4 .tH6Qv7 ._26Hteq ._1UhIYm{float:left;font-size:0;position:relative}#cambrian0 .tH6Qv7 ._26Hteq ._1UhIYm ._3FeqpQ,#cambrian1 .tH6Qv7 ._26Hteq ._1UhIYm ._3FeqpQ,#cambrian2 .tH6Qv7 ._26Hteq ._1UhIYm ._3FeqpQ,#cambrian3 .tH6Qv7 ._26Hteq ._1UhIYm ._3FeqpQ,#cambrian4 .tH6Qv7 ._26Hteq ._1UhIYm ._3FeqpQ{margin:0 8px 0 0;width:35px;height:35px;border-radius:50%;border:1px solid #eee;box-sizing:border-box}#cambrian0 .tH6Qv7 ._26Hteq ._2htEKn ._3oOvK-,#cambrian1 .tH6Qv7 ._26Hteq ._2htEKn ._3oOvK-,#cambrian2 .tH6Qv7 ._26Hteq ._2htEKn ._3oOvK-,#cambrian3 .tH6Qv7 ._26Hteq ._2htEKn ._3oOvK-,#cambrian4 .tH6Qv7 ._26Hteq ._2htEKn ._3oOvK-{white-space:nowrap;overflow:hidden;position:relative;font-size:0}#cambrian0 .tH6Qv7 ._26Hteq ._2htEKn .DUXzra,#cambrian1 .tH6Qv7 ._26Hteq ._2htEKn .DUXzra,#cambrian2 .tH6Qv7 ._26Hteq ._2htEKn .DUXzra,#cambrian3 .tH6Qv7 ._26Hteq ._2htEKn .DUXzra,#cambrian4 .tH6Qv7 ._26Hteq ._2htEKn .DUXzra{display:inline-block;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;font-size:16px;color:#000;font-weight:300;line-height:16px;max-width:60%}#cambrian0 .tH6Qv7 ._26Hteq ._2htEKn .ocg5pY,#cambrian1 .tH6Qv7 ._26Hteq ._2htEKn .ocg5pY,#cambrian2 .tH6Qv7 ._26Hteq ._2htEKn .ocg5pY,#cambrian3 .tH6Qv7 ._26Hteq ._2htEKn .ocg5pY,#cambrian4 .tH6Qv7 ._26Hteq ._2htEKn .ocg5pY{font-size:12px;color:#999;margin-top:5px;font-weight:300;line-height:14px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}#cambrian0 .tH6Qv7 ._26Hteq ._2htEKn ._2c3HBO,#cambrian1 .tH6Qv7 ._26Hteq ._2htEKn ._2c3HBO,#cambrian2 .tH6Qv7 ._26Hteq ._2htEKn ._2c3HBO,#cambrian3 .tH6Qv7 ._26Hteq ._2htEKn ._2c3HBO,#cambrian4 .tH6Qv7 ._26Hteq ._2htEKn ._2c3HBO{display:inline-block;overflow:hidden;box-sizing:content-box;height:10px;padding:1px 2px;font-size:10px;font-weight:400;font-style:normal;line-height:11px;vertical-align:middle;text-decoration:none;border-radius:2px;border:1px solid #b3d4f3;color:#2b99ff;position:absolute;top:1px;margin-left:5px}</style><style type="text/css">#cambrian0 ._2OGhYs,#cambrian1 ._2OGhYs,#cambrian2 ._2OGhYs,#cambrian3 ._2OGhYs,#cambrian4 ._2OGhYs{position:relative;background-color:#fff}#cambrian0 ._2RPsC2,#cambrian1 ._2RPsC2,#cambrian2 ._2RPsC2,#cambrian3 ._2RPsC2,#cambrian4 ._2RPsC2{padding:15px 0;background-color:#fff}#cambrian0 ._3YzkLk,#cambrian1 ._3YzkLk,#cambrian2 ._3YzkLk,#cambrian3 ._3YzkLk,#cambrian4 ._3YzkLk{position:relative;z-index:0;position:absolute;top:0;left:0;right:0;z-index:-1}#cambrian0 ._3YzkLk:after,#cambrian1 ._3YzkLk:after,#cambrian2 ._3YzkLk:after,#cambrian3 ._3YzkLk:after,#cambrian4 ._3YzkLk:after{content:"";position:absolute;box-sizing:border-box;top:0;left:0;border-bottom:1px solid #ddd;width:200%;height:200%;z-index:-1;transform:scale(.5);-webkit-transform:scale(.5);transform-origin:left top;-webkit-transform-origin:left top}#cambrian0 ._3YzkLk ._1ZN5uE,#cambrian1 ._3YzkLk ._1ZN5uE,#cambrian2 ._3YzkLk ._1ZN5uE,#cambrian3 ._3YzkLk ._1ZN5uE,#cambrian4 ._3YzkLk ._1ZN5uE{padding:15px 17px;background-color:#fff}</style><style type="text/css">#cambrian0 ._1PnZXZ,#cambrian1 ._1PnZXZ,#cambrian2 ._1PnZXZ,#cambrian3 ._1PnZXZ,#cambrian4 ._1PnZXZ{display:block;position:fixed;z-index:2147483646;top:0;left:0;right:0;background:#fff}</style><style type="text/css">#cambrian0 ._1zbmp3,#cambrian1 ._1zbmp3,#cambrian2 ._1zbmp3,#cambrian3 ._1zbmp3,#cambrian4 ._1zbmp3{margin:0}</style><style type="text/css">#cambrian0 ._12SnTy,#cambrian1 ._12SnTy,#cambrian2 ._12SnTy,#cambrian3 ._12SnTy,#cambrian4 ._12SnTy{padding:15px 0;background-color:#fff}</style><style type="text/css">#cambrian0 .PypvUY,#cambrian1 .PypvUY,#cambrian2 .PypvUY,#cambrian3 .PypvUY,#cambrian4 .PypvUY{background-color:#fff;margin:20px 0;position:relative;z-index:0;border-radius:4px;overflow:hidden;-webkit-tap-highlight-color:transparent}#cambrian0 .PypvUY:after,#cambrian1 .PypvUY:after,#cambrian2 .PypvUY:after,#cambrian3 .PypvUY:after,#cambrian4 .PypvUY:after{content:"";position:absolute;box-sizing:border-box;top:0;left:0;border:1px solid #ddd;border-radius:8px;width:200%;height:200%;z-index:-1;transform:scale(.5);-webkit-transform:scale(.5);transform-origin:left top;-webkit-transform-origin:left top}#cambrian0 .PypvUY ._2SJWnA,#cambrian1 .PypvUY ._2SJWnA,#cambrian2 .PypvUY ._2SJWnA,#cambrian3 .PypvUY ._2SJWnA,#cambrian4 .PypvUY ._2SJWnA{text-align:center}#cambrian0 .PypvUY ._2SJWnA ._2UyMHm,#cambrian1 .PypvUY ._2SJWnA ._2UyMHm,#cambrian2 .PypvUY ._2SJWnA ._2UyMHm,#cambrian3 .PypvUY ._2SJWnA ._2UyMHm,#cambrian4 .PypvUY ._2SJWnA ._2UyMHm{width:67px;height:67px;border:1px solid transparent;border-radius:50%;margin-top:26px}#cambrian0 .PypvUY ._2jUmr0,#cambrian1 .PypvUY ._2jUmr0,#cambrian2 .PypvUY ._2jUmr0,#cambrian3 .PypvUY ._2jUmr0,#cambrian4 .PypvUY ._2jUmr0{margin-top:10px;text-align:center;line-height:16px;font-size:16px;color:#333;font-weight:600}#cambrian0 .PypvUY ._1ag27m,#cambrian1 .PypvUY ._1ag27m,#cambrian2 .PypvUY ._1ag27m,#cambrian3 .PypvUY ._1ag27m,#cambrian4 .PypvUY ._1ag27m{width:78%;margin:auto;margin-top:10px;text-align:center;font-size:13px;color:#999;line-height:17px;font-weight:300}#cambrian0 .PypvUY .py4pLD,#cambrian1 .PypvUY .py4pLD,#cambrian2 .PypvUY .py4pLD,#cambrian3 .PypvUY .py4pLD,#cambrian4 .PypvUY .py4pLD{text-align:center;margin:13px 0 25px}</style><style type="text/css">._3hy-Ff{position:fixed;z-index:2147483647;top:50%;transform:translateY(-50%);-webkit-transform:translateY(-50%);left:10%;right:10%;border-radius:4px}._3hy-Ff,._3sMHvW{background-color:#fff}._3sMHvW{width:100%;height:100%;min-height:260px;border:none;outline:none;border-radius:4px}._3wCh1i{position:fixed;z-index:2147483647;top:0;bottom:0;left:0;right:0;background-color:#000;opacity:.65}</style><script src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/openBox.js" async=""></script><style type="text/css">.dp-xml .cdata { color: #ff1493; }.dp-xml .tag, .dp-xml .tag-name { color: #069; font-weight: bold; }.dp-xml .attribute { color: red; }.dp-xml .attribute-value { color: blue; }</style><style type="text/css">.dp-xml .cdata { color: #ff1493; }.dp-xml .tag, .dp-xml .tag-name { color: #069; font-weight: bold; }.dp-xml .attribute { color: red; }.dp-xml .attribute-value { color: blue; }</style></head><body><div id="BAIDU_DUP_fp_wrapper" style="position: absolute; left: -1px; bottom: -1px; z-index: 0; width: 0px; height: 0px; overflow: hidden; visibility: hidden; display: none;"><iframe id="BAIDU_DUP_fp_iframe" src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/o.html" style="width: 0px; height: 0px; visibility: hidden; display: none;"></iframe></div><script onload="window[&#39;cambrian_sync_loader_success1513132506327327&#39;]()" onerror="window[&#39;cambrian_sync_loader_fail_1513132506328327&#39;]()" src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/main.bb981c36.js"></script>
+  
+  
+    <div id="header">
+	      <div id="blog_site_nav">
+  <a href="http://www.iteye.com/" class="homepage">首页</a>
+  <a href="http://www.iteye.com/news">资讯</a>
+  <a href="http://www.iteye.com/magazines">精华</a>
+  <a href="http://www.iteye.com/forums">论坛</a>
+  <a href="http://www.iteye.com/ask">问答</a>
+  <a href="http://www.iteye.com/blogs">博客</a>
+  <a href="http://www.iteye.com/blogs/subjects">专栏</a>
+  <a href="http://www.iteye.com/groups">群组</a>
+  <a href="http://juvenshun.iteye.com/blog/376422#" onclick="return false;" id="msna"><u>更多</u> <small>▼</small></a>
+  <div class="quick_menu" style="display:none;">
+    <a target="_blank" href="http://job.iteye.com/iteye">知识库</a>
+    <a href="http://www.iteye.com/search">搜索</a>
+  </div>
+</div>
+
+	      <div id="user_nav">
+
+      <a href="http://juvenshun.iteye.com/login" class="welcome" title="登录">您还未登录 !</a>
+    <a href="http://juvenshun.iteye.com/login">登录</a>
+    <a href="http://juvenshun.iteye.com/signup" class="nobg">注册</a>
+    <!--<a href="http://passport.csdn.net/account/mobileregister?from=http://www.iteye.com">注册</a>-->
+  </div>
+
+	    
+    </div>
+
+    <div id="page">
+        <div id="branding" class="clearfix" style="overflow: hidden;background: none;padding:0 0 2px;">
+          <!-- 广告位：PC端-iteye博客详情页顶部banner-960*90 -->
+          <script>
+              (function() {
+                  var s = "_" + Math.random().toString(36).slice(2);
+                  document.write('<div id="' + s + '"></div>');
+                  (window.slotbydup=window.slotbydup || []).push({
+                      id: '4773198',
+                      container: s,
+                      size: '960,60',
+                      display: 'inlay-fix'
+                  });
+              })();
+          </script><div id="_9rroex9i4npt7l3tfzwmm9rudi"></div><script charset="utf-8" src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/wcdm"></script>
+        </div>
+      <div id="branding" class="clearfix">
+        <div id="blog_name">
+          <h1><a href="http://juvenshun.iteye.com/">Maven中文</a></h1>
+        </div>
+        <div id="fd"></div>
+        <div id="blog_navbar">
+          <ul>
+            <li class="blog_navbar_for"><a href="http://juvenshun.iteye.com/"><strong>博客</strong></a></li>
+            <li><a href="http://juvenshun.iteye.com/weibo">微博</a></li>
+            <li><a href="http://juvenshun.iteye.com/album">相册</a></li>
+            <li><a href="http://juvenshun.iteye.com/link">收藏</a></li>
+            <li><a href="http://juvenshun.iteye.com/blog/guest_book">留言</a></li>
+            <li><a href="http://juvenshun.iteye.com/blog/profile">关于我</a></li>
+          </ul>
+    
+          <div class="search">
+            <form action="http://juvenshun.iteye.com/blog/search" method="get">
+              <input class="search_text" id="query" name="query" style="margin-left: 10px;width: 110px;" type="text" value="">
+              <input class="submit_search" type="submit" value="">
+            </form>
+          </div> 
+          <div id="fd"></div>         
+        </div>
+      </div>
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+
+          
+
+
+<div class="h-entry" style="display:none">
+  <a href="http://juvenshun.iteye.com/" class="p-author" target="_blank">juvenshun</a>
+</div>
+
+
+<div class="blog_main">
+  <script type="application/ld+json">
+    {
+        "@context": "https://zhanzhang.baidu.com/contexts/cambrian.jsonld",
+        "@id": "http://juvenshun.iteye.com/blog/376422",
+        "title": "Maven最佳实践：版本管理",
+        "images": [],
+        "description": "",
+        "pubDate": "2009-04-29T00:04:33"
+    }
+  </script>
+  <div class="blog_title">
+    <h3>
+      <a href="http://juvenshun.iteye.com/blog/376422">Maven最佳实践：版本管理</a>
+      <em class="actions">      </em>
+    </h3>
+    <ul class="blog_categories"><strong>博客分类：</strong> <li><a href="http://juvenshun.iteye.com/category/34725">Maven</a></li> </ul>
+        <div class="news_tag"><a href="http://www.iteye.com/blogs/tag/maven">maven</a><a href="http://www.iteye.com/blogs/tag/%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86">配置管理</a><a href="http://www.iteye.com/blogs/tag/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86">项目管理</a><a href="http://www.iteye.com/blogs/tag/SVN">SVN</a><a href="http://www.iteye.com/blogs/tag/subversion">subversion</a></div>
+    	  
+    	
+    	
+  		
+      </div>
+
+  <div id="blog_content" class="blog_content">
+    <h2>什么是版本管理</h2>
+<p>首先，这里说的版本管理（version management）不是指版本控制（version control），但是本文假设你拥有基本的版本控制的知识，了解subversion的基本用法。版本管理中说得版本是指构件（artifact）的版本，而非源码的版本（如subversion中常见的rXXX，或者git中一次提交都有个sha1的commit号）。</p>
+<p>比如我有一个项目，其artifactId为myapp，随着项目的进展，我们会生成这样一些jar：myapp-1.0-SNAPSHOT.jar，myapp-1.0.jar，myapp-1.1-SNAPSHOT.jar，myapp-1.0.1.jar等等。你可能会说，这很简单啊，我在POM中改个version，mvn clean install不就完了？但这只是表面，本文我将讲述，snapshot和release版本的区别，如何自动化版本发布（如果你的项目有几十个module，你就会觉得手工改POM来升级版本是很痛苦的事情），结合自动化发布的过程，这里还会介绍maven-release-plugin。此外，一些scm概念也会被涉及到，比如tag和branch。</p>
+<p>&nbsp;</p>
+<h2>前提：版本控制</h2>
+<p>不管怎样，我们都需要建立一个项目并提交到SCM中，这里我以subversion为例。你得有一个配置好的subversion repository，这里我建立了一个空的svn仓库，其地址为：https://192.168.1.100:8443/svn/myapp/ 现在，该目录下只有三个空的典型的子目录：/trunk/, branches/, tags/。分别用来存放主干，分支，以及标签。</p>
+<p>接着将项目导入到svn仓库中，到项目根目录，运行如下命令：</p>
+<p><strong>svn import -m 'project initialization' https://192.168.1.100:8443/svn/myapp/trunk</strong>
+<br>
+（注意，这么做你会将目录下所有文件导入到svn库中，但是这其中某些目录和文件是不应该被导入的，如/target目录，以及eclipse相关的项目文件）</p>
+<p>目前，我们将项目的版本设置为1.0-SNAPSHOT。</p>
+<p>&nbsp;</p>
+<h2>为什么用SNAPSHOT？</h2>
+<p>我先说说如果没有SNAPSHOT会是什么样子。假设你的项目有2个模块，A,B，其中A依赖B。这三个模块分别由甲，乙两个个人负责开发。在开发过程中，因为A是依赖于B的，因此乙每次做一个改动都会影响到甲，于是，乙提交了一些更改后，需要让甲看到。这个时候，怎么做呢？乙对甲说，“你签出我的代码，build一下就OK了”，甲有点不情愿，但还是照做了，签出代码，svn clean install，然后，发现build出错了，有个测试没有pass。甲郁闷了，对乙说，“你的代码根本不能用，我不想build，你build好了给我”，乙看了看确实自己的代码build不过，于是回去解决了，然后打了个jar包，扔给甲，甲对了对groupId，artifactId，放到了自己的.m2/repository/目录下，OK，能用了。</p>
+<p>于是乙每次更新都这样做，打包，复制，然后甲粘贴，使用……渐渐的，大家发现这是个很笨的办法，这是纯手工劳动阿，程序员最BS的就是重复劳动。一天，甲对乙说，“你知道nexus么？你把你的jar发布到nexus上就可以了，我要用就自动去下载，这多棒！”乙说“哦？有这好东西，我去看看”于是乙发现了nexus这块新大陆，并成功的发布了B到nexus上。（见，<a href="http://juvenshun.iteye.com/blog/349534">Nexus入门指南，（图文）</a>
+）。</p>
+<p>但是，请注意，我们这里的一切都假设没有SNAPSHOT，因此如果乙不更改版本，甲下载一次如B-1.0.jar之后，maven认为它已经有了正确的B的版本，就不会再重新下载。甲发现了这个问题，对乙说“你的更新我看不到，你更新了么？”乙说“不可能！我看看”，于是检查一下甲下载的C-1.0.jar，发现那是几天前的。乙一拍脑袋，说“这简单，我更新一下我的版本就好了，我发布个B-1.1.jar上去，你更新下依赖版本”，甲照做了，似乎这么做是可行的。</p>
+<p>这里有一个问题，一次提交就更新一个版本，这明显不是正确的管理办法，此外，乙得不停的通知甲更新对B的依赖版本，累不累阿？1.0，或者说1.1，2.0，都代表了稳定，这样随随便便的改版本，能稳定么？</p>
+<p>所以Maven有SNAPSHOT版本的概念，它与release版本对应，后者是指1.0，1.1，2.0这样稳定的发布版本。</p>
+<p>现在乙可以将B的版本设置成1.0-SNAPSHOT，每次更改后，都mvn deploy到nexus中，每次deploy，maven都会将SNAPSHOT改成一个当前时间的timestamp，比如B-1.0-SNAPSHOT.jar到nexus中后，会成为这个样子：B-1.0-20081017-020325-13.jar。Maven在处理A中对于B的SNAPSHOT依赖时，会根据这样的timestamp下载最新的jar，默认Maven<strong>每天</strong>
+更新一次，如果你想让Maven强制更新，可以使用-U参数，如：<strong>mvn clean install -U</strong>
+。</p>
+<p>现在事情简化成了这个样子：乙做更改，然后mvn deploy，甲用最简单的maven命令就能得到最新的B。</p>
+<p>&nbsp;</p>
+<h2>从1.0-SNAPSHOT到1.0到1.1-SNAPSHOT</h2>
+<p>SNAPSHOT是快照的意思，项目到一个阶段后，就需要发布一个正式的版本（release版本）。一次正式的发布需要这样一些工作：</p>
+<ol>
+<li>在trunk中，更新pom版本从1.0-SNAPSHOT到1.0</li>
+<li>对1.0打一个svn tag</li>
+<li>针对tag进行mvn deploy，发布正式版本</li>
+<li>更新trunk从1.0到1.1-SNAPSHOT</li>
+</ol>
+<p>你可以手工一步步的做这些事情，无非就是一些svn操作，一些pom编辑，还有一些mvn操作。但是你应该明白，手工做这些事情，一来繁琐，而来容易出错。因此这里我介绍使用maven插件来自动化这一系列动作。</p>
+<h3>SCM</h3>
+<p>首先我们需要在POM中加入scm信息，这样Maven才能够替你完成svn操作，这里我的配置如下：</p>
+<div class="dp-highlighter" id=""><div class="bar"><div class="tools">Xml代码 <embed wmode="transparent" src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=%3Cscm%3E%0A%20%20%3Cconnection%3Escm%3Asvn%3Ahttp%3A%2F%2F192.168.1.100%3A8443%2Fsvn%2Fmyapp%2Ftrunk%2F%3C%2Fconnection%3E%0A%20%20%3CdeveloperConnection%3Escm%3Asvn%3Ahttps%3A%2F%2F192.168.1.100%3A8443%2Fsvn%2Fmyapp%2Ftrunk%2F%3C%2FdeveloperConnection%3E%0A%3C%2Fscm%3E" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/icon_star.png" alt="收藏代码"><img class="spinner" src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/spinner.gif" style="display:none"></a></div></div><ol start="1" class="dp-xml"><li><span><span class="tag">&lt;</span><span class="tag-name">scm</span><span class="tag">&gt;</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;<span class="tag">&lt;</span><span class="tag-name">connection</span><span class="tag">&gt;</span><span>scm:svn:http://192.168.1.100:8443/svn/myapp/trunk/</span><span class="tag">&lt;/</span><span class="tag-name">connection</span><span class="tag">&gt;</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;<span class="tag">&lt;</span><span class="tag-name">developerConnection</span><span class="tag">&gt;</span><span>scm:svn:https://192.168.1.100:8443/svn/myapp/trunk/</span><span class="tag">&lt;/</span><span class="tag-name">developerConnection</span><span class="tag">&gt;</span><span>&nbsp;&nbsp;</span></span></li><li><span><span class="tag">&lt;/</span><span class="tag-name">scm</span><span class="tag">&gt;</span><span>&nbsp;&nbsp;</span></span></li></ol></div><pre class="xml" name="code" codeable_id="" codeable_type="BlogComment" source_url="http://juvenshun.iteye.com/blog/376422#" pre_index="0" title="Maven最佳实践：版本管理" style="display: none;">&lt;scm&gt;
+  &lt;connection&gt;scm:svn:http://192.168.1.100:8443/svn/myapp/trunk/&lt;/connection&gt;
+  &lt;developerConnection&gt;scm:svn:https://192.168.1.100:8443/svn/myapp/trunk/&lt;/developerConnection&gt;
+&lt;/scm&gt;</pre>
+<p>需要注意的是，很多windows使用的tortoiseSVN客户端，而没有svn命令行客户端，这会导致Maven所有svn相关的工作失败，因此，你首先确保svn --version能够运行。</p>
+<h3>分发仓库</h3>
+<p>想要让Maven帮我们自动发布，首先我们需要配置好分发仓库。关于这一点，见<a href="http://juvenshun.iteye.com/blog/359256">Maven最佳实践：Maven仓库</a>
+——分发构件至远程仓库。</p>
+<h3>maven-release-plugin</h3>
+<p>紧接着，我们需要配置maven-release-plugin，这个插件会帮助我们升级pom版本，提交，打tag，然后再升级版本，再提交，等等。基本配置如下：</p>
+<div class="dp-highlighter" id=""><div class="bar"><div class="tools">Xml代码 <embed wmode="transparent" src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=%3Cplugin%3E%0A%20%20%3CgroupId%3Eorg.apache.maven.plugins%3C%2FgroupId%3E%0A%20%20%3CartifactId%3Emaven-release-plugin%3C%2FartifactId%3E%0A%20%20%3Cversion%3E2.0-beta-7%3C%2Fversion%3E%0A%20%20%3Cconfiguration%3E%0A%20%20%20%20%3CtagBase%3Ehttps%3A%2F%2F192.168.1.100%3A8443%2Fsvn%2Fmyapp%2Ftags%2F%3C%2FtagBase%3E%0A%20%20%3C%2Fconfiguration%3E%0A%3C%2Fplugin%3E" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/icon_star.png" alt="收藏代码"><img class="spinner" src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/spinner.gif" style="display:none"></a></div></div><ol start="1" class="dp-xml"><li><span><span class="tag">&lt;</span><span class="tag-name">plugin</span><span class="tag">&gt;</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;<span class="tag">&lt;</span><span class="tag-name">groupId</span><span class="tag">&gt;</span><span>org.apache.maven.plugins</span><span class="tag">&lt;/</span><span class="tag-name">groupId</span><span class="tag">&gt;</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;<span class="tag">&lt;</span><span class="tag-name">artifactId</span><span class="tag">&gt;</span><span>maven-release-plugin</span><span class="tag">&lt;/</span><span class="tag-name">artifactId</span><span class="tag">&gt;</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;<span class="tag">&lt;</span><span class="tag-name">version</span><span class="tag">&gt;</span><span>2.0-beta-7</span><span class="tag">&lt;/</span><span class="tag-name">version</span><span class="tag">&gt;</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;<span class="tag">&lt;</span><span class="tag-name">configuration</span><span class="tag">&gt;</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;</span><span class="tag-name">tagBase</span><span class="tag">&gt;</span><span>https://192.168.1.100:8443/svn/myapp/tags/</span><span class="tag">&lt;/</span><span class="tag-name">tagBase</span><span class="tag">&gt;</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;<span class="tag">&lt;/</span><span class="tag-name">configuration</span><span class="tag">&gt;</span><span>&nbsp;&nbsp;</span></span></li><li><span><span class="tag">&lt;/</span><span class="tag-name">plugin</span><span class="tag">&gt;</span><span>&nbsp;&nbsp;</span></span></li></ol></div><pre class="xml" name="code" codeable_id="" codeable_type="BlogComment" source_url="http://juvenshun.iteye.com/blog/376422#" pre_index="1" title="Maven最佳实践：版本管理" style="display: none;">&lt;plugin&gt;
+  &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+  &lt;artifactId&gt;maven-release-plugin&lt;/artifactId&gt;
+  &lt;version&gt;2.0-beta-7&lt;/version&gt;
+  &lt;configuration&gt;
+    &lt;tagBase&gt;https://192.168.1.100:8443/svn/myapp/tags/&lt;/tagBase&gt;
+  &lt;/configuration&gt;
+&lt;/plugin&gt;</pre>
+<p>GAV我就不多解释了，这里我们需要注意的是configuration元素下的tagBase元素，它代表了我们svn中的tag目录，也就是说，maven-release-plugin帮我们打tag的时候，其基础目录是什么。这里，我填写了svn仓库中的标准的tags目录。</p>
+<h3>提交代码</h3>
+<p>接着，确保你的所有代码都提交了，如果你有未提交代码，release插件会报错，既然你要发布版本了，就表示代码是稳定的，所以要么要么把代码提交了，要么把本地的更改抛弃了。</p>
+<h3>开始工作</h3>
+<p>现在，屏住呼吸，执行：</p>
+<p><strong>mvn release:prepare</strong>
+</p>
+<p>执行过程中，你会遇到这样的提示：</p>
+<p><em>What is the release version for "Unnamed - org.myorg:myapp:jar:1.0-SNAPSHOT"? (org.myorg:myapp) 1.0: : </em></p>
+<p>——“你想将1.0-SNAPSHOT发布为什么版本？默认是1.0。”我要的就是1.0，直接回车。</p>
+<p><em>What is SCM release tag or label for "Unnamed - org.myorg:myapp:jar:1.0-SNAPSHOT"? (org.myorg:myapp) myapp-1.0: : </em>
+</p>
+<p>——“发布的tag标签名称是什么？默认为myapp-1.0。”我还是要默认值，直接回车。</p>
+<p><em>What is the new development version for "Unnamed - org.myorg:myapp:jar:1.0-SNAPSHOT"? (org.myorg:myapp) 1.1-SNAPSHOT: : </em>
+</p>
+<p>——“主干上新的版本是什么？默认为1.1-SNAPSHOT。”哈，release插件会自动帮我更新版本到1.1-SNAPSHOT，很好，直接回车。</p>
+<p>然后屏幕刷阿刷，maven在build我们的项目，并进行了一些svn操作，你可以仔细查看下日志。</p>
+<p>那么结果是什么呢？你可以浏览下svn仓库：</p>
+<ul>
+<li>我们多了一个tag：https://192.168.1.100:8443/svn/myapp/tags/myapp-1.0/，这就是需要发布的版本1.0。</li>
+<li>再看看trunk中的POM，其版本自动升级成了1.1-SNAPSHOT。</li>
+</ul>
+<p>这不正是我们想要的么？等等，好像缺了点什么，对了，1.0还没有发布到仓库中呢。</p>
+<p>再一次屏住呼吸，执行：</p>
+<p><strong>mvn release:perform</strong>
+</p>
+<p>maven-release-plugin会自动帮我们签出刚才打的tag，然后打包，分发到远程Maven仓库中，至此，整个版本的升级，打标签，发布等工作全部完成。我们可以在远程Maven仓库中看到正式发布的1.0版本。</p>
+<p>这可是<strong>自动化的</strong>
+，<strong>正式的</strong>
+版本发布！</p>
+<p>&nbsp;</p>
+<h2>Maven的版本规则</h2>
+<p>前面我们提到了SNAPSHOT和Release版本的区别，现在看一下，为什么要有1.0，1.1，1.1.1这样的版本，这里的规则是什么。</p>
+<p>Maven主要是这样定义版本规则的：</p>
+<p><strong>&lt;主版本&gt;.&lt;次版本&gt;.&lt;增量版本&gt;</strong>
+</p>
+<p>比如说1.2.3，主版本是1，次版本是2，增量版本是3。</p>
+<p>主版本一般来说代表了项目的重大的架构变更，比如说Maven 1和Maven 2，在架构上已经两样了，将来的Maven 3和Maven 2也会有很大的变化。次版本一般代表了一些功能的增加或变化，但没有架构的变化，比如说Nexus 1.3较之于Nexus 1.2来说，增加了一系列新的或者改进的功能（仓库镜像支持，改进的仓库管理界面等等），但从大的架构上来说，1.3和1.2没什么区别。至于增量版本，一般是一些小的bug fix，不会有重大的功能变化。</p>
+<p>一般来说，在我们发布一次重要的版本之后，随之会开发新的版本，比如说，myapp-1.1发布之后，就着手开发myapp-1.2了。由于myapp-1.2有新的主要功能的添加和变化，在发布测试前，它会变得不稳定，而myapp-1.1是一个比较稳定的版本，现在的问题是，我们在myapp-1.1中发现了一些bug（当然在1.2中也存在），为了能够在段时间内修复bug并仍然发布稳定的版本，我们就会用到分支（branch），我们基于1.1开启一个分支1.1.1，在这个分支中修复bug，并快速发布。这既保证了版本的稳定，也能够使bug得到快速修复，也不同停止1.2的开发。只是，每次修复分支1.1.1中的bug后，需要merge代码到1.2（主干）中。</p>
+<p>上面讲的就是我们为什么要用增量版本。</p>
+<p>&nbsp;</p>
+<h2>实战分支</h2>
+<p>目前我们trunk的版本是1.1-SNAPSHOT，其实按照前面解释的版本规则，应该是1.1.0-SNAPSHOT。</p>
+<p>现在我们想要发布1.1.0，然后将主干升级为1.2.0-SNAPSHOT，同时开启一个1.1.x的分支，用来修复1.1.0中的bug。</p>
+<p>首先，在发布1.1.0之前，我们创建1.1.x分支，运行如下命令：</p>
+<p><strong>mvn release:branch -DbranchName=1.1.x -DupdateBranchVersions=true -DupdateWorkingCopyVersions=false</strong>
+</p>
+<p>这是maven-release-plugin的branch目标，我们指定branch的名称为1.1.x，表示这里会有版本1.1.1, 1.1.2等等。updateBranchVersions=true的意思是在分支中更新版本，而updateWorkingCopyVersions=false是指不更改当前工作目录（这里是trunk）的版本。</p>
+<p>在运行该命令后，我们会遇到这样的提示：</p>
+<p><em>What is the branch version for "Unnamed - org.myorg:myapp:jar:1.1-SNAPSHOT"? (org.myorg:myapp) 1.1-SNAPSHOT: : </em>
+</p>
+<p>——"分支中的版本号是多少？默认为1.1-SNAPSHOT" 这时我们想要的版本是1.1.1-SNAPSHOT，因此输入1.1.1-SNAPSHOT，回车，maven继续执行直至结束。</p>
+<p>接着，我们浏览svn仓库，会看到这样的目录：https://192.168.1.100:8443/svn/myapp/branches/1.1.x/，打开其中的POM文件，其版本已经是1.1.1-SNAPSHOT。</p>
+<p>分支创建好了，就可以使用release:prepare和release:perform为1.1.0打标签，升级trunk至1.2.0-SNAPSHOT，然后分发1.1.0。</p>
+<p>至此，一切OK。</p>
+<p>&nbsp;</p>
+<h2>小结</h2>
+<p>本文讲述了如何使用Maven结合svn进行版本管理。解释了Maven中SNAPSHOT版本的来由，以及Maven管理版本的规则。并结合SCM的tag和branch概念展示了如何使用maven-release-plugin发布版本，以及创建分支。本文涉及的内容比较多，且略显复杂，不过掌握版本管理的技巧对于项目的正规化管理来说十分重要。Maven为我们提供了一些一套比较成熟的机制，值得掌握。</p>
+  </div>
+
+  
+
+  <div>
+    <!-- 广告位：PC端-iteye博客详情页底部banner2-728*90 -->
+    <script>
+        (function() {
+            var s = "_" + Math.random().toString(36).slice(2);
+            document.write('<div id="' + s + '"></div>');
+            (window.slotbydup=window.slotbydup || []).push({
+                id: '4774193',
+                container: s,
+                size: '728,90',
+                display: 'inlay-fix'
+            });
+        })();
+    </script><div id="_9ak4ulxpqrqulurgyz09xdpldi"></div><script charset="utf-8" src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/wcdm(1)"></script><div id="_urtdc440u1xdjf490qvholxr" style="width: 100%;"><iframe width="728" frameborder="0" height="90" scrolling="no" src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/s.html"></iframe><abbr class="pxehifvfrnc" style="display:none;"></abbr></div><script type="text/javascript" src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/togxxxgpurvpq.js"></script>
+  </div>
+
+
+
+  <div id="bottoms" class="clearfix">
+    <div id="digg_bottom" class="clearfix"><div class="digged"><strong>96</strong> <br>顶</div><div class="digged"><strong>8</strong> <br>踩</div></div>
+    <div id="share_weibo">分享到：
+      <a data-type="sina" href="javascript:;" title="分享到新浪微博"><img src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/sina.jpg"></a>
+      <a data-type="qq" href="javascript:;" title="分享到腾讯微博"><img src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/tec.jpg"></a>
+    </div>
+  </div>
+
+  <div class="blog_nav">
+    <div class="pre_next">
+      <a href="http://juvenshun.iteye.com/blog/386929" class="next" title="Nexus Indexer 2.0：增量下载">Nexus Indexer 2.0：增量下载</a>
+      |
+      <a href="http://juvenshun.iteye.com/blog/359256" class="pre" title="Maven最佳实践：Maven仓库">Maven最佳实践：Maven仓库</a>
+    </div>
+  </div>
+  <div class="blog_bottom">
+    <ul>
+      <li>2009-04-29 00:04</li>
+      <li>浏览 101419</li>
+      <li><a href="http://juvenshun.iteye.com/blog/376422#comments">评论(42)</a></li>
+      
+      
+      <li>分类:<a href="http://www.iteye.com/blogs/category/architecture">企业架构</a></li>      
+      <li class="last"><a href="http://www.iteye.com/wiki/blog/376422" target="_blank" class="more">查看更多</a></li>
+    </ul>    
+  </div>
+
+	
+    
+    
+<div class="boutique-curr-box blog_comment">
+	  <div class="boutique-curr clearfix">
+	    <h5 class="h3titles">相关资源推荐</h5>
+			<ul style="margin-top: 15px">
+				
+						<li style="width: 50%;float: left;margin: 0;line-height: 25px;overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+							<a href="http://blog.csdn.net/Truong/article/details/11799707" target="_blank" title="DB2 v8.2,v9.1,v9.5,v9.7下载地址及详细安装图解">DB2 v8.2,v9.1,v9.5,v9.7下载地址及详细安装图解</a>
+						</li>
+				
+						<li style="width: 50%;float: left;margin: 0;line-height: 25px;overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+							<a href="http://blog.csdn.net/liuyuzhu111/article/details/77871737" target="_blank" title="db2数据库免费版限制下载地址">db2数据库免费版限制下载地址</a>
+						</li>
+				
+						<li style="width: 50%;float: left;margin: 0;line-height: 25px;overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+							<a href="http://download.csdn.net/download/dreaming123/1523154" target="_blank" title="IBM DB2 通用数据库 在64位平台上使用DB2 通用数据库.rar">IBM DB2 通用数据库 在64位平台上使用DB2 通用数据库.rar</a>
+						</li>
+				
+						<li style="width: 50%;float: left;margin: 0;line-height: 25px;overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+							<a href="http://download.csdn.net/download/wzx01072010/2531031" target="_blank" title="DB2   数据库 快速入门（IBM官方资料简体中文版）">DB2   数据库 快速入门（IBM官方资料简体中文版）</a>
+						</li>
+				
+						<li style="width: 50%;float: left;margin: 0;line-height: 25px;overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+							<a href="http://download.csdn.net/download/followideal/9501732" target="_blank" title="DB2全套学习资料">DB2全套学习资料</a>
+						</li>
+				
+						<li style="width: 50%;float: left;margin: 0;line-height: 25px;overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+							<a href="http://download.csdn.net/download/lijw2009/5088586" target="_blank" title="DB2数据库管理软件 - db2mon v1.0">DB2数据库管理软件 - db2mon v1.0</a>
+						</li>
+				
+						<li style="width: 50%;float: left;margin: 0;line-height: 25px;overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+							<a href="http://download.csdn.net/download/luyangever/4089749" target="_blank" title="DB2数据库odbc驱动">DB2数据库odbc驱动</a>
+						</li>
+				
+						<li style="width: 50%;float: left;margin: 0;line-height: 25px;overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+							<a href="http://download.csdn.net/download/owuguanfengyue123/9138241" target="_blank" title="任意数据库转换系统 DB2DB 1.8">任意数据库转换系统 DB2DB 1.8</a>
+						</li>
+				
+						<li style="width: 50%;float: left;margin: 0;line-height: 25px;overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+							<a href="http://blog.csdn.net/q454684431/article/details/52872928" target="_blank" title="unix系列系统镜像下载">unix系列系统镜像下载</a>
+						</li>
+				
+						<li style="width: 50%;float: left;margin: 0;line-height: 25px;overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+							<a href="http://download.csdn.net/download/zzwworld/2492582" target="_blank" title="Unix操作系统设计（中文版）">Unix操作系统设计（中文版）</a>
+						</li>
+				
+						<li style="width: 50%;float: left;margin: 0;line-height: 25px;overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+							<a href="http://download.csdn.net/download/l_l_laaa/9578749" target="_blank" title="SUN的UNIX操作系统">SUN的UNIX操作系统</a>
+						</li>
+				
+						<li style="width: 50%;float: left;margin: 0;line-height: 25px;overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+							<a href="http://download.csdn.net/download/ni_ever4/173115" target="_blank" title="UNIX操作系统设计">UNIX操作系统设计</a>
+						</li>
+				
+						<li style="width: 50%;float: left;margin: 0;line-height: 25px;overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+							<a href="http://download.csdn.net/download/a562193679/10134590" target="_blank" title="现代操作系统-中文-pdf">现代操作系统-中文-pdf</a>
+						</li>
+				
+						<li style="width: 50%;float: left;margin: 0;line-height: 25px;overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+							<a href="http://download.csdn.net/download/chenxh/6" target="_blank" title="封装了DAO对象用于直接操纵access数据库 ">封装了DAO对象用于直接操纵access数据库&nbsp;</a>
+						</li>
+				
+						<li style="width: 50%;float: left;margin: 0;line-height: 25px;overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+							<a href="http://download.csdn.net/download/li602318885/10012646" target="_blank" title="WebDriver的Firefox-0.19.0驱动器">WebDriver的Firefox-0.19.0驱动器</a>
+						</li>
+				
+						<li style="width: 50%;float: left;margin: 0;line-height: 25px;overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+							<a href="http://blog.csdn.net/chencheng126/article/details/43191573" target="_blank" title="谈谈网络编程（基于C++）">谈谈网络编程（基于C++）</a>
+						</li>
+				
+						<li style="width: 50%;float: left;margin: 0;line-height: 25px;overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+							<a href="http://blog.csdn.net/sinat_20265495/article/details/51761554" target="_blank" title="C/C++ socket网络编程扫盲篇">C/C++ socket网络编程扫盲篇</a>
+						</li>
+				
+						<li style="width: 50%;float: left;margin: 0;line-height: 25px;overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+							<a href="http://blog.csdn.net/shenjie12345678/article/details/28321969" target="_blank" title="C++基于TCP/IP简单的客户端、服务器通信程序实例">C++基于TCP/IP简单的客户端、服务器通信程序实例</a>
+						</li>
+				
+						<li style="width: 50%;float: left;margin: 0;line-height: 25px;overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+							<a href="http://blog.csdn.net/u012234115/article/details/54142273" target="_blank" title="linux下C/C++网络编程基本：socket实现tcp和udp的例子">linux下C/C++网络编程基本：socket实现tcp和udp的例子</a>
+						</li>
+				
+						<li style="width: 50%;float: left;margin: 0;line-height: 25px;overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+							<a href="http://blog.csdn.net/daoming1112/article/details/54698466" target="_blank" title="C++网络编程">C++网络编程</a>
+						</li>
+				
+			</ul>
+	  </div>
+</div>
+
+		
+<div class="boutique-curr-box blog_comment">
+	  <div class="boutique-curr clearfix">
+	    <h5 class="h3titles">参考知识库</h5>
+	    
+	    <dl class="dlnewlist">
+	    
+          <dd><a target="_blank" href="http://lib.csdn.net/base/android"><img src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/1455589744328_328.jpg" width="58" height="58" alt=""></a></dd>
+          <dt>
+              <a target="_blank" href="http://lib.csdn.net/base/android" classs="title">Android知识库</a>
+              <span>
+                 <em>38861</em>&nbsp;&nbsp;关注 <i>|</i> <em>3162</em>&nbsp;&nbsp;收录                  
+              </span>
+          </dt>
+      
+	    </dl>
+	    
+	    <dl class="dlnewlist">
+	    
+          <dd><a target="_blank" href="http://lib.csdn.net/base/react"><img src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/1465887837340_340.jpg" width="58" height="58" alt=""></a></dd>
+          <dt>
+              <a target="_blank" href="http://lib.csdn.net/base/react" classs="title">React知识库</a>
+              <span>
+                 <em>3897</em>&nbsp;&nbsp;关注 <i>|</i> <em>393</em>&nbsp;&nbsp;收录                  
+              </span>
+          </dt>
+      
+	    </dl>
+	    
+	    <dl class="dlnewlist">
+	    
+          <dd><a target="_blank" href="http://lib.csdn.net/base/ai"><img src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/1479972981201_201.jpg" width="58" height="58" alt=""></a></dd>
+          <dt>
+              <a target="_blank" href="http://lib.csdn.net/base/ai" classs="title">人工智能基础知识库</a>
+              <span>
+                 <em>18039</em>&nbsp;&nbsp;关注 <i>|</i> <em>212</em>&nbsp;&nbsp;收录                  
+              </span>
+          </dt>
+      
+	    </dl>
+	    
+	    <dl class="dlnewlist">
+	    
+          <dd><a target="_blank" href="http://lib.csdn.net/base/java"><img src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/1453701371636_636.jpg" width="58" height="58" alt=""></a></dd>
+          <dt>
+              <a target="_blank" href="http://lib.csdn.net/base/java" classs="title">Java 知识库</a>
+              <span>
+                 <em>37787</em>&nbsp;&nbsp;关注 <i>|</i> <em>3748</em>&nbsp;&nbsp;收录                  
+              </span>
+          </dt>
+      
+	    </dl>
+	    
+	  </div>
+</div>
+
+      
+  <div class="blog_comment">
+    <h5>评论</h5>
+    <a id="comments" name="comments"></a>
+    <div id="bc2397513">
+  <div class="comment_title">
+    42 楼
+    <a href="http://1013460816.iteye.com/" target="_blank" title="远方_张涛">远方_张涛</a>
+    2017-04-06&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">赞赞赞,生动有趣还说明问题</div>
+</div>
+
+<div id="bc2393895">
+  <div class="comment_title">
+    41 楼
+    <a href="http://wangxf1030.iteye.com/" target="_blank" title="Fang_鱼刺儿大猫咪">Fang_鱼刺儿大猫咪</a>
+    2016-10-11&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">啊 终于明白snapshot了 谢谢！！</div>
+</div>
+
+<div id="bc2390387">
+  <div class="comment_title">
+    40 楼
+    <a href="http://sd739898.iteye.com/" target="_blank" title="sd739898">sd739898</a>
+    2016-06-13&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">谢谢分享，最近正在考虑版本管理的优化。<img src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/icon_biggrin.gif"> </div>
+</div>
+
+<div id="bc2381498">
+  <div class="comment_title">
+    39 楼
+    <a href="http://zhang-dianliang.iteye.com/" target="_blank" title="zhang_dianliang">zhang_dianliang</a>
+    2015-11-13&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">你写的文章非常好，<br>请教个问题：B-1.0-20081017-020325-13.jar ，我打出的jar总是少8小时，比如打出的是020325，实际上现在是100325，也就是上午10点多，我判断是时区的问题，但是我不知道怎么解决这个问题。你知道吗？</div>
+</div>
+
+<div id="bc2375689">
+  <div class="comment_title">
+    38 楼
+    <a href="http://spring-springmvc.iteye.com/" target="_blank" title="spring_springmvc">spring_springmvc</a>
+    2015-07-29&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">可以参考最新的文档：<br><a rel="nofollow" href="http://www.zuidaima.com/blog/1618180875144192.htm" target="_blank">如何在eclipse jee中检出项目并转换为Maven project,最后转换为Dynamic web project</a>，地址：<a rel="nofollow" href="http://www.zuidaima.com/blog/1618180875144192.htm" target="_blank">http://www.zuidaima.com/blog/1618180875144192.htm</a><br><a rel="nofollow" href="http://www.zuidaima.com/blog/1618162161323008.htm" target="_blank">如何在eclipse jee中创建Maven project并且转换为Dynamic web project</a><br>地址：<a rel="nofollow" href="http://www.zuidaima.com/blog/1618162161323008.htm" target="_blank">http://www.zuidaima.com/blog/1618162161323008.htm</a></div>
+</div>
+
+<div id="bc2366486">
+  <div class="comment_title">
+    37 楼
+    <a href="http://smallhot.iteye.com/" target="_blank" title="style2013">style2013</a>
+    2015-01-16&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">结合SVN来进行版本之间的控制，多系统之间相互依赖怎么解决版本问题。。<br></div>
+</div>
+
+<div id="bc2359571">
+  <div class="comment_title">
+    36 楼
+    <a href="http://sswh.iteye.com/" target="_blank" title="sswh">sswh</a>
+    2014-09-28&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">试验不成功....<br><br>另外是2009年的文章，是不是已经过时了？<br><br><br>我的场景类似于33楼：<br><br>33 楼 wuhao_5418 2014-04-25&nbsp;&nbsp; 引用<br>我的项目如下：<br>项目A包含项目B和项目C，同时项目C依赖于项目B。<br>我对项目A整体release:prepare时，plugin会将ABC项目的pom文件的项目版本都改成release的版本，然后在对C项目进行release时，先编译，会去repository上找已经发布成release的B项目，可这时B项目还没有发布，B项目要依赖于整个项目A发布。导致报错。<br>这个如何处理？<br><br>--------------------------------<br><br>现在的问题是，要想发布A，所有包含的子项目必须先下载到本地吗？<br>比如A下面有300个子项目，我需要把这300个子项目全部下载到本地再<br>对A项目执行release:prepare吗？？<br><br>这样不是太累了吧？----&nbsp; 关键这样也不成功..</div>
+</div>
+
+<div id="bc2354620">
+  <div class="comment_title">
+    35 楼
+    <a href="http://gaoyide.iteye.com/" target="_blank" title="gaoyide">gaoyide</a>
+    2014-07-24&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content"><div class="quote_title">潛龍勿用 写道</div><div class="quote_div">我在mvn release:prepare時，遇到了如下錯誤，SVN該提交的都提交了，還是不行啊！<br><br>[INFO] --- maven-release-plugin:2.4.2:prepare (default-cli) @ resources ---<br>[INFO] Verifying that there are no local modifications...<br>[INFO]&nbsp;&nbsp; ignoring changes on: **\release.properties, **\pom.xml.next, **\pom.xml<br>.releaseBackup, **\pom.xml.backup, **\pom.xml.branch, **\pom.xml.tag<br>[INFO] Executing: cmd.exe /X /C "svn --non-interactive status"<br>[INFO] Working directory: C:\Users\Administrator\workspace\resources<br>[INFO] ------------------------------------------------------------------------<br>[INFO] BUILD FAILURE<br>[INFO] ------------------------------------------------------------------------<br>[INFO] Total time: 4.900s<br>[INFO] Finished at: Wed Jan 08 13:40:52 CST 2014<br>[INFO] Final Memory: 6M/60M<br>[INFO] ------------------------------------------------------------------------<br>[ERROR] Failed to execute goal org.apache.maven.plugins:maven-release-plugin:2.4<br>.2:prepare (default-cli) on project resources: Unable to check for local modific<br>ations<br>[ERROR] Provider message:<br>[ERROR] The svn command failed.<br>[ERROR] Command output:<br>[ERROR] svn: E155036: Please see the 'svn upgrade' command<br>[ERROR] svn: E155036: The working copy at 'C:\Users\Administrator\workspace\reso<br>urces'<br>[ERROR] is too old (format 29) to work with client version '1.8.5-SlikSvn-1.8.5-<br>X64 (SlikSvn/1.8.5) X64' (expects format 31). You need to upgrade the working co<br>py first.<br>[ERROR] -&gt; [Help 1]<br>[ERROR]<br>[ERROR] To see the full stack trace of the errors, re-run Maven with the -e swit<br>ch.<br>[ERROR] Re-run Maven using the -X switch to enable full debug logging.<br>[ERROR]<br>[ERROR] For more information about the errors and possible solutions, please rea<br>d the following articles:<br>[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureExc<br>eption<br>C:\Users\Administrator\workspace\resources&gt;</div><br><br><br>svn upgrade 就可以了</div>
+</div>
+
+<div id="bc2347349">
+  <div class="comment_title">
+    34 楼
+    <a href="http://f0799.iteye.com/" target="_blank" title="f0799">f0799</a>
+    2014-05-07&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">不错，mvn install 版本控制。</div>
+</div>
+
+<div id="bc2346292">
+  <div class="comment_title">
+    33 楼
+    <a href="http://wuhao-5418.iteye.com/" target="_blank" title="wuhao_5418">wuhao_5418</a>
+    2014-04-25&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">我的项目如下：<br>项目A包含项目B和项目C，同时项目C依赖于项目B。<br>我对项目A整体release:prepare时，plugin会将ABC项目的pom文件的项目版本都改成release的版本，然后在对C项目进行release时，先编译，会去repository上找已经发布成release的B项目，可这时B项目还没有发布，B项目要依赖于整个项目A发布。导致报错。<br>这个如何处理？</div>
+</div>
+
+<div id="bc2341015">
+  <div class="comment_title">
+    32 楼
+    <a href="http://shinesoft-21cn-com.iteye.com/" target="_blank" title="潛龍勿用">潛龍勿用</a>
+    2014-03-02&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content"><div class="quote_title">jateide 写道</div><div class="quote_div"><div class="quote_title">潛龍勿用 写道</div><div class="quote_div">[ERROR] is too old (format 29) to work with client version '1.8.5-SlikSvn-1.8.5-<br>X64 (SlikSvn/1.8.5) X64' (expects format 31). You need to upgrade the working co<br>py first.</div><br>错误信息说的很清楚了，你的工作目录下的内容是由版本较老的客户端checkout出来的（根据format 29的信息，估计应该是1.7.X的版本。），而你现在使用的是1.8.5的客户端，所以必须先将你本地的工作目录通过新的客户端将文件格式升级到31，即format 31.<br>还有一个办法就是卸载你安装的客户端，重新安装1.7.9版本的客户端，也可以正常使用。</div><br><br>我重新安裝1.7.x版的也不能成功……，想了很多辦法都不行。算了不折騰了……</div>
+</div>
+
+<div id="bc2339880">
+  <div class="comment_title">
+    31 楼
+    <a href="http://shinkait.iteye.com/" target="_blank" title="jateide">jateide</a>
+    2014-02-18&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content"><div class="quote_title">潛龍勿用 写道</div><div class="quote_div">[ERROR] is too old (format 29) to work with client version '1.8.5-SlikSvn-1.8.5-<br>X64 (SlikSvn/1.8.5) X64' (expects format 31). You need to upgrade the working co<br>py first.</div><br>错误信息说的很清楚了，你的工作目录下的内容是由版本较老的客户端checkout出来的（根据format 29的信息，估计应该是1.7.X的版本。），而你现在使用的是1.8.5的客户端，所以必须先将你本地的工作目录通过新的客户端将文件格式升级到31，即format 31.<br>还有一个办法就是卸载你安装的客户端，重新安装1.7.9版本的客户端，也可以正常使用。</div>
+</div>
+
+<div id="bc2338845">
+  <div class="comment_title">
+    30 楼
+    <a href="http://zy19880406.iteye.com/" target="_blank" title="zy19880406">zy19880406</a>
+    2014-01-26&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">[INFO] Downloaded: http://192.168.21.199:8081/nexus/content/groups/public/com/thoughtworks/xstream/xstream/1.3.1/xstream-1.3.1.jar (422 KB at 2340.5 KB/sec)<br>[INFO]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>[INFO] Downloaded: http://192.168.21.199:8081/nexus/content/groups/public/xpp3/xpp3_min/1.1.4c/xpp3_min-1.1.4c.jar (25 KB at 308.5 KB/sec)<br>[INFO] [INFO] Packaging webapp<br>[INFO] [INFO] Assembling webapp [resolveexcel] in [/home/zhuyong/workspace/resolveexcel/target/resolveexcel]<br>[INFO] [INFO] Processing war project<br>[INFO] [INFO] Copying webapp webResources [/home/zhuyong/workspace/resolveexcel/WebContent] to [/home/zhuyong/workspace/resolveexcel/target/resolveexcel]<br>[INFO] [INFO] Webapp assembled in [109 msecs]<br>[INFO] [INFO] Building war: /home/zhuyong/workspace/resolveexcel/target/resolveexcel.war<br>[INFO] [INFO] WEB-INF/web.xml already added, skipping<br>[INFO] [INFO] ------------------------------------------------------------------------<br>[INFO] [INFO] BUILD SUCCESS<br>[INFO] [INFO] ------------------------------------------------------------------------<br>[INFO] [INFO] Total time: 9.625s<br>[INFO] [INFO] Finished at: Sun Jan 26 16:48:10 CST 2014<br>[INFO] [INFO] Final Memory: 12M/30M<br>[INFO] [INFO] ------------------------------------------------------------------------<br>[INFO] Checking in modified POMs...<br>[INFO] Executing: /bin/sh -c cd /home/zhuyong/workspace/resolveexcel &amp;&amp; svn --non-interactive commit --file /tmp/maven-scm-679551824.commit --targets /tmp/maven-scm-3437704661245412224-targets<br>[INFO] Working directory: /home/zhuyong/workspace/resolveexcel<br>[INFO] ------------------------------------------------------------------------<br>[INFO] BUILD FAILURE<br>[INFO] ------------------------------------------------------------------------<br>[INFO] Total time: 14.575s<br>[INFO] Finished at: Sun Jan 26 16:48:10 CST 2014<br>[INFO] Final Memory: 7M/18M<br>[INFO] ------------------------------------------------------------------------<br>[ERROR] Failed to execute goal org.apache.maven.plugins:maven-release-plugin:2.4.2:prepare (default-cli) on project resolveexcel: Unable to commit files<br>[ERROR] Provider message:<br>[ERROR] The svn command failed.<br>[ERROR] Command output:<br>[ERROR] svn: E155007: '/home/zhuyong/workspace/resolveexcel/pom.xml' is not a working copy<br>[ERROR] -&gt; [Help 1]<br>[ERROR] <br>[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.<br>[ERROR] Re-run Maven using the -X switch to enable full debug logging.<br>[ERROR] <br>[ERROR] For more information about the errors and possible solutions, please read the following articles:<br><br><br><br><br><br><br>大神求解决方法。svn版本都一致。我在同一服务器的不同用户下 Release的。但老报上面的错误。。。啊啊啊啊啊</div>
+</div>
+
+<div id="bc2336854">
+  <div class="comment_title">
+    29 楼
+    <a href="http://shinesoft-21cn-com.iteye.com/" target="_blank" title="潛龍勿用">潛龍勿用</a>
+    2014-01-08&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">我在mvn release:prepare時，遇到了如下錯誤，SVN該提交的都提交了，還是不行啊！<br><br>[INFO] --- maven-release-plugin:2.4.2:prepare (default-cli) @ resources ---<br>[INFO] Verifying that there are no local modifications...<br>[INFO]&nbsp;&nbsp; ignoring changes on: **\release.properties, **\pom.xml.next, **\pom.xml<br>.releaseBackup, **\pom.xml.backup, **\pom.xml.branch, **\pom.xml.tag<br>[INFO] Executing: cmd.exe /X /C "svn --non-interactive status"<br>[INFO] Working directory: C:\Users\Administrator\workspace\resources<br>[INFO] ------------------------------------------------------------------------<br>[INFO] BUILD FAILURE<br>[INFO] ------------------------------------------------------------------------<br>[INFO] Total time: 4.900s<br>[INFO] Finished at: Wed Jan 08 13:40:52 CST 2014<br>[INFO] Final Memory: 6M/60M<br>[INFO] ------------------------------------------------------------------------<br>[ERROR] Failed to execute goal org.apache.maven.plugins:maven-release-plugin:2.4<br>.2:prepare (default-cli) on project resources: Unable to check for local modific<br>ations<br>[ERROR] Provider message:<br>[ERROR] The svn command failed.<br>[ERROR] Command output:<br>[ERROR] svn: E155036: Please see the 'svn upgrade' command<br>[ERROR] svn: E155036: The working copy at 'C:\Users\Administrator\workspace\reso<br>urces'<br>[ERROR] is too old (format 29) to work with client version '1.8.5-SlikSvn-1.8.5-<br>X64 (SlikSvn/1.8.5) X64' (expects format 31). You need to upgrade the working co<br>py first.<br>[ERROR] -&gt; [Help 1]<br>[ERROR]<br>[ERROR] To see the full stack trace of the errors, re-run Maven with the -e swit<br>ch.<br>[ERROR] Re-run Maven using the -X switch to enable full debug logging.<br>[ERROR]<br>[ERROR] For more information about the errors and possible solutions, please rea<br>d the following articles:<br>[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureExc<br>eption<br>C:\Users\Administrator\workspace\resources&gt;</div>
+</div>
+
+<div id="bc2333904">
+  <div class="comment_title">
+    28 楼
+    <a href="http://shinkait.iteye.com/" target="_blank" title="jateide">jateide</a>
+    2013-12-09&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content"><div class="quote_title">Motte2010 写道</div><div class="quote_div">“需要注意的是，很多windows使用的tortoiseSVN客户端，而没有svn命令行客户端，这会导致Maven所有svn相关的工作失败，因此，你首先确保svn --version能够运行。”<br>这里是说一定要装个服务端吗？<br>我现在的eclipse3.6 已经安装了maven插件 和 tortoiseSVN，但是一直没法使用 SCM，也不知道怎么用，网上搜了很久，感觉都是稀里糊涂的没重点。。。我现在没法通过Maven中的 check out 从svn上下载maven项目，只能用普通的从svn上直接拉项目。。。能详细说明下SCM的使用吗？ </div><br>这个意思是你需要在cmd窗口运行“svn --version”，如果不能运行，你需要去装一个svn的客户端，是基于命令行的那种客户端。你可以去下载 Slik-Subversion 。</div>
+</div>
+
+<div id="bc2333591">
+  <div class="comment_title">
+    27 楼
+    <a href="http://trylin.iteye.com/" target="_blank" title="Motte2010">Motte2010</a>
+    2013-12-05&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">“需要注意的是，很多windows使用的tortoiseSVN客户端，而没有svn命令行客户端，这会导致Maven所有svn相关的工作失败，因此，你首先确保svn --version能够运行。”<br>这里是说一定要装个服务端吗？<br>我现在的eclipse3.6 已经安装了maven插件 和 tortoiseSVN，但是一直没法使用 SCM，也不知道怎么用，网上搜了很久，感觉都是稀里糊涂的没重点。。。我现在没法通过Maven中的 check out 从svn上下载maven项目，只能用普通的从svn上直接拉项目。。。能详细说明下SCM的使用吗？ </div>
+</div>
+
+<div id="bc2330634">
+  <div class="comment_title">
+    26 楼
+    <a href="http://sunshan.iteye.com/" target="_blank" title="sunshan">sunshan</a>
+    2013-11-07&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">讲的很好，很详细，多谢。</div>
+</div>
+
+<div id="bc2312720">
+  <div class="comment_title">
+    25 楼
+    <a href="http://jerryhuwei.iteye.com/" target="_blank" title="hw361062491">hw361062491</a>
+    2013-05-24&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">我想用maven打标签……但是总时不能把tld文件打到META-INF下，查了好多资料，都没搞定，不知道对此楼主可否指教指教……</div>
+</div>
+
+<div id="bc2299731">
+  <div class="comment_title">
+    24 楼
+    <a href="http://ybren.iteye.com/" target="_blank" title="ybren">ybren</a>
+    2013-01-31&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">mvn release:prepare<br>[ERROR] Failed to execute goal org.apache.maven.plugins:maven-release-plugin:2.0:prepare (default-cli) on project nm_system: Maven execution failed, exit code: '1' -&gt; [Help 1]<br>报了这个错误。求楼主解答写；感激不尽</div>
+</div>
+
+<div id="bc2293497">
+  <div class="comment_title">
+    23 楼
+    <a href="http://wuyechun.iteye.com/" target="_blank" title="wuyechun">wuyechun</a>
+    2012-12-13&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">你好，谢谢你的共享！<br><br>但是我出现了一个问题，在成功执行mvn release:prepare 后，<br>发现svn中创建了release的文件夹，但是文件夹下没有内容(空文件夹)。<br>不知道是什么一回事？<br><br>盼求解答！</div>
+</div>
+
+
+    
+    <div class="pagination"><span class="disabled prev_page">« 上一页</span> <span class="current">1</span> <a href="http://juvenshun.iteye.com/blog/376422?page=2#comments" rel="next">2</a> <a href="http://juvenshun.iteye.com/blog/376422?page=3#comments">3</a> <a href="http://juvenshun.iteye.com/blog/376422?page=2#comments" class="next_page" rel="next">下一页 »</a></div>
+  </div>
+
+  <div class="blog_comment">
+    <h5>发表评论</h5>
+            <p style="text-align:center; margin-top:30px;margin-bottom:0px;"><a href="http://juvenshun.iteye.com/login" style="background-color:white;"> <img src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/login_icon.png" style="vertical-align:middle; margin-right: 10px;"></a><a href="http://juvenshun.iteye.com/login">  您还没有登录,请您登录后再发表评论 </a></p>
+      </div>
+</div>
+
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  $$('#main .blog_content pre[name=code]').each(function(pre, index){ // blog content
+    var post_id = 376422;
+    var location = window.location;
+    source_url = location.protocol + "//" + location.host + location.pathname + location.search;
+    pre.writeAttribute('codeable_id', post_id);
+    pre.writeAttribute('codeable_type', "Blog");
+    pre.writeAttribute('source_url', source_url);
+    pre.writeAttribute('pre_index', index);
+    pre.writeAttribute('title', 'Maven最佳实践：版本管理');
+  });
+
+  fix_image_size($$('div.blog_content img'), 700);
+
+  function processComment() {
+    $$('#main .blog_comment > div').each(function(comment){// comment
+      var post_id = comment.id.substr(2);
+      $$("#"+comment.id+" pre[name=code]").each(function(pre, index){
+        var location = window.location;
+        source_url = location.protocol + "//" + location.host + location.pathname + location.search;
+        source_url += "#" + comment.id;
+        pre.writeAttribute('codeable_id', post_id);
+        pre.writeAttribute('codeable_type', "BlogComment");
+        pre.writeAttribute('source_url', source_url);
+        pre.writeAttribute('pre_index', index);
+        pre.writeAttribute('title', 'Maven最佳实践：版本管理');
+      });
+    });
+  }
+
+  function quote_comment(id) {
+    new Ajax.Request('/editor/quote', {
+      parameters: {'id':id, 'type':'BlogComment'},
+      onSuccess:function(response){editor.bbcode_editor.textarea.insertAfterSelection(response.responseText);
+        Element.scrollTo(editor.bbcode_editor.textarea.element);}
+    });
+  }
+
+  code_favorites_init();
+  processComment();
+  new WeiboShare({share_buttons: $('share_weibo'), img_scope: $('blog_content')});
+</script>
+
+
+
+
+        </div>
+
+        <div id="local">
+          <div class="local_top"></div>
+          <div id="blog_owner">
+  <div id="blog_owner_logo"><a href="http://juvenshun.iteye.com/"><img alt="juvenshun的博客" class="logo" src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/dbc2f4de-27aa-3d86-ab99-3617bb2a5424.png" title="juvenshun的博客: Maven中文" width=""></a></div>
+  <div id="blog_owner_name">juvenshun</div>
+</div>
+
+          <div id="blog_actions">
+            <ul>
+              <li>浏览: 1352148 次</li>
+              <li>性别: <img alt="Icon_minigender_1" src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/icon_minigender_1.gif" title="男"></li>
+              <li>来自: 苏州</li>
+              <li><img src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/offline.gif"></li>
+              
+            </ul>
+          </div>
+          <div id="user_visits" class="clearfix">
+            <h5>最近访客 <span style="font-weight:normal;font-size:12px;padding-left:30px;"><a href="http://juvenshun.iteye.com/blog/user_visits">更多访客&gt;&gt;</a></span></h5>
+            
+              <div class="user_visit">
+                <div class="logo"><a href="http://maxwellyue.iteye.com/" target="_blank"><img alt="maxwellyue的博客" class="logo" src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/user-logo-thumb.gif" title="maxwellyue的博客: " width="48px"></a></div>
+                <div class="left"><a href="http://maxwellyue.iteye.com/" target="_blank" title="maxwellyue">maxwellyue</a></div>
+              </div>
+            
+              <div class="user_visit">
+                <div class="logo"><a href="http://chicheng0609.iteye.com/" target="_blank"><img alt="chicheng0609的博客" class="logo" src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/user-logo-thumb.gif" title="chicheng0609的博客: " width="48px"></a></div>
+                <div class="left"><a href="http://chicheng0609.iteye.com/" target="_blank" title="chicheng0609">chicheng0609</a></div>
+              </div>
+            
+              <div class="user_visit">
+                <div class="logo"><a href="http://rx78zlm1984.iteye.com/" target="_blank"><img alt="rx78zlm1984的博客" class="logo" src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/user-logo-thumb.gif" title="rx78zlm1984的博客: " width="48px"></a></div>
+                <div class="left"><a href="http://rx78zlm1984.iteye.com/" target="_blank" title="rx78zlm1984">rx78zlm1984</a></div>
+              </div>
+            
+              <div class="user_visit">
+                <div class="logo"><a href="http://sbwfgihc.iteye.com/" target="_blank"><img alt="sbwfgihc的博客" class="logo" src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/user-logo-thumb.gif" title="sbwfgihc的博客: " width="48px"></a></div>
+                <div class="left"><a href="http://sbwfgihc.iteye.com/" target="_blank" title="sbwfgihc">sbwfgihc</a></div>
+              </div>
+            
+          </div>
+
+          
+
+                      <div id="blog_menu">
+              <h5>文章分类</h5>
+              <ul>
+                <li><a href="http://juvenshun.iteye.com/">全部博客 (56)</a></li>
+                
+                  <li><a href="http://juvenshun.iteye.com/category/34725">Maven (61)</a></li>
+                
+              </ul>
+            </div>
+            <div id="month_blogs">
+              <h5>社区版块</h5>
+              <ul>
+                <li><a href="http://juvenshun.iteye.com/blog/news">我的资讯</a> (5)</li>
+                <li>
+                  <a href="http://juvenshun.iteye.com/blog/post">我的论坛</a> (15)
+                </li>
+                <li><a href="http://juvenshun.iteye.com/blog/answered_problems">我的问答</a> (2)</li>
+              </ul>
+            </div>
+            <div id="month_blogs">
+              <h5>存档分类</h5>
+              <ul>
+                
+                  <li><a href="http://juvenshun.iteye.com/blog/monthblog/2010-11">2010-11</a> (1)</li>
+                
+                  <li><a href="http://juvenshun.iteye.com/blog/monthblog/2010-04">2010-04</a> (1)</li>
+                
+                  <li><a href="http://juvenshun.iteye.com/blog/monthblog/2010-03">2010-03</a> (1)</li>
+                
+                <li><a href="http://juvenshun.iteye.com/blog/monthblog_more">更多存档...</a></li>
+              </ul>
+            </div>
+            
+            
+
+            <div id="guest_books">
+              <h5>最新评论</h5>
+              <ul>
+                
+                <li>
+                  <a href="http://payton321.iteye.com/" target="_blank" title="payton321">payton321</a>： 
+                  dao，util,servie,基础模块应该是maven项目， ...<br>
+                  <a href="http://juvenshun.iteye.com/blog/305865#bc2401562">Maven最佳实践：划分模块</a>
+                </li>
+                
+                <li>
+                  <a href="http://adrainhuang.iteye.com/" target="_blank" title="AdrainHuang">AdrainHuang</a>： 
+                  深有体会，我这边已经 给项目坑死了，依赖关系太复杂，基本没人敢 ...<br>
+                  <a href="http://juvenshun.iteye.com/blog/337405#bc2401331">Maven最佳实践：管理依赖</a>
+                </li>
+                
+                <li>
+                  <a href="http://1013460816.iteye.com/" target="_blank" title="远方_张涛">远方_张涛</a>： 
+                  赞赞赞,生动有趣还说明问题<br>
+                  <a href="http://juvenshun.iteye.com/blog/376422#bc2397513">Maven最佳实践：版本管理</a>
+                </li>
+                
+                <li>
+                  <a href="http://smartdog.iteye.com/" target="_blank" title="smartdog">smartdog</a>： 
+                  新的网站访问不了啊~~博主快更新<br>
+                  <a href="http://juvenshun.iteye.com/blog/652842#bc2396491">再见JavaEye</a>
+                </li>
+                
+                <li>
+                  <a href="http://smartdog.iteye.com/" target="_blank" title="smartdog">smartdog</a>： 
+                  言简意赅，厉害<br>
+                  <a href="http://juvenshun.iteye.com/blog/293975#bc2396488">Maven最佳实践：遵循约定</a>
+                </li>
+                
+              </ul>
+            </div>
+
+            <div class="local_bottom"></div>
+          
+        </div>
+
+        <div id="nav_show_top_stop" style="height: 500px; z-index: 1000; margin-top: 10px; float: left; clear: left; position: fixed; top: 1442.48px;">
+          <div>
+            <!-- 广告位：PC端-iteye博客详情页左侧Button1-200*200 -->
+            <script>
+                (function() {
+                    var s = "_" + Math.random().toString(36).slice(2);
+                    document.write('<div id="' + s + '"></div>');
+                    (window.slotbydup=window.slotbydup || []).push({
+                        id: '4773203',
+                        container: s,
+                        size: '200,200',
+                        display: 'inlay-fix'
+                    });
+                })();
+            </script><div id="_joc0jh1am2fgcsxzfapqlg14i"></div><script charset="utf-8" src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/wcdm(2)"></script><div style=""><div><div style="text-align:left;"><iframe width="200" frameborder="0" height="200" scrolling="no" src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/s(1).html"></iframe></div></div></div><script type="text/javascript" src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/sncoctctcqum.js"></script>
+          </div>
+          <div>
+            <!-- 广告位：PC端-iteye博客详情页左侧Button2-200*200 -->
+            <script>
+                (function() {
+                    var s = "_" + Math.random().toString(36).slice(2);
+                    document.write('<div id="' + s + '"></div>');
+                    (window.slotbydup=window.slotbydup || []).push({
+                        id: '4773205',
+                        container: s,
+                        size: '200,200',
+                        display: 'inlay-fix'
+                    });
+                })();
+            </script><div id="_b89lzdtc66tz8da1qkrgxecdi"></div><script charset="utf-8" src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/wcdm(3)"></script>
+          </div>
+        </div>
+        <script>
+
+            setTimeout(function () {
+                var naviga_offsetTop = 0;
+
+                function onload_function() {
+                    naviga_offsetTop = jQuery("#nav_show_top_stop").position().top;
+                    jQuery(window).bind("scroll", naviga_stay_top);
+                    jQuery(window).bind("mousewheel", naviga_stay_top);
+                    jQuery(document).bind("scroll", naviga_stay_top);
+                    jQuery(document).bind("mousewheel", naviga_stay_top);
+                }
+                function naviga_stay_top() {
+
+                    var scrollTop = jQuery(document).scrollTop();
+                    if (scrollTop > (naviga_offsetTop+250)) {
+                        jQuery("#nav_show_top_stop").css({ "position": "fixed" });
+                        jQuery("#nav_show_top_stop").css({ "top": "0px" });
+                    } else {
+                        jQuery("#nav_show_top_stop").css({ "position": "fixed" });
+                        jQuery("#nav_show_top_stop").css({ "top": naviga_offsetTop+250 - scrollTop + "px" }); }
+                }
+                jQuery(document).ready(onload_function());
+            }, 200);
+
+        </script>
+      </div>    
+
+      <div id="footer" class="clearfix">
+        <div id="copyright">
+          <hr>
+          声明：ITeye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<br>
+          © 2003-2017 ITeye.com.   All rights reserved.  [ 京ICP证110151号  京公网安备110105010620 ]
+        </div>
+        <div id="ad_pop">
+          <div class="J_adv" data-view="true" data-mod="ad_popu_64" data-mtp="62" data-order="21" data-con="ad_content_2070">
+            <script id="popuLayer_js_q" src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/popuLayer.js" defer="" type="text/javascript"></script>
+            <div id="layerd" style="position: fixed; bottom: 0px; right: 0px; line-height: 0px; z-index: 1000; width: 300px; height: 278px;">
+              <div onclick="jQuery(&#39;#ad_abc&#39;).hide();jQuery(&#39;.J_close&#39;).hide();" class="J_close layer_close" style="display:block;background-color:#efefef;padding:0px;color:#333;font:12px/24px Helvetica,Tahoma,Arial,sans-serif;text-align:right;">
+                关闭
+              </div>
+              <div id="ad_abc">
+                <!-- 广告位：PC端-iteye博客详情右侧弹窗-300*250 -->
+                <script>
+                    (function() {
+                        var s = "_" + Math.random().toString(36).slice(2);
+                        document.write('<div id="' + s + '"></div>');
+                        (window.slotbydup=window.slotbydup || []).push({
+                            id: '4756560',
+                            container: s,
+                            size: '300,250',
+                            display: 'inlay-fix'
+                        });
+                    })();
+                </script><div id="_ouh2xvf3an1tbq91ezo4unmi"></div><script charset="utf-8" src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/wcdm(4)"></script>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <script type="text/javascript">
+  document.write("<img src='http://stat.iteye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&user_id=' width='0' height='0' />");
+</script><img src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/saved_resource" width="0" height="0">
+
+
+
+    
+    
+    <script src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/jquery-1.11.1.min.js" type="text/javascript"></script>
+<script src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/tracking-1.0.1.js" type="text/javascript"></script>
+<script language="javascript" type="text/javascript" src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/async-1.0.1.js"></script>
+<script src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/tracking-1.0.3.js" type="text/javascript"></script>
+<script type="text/javascript">var $csdn_iteye_jq = jQuery.noConflict();// 解决jq与prototype.js命名空间冲突的问题</script>
+    
+	    
+	    <script src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/web-storage-cache.min.js" type="text/javascript"></script>
+	    <script src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/replace.min.js" type="text/javascript"></script>
+    
+    
+  
+
+<div class="sogoutip" style="z-index: 2147483645; visibility: hidden; display: none;"></div><div class="sogoubottom" id="sougou_bottom" style="display: none;"></div><div id="ext_stophi" style="z-index: 2147483647;"><div class="extnoticebg"></div><div class="extnotice"><h2>关闭提示 <a href="http://juvenshun.iteye.com/blog/376422#" title="关闭提示" id="closenotice" class="closenotice">关闭</a></h2><p id="sogouconfirmtxt"></p>  <a id="sogouconfirm" href="http://juvenshun.iteye.com/blog/376422#" class="extconfirm">确 认</a> <a id="sogoucancel" href="http://juvenshun.iteye.com/blog/376422#" class="extconfirm">取 消</a></div></div><div id="ext_overlay" class="ext_overlayBG" style="display: none; z-index: 2147483646;"></div><iframe class="sogou_sugg_feedbackquan" frameborder="0" scrolling="no" src="./Maven最佳实践：版本管理 - Maven中文 - ITeye博客_files/yun6.html" style="border: none; display: none; height: 84px; width: 100%; z-index: 2147483645; background: transparent;"></iframe></body></html>

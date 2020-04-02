@@ -1,0 +1,179 @@
+<?xml version="1.0"?>
+<project name="LMS" default="deploy" basedir=".">
+	<property name="resouce.dir" value="${basedir}/WebRoot" />
+	<property environment="env" />
+	<property name="app.dir" value="${basedir}" />
+	<property name="app.name" value="LMS" />
+	<property name="src.dir" value="${app.dir}/src" />
+	<property name="tomcat.home" value="${env.CATALINA_HOME}" />
+	<property name="build.dir" value="${app.dir}/build" />
+	<property name="web.dir" value="${app.dir}/build/WEB-INF" />
+	<property name="build.classes.dir" value="${web.dir}/classes" />
+	<!--b-->
+	<path id="build.classpath">
+		<fileset dir="${basedir}/../comlib/public">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${basedir}/../comlib/hibernate">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${basedir}/../comlib/spring">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${basedir}/../comlib/mysql">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${basedir}/../comlib/struts">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${basedir}/../comlib/servlet">
+			<include name="*.jar" />
+		</fileset>
+		<pathelement location="${build.classes.dir}" />
+	</path>
+
+	<!-- =================================================================== -->
+	<!-- Prepares the build directory                                        -->
+	<!-- =================================================================== -->
+	<!--f-->
+	<target name="clean">
+		<delete dir="${build.classes.dir}" />
+		<delete dir="${web.dir}" />
+		<delete dir="${build.dir}" />
+		<delete file="${tomcat.home}/webapps/${app.name}.war" />
+		<delete dir="${tomcat.home}/webapps/${app.name}"/>
+		<delete file="${basedir}/${app.name}.war"/>
+		<echo>${basedir}/${app.name}.war</echo>
+		<echo>${tomcat.home}/webapps/${app.name}.war</echo>
+	</target>
+	<!--d-->
+	<target name="prepare" depends="clean">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${build.classes.dir}" />
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- Compiles the source code                                            -->
+	<!-- =================================================================== -->
+	<!--e-->
+	<target name="compile" depends="prepare" description="编绎">
+		<javac srcdir="${src.dir}" destdir="${build.classes.dir}" debug="on" deprecation="on" optimize="off" includes="**">
+			<classpath refid="build.classpath" />
+		</javac>
+		<copy todir="${build.classes.dir}">
+			<fileset dir="${src.dir}">
+				<include name="**/*.xml"/>
+				<include name="**/*.tld"/>
+				<include name="**/*.properties"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="copyWeb" depends="compile" description="编绎">
+		<copy todir="${web.dir}">
+			<fileset dir="${resouce.dir}/WEB-INF">
+				<include name="**/*.xml"/>
+				<include name="**/*.tld"/>
+				<include name="**/*.properties"/>
+			</fileset>
+		</copy>
+		<copy todir="${build.dir}">
+			<fileset dir="${resouce.dir}">
+				<include name="**/*.jsp"/>
+				<include name="**/*.jpg"/>
+				<include name="**/*.js"/>
+			</fileset>
+		</copy>
+		<copy todir="${web.dir}/lib" overwrite="false">
+			<fileset dir="${basedir}/../comlib/public">
+				<include name="*.jar" />
+			</fileset>
+			<fileset dir="${basedir}/../comlib/hibernate">
+				<include name="*.jar" />
+			</fileset>
+			<fileset dir="${basedir}/../comlib/spring">
+				<include name="*.jar" />
+			</fileset>
+			<fileset dir="${basedir}/../comlib/mysql">
+				<include name="*.jar" />
+			</fileset>
+			<fileset dir="${basedir}/../comlib/struts">
+				<include name="*.jar" />
+			</fileset>
+			<fileset dir="${basedir}/../comlib/servlet">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+	</target>
+	<target name="war" description="创建WEB发布包" depends="copyWeb">
+		<war warfile="${basedir}/${app.name}.war" webxml="${build.dir}/WEB-INF/web.xml">
+			<fileset dir="${build.dir}">
+				<include name="**/*.*"/>
+			</fileset>
+		</war>
+	</target>	
+	<target name="deploy" description="创建WEB发布包" depends="war">
+		<delete file="${tomcat.home}/webapps/${app.name}.war" />
+		<delete dir="${tomcat.home}/webapps/${app.name}"/>
+		<copy file="${app.dir}/${app.name}.war" todir="${tomcat.home}/webapps"/>
+	</target>
+	<target name="dev-class" description="创建WEB发布包" depends="dev-config">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${build.classes.dir}" />
+		<javac srcdir="${src.dir}" destdir="${build.classes.dir}" debug="on" deprecation="on" optimize="off" includes="**">
+			<classpath refid="build.classpath" />
+		</javac>
+		<copy todir="${build.classes.dir}">
+			<fileset dir="${src.dir}">
+				<include name="**/*.xml"/>
+				<include name="**/*.tld"/>
+				<include name="**/*.properties"/>
+			</fileset>
+		</copy>
+		<copy todir="${tomcat.home}/webapps/${app.name}/WEB-INF/classes">
+			<fileset dir="${build.classes.dir}">
+				<include name="**/*.*"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="dev-jsp" description="dev-jsp">
+		<copy todir="${tomcat.home}/webapps/${app.name}">
+			<fileset dir="${resouce.dir}">
+				<include name="**/*.jsp"/>
+				<include name="**/*.jpg"/>
+				<include name="**/*.js"/>
+			</fileset>
+		</copy>
+	</target>
+	<target name="dev-config" description="dev-jsp">
+		<delete file="${tomcat.home}/webapps/${app.name}/WEB-INF/web.xml" />
+		<copy todir="${tomcat.home}/webapps/${app.name}/WEB-INF">
+			<fileset dir="${resouce.dir}/WEB-INF">
+				<include name="**/*.xml"/>
+				<include name="**/*.tld"/>
+				<include name="**/*.properties"/>
+			</fileset>
+		</copy>
+	</target>
+	<target name="dev-lib" description="dev-jsp">
+		<copy todir="${tomcat.home}/webapps/${app.name}/WEB-INF/lib" overwrite="false">
+			<fileset dir="${basedir}/../comlib/public">
+				<include name="*.jar" />
+			</fileset>
+			<fileset dir="${basedir}/../comlib/hibernate">
+				<include name="*.jar" />
+			</fileset>
+			<fileset dir="${basedir}/../comlib/spring">
+				<include name="*.jar" />
+			</fileset>
+			<fileset dir="${basedir}/../comlib/mysql">
+				<include name="*.jar" />
+			</fileset>
+			<fileset dir="${basedir}/../comlib/struts">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+	</target>		
+</project>
+

@@ -1,0 +1,507 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta property="og:description" content="原文链接 :http://blog.chinaunix.net/uid-23302288-id-3785105.htmlawk是行处理器: 相比较屏幕处理的优点，在处理庞大文件时不会出现内存溢出或是处" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>[转]linux awk命令详解 - 旭东的博客 - 博客园</title>
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=PyyhYDRKBG1sYtpoHme_xHO5AMd5iN57I45iBKF8FVY" />
+    <link id="MainCss" rel="stylesheet" href="/skins/anothereon001/bundle-anothereon001.min.css?v=vmUk-3Bh8LDsKXwjNHs2GDiFna-ZMTUgOJzjUaXTlPA" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/anothereon001/bundle-anothereon001-mobile.min.css?v=mrrPG4yy1c4rO5dX3ghe_4HUi7tMlrfN1z76EsgaDL0" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/xudong-bupt/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/xudong-bupt/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/xudong-bupt/wlwmanifest.xml" />
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=F-Iy-_Lj7VcUKRIvNkS6UZ5LItMqjh1_L0VZk9Yxfb8"></script>
+    <script>
+        var currentBlogId = 134009;
+        var currentBlogApp = 'xudong-bupt';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+    </script>
+    
+    
+    
+</head>
+<body>
+    <a name="top"></a>
+    
+    <div id="wrapper">
+<div id="header">
+
+<div id="top">
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/xudong-bupt/">旭东的博客</a>
+</h1>
+<div id="subtitle">
+并行计算，架构，C++/PHP/Python
+</div>
+</div>
+<div id="sub"><div class="BlogStats">随笔 - 
+237, 文章 - 
+0, 评论 - 
+236, 引用 - 
+0</div>
+
+</div>
+
+
+
+
+</div>
+<div id="main_container">
+<div id="main_content">
+<div id="content">
+	<div id="post_detail">
+    <div class="post">
+        <h2>
+            
+<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/xudong-bupt/p/3721210.html">[转]linux awk命令详解</a>
+
+        </h2>
+        <div class="postbody">
+            
+<div id="cnblogs_post_body" class="blogpost-body ">
+    <div>
+<div>原文链接 :&nbsp;<a href="http://blog.chinaunix.net/uid-23302288-id-3785105.html">http://blog.chinaunix.net/uid-23302288-id-3785105.html</a></div>
+<div>&nbsp;</div>
+<div><span><strong>awk是行处理器</strong>: 相比较屏幕处理的优点，在处理庞大文件时不会出现内存溢出或是处理缓慢的问题，通常用来格式化文本信息</span></div>
+<div><span><strong>awk处理过程:</strong>&nbsp;依次对每一行进行处理，然后输出</span></div>
+<div><span><strong>awk命令形式:</strong></span></div>
+<div><span>awk [-F|-f|-v] &lsquo;BEGIN{} //{command1; command2} END{}&rsquo; file</span></div>
+<div><span>&nbsp;[-F|-f|-v]&nbsp; &nbsp;大参数，</span><span>-F指定分隔符，</span><span>-f调用脚本，</span><span>-v定义变量 var=value</span></div>
+<div><span>' &nbsp;' &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;引用</span><span>代码块</span></div>
+<div><span>BEGIN &nbsp; 初始化代码块，在对每一行进行处理之前，初始化代码，主要是引用全局变量，设置FS分隔符</span></div>
+<div><span>// &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 匹配代码块，可以是字符串或正则表达式</span></div>
+<div><span>{} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 命令代码块，包含一条或多条命令</span></div>
+<div><span>； &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;多条命令使用分号分隔</span></div>
+<div><span>END &nbsp; &nbsp; &nbsp;结尾代码块，在对每一行进行处理之后再执行的代码块，主要是进行最终计算或输出结尾摘要信息</span></div>
+<div><span>&nbsp;</span></div>
+<div><span><strong>特殊要点:</strong></span></div>
+<div><span>$0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 表示整个当前行</span></div>
+<div><span>$1 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 每行第一个字段</span></div>
+<div><span>NF &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;字段数量变量</span></div>
+<div><span>NR &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;每行的记录号，多文件记录递增</span></div>
+<div><span>FNR &nbsp; &nbsp; &nbsp; &nbsp;与NR类似，不过多文件记录不递增，每个文件都从1开始</span></div>
+<div><span>\t &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;制表符</span></div>
+<div><span>\n &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 换行符</span></div>
+<div><span>FS &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;BEGIN时定义分隔符</span></div>
+<div><span>RS</span><span class="Apple-tab-span">&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>输入的记录分隔符， 默认为换行符(即文本是按一行一行输入)</span></div>
+<div><span>~ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;匹配，与==相比不是精确比较</span></div>
+<div><span>!~ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 不匹配，不精确比较</span></div>
+<div><span>== &nbsp; &nbsp; &nbsp; &nbsp; 等于，必须全部相等，精确比较</span></div>
+<div><span>!= &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 不等于，精确比较</span></div>
+<div><span>&amp;&amp;　 &nbsp; &nbsp; 逻辑与</span></div>
+<div><span>|| &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 逻辑或</span></div>
+<div><span>+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;匹配时表示1个或1个以上</span></div>
+<div><span>/[0-9][0-9]+/ &nbsp; 两个或两个以上数字</span></div>
+<div><span>/[0-9][0-9]*/ &nbsp; &nbsp;一个或一个以上数字</span></div>
+<div><span>FILENAME 文件名</span></div>
+<div><span>OFS</span>&nbsp; &nbsp; &nbsp;&nbsp;<span>输出字段分隔符， 默认也是空格，可以改为制表符等</span></div>
+<div><span>ORS&nbsp; &nbsp; &nbsp; &nbsp; 输出的记录分隔符，默认为换行符,即处理结果也是一行一行输出到屏幕</span></div>
+<div><span>-F'[:#/]' &nbsp; 定义三个分隔符</span></div>
+<div><span>&nbsp;</span></div>
+<div><strong><span>print &amp;&nbsp;</span><span>$0</span></strong></div>
+<div><span><span>print&nbsp;</span>是awk打印指定内容的主要命令</span></div>
+<div><span>awk '{print}' &nbsp;/etc/passwd &nbsp; == &nbsp;&nbsp;</span><span>awk '{print $0}' &nbsp;/etc/passwd &nbsp;</span></div>
+<div><span>awk '{print " "}'&nbsp;</span><span>/etc/passwd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//不输出passwd的内容，而是输出相同个数的空行，进一步解释了awk是一行一行处理文本</span></div>
+<div><span>awk '{print "a"}' &nbsp;</span><span>&nbsp;</span><span>/etc/passwd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span>//输出相同个数的a行，一行只有一个a字母</span></div>
+<div><span>awk -F":" '{print $1}' &nbsp;</span><span>/etc/passwd&nbsp;</span></div>
+<div><span><span>awk -F: '{print $1; print $2}'&nbsp;&nbsp;</span><span>&nbsp;</span><span><span>/etc/passwd &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;</span></span><span>&nbsp;</span><span>//</span><span>将每一行的前二个字段，分行输出，</span><span>进一步理解一行一行处理文本</span></span></div>
+<div><span>awk &nbsp;-F: '{print $1,$3,$6}' OFS="\t" /etc/passwd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;<span>//</span>输出字段1,3,6，以制表符作为分隔符</span></div>
+<div><span>&nbsp;</span></div>
+<div>
+<div><span><strong>-f指定脚本文件</strong></span></div>
+<div><span>awk -f script.awk &nbsp;file</span></div>
+<div><span>BEGIN{</span></div>
+<div><span>FS=":"</span></div>
+<div><span>}</span></div>
+<div><span>{print $1} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //效果与</span><span>awk -F":" '{print $1}'相同,只是分隔符使用FS在代码自身中指定</span></div>
+</div>
+<div><span>&nbsp;</span></div>
+<div>
+<div><span>awk 'BEGIN{X=0} /^$/{ X+=1 } END{print "I find",X,"blank lines."}' test&nbsp;</span></div>
+<div><span>I find 4 blank lines.</span></div>
+</div>
+<div><span>&nbsp;ls -l|awk 'BEGIN{sum=0} !/^d/{sum+=$5} END{print "total size is",sum}' &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;//计算文件大小</span></div>
+<div><span>total size is 17487</span></div>
+<div><span>&nbsp;</span></div>
+<div><strong><span>-F</span><span>指定分隔符</span></strong></div>
+<div><span>$1 指指定分隔符后，第一个字段，$3第三个字段， \t是制表符</span></div>
+<div><span>一个或多个连续的空格或制表符看做一个定界符，即多个空格看做一个空格</span></div>
+<div><span>awk -F":" '{print $1}' &nbsp;</span><span>/etc/passwd</span></div>
+<div><span>awk -F":" '{print $1 $3}' &nbsp;</span><span>/etc/passwd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span>//</span><span>$1与$3相连输出，不分隔</span></div>
+<div><span>awk -F":" '{print $1,$3}' &nbsp;</span><span>/etc/passwd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //多了一个逗号，$1与$3使用空格分隔</span></div>
+<div><span>awk -F":" '{print $1 " " $3}' &nbsp;/etc/passwd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span>//$1与$3之间手动添加空格分隔</span></div>
+<div><span>awk -F":" '{print "Username:" $1 "\t\t Uid:" $3 }' /etc/passwd &nbsp; &nbsp; &nbsp; //自定义输出 &nbsp;</span></div>
+<div><span>awk -F: '{print NF}' /etc/passwd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; //显示每行有多少字段</span></div>
+<div><span>awk&nbsp;</span><span>-F:&nbsp;</span><span>'{print $NF}' /etc/passwd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; //将每行第NF个字段的值打印出来</span></div>
+<div><span>&nbsp;awk -F: 'NF==4 {print }' /etc/passwd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; //显示只有4个字段的行</span></div>
+<div><span>awk -F: 'NF&gt;2{print $0}' /etc/passwd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;//显示每行字段数量大于2的行</span></div>
+<div><span>awk '{print NR,$0}' /etc/passwd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;//输出每行的行号</span></div>
+<div><span>awk -F: '{print NR,NF,$NF,"\t",$0}' /etc/passwd &nbsp; &nbsp; &nbsp;//依次打印行号，字段数，最后字段值，制表符，每行内容</span></div>
+<div><span>awk -F: 'NR==5{print}'&nbsp;&nbsp;/etc/passwd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;//显示第5行</span></div>
+<div><span>awk -F: 'NR==5 || NR==6{print}' &nbsp;/etc/passwd &nbsp; &nbsp; &nbsp;&nbsp;//显示第5行和第6行</span></div>
+<div><span>route -n|awk 'NR!=1{print}' &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; //不显示第一行</span></div>
+<div>&nbsp;</div>
+<div><span><strong>//匹配代码块</strong></span></div>
+<div><span><strong>//纯字符匹配 &nbsp; !//纯字符不匹配 &nbsp;&nbsp;</strong></span><strong>~//字段值匹配 &nbsp; &nbsp;!~//字段值不匹配 &nbsp; ~/a1|a2/字段值匹配a1或a2 &nbsp;&nbsp;</strong></div>
+<div><span>awk '/mysql/' /etc/passwd</span></div>
+<div>
+<div>awk '/mysql/{print }' /etc/passwd</div>
+<div>awk '/mysql/{print $0}' /etc/passwd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //三条指令结果一样</div>
+<div>awk '!/mysql/{print $0}' /etc/passwd &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //输出不匹配mysql的行</div>
+<div><span>awk '/mysql|mail/{print}' /etc/passwd</span></div>
+<div><span>awk '!/mysql|mail/{print}' /etc/passwd</span></div>
+<div><span>awk -F: '/mail/,/mysql/{print}' /etc/passwd &nbsp; &nbsp; &nbsp; &nbsp; //区间匹配</span></div>
+<div><span>awk '/[2][7][7]*/{print $0}' /etc/passwd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //匹配包含27为数字开头的行，如27，277，2777...</span></div>
+</div>
+<div><span>awk -F: '$1~/mail/{print $1}' /etc/passwd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //$1匹配指定内容才显示</span></div>
+<div><span>awk -F: '{if($1~/mail/) print $1}' /etc/passwd &nbsp; &nbsp; //与上面相同</span></div>
+<div><span>awk -F: '$1!~/mail/{print $1}' /etc/passwd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;//不匹配</span></div>
+<div>
+<div><span>awk -F: '$1!~/mail|mysql/{print $1}' /etc/passwd &nbsp; &nbsp; &nbsp; &nbsp;</span></div>
+</div>
+<div><span>&nbsp;</span></div>
+<div><span><strong>IF语句</strong></span></div>
+<div><span><strong>必须用在{}中，且比较内容用()扩起来</strong></span></div>
+<div><span>awk -F: '{if($1~/mail/) print $1}' /etc/passwd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //简写</span></div>
+<div><span>awk -F: '{if($1~/mail/) {print $1}}' &nbsp;/etc/passwd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //全写</span></div>
+<div><span>awk -F: '{if($1~/mail/) {print $1} else {print $2}}' /etc/passwd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;//if...else...</span></div>
+<div><span>&nbsp;</span></div>
+<div><span>&nbsp;</span></div>
+<div><span><strong>条件表达式</strong></span></div>
+<div><span><strong>== &nbsp; != &nbsp; &gt; &nbsp; &gt;= &nbsp;</strong></span></div>
+<div><span>awk -F":" '$1=="mysql"{print $3}' /etc/passwd &nbsp;</span></div>
+<div><span>awk -F":" '{if($1=="mysql") print $3}' /etc/passwd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;//与上面相同&nbsp;</span></div>
+<div>
+<div>awk -F":" '$1!="mysql"{print $3}' /etc/passwd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //不等于</div>
+<div>
+<div>awk -F":" '$3&gt;1000{print $3}' /etc/passwd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;//大于</div>
+<div>awk -F":" '$3&gt;=100{print $3}' /etc/passwd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;//大于等于</div>
+<div>awk -F":" '$3&lt;1{print $3}' /etc/passwd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;//小于</div>
+</div>
+<div>awk -F":" '$3&lt;=1{print $3}' /etc/passwd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //小于等于</div>
+<div>&nbsp;</div>
+<div><strong>逻辑运算符</strong></div>
+<div><strong>&amp;&amp;　||&nbsp;</strong></div>
+<div><span>awk -F: '$1~/mail/ &amp;&amp; $3&gt;8 {print }' /etc/passwd &nbsp; &nbsp; &nbsp; &nbsp; //逻辑与，$1匹配mail，并且$3&gt;8</span></div>
+<div><span>awk -F: '{if($1~/mail/ &amp;&amp; $3&gt;8) print }' /etc/passwd</span></div>
+<div><span>awk -F: '$1~/mail/ || $3&gt;1000 {print }' /etc/passwd &nbsp; &nbsp; &nbsp; //逻辑或</span></div>
+<div><span>awk -F: '{if($1~/mail/ || $3&gt;1000) print }' /etc/passwd&nbsp;</span></div>
+<div><span>&nbsp;</span></div>
+<div><span><strong>数值运算</strong></span></div>
+<div><span>awk -F: '$3 &gt; 100' /etc/passwd &nbsp; &nbsp;</span></div>
+<div><span>awk -F: '$3 &gt; 100 || $3 &lt; 5' /etc/passwd &nbsp;</span></div>
+<div><span>awk -F: '$3+$4 &gt; 200' /etc/passwd</span></div>
+<div><span>awk -F: '/mysql|mail/{print $3+10}' /etc/passwd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;//第三个字段加10打印&nbsp;</span></div>
+<div><span>awk -F: '/mysql/{print $3-$4}' /etc/passwd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //减法</span></div>
+<div><span>awk -F: '/mysql/{print $3*$4}' /etc/passwd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //求乘积</span></div>
+<div><span>awk '/MemFree/{print $2/1024}' /proc/meminfo &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;//除法</span></div>
+<div><span>awk '/MemFree/{print int($2/1024)}' /proc/meminfo &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //取整</span></div>
+<div><span>&nbsp;</span></div>
+<div><span><strong>输出分隔符OFS</strong></span></div>
+<div>
+<div>
+<div><span>awk '$6 ~ /FIN/ || NR==1 {print NR,$4,$5,$6}' OFS="\t" netstat.txt</span></div>
+</div>
+<div>
+<div><span>awk '$6 ~ /WAIT/ || NR==1 {print NR,$4,$5,$6}' OFS="\t" netstat.txt &nbsp; &nbsp; &nbsp; &nbsp;</span></div>
+<div><span>//输出字段6匹配WAIT的行，其中输出每行行号，字段4，5,6，并使用制表符分割字段</span></div>
+</div>
+</div>
+<div><span>&nbsp;</span></div>
+<div><span><strong>输出处理结果到文件</strong></span></div>
+<div><span>①在命令代码块中直接输出 &nbsp;&nbsp;&nbsp;route -n|awk 'NR!=1{print &gt; "./fs"}' &nbsp;&nbsp;</span></div>
+<div><span>②使用重定向进行输出 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;route -n|awk 'NR!=1{print}' &nbsp;&gt; ./fs</span></div>
+<div><span>&nbsp;</span></div>
+<div><span><strong>格式化输出</strong></span></div>
+<div><span>netstat -anp|awk '{printf "%-8s %-8s %-10s\n",$1,$2,$3}'&nbsp;</span></div>
+<div><span>printf</span><span>表示格式输出</span></div>
+<div><span>%格式化输出分隔符</span></div>
+<div><span>-8长度为8个字符</span></div>
+<div><span>s表示字符串类型</span></div>
+<div><span>打印每行前三个字段，指定第一个字段输出字符串类型(长度为8)，第二个字段输出字符串类型</span><span>(长度为8),</span></div>
+<div><span>第三个字段输出字符串类型</span><span>(长度为10)</span></div>
+<div><span>netstat -anp|awk '$6=="LISTEN" || NR==1 {printf "%-10s %-10s %-10s \n",$1,$2,$3}'</span></div>
+<div><span>netstat -anp|awk '$6=="LISTEN" || NR==1 {printf "%-3s %-10s %-10s %-10s \n",NR,$1,$2,$3}'</span></div>
+<div><span>&nbsp;</span></div>
+<div><span><strong>IF语句</strong></span></div>
+<div>
+<div>
+<div><span>awk -F: '{if($3&gt;100) print "large"; else print "small"}' /etc/passwd</span></div>
+</div>
+</div>
+</div>
+</div>
+<div>
+<div>small</div>
+<div>small</div>
+<div>small</div>
+<div>large</div>
+<div>small</div>
+<div>small</div>
+<div>
+<div><span>awk -F: 'BEGIN{A=0;B=0} {if($3&gt;100) {A++; print "large"} else {B++; print "small"}} END{print A,"\t",B}' /etc/passwd&nbsp;</span></div>
+</div>
+<div><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //ID大于100,A加1，否则B加1</span></div>
+<div><span>awk -F: '{if($3&lt;100) next; else print}' /etc/passwd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //小于100跳过，否则显示</span></div>
+<div><span>awk -F: 'BEGIN{i=1} {if(i&lt;NF) print NR,NF,i++ }' /etc/passwd &nbsp;&nbsp;</span></div>
+<div><span>awk -F: 'BEGIN{i=1} {if(i&lt;NF) {print NR,NF} i++ }' /etc/passwd</span></div>
+<div><span>另一种形式</span></div>
+<div><span>awk -F: '{print ($3&gt;100 ? "yes":"no")}' &nbsp;/etc/passwd&nbsp;</span></div>
+<div><span>awk -F: '{print ($3&gt;100 ? $3":\tyes":$3":\tno")}' &nbsp;/etc/passwd</span></div>
+<div><span>&nbsp;</span></div>
+<div><span><strong>while语句</strong></span></div>
+<div>
+<div>awk -F: 'BEGIN{i=1} {while(i&lt;NF) print NF,$i,i++}' /etc/passwd&nbsp;</div>
+<div>7 root 1</div>
+<div>7 x 2</div>
+<div>7 0 3</div>
+<div>7 0 4</div>
+<div>7 root 5</div>
+<div>7 /root 6</div>
+<div>&nbsp;</div>
+<div><strong>数组</strong></div>
+<div><span>netstat -anp|awk 'NR!=1{a[$6]++} END{for (i in a) print i,"\t",a[i]}'</span></div>
+</div>
+</div>
+<div>
+<div>netstat -anp|awk 'NR!=1{a[$6]++} END{for (i in a) printf "%-20s %-10s %-5s \n", i,"\t",a[i]}'</div>
+<div>9523 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 1 &nbsp; &nbsp;&nbsp;</div>
+<div>9929 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 1 &nbsp; &nbsp;&nbsp;</div>
+<div>LISTEN &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;6 &nbsp; &nbsp;&nbsp;</div>
+<div>7903 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 1 &nbsp; &nbsp;&nbsp;</div>
+<div>3038/cupsd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 1 &nbsp; &nbsp;&nbsp;</div>
+<div>7913 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 1 &nbsp; &nbsp;&nbsp;</div>
+<div>10837 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 1 &nbsp; &nbsp;&nbsp;</div>
+<div>9833 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 1 &nbsp; &nbsp;&nbsp;</div>
+</div>
+<div><span><strong>&nbsp;</strong></span></div>
+<div>
+<div><span><strong>应用1</strong></span></div>
+</div>
+<div><span>awk -F: '{print NF}' helloworld.sh &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; //输出文件每行有多少字段</span></div>
+<div><span>awk -F: '{print $1,$2,$3,$4,$5}' helloworld.sh &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;//输出前5个字段</span></div>
+<div><span>awk -F: '{print $1,$2,$3,$4,$5}' OFS='\t' helloworld.sh &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //输出前5个字段并使用制表符分隔输出</span></div>
+<div><span>awk -F: '{print NR,$1,$2,$3,$4,$5}' OFS='\t' helloworld.sh &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //制表符分隔输出前5个字段，并打印行号</span></div>
+<div><span>&nbsp;</span></div>
+<div><strong>应用2</strong></div>
+<div><span>awk -F'[:#]' '{print NF}' &nbsp;helloworld.sh &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;//指定多个分隔符: #，输出每行多少字段</span></div>
+<div><span>awk -F'[:#]' '{print $1,$2,$3,$4,$5,$6,$7}' OFS='\t' helloworld.sh &nbsp; //制表符分隔输出多字段</span></div>
+<div><span>&nbsp;</span></div>
+<div><span><strong>应用3</strong></span></div>
+<div><span>awk -F'[:#/]' '{print NF}' helloworld.sh &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;//指定三个分隔符，并输出每行字段数</span></div>
+<div><span>awk -F'[:#/]' '{print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12}' helloworld.sh &nbsp; &nbsp;&nbsp;</span><span>//制表符分隔输出多字段</span></div>
+<div>&nbsp;</div>
+<div><span><strong>应用4</strong></span></div>
+<div><span>计算/home目录下，普通文件的大小，使用KB作为单位</span></div>
+<div><span>ls -l|awk 'BEGIN{sum=0} !/^d/{sum+=$5} END{print "total size is:",sum/1024,"KB"}'</span></div>
+<div><span>ls -l|awk 'BEGIN{sum=0} !/^d/{sum+=$5} END{print "total size is:",int(sum/1024),"KB"}' &nbsp; &nbsp; &nbsp; &nbsp; //int是取整的意思</span></div>
+<div><span>&nbsp;</span></div>
+<div><span><strong>应用5</strong></span></div>
+<div><span>统计netstat -anp 状态为LISTEN和CONNECT的连接数量分别是多少</span></div>
+<div><span>netstat -anp|awk '$6~/LISTEN|CONNECTED/{sum[$6]++} END{for (i in sum) printf "%-10s %-6s %-3s \n", i," ",sum[i]}'</span></div>
+<div>&nbsp;</div>
+<div><span><strong>应用6</strong></span></div>
+<div><span>统计/home目录下不同用户的普通文件的总数是多少？</span></div>
+<div><span>ls -l|awk 'NR!=1 &amp;&amp; !/^d/{sum[$3]++} END{for (i in sum) printf "%-6s %-5s %-3s \n",i," ",sum[i]}' &nbsp;&nbsp;</span></div>
+<div>
+<div>mysql &nbsp; &nbsp; &nbsp; &nbsp;199&nbsp;</div>
+<div>root &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 374&nbsp;</div>
+</div>
+<div><span>统计/home目录下不同用户的普通文件的大小总size是多少？</span></div>
+<div><span>ls -l|awk 'NR!=1 &amp;&amp; !/^d/{sum[$3]+=$5} END{for (i in sum) printf "%-6s %-5s %-3s %-2s \n",i," ",sum[i]/1024/1024,"MB"}'</span></div>
+<div><span>&nbsp;</span></div>
+<div><span><strong>应用7</strong></span></div>
+<div><span>输出成绩表</span></div>
+<div><span>awk 'BEGIN{math=0;eng=0;com=0;printf "Lineno. &nbsp; Name &nbsp; &nbsp;No. &nbsp; &nbsp;Math &nbsp; English &nbsp; Computer &nbsp; &nbsp;Total\n";printf "------------------------------------------------------------\n"}{math+=$3; eng+=$4; com+=$5;printf "%-8s %-7s %-7s %-7s %-9s %-10s %-7s \n",NR,$1,$2,$3,$4,$5,$3+$4+$5} END{printf "------------------------------------------------------------\n";printf "%-24s %-7s %-9s %-20s \n","Total:",math,eng,com;printf "%-24s %-7s %-9s %-20s \n","Avg:",math/NR,eng/NR,com/NR}' test0<br /></span></div>
+<div>
+<div><br />[root@localhost home]# cat test0&nbsp;</div>
+<div>Marry &nbsp; 2143 78 84 77</div>
+<div>Jack &nbsp; &nbsp;2321 66 78 45</div>
+<div>Tom &nbsp; &nbsp; 2122 48 77 71</div>
+<div>Mike &nbsp; &nbsp;2537 87 97 95</div>
+<div>Bob &nbsp; &nbsp; 2415 40 57 62</div>
+
+
+
+
+</div>
+<p>
+<img src="http://blog.chinaunix.net/attachment/201307/2/23302288_1372771252vBg5.jpg" alt="" width="525" height="134" /></p>
+<div>&nbsp;</div>
+<div><span>awk手册<br />http://www.chinaunix.net/old_jh/7/16985.html</span></div>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+        </div>
+        <p class="postfoot">
+            posted on 
+<span id="post-date">2014-05-10 23:52</span>&nbsp;
+<a href="https://www.cnblogs.com/xudong-bupt/">旭东的博客</a>&nbsp;
+阅读(<span id="post_view_count">...</span>)&nbsp;
+评论(<span id="post_comment_count">...</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=3721210" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(3721210);return false;">收藏</a>
+        </p>
+    </div>
+</div>
+
+<script src="https://common.cnblogs.com/highlight/9.12.0/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 134009, cb_blogApp = 'xudong-bupt', cb_blogUserGuid = '10bd0daf-3b2b-e211-aa8f-842b2b196315';
+    var cb_entryId = 3721210, cb_entryCreatedDate = '2014-05-10 23:52', cb_postType = 1; 
+    loadViewCount(cb_entryId);
+</script><a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<script>
+    var commentManager = new blogCommentManager();
+    commentManager.renderComments(0);
+</script>
+
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <script async="async" src="https://www.googletagservices.com/tag/js/gpt.js"></script>
+    <script>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+    </script>
+    <script>
+        googletag.cmd.push(function () {
+            googletag.defineSlot("/1090369/C1", [300, 250], "div-gpt-ad-1546353474406-0").addService(googletag.pubads());
+            googletag.defineSlot("/1090369/C2", [468, 60], "div-gpt-ad-1539008685004-0").addService(googletag.pubads());
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+    </script>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;"></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;">
+            <script>
+                if (new Date() >= new Date(2018, 9, 13)) {
+                    googletag.cmd.push(function () { googletag.display("div-gpt-ad-1539008685004-0"); });
+                }
+            </script>
+        </div>
+    </div>
+    <div id="under_post_kb"></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+        fixPostBody();
+        setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+        deliverAdT2();
+        deliverAdC1();
+        deliverAdC2();
+        loadNewsAndKb();
+        loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+        loadOptUnderPost();
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+</div>
+</div>
+<div id="leftmenu">
+
+
+<h3>导航</h3>
+<ul>
+    <li>
+        <a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+
+    </li>
+    <li>
+        
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/xudong-bupt/">
+首页</a>
+
+    </li>
+    <li>
+        
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+
+    </li>
+    <li>
+        
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E6%97%AD%E4%B8%9C%E7%9A%84%E5%8D%9A%E5%AE%A2">
+联系</a>
+    </li>
+    <li>
+        
+<a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/xudong-bupt/rss/">
+订阅</a>
+        
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/xudong-bupt/rss/">
+    <img src="/skins/anothereon001/images/xml.gif" alt="订阅" />
+</a>
+    </li>
+    <li>
+        
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+
+    </li>
+</ul>
+
+
+<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>
+
+<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+
+<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+
+</div>
+</div>
+<div class="clear"></div>
+<div id="footer">
+<p id="footer">
+	Powered by: 
+	<br />
+	
+	
+<a href="https://www.cnblogs.com/" id="Footer1_Hyperlink3" style="font-size: 12px; font-family: Verdana">博客园</a>
+	<br />
+	Copyright &copy; 2020 旭东的博客
+<br /><span id="poweredby">Powered by .NET Core 3.1.0 on Linux</span>
+
+</p>
+
+
+</div>
+</div>
+
+
+    
+</body>
+</html>

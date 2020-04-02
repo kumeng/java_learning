@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process key="TakingLeave" name="请假流程" version="1" xmlns="http://jbpm.org/4.4/jpdl">
+  <start g="42,113,48,48" name="start 1">
+    <transition to="请假申请"/>
+  </start>
+  <task g="144,114,90,50" name="请假申请">
+    <transition to="审批"/>
+  </task>
+  <task assignee="manager"  g="321,117,90,50" name="审批">
+    <transition to="end 1"/>
+  </task>
+  <end g="480,116,48,48" name="end 1"/>
+</process>

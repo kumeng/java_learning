@@ -1,0 +1,164 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/task
+   		http://www.springframework.org/schema/task/spring-task-4.0.xsd
+   		http://www.springframework.org/schema/util
+   		http://www.springframework.org/schema/util/spring-util-4.0.xsd
+		http://code.alibabatech.com/schema/dubbo        
+		http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+		
+    
+    <!-- DI  依赖注入     set 方式     有参构造器    -->
+    <!-- IOC 控制反转      程序对象的获取方式发生反转,由程序中new获取对象方式改为第三方框架创建注入  -->
+    <!-- IOC 实现方式     依赖注入DI  和 依赖查找 -->
+    
+    <!-- 无参构造器实例化 -->
+	<bean id="animalsFactory" class="testSpringApplication.AnimalsFactocry"   >
+	</bean>  
+
+
+	<!-- 实例化工厂实例化一个BeanDog 返回Object对象 -->  
+	<bean id="dog" factory-bean="animalsFactory" factory-method="getAnimals" 
+		scope="prototype"  init-method="init"  destroy-method="destroy" lazy-init="default" >
+		<property name="dog" value="www" />
+		<property name="name" value="blala" />
+		<property name="age" value="1" />	
+	</bean>
+		
+	<!-- init-method   初始化 -->
+	<!-- destroy-method   销毁   ,只在单例下有效 -->		
+	<!-- lazy-init  延迟加载 ，默认情况spring容器创建就会实例化配置的所有bean。lazy-init="true" 使用时才创建  -->		
+	<!-- scope作用域         每个SpringIOC容器中
+	singleton  单例    默认
+	prototype  多例   
+	request    一次httpRequest中单例,web环境
+	session    一个httpSession中单例,web环境
+	global Seesion   一个全局httpSession中单例，基于portlet规范的web环境
+	 -->
+	<!-- 指定别名引用 -->
+	<alias name="dog" alias="wanwan"/>	
+	
+	<!-- 实例化工厂实例化一个BeanCat，强制转为 animal对象 ,这里可以观察强制向上转型是否丢失数据-->
+	<bean id="animalOfcat"  factory-bean="animalsFactory" factory-method="getAnimals2"  >	
+		<!-- 利用set方法注入 -->
+		<property name="cat" value="mimi" />
+		<property name="name" value="mm" />
+		<property name="age" value="2" />		
+	</bean>
+	
+	<bean id="animalServicecat" class="testSpringApplication.AnimalsServices"
+	scope="singleton"  init-method="init"  destroy-method="destroy" 
+	lazy-init="true"   autowire="byType" >
+	</bean>
+	<!-- 自动装配 -->
+	<!--
+	no  禁止自动装配   默认值
+	byName  根据属性名自动装配
+	byType  类型相同 。实例中：animalService 存在一个属性beanAnimal且有set方法 ，spring将把容器中属性为beanAnimal的对象注入
+	constructor  与byType类似，，不过是通过有参构造器注入
+	autodetect   spring自动决定byType还是constructor，如果有无参构造器则使用 byType
+	 -->
+	 
+	<bean id="animalServicedog" class="testSpringApplication.AnimalsServices"
+	scope="singleton"  init-method="init"  destroy-method="destroy" lazy-init="true"  >
+		<!-- 利用有参构造器方法注入 -->
+		<constructor-arg name="animals2" ref="wanwan"/>
+	</bean>	 
+	
+
+	<bean id="personLoginImpl" class="testSpringApplication.PersonLoginImpl">
+	    
+	</bean>
+	
+	
+<!-- 	<util:properties id="jdbcproperties" location="classpath:springbasic/jdbc_mysql_zcbase.properties" />
+	<util:properties id="jdbcproperties" location="classpath:springbasic/jdbc_oracle_zcbase.properties" />
+	 -->
+	<util:properties id="jdbcproperties" location="classpath:springbasic/jdbc_oracle_zcbase3.properties" />
+			
+	<!-- util:properties 加载文件 注意文件头的命名空间 -->
+	
+	<!-- 自动扫描包创建有注解实例并根据注解自动装配 -->
+	<context:component-scan base-package="scanerpac"/>
+	<!--  
+	装配注解
+	@Resource  设置在属性 或者set方法上    java提供，spring支持     jar包javax.annotation.jsr250
+	1：先查找是否有属性名相同的元素，有就注入
+	2：如果没有找到，则看是否有name属性（@Resource  name=“”），有则按name值查询并注入
+	3:否则按属性的类型去匹配注入
+	@Autowired   spring提供   jar  spring-beans.jar  
+	提示:pom配置spring-context即可导入context、aop、beans、core、expression等
+	1 只按照byType 注入
+	2 如果允许null值，可以设置它required属性为false。
+	3 如果我们想使用按名称装配，可以结合@Qualifier注解一起使用   @Autowired  @Qualifier("userDao")
+    -->
+    
+    
+    
+    
+<!--     <context:annotation-config />
+<context:annotation-config/>的作用是向Spring容器注册以下四个BeanPostProcessor：
+
+
+•AutowiredAnnotationBeanPostProcessor
+•CommonAnnotationBeanPostProcessor
+•PersistenceAnnotationBeanPostProcessor
+•RequiredAnnotationBeanPostProcessor
+那么，为什么要注册这四个BeanPostProcessor呢？ 
+
+
+
+是为了让系统能够识别相应的注解。
+
+
+
+例如：
+
+
+
+1、如果想使用@Autowired注解，那么就必须事先在 Spring 容器中声明 AutowiredAnnotationBeanPostProcessor Bean。
+传统声明方式如下： 
+
+<bean class="org.springframework.beans.factory.annotation. AutowiredAnnotationBeanPostProcessor "/> 
+
+
+2、如果想使用@ Resource 、@ PostConstruct、@ PreDestroy等注解就必须声明CommonAnnotationBeanPostProcessor  Bean。
+
+
+3、如果想使用@PersistenceContext注解，就必须声明PersistenceAnnotationBeanPostProcessor的Bean。
+
+
+4、如果想使用@Required的注解，就必须声明RequiredAnnotationBeanPostProcessor的Bean。
+
+
+
+
+
+
+
+以上这些注解是很常用的，如果按照传统的方式进行配置将会非常繁琐，所以Spring给我们提供了一个简便的方式：<context:annotation-config/>，使用该元素可以自动声明以上注解。
+
+注：由于<context:component-scan base-package=”xx.xx”/>也包含了自动注入上述Bean的功能，所以<context:annotation-config/> 可以省略。如果两者都进行了配置，则只有前者有效。
+
+     -->
+     
+     <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor "/> 
+     
+</beans>    

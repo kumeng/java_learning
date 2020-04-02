@@ -1,0 +1,1483 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    
+<head>  
+        <script type="text/javascript" src="http://static.blog.csdn.net/scripts/tingyun-rum.js"></script>
+            <link rel="canonical" href="http://blog.csdn.net/wangmuming/article/details/22925127/"/> 
+ <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848"> 
+       
+    <title>Jenkins入门系列之——02第二章 Jenkins安装与配置 - 
+        - CSDN博客</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="写的我想吐血，累死了。网页看着不爽的，自己去下载PDF。有问题请留言！Jenkins入门系列之——03PDF文档下载第二章 Jenkins安装与配置2&#160;Jenkins安装在最简单的情况下，Jenkins&#160;只需要两个步骤：1.下载最新的版本（一个&#160;WAR&#160;文件）。Jenkins官方网址:&#160;http://Jenkins-ci.org/2.运行&#160;java&#160;-jar&#160;j" />
+
+    <meta name="keywords" content="jenkins CI 持续集成" />
+
+   
+    <script src="http://static.blog.csdn.net/scripts/blog_static_head.min.js" type="text/javascript"></script>
+
+    
+        <!--new top-->
+       
+       
+        <!--new top-->
+    
+      <!-- ad begin -->
+         
+    <!-- ad end-->
+
+    <link rel="Stylesheet" type="text/css" href="http://static.blog.csdn.net/skin/default/css/style.css?v=1.1" />
+
+    
+
+    <link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="/wangmuming/rss/list" />
+    <link rel="shortcut icon" href="http://c.csdnimg.cn/public/favicon.ico" />
+    <link type="text/css" rel="stylesheet" href="http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/default.css" />
+ 
+
+
+
+    <link href="http://c.csdnimg.cn/blog/csdn_public_blog_detail.min.css" type="text/css" rel="stylesheet" />
+     
+         <link rel="stylesheet" href="http://static.blog.csdn.net/css/csdn_blog_detail.min.css" />
+
+  
+
+
+    <!-- 请置于所有广告位代码之前 --> 
+            <script src="http://dup.baidustatic.com/js/ds.js"></script>
+
+</head>
+
+
+<body>
+     
+        <div class="tracking-ad" data-view="true" data-mod="ad_popu_72"  data-mtp="62" data-order="40" data-con="ad_content_2072" >
+                     <script id="popuLayer_js_q" src="http://ads.csdn.net/js/popuLayer.js" defer="defer"  type="text/javascript"></script>
+                <div id="layerd" style="position: fixed;bottom:0px;right:0px;line-height:0px;z-index:1000">
+    	                <div class="J_close layer_close" style="display:;background-color:#efefef;padding:0px;color:#333;font:12px/24px Helvetica,Tahoma,Arial,sans-serif;text-align:right;">关闭</div><!-- 广告占位容器 --><div id="cpro_u2895327"></div></div>
+                <script>  document.getElementById("popuLayer_js_q").onload = function () { var styObjd = styObj = { width: "300px", "height": parseInt(250) + 28 }; window.CSDN.Layer.PopuLayer("#layerd", { storageName: "layerd", styleObj: styObjd, total: 50, expoire: 1000 * 60 }); }</script><!-- 投放代码 --><script type="text/javascript">                    /*服务器频道首页置顶Banner960*90，创建于2014-7-3*/    (window.cproArray = window.cproArray || []).push({ id: "u2895327" });  </script>  <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+     
+        </div>
+
+    <!-- 广告位开始 -->
+        
+    <!-- 广告位结束 -->
+
+    
+   
+      <!--new top-->
+    <script id="toolbar-tpl-scriptId" fixed="true" prod="blog" skin="black" src="http://c.csdnimg.cn/public/common/toolbar/js/html.js" type="text/javascript"></script>
+     <!--new top-->
+    <div id="container">
+        <div id="header">
+    <div class="header">
+        <div id="blog_title">
+            <h2>
+                <a href="http://blog.csdn.net/wangmuming"></a></h2>
+            <h3></h3>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+        
+     
+    </div>
+</div>
+<div id="navigator">
+    <div class="navigator_bg">
+    </div>
+    <div class="navigator">
+        <ul>           
+                <li id="btnContents"><a href="http://blog.csdn.net/wangmuming?viewmode=contents"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_mulu'])">
+                    <img src="http://static.blog.csdn.net/images/ico_list.gif">目录视图</span></a></li>
+                <li id="btnView"><a href="http://blog.csdn.net/wangmuming?viewmode=list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_zhaiyao'])">
+                    <img src="http://static.blog.csdn.net/images/ico_summary.gif">摘要视图</span></a></li>
+                <li id="btnRss"><a href="http://blog.csdn.net/wangmuming/rss/list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_RSS'])">
+                    <img src="http://static.blog.csdn.net/images/ico_rss.gif">订阅</span></a></li>                
+            
+
+            </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    var username = "wangmuming";
+    var _blogger = username;
+    var blog_address = "http://blog.csdn.net/wangmuming";
+    var static_host = "http://static.blog.csdn.net";
+    var currentUserName = "";  
+</script>
+
+        <div id="body">
+            <div id="main">
+                <div class="main">
+                        <div class="ad_class">
+<div class="notice tracking-ad" data-mod='popu_3' > 
+
+
+<a href="http://blog.csdn.net/turingbooks/article/details/76034232">
+<font color=red><strong>评论送书 | 7月书讯：众多畅销书升级！ </strong></font></a>
+
+&nbsp;&nbsp;&nbsp;&nbsp
+
+
+<a href="http://blog.csdn.net/blogdevteam/article/details/74550215">
+<font color=blue><strong>征文 | 你会为 AI 转型么？</strong></font></a>
+&nbsp;&nbsp;&nbsp;&nbsp
+
+
+<a href="http://blog.csdn.net/epubit17/article/details/76066685">
+<font color=red><strong>赠书 | AI专场（AI圣经！《深度学习》中文版）</strong></font></a>
+
+</div>                        </div>
+
+                        
+
+
+
+  
+
+
+
+
+
+
+<script   type="text/javascript" src="http://static.blog.csdn.net/scripts/category.js"></script>
+
+  <script type="text/ecmascript">
+      window.quickReplyflag = true;
+      var isBole = false; 
+      var fasrc="http://my.csdn.net/my/favorite/miniadd?t=Jenkins%e5%85%a5%e9%97%a8%e7%b3%bb%e5%88%97%e4%b9%8b%e2%80%94%e2%80%9402%e7%ac%ac%e4%ba%8c%e7%ab%a0+Jenkins%e5%ae%89%e8%a3%85%e4%b8%8e%e9%85%8d%e7%bd%ae&u=http://blog.csdn.net/wangmuming/article/details/22925127/"
+    </script>
+<div id="article_details" class="details">
+    <div class="article_title">   
+         <span class="ico ico_type_Repost"></span>
+
+    <h1>
+        <span class="link_title"><a href="/wangmuming/article/details/22925127">
+        Jenkins入门系列之——02第二章 Jenkins安装与配置        
+           
+        </a>
+        </span>
+
+         
+    </h1>
+</div>
+
+   
+
+        <div class="article_manage clearfix">
+        <div class="article_l">
+            <span class="link_categories">
+            标签：
+              <a href='http://www.csdn.net/tag/jenkins%20CI%20%e6%8c%81%e7%bb%ad%e9%9b%86%e6%88%90' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">jenkins CI 持续集成</a>
+            </span>
+        </div>
+        <div class="article_r">
+            <span class="link_postdate">2014-04-04 11:57</span>
+            <span class="link_view" title="阅读次数">238068人阅读</span>
+            <span class="link_comments" title="评论次数"> <a href="#comments" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_pinglun'])">评论</a>(21)</span>
+            <span class="link_collect tracking-ad" data-mod="popu_171"> <a href="javascript:void(0);" onclick="javascript:collectArticle('Jenkins%e5%85%a5%e9%97%a8%e7%b3%bb%e5%88%97%e4%b9%8b%e2%80%94%e2%80%9402%e7%ac%ac%e4%ba%8c%e7%ab%a0+Jenkins%e5%ae%89%e8%a3%85%e4%b8%8e%e9%85%8d%e7%bd%ae','22925127');return false;" title="收藏">收藏</a></span>
+             <span class="link_report"> <a href="#report" onclick="javascript:report(22925127,2);return false;" title="举报">举报</a></span>
+
+        </div>
+    </div>    <style type="text/css">        
+            .embody{
+                padding:10px 10px 10px;
+                margin:0 -20px;
+                border-bottom:solid 1px #ededed;                
+            }
+            .embody_b{
+                margin:0 ;
+                padding:10px 0;
+            }
+            .embody .embody_t,.embody .embody_c{
+                display: inline-block;
+                margin-right:10px;
+            }
+            .embody_t{
+                font-size: 12px;
+                color:#999;
+            }
+            .embody_c{
+                font-size: 12px;
+            }
+            .embody_c img,.embody_c em{
+                display: inline-block;
+                vertical-align: middle;               
+            }
+             .embody_c img{               
+                width:30px;
+                height:30px;
+            }
+            .embody_c em{
+                margin: 0 20px 0 10px;
+                color:#333;
+                font-style: normal;
+            }
+    </style>
+    <script  type="text/javascript">
+        $(function () {
+            try
+            {
+                var lib = eval("("+$("#lib").attr("value")+")");
+                var html = "";
+                if (lib.err == 0) {
+                    $.each(lib.data, function (i) {
+                        var obj = lib.data[i];
+                        //html += '<img src="' + obj.logo + '"/>' + obj.name + "&nbsp;&nbsp;";
+                        html += ' <a href="' + obj.url + '" target="_blank">';
+                        html += ' <img src="' + obj.logo + '">';
+                        html += ' <em><b>' + obj.name + '</b></em>';
+                        html += ' </a>';
+                    });
+                    if (html != "") {
+                        setTimeout(function () {
+                            $("#lib").html(html);                      
+                            $("#embody").show();
+                        }, 100);
+                    }
+                }      
+            } catch (err)
+            { }
+            
+        });
+    </script>
+      <div class="category clearfix">
+        <div class="category_l">
+           <img src="http://static.blog.csdn.net/images/category_icon.jpg">
+            <span>分类：</span>
+        </div>
+        <div class="category_r">
+                    <label  onclick="GetCategoryArticles('2167947','wangmuming','top','22925127');">
+                        <span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_fenlei']);">jenkins<em>（20）</em></span>
+                      <img class="arrow-down" src="http://static.blog.csdn.net/images/arrow_triangle _down.jpg" style="display:inline;">
+                      <img class="arrow-up" src="http://static.blog.csdn.net/images/arrow_triangle_up.jpg" style="display:none;">
+                        <div class="subItem">
+                            <div class="subItem_t"><a  href="http://blog.csdn.net/wangmuming/article/category/2167947"  target="_blank">作者同类文章</a><i class="J_close">X</i></div>
+                            <ul class="subItem_l" id="top_2167947">                            
+                            </ul>
+                        </div>
+                    </label>                    
+        </div>
+    </div>
+
+  
+
+  
+  
+     
+
+
+<div id="article_content" class="article_content tracking-ad" data-mod=popu_307  data-dsm = "post" >
+
+<div class="Section0" style="margin:0px; padding:0px; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:13px; line-height:19.5px; background-color:rgb(245,245,245)">
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px"><span style="margin:0px; padding:0px; line-height:1.5">写的我想吐血，累死了。</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">网页看着不爽的，自己去下载PDF。有问题请留言！</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px"><span style="margin:0px; padding:0px; line-height:1.5"><a target="_blank" id="cb_post_title_url" href="http://www.cnblogs.com/zz0412/p/jenkins03.html" style="margin:0px; padding:0px; color:rgb(0,105,214); font-weight:inherit; line-height:inherit">Jenkins入门系列之——03PDF文档下载</a></span></p>
+</div>
+<div class="Section1" style="margin:0px; padding:0px; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:13px; line-height:19.5px; background-color:rgb(245,245,245)">
+<h1 style="margin:0px; padding:0px; font-size:13px; font-weight:normal">第二章 Jenkins安装与配置</h1>
+<h1 style="margin:0px; padding:0px; font-size:13px; font-weight:normal">2&nbsp;Jenkins安装</h1>
+<p class="p26" style="margin:10px auto; padding-top:0px; padding-bottom:0px">在最简单的情况下，<span style="margin:0px; padding:0px; font-family:'Times New Roman'">Jenkins&nbsp;</span><span style="margin:0px; padding:0px; font-family:宋体">只需要两个步骤：</span></p>
+<p class="p26" style="margin:10px auto; padding-top:0px; padding-bottom:0px">1.<span style="margin:0px; padding:0px; font-family:宋体">下载最新的版本（一个&nbsp;</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">WAR&nbsp;</span><span style="margin:0px; padding:0px; font-family:宋体">文件）。</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">Jenkins</span><span style="margin:0px; padding:0px; font-family:宋体">官方网址</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">:</span>&nbsp;<a target="_blank" href="http://jenkins-ci.org/" style="margin:0px; padding:0px; color:rgb(0,105,214); font-weight:inherit; line-height:inherit">http://Jenkins-ci.org/</a></p>
+<p class="p26" style="margin:10px auto; padding-top:0px; padding-bottom:0px">2.<span style="margin:0px; padding:0px; font-family:宋体">运行&nbsp;</span>java&nbsp;-jar&nbsp;jenkins.war</p>
+<p class="p26" style="margin:10px auto; padding-top:0px; padding-bottom:0px">注意：<span style="margin:0px; padding:0px; font-family:'Times New Roman'">Jenkins&nbsp;</span><span style="margin:0px; padding:0px; font-family:宋体">需要运行&nbsp;</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">Java&nbsp;5</span><span style="margin:0px; padding:0px; font-family:宋体">以及以上的版本。</span></p>
+<p class="p26" style="margin:10px auto; padding-top:0px; padding-bottom:0px">还有一种安装方式就是将下载的<span style="margin:0px; padding:0px; font-family:'Times New Roman'">war</span><span style="margin:0px; padding:0px; font-family:宋体">包文件部署到&nbsp;</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">servlet&nbsp;</span><span style="margin:0px; padding:0px; font-family:宋体">容器，然后启动容器，在浏览器的</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">URL</span><span style="margin:0px; padding:0px; font-family:宋体">地址栏中输入类&#20284;</span><a target="_blank" href="http://localhost:8088/hudson/" style="margin:0px; padding:0px; color:rgb(0,105,214); font-weight:inherit; line-height:inherit">http://localhost:8080/jenkins/</a>这样的地址即可。下图是安装成功后的界面（使用的是<span style="margin:0px; padding:0px; font-family:'Times New Roman'">Linux&#43;Tomcat6&#43;Java6</span><span style="margin:0px; padding:0px; font-family:宋体">环境）：</span></p>
+<p class="p26" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12163603-577a8e61cdfe4f599bd7f1b8630a9663.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图2 Jenkins<span style="margin:0px; padding:0px; font-family:宋体">主界面</span></p>
+<h1 style="margin:0px; padding:0px; font-size:13px; font-weight:normal">3&nbsp;Jenkins配置</h1>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">写在配置前的一些话：Jenkins<span style="margin:0px; padding:0px; font-family:宋体">的配置不可能全部都说到的，大部分配置是有英文说明的，点击输入框后面的问号就可以看见了。英文不会用翻译工具，连蒙带猜的，多测试几次，你就懂了。</span></p>
+<h2 style="margin:15px auto 2px; padding:0px; font-size:20px">3.1&nbsp;系统管理</h2>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">在已运行的<span style="margin:0px; padding:0px; font-family:'Times New Roman'">Jenkins</span><span style="margin:0px; padding:0px; font-family:宋体">主页中，点击左侧的系统管理进入如下界面：</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12163618-fbcb44edaba24137a7161a0d9e73ab03.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图3 Jenkins<span style="margin:0px; padding:0px; font-family:宋体">系统管理</span></p>
+<h3 style="margin:15px auto 2px; padding:0px; font-size:16px">3.1.1&nbsp;提示信息</h3>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">Ps<span style="margin:0px; padding:0px; font-family:宋体">：版本不同提示的消息有可能不同</span></p>
+<h4 style="margin:15px auto 2px; padding:0px; font-size:14px; color:rgb(51,51,51)">
+3.1.1.1&nbsp;Utf-8编码</h4>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">Your&nbsp;container&nbsp;doesn't&nbsp;use&nbsp;UTF-8&nbsp;to&nbsp;decode&nbsp;URLs.&nbsp;If&nbsp;you&nbsp;use&nbsp;non-ASCII&nbsp;characters&nbsp;as&nbsp;a&nbsp;job&nbsp;name&nbsp;etc,&nbsp;this&nbsp;will&nbsp;cause&nbsp;problems.&nbsp;See&nbsp;<a target="_blank" href="http://wiki.jenkins-ci.org/display/JENKINS/Containers" style="margin:0px; padding:0px; color:rgb(0,105,214); font-weight:inherit; line-height:inherit">Containers</a>&nbsp;and&nbsp;<a target="_blank" href="http://wiki.jenkins-ci.org/display/JENKINS/Tomcat#Tomcat-i18n" style="margin:0px; padding:0px; color:rgb(0,105,214); font-weight:inherit; line-height:inherit">Tomcat&nbsp;i18n</a>&nbsp;for&nbsp;more&nbsp;details.</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">Jenkins<span style="margin:0px; padding:0px; font-family:宋体">建议在</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">tomcat</span><span style="margin:0px; padding:0px; font-family:宋体">中使用</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">utf-8</span><span style="margin:0px; padding:0px; font-family:宋体">编码，配置</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">tomcat</span><span style="margin:0px; padding:0px; font-family:宋体">下</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">conf</span><span style="margin:0px; padding:0px; font-family:宋体">目录的</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">server.xml</span><span style="margin:0px; padding:0px; font-family:宋体">文件</span></p>
+<p class="p26" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12163628-5e18c80f1c44409fb584a8a618299e12.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图4 URIEncoding<span style="margin:0px; padding:0px; font-family:宋体">编码设置</span></p>
+<p class="p26" style="margin:10px auto; padding-top:0px; padding-bottom:0px">Ps<span style="margin:0px; padding:0px; font-family:宋体">：如果</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">Job</span><span style="margin:0px; padding:0px; font-family:宋体">的控制台中文输出乱码，请将</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">URIEncoding=</span>”utf-8”更改为useBodyEncodingForURI=&quot;true&quot;</p>
+<h4 style="margin:15px auto 2px; padding:0px; font-size:14px; color:rgb(51,51,51)">
+3.1.1.2&nbsp;新的版本</h4>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">New&nbsp;version&nbsp;of&nbsp;Jenkins&nbsp;(1.518.JENKINS-14362-jzlib)&nbsp;is&nbsp;available&nbsp;for&nbsp;download&nbsp;(changelog).</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">提示有新的版本可以下载了<span style="margin:0px; padding:0px; font-family:Verdana">,</span><span style="margin:0px; padding:0px; font-family:宋体">喜欢更新的点击</span><span style="margin:0px; padding:0px; font-family:Verdana">download</span><span style="margin:0px; padding:0px; font-family:宋体">去下载吧！</span></p>
+<h4 style="margin:15px auto 2px; padding:0px; font-size:14px; color:rgb(51,51,51)">
+3.1.1.3&nbsp;安全设置</h4>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12163634-a71e6cae19ce4f059fb19d845b7f5db7.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图5 安全提示消息</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">詹金斯允许网络上的任何人代表您启动进程。考虑至少启用身份验证来阻止滥用。点击<span style="margin:0px; padding:0px; font-family:'Times New Roman'">Dismiss</span><span style="margin:0px; padding:0px; font-family:宋体">忽略该消息</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">,</span><span style="margin:0px; padding:0px; font-family:宋体">点击</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">Setup&nbsp;Security</span><span style="margin:0px; padding:0px; font-family:宋体">进入设置界面</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">.</span>详细设置请参考&nbsp;<span style="margin:0px; padding:0px; font-family:'Times New Roman'">Configure&nbsp;Global&nbsp;Security(</span><span style="margin:0px; padding:0px; font-family:宋体">安全设置</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">)&nbsp;</span><span style="margin:0px; padding:0px; font-family:宋体">章节</span></p>
+<h3 style="margin:15px auto 2px; padding:0px; font-size:16px">3.1.2&nbsp;系统设置</h3>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">在已运行的<span style="margin:0px; padding:0px; font-family:'Times New Roman'">Jenkins</span><span style="margin:0px; padding:0px; font-family:宋体">主页中，点击左侧的系统管理</span>—&gt;<span style="margin:0px; padding:0px; font-family:宋体">系统设置进入如下界面：</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12163643-c71057d0d1b64be08d88dc114a73fe2a.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图6 系统设置界面</p>
+<h4 style="margin:15px auto 2px; padding:0px; font-size:14px; color:rgb(51,51,51)">
+3.1.2.1&nbsp;JDK、Maven、Ant配置</h4>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">配置一个<span style="margin:0px; padding:0px; font-family:'Times New Roman'">JDK</span>、Ant<span style="margin:0px; padding:0px; font-family:宋体">、</span>Maven实例，请在每一节下面单击Add(<span style="margin:0px; padding:0px; font-family:宋体">新增</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">)</span>&nbsp;按钮，这里将添加实例的名称和绝对地址。下图描述了这两个部分。</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12163654-7eef929c0ac34000b3d2cfda0ca02609.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图7 JDK<span style="margin:0px; padding:0px; font-family:宋体">配置界面</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">JDK<span style="margin:0px; padding:0px; font-family:宋体">别名：给你看的，随便你自己，叫阿猫阿狗都可以</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">JAVA_HOME<span style="margin:0px; padding:0px; font-family:宋体">：这个是本机</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">JDK</span><span style="margin:0px; padding:0px; font-family:宋体">的安装路径（错误的路径会有红字提示你的）</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">自动安装：不推荐这个选项</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">后面Ant与Maven的配置是一样的，JDK<span style="margin:0px; padding:0px; font-family:宋体">去</span><span style="margin:0px; padding:0px; font-family:Verdana">oracle</span><span style="margin:0px; padding:0px; font-family:宋体">官网下载，</span>Ant与Maven去apache<span style="margin:0px; padding:0px; font-family:宋体">官网下载</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">Ps<span style="margin:0px; padding:0px; font-family:宋体">：每个文本框后面都有个问号，点击问号就会出现帮助信息</span></p>
+<h4 style="margin:15px auto 2px; padding:0px; font-size:14px; color:rgb(51,51,51)">
+3.1.2.2&nbsp;邮件通知配置</h4>
+<h5 style="margin:15px auto 2px; padding:0px; font-size:13px; color:rgb(51,51,51)">
+3.1.2.2.1&nbsp;配置发件人地址</h5>
+<p class="p26" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12163707-8c4ca9f8b06a4e878e9163a5f96e41ae.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图8 发件人地址配置界面</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">System&nbsp;Admin&nbsp;e-mail&nbsp;address：Jenkins<span style="margin:0px; padding:0px">邮件发送地址，如果你这个没有配置，等着发邮件的时候报错吧，当时我也是这儿没有配置，郁闷了我一周的时间。⊙﹏⊙</span><span style="margin:0px; padding:0px">b</span><span style="margin:0px; padding:0px">汗</span>&nbsp;</p>
+<h5 style="margin:15px auto 2px; padding:0px; font-size:13px; color:rgb(51,51,51)">
+3.1.2.2.2&nbsp;配置邮件通知</h5>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px"><span style="margin:0px; padding:0px; line-height:1.5">&nbsp;</span><img src="http://images.cnitblog.com/blog/529896/201308/12163719-f85df3e1f78e409fbc252cc11190ce10.png" alt="" style="margin:0px; padding:0px; border:0px; line-height:1.5"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图9 邮件通知</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">这个就非常的简单了，根据的的邮箱提供者的参数配置就行了。</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">Ps<span style="margin:0px; padding:0px; font-family:宋体">：小技巧：用户默认邮件后缀配置了后，以后你填写邮件地址只需要</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">@</span><span style="margin:0px; padding:0px; font-family:宋体">之前的就行了</span></p>
+<h4 style="margin:15px auto 2px; padding:0px; font-size:14px; color:rgb(51,51,51)">
+3.1.2.3&nbsp;Subversion配置</h4>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12163735-f8d716f475344b60b64e5da50c1e61b3.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图10 Subversion<span style="margin:0px; padding:0px; font-family:宋体">配置</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">Subversion&nbsp;Workspace&nbsp;Version：Subversion&nbsp;的版本号，选择你对应的版本号就行了</p>
+<h3 style="margin:15px auto 2px; padding:0px; font-size:16px">3.1.3&nbsp;Configure&nbsp;Global&nbsp;Security(<span style="margin:0px; padding:0px; font-family:黑体">安全设置</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">)</span></h3>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">在已运行的<span style="margin:0px; padding:0px; font-family:'Times New Roman'">Jenkins</span><span style="margin:0px; padding:0px; font-family:宋体">主页中，点击左侧的</span>系统管理—&gt;Configure&nbsp;Global&nbsp;Security进入如下界面：</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12163742-ba45c74546cb4c13a4c3c9e0c63d0609.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图11 安全设置界面</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">设置如上图，保存后系统管理中就出现管理用户的选项。页面右上角也会出现登录/<span style="margin:0px; padding:0px; font-family:宋体">注册</span>的选项。</p>
+<h3 style="margin:15px auto 2px; padding:0px; font-size:16px">3.1.4&nbsp;管理用户设置</h3>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">在右上角点击注册</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12163750-a102721d99c647939c917aded73a20e6.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图12 注册用户界面</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">点击<span style="margin:0px; padding:0px; font-family:'Times New Roman'">sign&nbsp;up</span><span style="margin:0px; padding:0px; font-family:宋体">按钮，提示</span>你现在已经登录<span style="margin:0px; padding:0px; font-family:'Times New Roman'">.</span><span style="margin:0px; padding:0px; font-family:宋体">返回首页</span>.</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">登录后和匿名账号看到的首页有几点不同，如下图红框所示：</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12163758-91c3d9bf8bc34fa891330af571575af9.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图13 用户登录界面</p>
+<h3 style="margin:15px auto 2px; padding:0px; font-size:16px">3.1.5&nbsp;管理插件设置</h3>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">建议先阅读<a target="_blank" href="http://www.cnblogs.com/zz0412/p/jenkins02.html#_Jenkins插件" style="margin:0px; padding:0px; color:rgb(0,105,214); font-weight:inherit; line-height:inherit">Jenkins<span style="margin:0px; padding:0px; font-family:宋体">插件</span></a>章节，在回来安装如下所示的插件。这个插件将生成的构件（<span style="margin:0px; padding:0px; font-family:'Times New Roman'">war</span><span style="margin:0px; padding:0px; font-family:宋体">或者</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">ear</span><span style="margin:0px; padding:0px; font-family:宋体">）部署到主流的服务器上。</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">插件名称：<a target="_blank" href="https://wiki.jenkins-ci.org/display/JENKINS/Deploy&#43;Plugin" style="margin:0px; padding:0px; color:rgb(0,105,214); font-weight:inherit; line-height:inherit">Deploy&nbsp;Plugin</a></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">插件介绍：This&nbsp;plugin&nbsp;takes&nbsp;a&nbsp;war/ear&nbsp;file&nbsp;and&nbsp;deploys&nbsp;that&nbsp;to&nbsp;a&nbsp;running&nbsp;remote&nbsp;application&nbsp;server&nbsp;at&nbsp;the&nbsp;end&nbsp;of&nbsp;a&nbsp;build</p>
+<h2 style="margin:15px auto 2px; padding:0px; font-size:20px">3.2&nbsp;项目构建设置</h2>
+<h3 style="margin:15px auto 2px; padding:0px; font-size:16px">3.2.1&nbsp;构建自由风&#26684;的Job</h3>
+<h4 style="margin:15px auto 2px; padding:0px; font-size:14px; color:rgb(51,51,51)">
+3.2.1.1&nbsp;新建自由风&#26684;构建任务</h4>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">在已运行的<span style="margin:0px; padding:0px; font-family:'Times New Roman'">Jenkins</span><span style="margin:0px; padding:0px; font-family:宋体">主页中，点击左侧的</span>新建Job进入如下界面：</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12163818-f9eb7b95424f4c3488bdcdf4bbedd295.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图14 新建Job<span style="margin:0px; padding:0px; font-family:宋体">界面</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">这时，需要为新的构建任务指定一个名称。（这里输入的任务名称为：<span style="margin:0px; padding:0px; font-family:'Times New Roman'">Ant_test</span><span style="margin:0px; padding:0px; font-family:宋体">）</span>这里有几种的任务类型可供选择，鉴于初步介绍，先选择构建一个自由风&#26684;的软件项目。对于其他的类型<span style="margin:0px; padding:0px; font-family:'Times New Roman'">,</span><span style="margin:0px; padding:0px; font-family:宋体">经常使用的</span>是拷贝已存在任务;<span style="margin:0px; padding:0px; font-family:宋体">这主要为了能在现有的</span>任务基础上新建任务。点击<span style="margin:0px; padding:0px; font-family:'Times New Roman'">OK</span><span style="margin:0px; padding:0px; font-family:宋体">按钮，</span></p>
+<h4 style="margin:15px auto 2px; padding:0px; font-size:14px; color:rgb(51,51,51)">
+3.2.1.2&nbsp;构建任务配置</h4>
+<h5 style="margin:15px auto 2px; padding:0px; font-size:13px; color:rgb(51,51,51)">
+3.2.1.2.1&nbsp;源码管理配置</h5>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">演示是使用Subversion<span style="margin:0px; padding:0px; font-family:宋体">的链接，在</span>Repository&nbsp;URL中输入你的项目链接，如果没有权限则会提示如下图：</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12163826-4f1fe568164b40219c07ed5a6ae8505a.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图15 Subversion<span style="margin:0px; padding:0px; font-family:宋体">配置界面</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">点击&nbsp;enter&nbsp;credential&nbsp;输入用户名和密码<span style="margin:0px; padding:0px; font-family:Verdana">(</span><span style="margin:0px; padding:0px; font-family:宋体">我猜大家一般都是使用的用户名和密码登陆的</span><span style="margin:0px; padding:0px; font-family:Verdana">)</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12163835-b50c4bc396634a07966cc24a5f4e2a45.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图16 Subversion<span style="margin:0px; padding:0px; font-family:宋体">权限认证界面</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">Ps<span style="margin:0px; padding:0px; font-family:宋体">：</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">svn</span><span style="margin:0px; padding:0px; font-family:宋体">的用户名和密码设置了是没有办法在</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">web</span><span style="margin:0px; padding:0px; font-family:宋体">界面修改的。如果要修改则先去</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">Jenkins</span><span style="margin:0px; padding:0px; font-family:宋体">目录删除</span>hudson.scm.SubversionSCM.xml文件（点到为止，毕竟这只是入门教程）</p>
+<h5 style="margin:15px auto 2px; padding:0px; font-size:13px; color:rgb(51,51,51)">
+3.2.1.2.2&nbsp;构建触发器</h5>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">在其他项目构建完成后才执行构建：指定的项目完成构建后，触发此项目的构建。</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">Poll&nbsp;SCM&nbsp;：这是<span style="margin:0px; padding:0px; font-family:'Times New Roman'">CI&nbsp;</span><span style="margin:0px; padding:0px; font-family:宋体">系统中常见的选项。当您选择此选项，您可以指定一个定时作业表达式来定义</span>Jenkins每隔多久检查一下您源代码仓库的变化。如果发现变化，就执行一次构建。例如，表达式中填写<span style="margin:0px; padding:0px; font-family:'Times New Roman'">0,15,30,45&nbsp;*&nbsp;*&nbsp;*&nbsp;*</span><span style="margin:0px; padding:0px; font-family:宋体">将使</span>Jenkins每隔<span style="margin:0px; padding:0px; font-family:'Times New Roman'">15</span><span style="margin:0px; padding:0px; font-family:宋体">分钟就检查一次您源码仓库的变化。</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">Build&nbsp;periodically&nbsp;：此选项仅仅通知Jenkins按指定的频率对项目进行构建，而不管<span style="margin:0px; padding:0px; font-family:'Times New Roman'">SCM</span><span style="margin:0px; padding:0px; font-family:宋体">是否有变化。</span>如果想在这个Job中运行一些测试用例的话，它就很有帮助。</p>
+<h5 style="margin:15px auto 2px; padding:0px; font-size:13px; color:rgb(51,51,51)">
+3.2.1.2.3&nbsp;Ant构建配置</h5>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">因为我的项目是用ant<span style="margin:0px; padding:0px; font-family:宋体">脚本实现的编译和打包，所以我选择的是</span>Invoke&nbsp;Ant，Ant&nbsp;Version选择你Ant配置的那个名字，注意不要选择default<span style="margin:0px; padding:0px; font-family:宋体">喔，那个选择了没有用。</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12163847-4c616ec6ffce407e931097a7cb40603c.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图17 Ant构建配置界面</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">如果你的构建脚本build.xml<span style="margin:0px; padding:0px; font-family:宋体">不在</span><span style="margin:0px; padding:0px; font-family:Verdana">workspace</span><span style="margin:0px; padding:0px; font-family:宋体">根目录、或者说你的构建脚本不叫</span><span style="margin:0px; padding:0px; font-family:Verdana">build.xml</span><span style="margin:0px; padding:0px; font-family:宋体">。那么需要在高级里设置</span>Build&nbsp;File选项的路径，指明你的脚本。注意：是相对路径</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">部署请参考：<a target="_blank" href="http://www.cnblogs.com/zz0412/p/jenkins02.html#_War文件部署" style="margin:0px; padding:0px; color:rgb(0,105,214); font-weight:inherit; line-height:inherit">war<span style="margin:0px; padding:0px; font-family:宋体">文件部署</span></a>章节</p>
+<h3 style="margin:15px auto 2px; padding:0px; font-size:16px">3.2.2&nbsp;构建Maven<span style="margin:0px; padding:0px; font-family:黑体">风&#26684;</span>的Job</h3>
+<h4 style="margin:15px auto 2px; padding:0px; font-size:14px; color:rgb(51,51,51)">
+3.2.2.1&nbsp;新建Maven构建任务</h4>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12163909-031bcf83052748d4a62819a57ac77c56.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图18 新建Job<span style="margin:0px; padding:0px; font-family:宋体">界面</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">这时，需要为新的构建任务指定一个名称。（这里输入的任务名称为：<span style="margin:0px; padding:0px; font-family:'Times New Roman'">maven_test</span><span style="margin:0px; padding:0px; font-family:宋体">）</span>这里有几种的任务类型可供选择，鉴于初步介绍，先选择构建一个maven2/3项目。对于其他的类型<span style="margin:0px; padding:0px; font-family:'Times New Roman'">,</span><span style="margin:0px; padding:0px; font-family:宋体">经常使用的</span>是拷贝已存在任务;<span style="margin:0px; padding:0px; font-family:宋体">这主要为了能在现有的</span>任务基础上新建任务。点击<span style="margin:0px; padding:0px; font-family:'Times New Roman'">OK</span><span style="margin:0px; padding:0px; font-family:宋体">按钮，</span></p>
+<h4 style="margin:15px auto 2px; padding:0px; font-size:14px; color:rgb(51,51,51)">
+3.2.2.2&nbsp;构建任务配置</h4>
+<p class="p24" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12165635-cbec95c5d893490fbaac7956b61b93ba.jpg" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图19 构建任务配置界面</p>
+<h5 style="margin:15px auto 2px; padding:0px; font-size:13px; color:rgb(51,51,51)">
+3.2.2.2.1&nbsp;源码管理配置</h5>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">演示是使用Subversion<span style="margin:0px; padding:0px; font-family:宋体">的链接，在</span>Repository&nbsp;URL中输入你的项目链接，如果没有权限则会提示如下图：</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12164029-496b7e009819406abee5659f8ccdf519.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图20 Subversion<span style="margin:0px; padding:0px; font-family:宋体">配置界面</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">点击&nbsp;enter&nbsp;credential&nbsp;输入用户名和密码<span style="margin:0px; padding:0px; font-family:Verdana">(</span><span style="margin:0px; padding:0px; font-family:宋体">我猜大家一般都是使用的用户名和密码登陆的</span><span style="margin:0px; padding:0px; font-family:Verdana">)</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12164011-cbfa315a53cd4139bbb2c68bbfb69a71.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图21 Subversion<span style="margin:0px; padding:0px; font-family:宋体">权限认证界面</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">Ps<span style="margin:0px; padding:0px; font-family:宋体">：</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">svn</span><span style="margin:0px; padding:0px; font-family:宋体">的用户名和密码设置了是没有办法在</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">web</span><span style="margin:0px; padding:0px; font-family:宋体">界面修改的。如果要修改则先去</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">Jenkins</span><span style="margin:0px; padding:0px; font-family:宋体">目录删除</span>hudson.scm.SubversionSCM.xml文件（点到为止，毕竟这只是入门教程）</p>
+<h5 style="margin:15px auto 2px; padding:0px; font-size:13px; color:rgb(51,51,51)">
+3.2.2.2.2&nbsp;构建触发器</h5>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">在其他项目构建完成后才执行构建：指定的项目完成构建后，触发此项目的构建。</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">Poll&nbsp;SCM&nbsp;：这是<span style="margin:0px; padding:0px; font-family:'Times New Roman'">CI&nbsp;</span><span style="margin:0px; padding:0px; font-family:宋体">系统中常见的选项。当您选择此选项，您可以指定一个定时作业表达式来定义</span>Jenkins每隔多久检查一下您源代码仓库的变化。如果发现变化，就执行一次构建。例如，表达式中填写<span style="margin:0px; padding:0px; font-family:'Times New Roman'">0,15,30,45&nbsp;*&nbsp;*&nbsp;*&nbsp;*</span><span style="margin:0px; padding:0px; font-family:宋体">将使</span>Jenkins每隔<span style="margin:0px; padding:0px; font-family:'Times New Roman'">15</span><span style="margin:0px; padding:0px; font-family:宋体">分钟就检查一次您源码仓库的变化。</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">Build&nbsp;periodically&nbsp;：此选项仅仅通知Jenkins按指定的频率对项目进行构建，而不管<span style="margin:0px; padding:0px; font-family:'Times New Roman'">SCM</span><span style="margin:0px; padding:0px; font-family:宋体">是否有变化。</span>如果想在这个Job中运行一些测试用例的话，它就很有帮助。</p>
+<h5 style="margin:15px auto 2px; padding:0px; font-size:13px; color:rgb(51,51,51)">
+3.2.2.2.3&nbsp;Maven<span style="margin:0px; padding:0px; font-family:黑体">构建设置</span></h5>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12163957-cde6343b740c4b289524380723856414.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图22 Maven构建配置界面</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px"><span style="margin:0px; padding:0px; color:rgb(255,0,0)">2013-08-22补充Goals and options ：</span>clean install &nbsp;-Dmaven.test.skip=true　　#加入了跳过测试的代码</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">Root&nbsp;POM:<span style="margin:0px; padding:0px; font-family:宋体">填写你项目的</span><span style="margin:0px; padding:0px; font-family:Verdana">pom.xml</span><span style="margin:0px; padding:0px; font-family:宋体">文件的位置，注意：是相对位置，如果该文件不存在，会有红色字提示。</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">部署请参考：<a target="_blank" href="http://www.cnblogs.com/zz0412/p/jenkins02.html#_War文件部署" style="margin:0px; padding:0px; color:rgb(0,105,214); font-weight:inherit; line-height:inherit">war<span style="margin:0px; padding:0px; font-family:宋体">文件部署</span></a>章节</p>
+<h5 style="margin:15px auto 2px; padding:0px; font-size:13px; color:rgb(51,51,51)">
+3.2.2.2.4&nbsp;构建<span style="margin:0px; padding:0px; font-family:'Times New Roman'">maven</span><span style="margin:0px; padding:0px; font-family:黑体">项目的心得</span></h5>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">使用<span style="margin:0px; padding:0px; font-family:Verdana">Jenkins</span><span style="margin:0px; padding:0px; font-family:宋体">构建</span><span style="margin:0px; padding:0px; font-family:Verdana">maven</span><span style="margin:0px; padding:0px; font-family:宋体">项目的一点小心得：</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">maven<span style="margin:0px; padding:0px; font-family:宋体">项目的构建是比较麻烦的，如果你的项目是下图这种结构。那么恭喜你！你新建一个</span><span style="margin:0px; padding:0px; font-family:Verdana">job</span><span style="margin:0px; padding:0px; font-family:宋体">就可以了，因为只有一个根。如果你的</span><span style="margin:0px; padding:0px; font-family:Verdana">svn</span><span style="margin:0px; padding:0px; font-family:宋体">地址是：</span>https://192.xxx/Pe_Project/root-pom，那么Root&nbsp;POM只需要保持默认就行了，因为Jenkins<span style="margin:0px; padding:0px; font-family:宋体">可以再</span><span style="margin:0px; padding:0px; font-family:Verdana">workspace</span><span style="margin:0px; padding:0px; font-family:宋体">目录下面找到</span><span style="margin:0px; padding:0px; font-family:Verdana">pom.xml</span><span style="margin:0px; padding:0px; font-family:宋体">文件</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">如果你的<span style="margin:0px; padding:0px; font-family:Verdana">svn</span><span style="margin:0px; padding:0px; font-family:宋体">地</span>址是：https://192.xxx/Pe_Project，那么Root&nbsp;POM需要指定为root-pom/pom.xml，因为Jenkins<span style="margin:0px; padding:0px; font-family:宋体">可以再</span><span style="margin:0px; padding:0px; font-family:Verdana">workspace/</span>root-pom目录下面找到<span style="margin:0px; padding:0px; font-family:Verdana">pom.xml</span><span style="margin:0px; padding:0px; font-family:宋体">文件</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12164156-18fd7b616c2345a08cc9143cec6958c1.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图23 Maven<span style="margin:0px; padding:0px; font-family:宋体">项目结构界面</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">1</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">上面这种方法打包的时候非常简单，但是用eclipse开发的时候你就不右键run&nbsp;as&nbsp;—&gt;tomca<span style="margin:0px; padding:0px; font-family:宋体">启动了，如果你想使用这种方式，将</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">tomcat</span><span style="margin:0px; padding:0px; font-family:宋体">换成</span>jetty即可。</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">如果你的项目是下图这种结构，那么非常悲剧的告诉你，你要建立好几个job<span style="margin:0px; padding:0px; font-family:宋体">来构建这一个项目，因为这个项目有</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">4</span><span style="margin:0px; padding:0px; font-family:宋体">个根。</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12164206-08ad4e4f258b4bba9c3cc6fe2efafce4.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图24 Maven<span style="margin:0px; padding:0px; font-family:宋体">项目结构界面</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">2</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">上面这种方法打包的时候比较麻烦，但是用eclipse开发的时候你就可以使用右键run&nbsp;as&nbsp;—&gt;tomca<span style="margin:0px; padding:0px; font-family:宋体">启动了</span></p>
+<p class="p24" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;</p>
+<h3 style="margin:15px auto 2px; padding:0px; font-size:16px">3.2.3&nbsp;邮件通知设置</h3>
+<p class="p24" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12164218-6157f509823e48ae94df91b553a652e3.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图25 构建后操作界面</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">选择Add&nbsp;post-build&nbsp;action，然后选择E-mail&nbsp;Notification，如下图：</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12164227-190eef801e194e43a594fbe56ae75206.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图26 收件人列表界面</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">在Recipients中输入收件人邮件地址，如果用多个收件人用“,<span style="margin:0px; padding:0px; font-family:宋体">”英文逗号隔开</span></p>
+<h3 style="margin:15px auto 2px; padding:0px; font-size:16px">3.2.4&nbsp;War<span style="margin:0px; padding:0px; font-family:黑体">文件部署设置</span></h3>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">首先你必须安装好<a target="_blank" href="https://wiki.jenkins-ci.org/display/JENKINS/Deploy&#43;Plugin" style="margin:0px; padding:0px; color:rgb(0,105,214); font-weight:inherit; line-height:inherit">Deploy&nbsp;Plugin</a>插件，然后在<span style="margin:0px; padding:0px; font-family:'Times New Roman'">tomcat</span><span style="margin:0px; padding:0px; font-family:宋体">的</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">conf</span><span style="margin:0px; padding:0px; font-family:宋体">目录配置</span>tomcat-users.xml文件，在&lt;tomcat-users&gt;节点里添加如下内容：</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&lt;role&nbsp;rolename=&quot;manager-gui&quot;/&gt;</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&lt;role&nbsp;rolename=&quot;manager-script&quot;/&gt;</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&lt;role&nbsp;rolename=&quot;manager-jmx&quot;/&gt;</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&lt;role&nbsp;rolename=&quot;manager-status&quot;/&gt;</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&lt;user&nbsp;username=&quot;username&quot;&nbsp;password=&quot;password&quot;&nbsp;roles=&quot;manager-gui,manager-script,manager-jmx,manager-status&quot;/&gt;</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">引号里的<span style="margin:0px; padding:0px; font-family:'Times New Roman'">u</span>sername和password可以随便替换，待会要用的。</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">好了，回到Jenkins<span style="margin:0px; padding:0px; font-family:宋体">项目配置页面：</span></p>
+<p class="p24" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12164238-4e1d0ffec2204cd881854d4a509e5616.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图27 构建后操作界面</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">选择Add&nbsp;post-build&nbsp;action，然后选择Deploy&nbsp;war/ear&nbsp;to&nbsp;a&nbsp;container，如下图：</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201309/04135510-5022a5dc080a4670bf6b9cf1ea9488f6.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图28 远程部署配置界面</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">WAR/EAR&nbsp;files：war文件的存放位置，如：target/test.war&nbsp;<span style="margin:0px; padding:0px; font-family:宋体">注意：相对路径，</span><span style="margin:0px; padding:0px; font-family:Verdana">target</span><span style="margin:0px; padding:0px; font-family:宋体">前是没有</span><span style="margin:0px; padding:0px; font-family:Verdana">/</span><span style="margin:0px; padding:0px; font-family:宋体">的。</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">Context&nbsp;path：访问时需要输入的内容，如ofCard访问时如下：http://192.168.x.x:8080/ofCard/如果为空，默认是war<span style="margin:0px; padding:0px; font-family:宋体">包的名字。</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">Container：选择你的web<span style="margin:0px; padding:0px; font-family:宋体">容器，如</span><span style="margin:0px; padding:0px; font-family:Verdana">tomca&nbsp;6.x</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">Manager&nbsp;user&nbsp;name：填入tomcat-users.xml配置的username内容</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">Manager&nbsp;password：填入tomcat-users.xml配置的password内容</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">Tomcat&nbsp;URL：填入http://192.168.x.x:8080/</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">Deploy&nbsp;on&nbsp;failure：构建失败依然部署，一般不选择</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">注意：虽然这种部署方法可能会导致tomcat<span style="margin:0px; padding:0px; font-family:宋体">加载时出现卡死的现象。但是也是最简单的部署方式。如果卡死了重启下就好了，将</span><span style="margin:0px; padding:0px; font-family:Verdana">tomcat</span><span style="margin:0px; padding:0px; font-family:宋体">的</span><span style="margin:0px; padding:0px; font-family:Verdana">java</span><span style="margin:0px; padding:0px; font-family:宋体">内存参数调高可以解决这个问题。</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">最后不要忘记点击保存喔。</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">好了！到此一个项目的获取源码，打包，远程部署，邮件通知就完成了。</p>
+<h2 style="margin:15px auto 2px; padding:0px; font-size:20px">3.3&nbsp;监控</h2>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">当任务一旦运行，您将会看到这个任务正在队列中的仪表板和当前工作主页上运行。这两种显示如下。</p>
+<p class="p24" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12164311-d3bba270cef244269a2fab18b74df034.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图29 主页监控（左），项目监控（右）</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">一旦构建完成后，完成后的任务将会有三个地方进行显示。</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">你可以在Jenkins的控制面板上看到它，如下图。</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12164320-7fa46061ee2147d3a66655ce878609ed.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图30 主页项目界面</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">在上面展示的截图中，您将注意到有两个图标描述当前作业的状态。S栏目代表着“最新构建状态”，W栏目代表着“构建稳定性”。Jenkins使用这两个概念来介绍一个作业的总体状况：</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">构建状态:下图中分级符号概述了一个Job新近一次构建会产生的四种可能的状态：&nbsp;</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">Successful:完成构建，且被认为是稳定的。</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">Unstable:完成构建，但被认为不稳定。</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">Failed:构建失败。</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">Disabled:构建已禁用。</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12164329-a5349dc8bbce4f3d8a280d3de7eed1c4.jpg" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图31 构建状态界面</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">构建稳定性:&nbsp;当一个Job中构建已完成并生成了一个未发布的目标构件，如果您准备评估此次构建的稳定性，Jenkins会基于一些后处理器任务为构建发布一个稳健指数&nbsp;(从0-100&nbsp;)，这些任务一般以插件的方式实现。它们可能包括单元测试(JUnit)、覆盖率(Cobertura&nbsp;)和静态代码分析(FindBugs)。分数越高，表明构建越稳定。下图中分级符号概述了稳定性的评分范围。任何构建作业的状态(总分100)低于80分就是不稳定的。</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12164338-0b8dc036c3ae4af28a3f1f90ae11ea54.jpg" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图32 构建稳定性界面</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">你也可以在当前Job主界面上看到它，如下图左下部分</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12164345-a1764b0dccbc4c4f82035c20bb2bd434.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图33 项目主界面</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">当前作业主页上还包含了一些有趣的条目。左侧栏的链接主要控制Job的配置、删除作业、构建作业。右边部分的链接指向最新的项目报告和构件。</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">通过点击构建历史（Build&nbsp;History）中某个具体的构建链接，您就能跳转到Jenkins为这个构建实例而创建的构建主页上。如下图</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12164355-b978d2980d68443b80b5d34c2d93852f.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图34 构建历史界面</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">如果你想通过视图输出界面来监控当前任务的进展情况。你可以单击Console&nbsp;Output（控制台输出）。如果工作已完成，这将显示构建脚本产生的静态输出；如果作业仍然在运行中，Jenkins将不断刷新网页的内容，以便您可以看到它运行时的输出。如下图：</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12164402-2637ee416604402bb12cad68cd2f4132.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图35 控制台输出界面</p>
+<h1 style="margin:0px; padding:0px; font-size:13px; font-weight:normal">4&nbsp;Jenkins插件</h1>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">从Jenkins现有的功能扩展或开发者们为Jenkins提供的新功能都可以称之为Jenkins插件。有些插件可以无缝添加到您的构建过程，而其它，诸如除CVS和Subversion的SCM插件则需要源代码控制系统的支持。</p>
+<h2 style="margin:15px auto 2px; padding:0px; font-size:20px">4.1&nbsp;Jenkins插件安装</h2>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">Jenkins&nbsp;插件管理器允许您安装新的插件，和更新您Jenkins服务器上的插件。管理者将连接到联机资料库，检索可用的和已更新的插件。如果您的Jenkins服务器&nbsp;无法直接连接到外部资源，您可以从Jenkins网站上下载。</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">在已运行的<span style="margin:0px; padding:0px; font-family:'Times New Roman'">Jenkins</span><span style="margin:0px; padding:0px; font-family:宋体">主页中，点击左侧的系统管理</span>—&gt;<span style="margin:0px; padding:0px; font-family:宋体">管理插件进入如下界面：</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12164415-4b9a8db126234cb691eda97abf16970e.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图36 插件管理界面</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">它包含四个标签：</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">更新:清单中列示了Jenkins为某些插件搜索到了可用的更新。列出的每个插件可以被选择并应用更新。</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">可选安装:清单中列示了可用于安装（而不是目前已安装的）的所有插件。列出的每个插件都可以被选择并安装。</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">已安装:清单中列示了已经安装的插件。</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">高级:允许您通过设定HTTP代理的方式使Jenkins与在线插件库建立连接。此外，还提供了一个上传设备，可以安装你在Jenkins以外已下载的那些插件。</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">由上图可知，<span style="margin:0px; padding:0px; font-family:'Times New Roman'">Jenkins</span><span style="margin:0px; padding:0px; font-family:宋体">缺省集成了</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">maven2</span><span style="margin:0px; padding:0px; font-family:宋体">插件，并且一旦插件有新版本，会提示更新新版本插件。</span></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">如果想安装新的插件，可以点击<span style="margin:0px; padding:0px; font-family:'Times New Roman'">tab</span><span style="margin:0px; padding:0px; font-family:宋体">分页中的</span>可选插件。如下图：</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12164427-7e9609b6158e48f9b7135a61117cd3cf.jpg" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图37 可选插件界面</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">从图可知，各种<span style="margin:0px; padding:0px; font-family:'Times New Roman'">Jenkins</span><span style="margin:0px; padding:0px; font-family:宋体">插件根据之前所记述的类型进行分门别类。可勾选任意想安装的</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">Jenkins</span><span style="margin:0px; padding:0px; font-family:宋体">插件，点击</span>Install&nbsp;without&nbsp;restart按钮进行安装。安装后，所有插件以<span style="margin:0px; padding:0px; font-family:'Times New Roman'">hpi</span><span style="margin:0px; padding:0px; font-family:宋体">作为后缀名放置在</span>plugins文件夹下。如果是高级用户还可以自行开发插件方便具体项目使用。</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">注意：安装完成后需要重启<span style="margin:0px; padding:0px; font-family:'Times New Roman'">Jenkins</span><span style="margin:0px; padding:0px; font-family:宋体">部署的容器。这样才能使用新装的插件。</span></p>
+<h2 style="margin:15px auto 2px; padding:0px; font-size:20px">4.2&nbsp;Jenkins插件安装示例</h2>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">Jenkins<span style="margin:0px; padding:0px; font-family:宋体">运行自动部署</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">war</span><span style="margin:0px; padding:0px; font-family:宋体">包到</span><span style="margin:0px; padding:0px; font-family:'Times New Roman'">servlet</span><span style="margin:0px; padding:0px; font-family:宋体">容器内，要实现这个功能必须</span>安装一个插件。</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12164434-a7aae58656094811847ffef3c49a703b.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图38 安装插件界面</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">&nbsp;<img src="http://images.cnitblog.com/blog/529896/201308/12164440-f417735d752a4fba80f009ef5bafc057.png" alt="" style="margin:0px; padding:0px; border:0px"></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">图39 插件安装界面</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">好了，到此<a target="_blank" href="https://wiki.jenkins-ci.org/display/JENKINS/Deploy&#43;Plugin" style="margin:0px; padding:0px; color:rgb(0,105,214); font-weight:inherit; line-height:inherit">Deploy&nbsp;Plugin</a>插件安装完成！</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">最后，如果感觉我太啰嗦了去看这篇吧：</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px"><a target="_blank" href="http://www.cnblogs.com/gao241/archive/2013/04/08/3008380.html" style="margin:0px; padding:0px; color:rgb(0,105,214); font-weight:inherit; line-height:inherit">http://www.cnblogs.com/gao241/archive/2013/04/08/3008380.html</a></p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px"><br>
+</p>
+<p class="p0" style="margin:10px auto; padding-top:0px; padding-bottom:0px">转：http://www.cnblogs.com/zz0412/p/jenkins02.html&nbsp;<a target="_blank" href="http://www.cnblogs.com/zz0412/p/jenkins02.html">点击打开链接</a></p>
+</div>
+   
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+
+
+
+<div class="bdsharebuttonbox tracking-ad" style="float: right;" data-mod="popu_172">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+   
+
+<!--172.16.140.11-->
+
+<!-- Baidu Button BEGIN -->
+<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=1536434" ></script>
+<script type="text/javascript" id="bdshell_js"></script>
+<script type="text/javascript">
+    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+</script>
+<!-- Baidu Button END -->
+
+
+
+ 
+
+
+        <div id="digg" ArticleId="22925127" >
+            <dl id="btnDigg" class="digg digg_disable"  onclick="btndigga();">
+               
+                 <dt>顶</dt>
+                <dd>33</dd>
+            </dl>
+           
+              
+            <dl id="btnBury" class="digg digg_disable"  onclick="btnburya();">
+              
+                  <dt>踩</dt>
+                <dd>2</dd>               
+            </dl>
+            
+        </div>
+     <div class="tracking-ad" data-mod="popu_222"><a href="javascript:void(0);" >&nbsp;</a>   </div>
+    <div class="tracking-ad" data-mod="popu_223"> <a href="javascript:void(0);" >&nbsp;</a></div>
+    <script type="text/javascript">
+                function btndigga() {
+                    $(".tracking-ad[data-mod='popu_222'] a").click();
+                }
+                function btnburya() {
+                    $(".tracking-ad[data-mod='popu_223'] a").click();
+                }
+            </script>
+
+   <ul class="article_next_prev">
+                <li class="prev_article"><span  onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian']);location.href='http://blog.csdn.net/wangmuming/article/details/22924815';">上一篇</span><a href="http://blog.csdn.net/wangmuming/article/details/22924815" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian'])">Jenkins入门系列之——01第一章 Jenkins是什么？</a></li>
+                <li class="next_article"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian']);location.href='http://blog.csdn.net/wangmuming/article/details/22925357';">下一篇</span><a href="http://blog.csdn.net/wangmuming/article/details/22925357" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian'])">Jenkins进阶系列之——01使用email-ext替换Jenkins的默认邮件通知</a></li>
+    </ul>
+
+    <div style="clear:both; height:10px;"></div>
+
+
+            <div class="similar_article"   >
+                    <h4></h4>
+                    <div class="similar_c"style="margin:20px 0px 0px 0px">
+                        <div class="similar_c_t">
+                          &nbsp;&nbsp;相关文章推荐
+                        </div>
+                   
+                        <div class="similar_wrap tracking-ad" data-mod="popu_36" >                       
+                            <ul class="similar_list fl">    
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/hunterno4/article/details/11687269" title="SonarQube代码质量管理平台安装与使用" strategy="BlogCommendFromBaidu" target="_blank">SonarQube代码质量管理平台安装与使用</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/rain_butterfly/article/details/42170601" title="Android 代码检查工具SonarQube" strategy="BlogCommendFromBaidu" target="_blank">Android 代码检查工具SonarQube</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/l2show/article/details/55001156" title="配置SonarQube,Jenkins集成扫描Android项目" strategy="BlogCommendFromBaidu" target="_blank">配置SonarQube,Jenkins集成扫描Android项目</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/wuxuehong0306/article/details/50847893" title="静态代码扫描平台SonarQube简介" strategy="BlogCommendFromBaidu" target="_blank">静态代码扫描平台SonarQube简介</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/maylorChao/article/details/45648045" title="Sonarqube 在mac下的安装" strategy="BlogCommendFromBaidu" target="_blank">Sonarqube 在mac下的安装</a>
+                                   </li>
+                            </ul>
+                              <ul class="similar_list fr">      
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/hunterno4/article/details/38688425" title="SonarQube升级" strategy="BlogCommendFromBaidu" target="_blank">SonarQube升级</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/hunterno4/article/details/12876271" title="SonarQube中监测循环、包耦合度情况" strategy="BlogCommendFromBaidu" target="_blank">SonarQube中监测循环、包耦合度情况</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/wwww_com/article/details/53410169" title="搭建Sonarqube" strategy="BlogCommendFromBaidu" target="_blank">搭建Sonarqube</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/lbx876/article/details/42964523" title="sonarqube应用" strategy="BlogCommendFromBaidu" target="_blank">sonarqube应用</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/achuo/article/details/51086599" title="搭建jenkins实现自动化部署" strategy="BlogCommendFromBaidu" target="_blank">搭建jenkins实现自动化部署</a>
+                                   </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>   
+      
+</div>
+
+    <div>
+        
+
+        <script type="text/javascript">
+            /*博客内容页下方Banner1-728*90，创建于2016-12-13*/
+            var cpro_id = "u2843949";
+        </script>
+        <script type="text/javascript" src="http://cpro.baidustatic.com/cpro/ui/c.js"></script>
+
+     </div>
+
+<div id="suggest"></div>
+         <script  language="javascript" type='text/javascript'>     
+             $(function(){
+                 $.get("/wangmuming/svc/GetSuggestContent/22925127",function(data){
+                     $("#suggest").html(data);
+                 });     
+             });             
+         </script>  
+
+        <dl class="blog-ass-articl tracking-ad" id="res-relatived" data-mod="popu_84"  > 
+             <dt><span>猜你在找</span></dt>    
+           
+    
+           
+
+             
+
+                            <img src="http://static.blog.csdn.net/images/700x160.jpg"  style="width:700px;height:160px;" />
+              
+                 
+        </dl>
+
+
+
+
+            
+                                    
+            
+                                    
+
+        <!-- 广告位开始 -->
+        <!-- 广告位结束 -->
+
+
+<div class="comment_class">
+    <div id="comment_title" class="panel_head">
+        <span class="see_comment">查看评论</span><a name="comments"></a></div>
+    <div id="comment_list">
+    </div>
+    <div id="comment_bar">
+    </div>
+    <div id="comment_form">
+    </div>
+    <div class="announce">
+        * 以上用户言论只代表其个人观点，不代表CSDN网站的观点或立场<a name="reply"></a><a name="quote"></a></div>
+</div>
+
+<script type="text/javascript">
+    var fileName = '22925127';
+    var commentscount = 21;
+    var islock = false
+</script>
+
+    <div id="ad_bot">
+    </div>
+<div id="report_dialog">
+</div>
+
+<div id="d-top"  style="bottom:60px;">
+
+        <a id="quick-reply" class="btn btn-top q-reply" title="快速回复" style="display:none;">
+            <img src="http://static.blog.csdn.net/images/blog-icon-reply.png" alt="快速回复">
+        </a>    
+    <a id="d-top-a" class="btn btn-top backtop"  style="display: none;" title="返回顶部" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_huidaodingbu'])" style="">         
+         <img src="http://static.blog.csdn.net/images/top.png" alt="TOP">
+    </a>
+</div>
+<script type="text/javascript">
+    $(function ()
+    {
+        $("#ad_frm_0").height("90px");
+        
+        setTimeout(function(){
+            $("#ad_frm_2").height("200px");
+        },1000);    
+    });
+  
+</script>
+<style type="text/css">
+    .tag_list
+    {
+        background: none repeat scroll 0 0 #FFFFFF;
+        border: 1px solid #D7CBC1;
+        color: #000000;
+        font-size: 12px;
+        line-height: 20px;
+        list-style: none outside none;
+        margin: 10px 2% 0 1%;
+        padding: 1px;
+    }
+    .tag_list h5
+    {
+        background: none repeat scroll 0 0 #E0DBD3;
+        color: #47381C;
+        font-size: 12px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 5px;
+        margin: 0;
+    }
+    .tag_list h5 a
+    {
+        color: #47381C;
+    }
+    .classify
+    {
+        margin: 10px 0;
+        padding: 4px 12px 8px;
+    }
+    .classify a
+    {
+        margin-right: 20px;
+        white-space: nowrap;
+    }
+</style>
+
+
+
+
+
+<div id="pop_win" style="display:none ;position: absolute; z-index: 10000; border: 1px solid rgb(220, 220, 220); top: 222.5px; left: 630px; opacity: 1; background: none 0px 0px repeat scroll rgb(255, 255, 255);">
+    
+</div>
+<div id="popup_mask"></div>
+<style>
+    #popup_mask
+    {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: 9999;
+        left: 0px;
+        top: 0px;
+        opacity: 0.3;
+        filter: alpha(opacity=30);
+        display: none;
+    }
+
+</style>
+
+
+
+
+<script type="text/javascript">
+    $(function(){        
+        
+        setTimeout(function(){
+            $(".comment_body:contains('回复')").each(function(index,item){
+                var u=$(this).text().split('：')[0].toString().replace("回复","")
+                var thisComment=$(this);
+                if(u)
+                {
+                    $.getJSON("https://passport.csdn.net/get/nick?callback=?", {users: u}, function(a) {
+                        if(a!=null&&a.data!=null&&a.data.length>0)
+                        {
+                            nick=a.data[0].n; 
+                            if(u!=nick)
+                            {
+                                thisComment.text(thisComment.text().replace(u,nick));  
+                            }
+                        }       
+                    });  
+                }
+            });         
+
+        },200);  
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },5000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },10000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },15000);
+        
+        setTimeout(function(){
+            $("a img[src='http://js.tongji.linezing.com/stats.gif']").parent().css({"position":"absolute","left":"50%"});
+        },300);
+    });
+
+    function loginbox(){
+        var $logpop=$("#pop_win");
+        $logpop.html('<iframe src="https://passport.csdn.net/account/loginbox?service=http://static.blog.csdn.net/callback.htm" frameborder="0" height="600" width="400" scrolling="no"></iframe>');
+
+        $('#popup_mask').css({
+            opacity: 0.5,
+            width: $( document ).width() + 'px',
+            height:  $( document ).height() + 'px'
+        });
+        $('#popup_mask').css("display","block");
+ 
+        $logpop.css( {
+            top: ($( window ).height() - $logpop.height())/ 2  + $( window 
+       ).scrollTop() + 'px',
+            left:($( window ).width() - $logpop.width())/ 2
+        } );
+ 
+        setTimeout( function () {
+            $logpop.show();
+            $logpop.css( {
+                opacity: 1
+            } );
+        }, 200 );
+ 
+        $('#popup_mask').unbind("click");
+        $('#popup_mask').bind("click", function(){
+            $('#popup_mask').hide();
+            var $clopop = $("#pop_win");
+            $("#common_ask_div_sc").css("display","none");
+            $clopop.css( {
+                opacity: 0
+            } );
+            setTimeout( function () {
+                $clopop.hide();
+            }, 350 );
+            return false;
+        });
+    }   
+
+    var articletitle='Jenkins入门系列之——02第二章 Jenkins安装与配置';
+
+</script>
+
+
+
+
+
+
+
+
+
+
+                        <div class="clear">
+                        </div>
+                    </div>                   
+                
+            </div>
+                   
+           <div id="side">
+               
+    <div class="side">
+<div id="panel_Profile" class="panel">
+<ul class="panel_head"><span>个人资料</span></ul>
+<ul class="panel_body profile">
+<div id="blog_userface">
+    <a href="http://my.csdn.net/wangmuming" target="_blank">
+    <img src="http://avatar.csdn.net/C/1/1/1_wangmuming.jpg" title="访问我的空间" style="max-width:90%"/>
+    </a>
+    <br />
+    <span><a href="http://my.csdn.net/wangmuming" class="user_name" target="_blank">wangmuming</a></span>
+</div>
+<div class="interact">
+
+    <a href="javascript:void(0);" class="attent" id="span_add_follow" title="[加关注]"></a>
+
+ <a href="javascript:void(0);" class="letter"  title="[发私信]" onclick="window.open('http://msg.csdn.net/letters/model?receiver=wangmuming','_blank','height=350,width=700');_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_sixin'])"></a>  
+</div>
+<div id="blog_medal">
+                         <div class="ico_expert" title="CSDN博客准专家"  onclick="javascript:location='http://blog.csdn.net/experts/rule.html'" style=" cursor:pointer;width:54px;height:60px;background:url('http://c.csdnimg.cn/jifen/images/xunzhang/xunzhang/bokezhunzhuanjiamiddle.png') no-repeat" ></div>
+                <div id="bms_box">
+                                            <a  target="_blank">
+                                                    <img src="http://c.csdnimg.cn/jifen/images/xunzhang/xunzhang/zhuanlandaren.png" onmouseover="m_over_m(this,2)" onmouseout="m_out_m()" alt="3" >
+                                            </a>
+                                            <a  target="_blank">
+                                                    <img src="http://c.csdnimg.cn/jifen/images/xunzhang/xunzhang/chizhiyiheng.png" onmouseover="m_over_m(this,4)" onmouseout="m_out_m()" alt="2" >
+                                            </a>
+               </div>
+</div>
+<ul id="blog_rank">
+    <li>访问：<span>1364775次</span></li>
+    <li>积分：<span>8521</span> </li>    
+    <li >等级： <span style="position:relative;display:inline-block;z-index:1" >
+            <img src="http://c.csdnimg.cn/jifen/images/xunzhang/jianzhang/blog6.png" alt="" style="vertical-align: middle;" id="leveImg">
+            <div id="smallTittle" style=" position: absolute;  left: -24px;  top: 25px;  text-align: center;  width: 101px;  height: 32px;  background-color: #fff;  line-height: 32px;  border: 2px #DDDDDD solid;  box-shadow: 0px 2px 2px rgba (0,0,0,0.1);  display: none;   z-index: 999;">
+            <div style="left: 42%;  top: -8px;  position: absolute;  width: 0;  height: 0;  border-left: 10px solid transparent;  border-right: 10px solid transparent;  border-bottom: 8px solid #EAEAEA;"></div>
+            积分：8521 </div>
+        </span>  </li>
+    <li>排名：<span>第2113名</span></li>
+</ul>
+<ul id="blog_statistics">
+    <li>原创：<span>95篇</span></li>
+    <li>转载：<span>62篇</span></li>
+    <li>译文：<span>9篇</span></li>
+    <li>评论：<span>130条</span></li>
+</ul>
+</ul>
+</div>
+
+
+<div class="panel" id="panel_Search">
+    <ul class="panel_head"><span>文章搜索</span></ul>
+    <ul class="panel_body" class="form_search">
+        <form id="frmSearch" action="http://so.csdn.net/search" class="form_search csdn-tracking-statistics" target="_blank"  data-mod="popu_306">
+        <span><input id="inputSearch" type="text" class="blogsearch" title="请输入关键字" /></span>
+        <input id="btnSubmit" type="button" value="搜索" title="search in blog" />
+        <input type="hidden" name="q" id="inputQ" />
+        <input type="hidden" name="t" value="blog" />
+        <a id="btnSearchBlog" target="_blank"></a>
+        </form>
+    </ul>
+</div>
+
+<script type="text/javascript">
+
+   
+    $(function () {
+        $("#btnSubmit").unbind("click");
+        $("#btnSubmit").click(function () {           
+            search();
+        });
+
+        $("#frmSearch").submit(function () {           
+            search();
+            return false;
+        });
+
+        function search()
+        {
+            if ($("#inputSearch").val() == "") {               
+                alert("请录入搜索关键词！");                         
+                return false;
+            }
+            //var url = "http://so.csdn.net/so/search/s.do?q=" + encodeURIComponent($("#inputSearch").val()) + "&u=" + username + "&t=blog";           
+            var url = "https://www.baidu.com/s?wd=" + encodeURIComponent($("#inputSearch").val()) + "%20site%3Ablog.csdn.net"
+            window.location.href = url;
+        }   
+    });
+</script><div id="panel_Category" class="panel">
+    <ul class="panel_head"><span>博客专栏</span></ul>
+    <ul class="panel_body" id="sp_column">
+    <table cellpadding="0" cellspacing="0"><tr>
+    <td style="padding:10px 10px 0 0;">
+    <a href="http://blog.csdn.net/column/details/15695.html" target="_blank"><img src="http://img.blog.csdn.net/20170521224904066" style="width:75px;height:75px;" /></a>
+    </td>
+    <td style="padding:10px 0; vertical-align:top;">
+    <a href="http://blog.csdn.net/column/details/15695.html" target="_blank">Java 8 Tutorials（新特性）</a>
+    <p>文章：8篇</p>
+    <span>阅读：3963</span>
+    </td>
+    </tr></table>
+    <table cellpadding="0" cellspacing="0"><tr>
+    <td style="padding:10px 10px 0 0;">
+    <a href="http://blog.csdn.net/column/details/13576.html" target="_blank"><img src="http://img.blog.csdn.net/20161117100222665" style="width:75px;height:75px;" /></a>
+    </td>
+    <td style="padding:10px 0; vertical-align:top;">
+    <a href="http://blog.csdn.net/column/details/13576.html" target="_blank">Ganymed SSH-2 for Java</a>
+    <p>文章：14篇</p>
+    <span>阅读：36246</span>
+    </td>
+    </tr></table>
+    <table cellpadding="0" cellspacing="0"><tr>
+    <td style="padding:10px 10px 0 0;">
+    <a href="http://blog.csdn.net/column/details/13532.html" target="_blank"><img src="http://img.blog.csdn.net/20161115110728751" style="width:75px;height:75px;" /></a>
+    </td>
+    <td style="padding:10px 0; vertical-align:top;">
+    <a href="http://blog.csdn.net/column/details/13532.html" target="_blank">redis数据结构和场景设计</a>
+    <p>文章：8篇</p>
+    <span>阅读：4581</span>
+    </td>
+    </tr></table>
+    </ul>
+</div><div id="panel_Category" class="panel">
+<ul class="panel_head"><span>文章分类</span></ul>
+<ul class="panel_body">    
+                 <li>
+                    <a href="/wangmuming/article/category/1910851" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">JAVA</a><span>(42)</span>
+                </li>
+                 <li>
+                    <a href="/wangmuming/article/category/1910853" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Zookeeper</a><span>(4)</span>
+                </li>
+                 <li>
+                    <a href="/wangmuming/article/category/1910855" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">hadoop</a><span>(10)</span>
+                </li>
+                 <li>
+                    <a href="/wangmuming/article/category/1910857" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">log4j</a><span>(0)</span>
+                </li>
+                 <li>
+                    <a href="/wangmuming/article/category/1910859" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">jbpm5</a><span>(0)</span>
+                </li>
+                 <li>
+                    <a href="/wangmuming/article/category/1910877" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">linux</a><span>(18)</span>
+                </li>
+                 <li>
+                    <a href="/wangmuming/article/category/1910879" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">shell</a><span>(16)</span>
+                </li>
+                 <li>
+                    <a href="/wangmuming/article/category/1910883" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">个人日志</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/wangmuming/article/category/1924209" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">java并发编程</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/wangmuming/article/category/1924247" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">SSH2</a><span>(14)</span>
+                </li>
+                 <li>
+                    <a href="/wangmuming/article/category/1998783" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">oracle</a><span>(4)</span>
+                </li>
+                 <li>
+                    <a href="/wangmuming/article/category/2143117" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">weblogic</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/wangmuming/article/category/2167947" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">jenkins</a><span>(21)</span>
+                </li>
+                 <li>
+                    <a href="/wangmuming/article/category/2167949" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">sonar</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/wangmuming/article/category/2167951" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">CI（持续集成）</a><span>(3)</span>
+                </li>
+                 <li>
+                    <a href="/wangmuming/article/category/2201951" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Hbase</a><span>(3)</span>
+                </li>
+                 <li>
+                    <a href="/wangmuming/article/category/2201953" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Hive</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/wangmuming/article/category/2201957" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">big data综合知识</a><span>(4)</span>
+                </li>
+                 <li>
+                    <a href="/wangmuming/article/category/2249463" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">sqoop</a><span>(4)</span>
+                </li>
+                 <li>
+                    <a href="/wangmuming/article/category/2313497" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">scala</a><span>(10)</span>
+                </li>
+                 <li>
+                    <a href="/wangmuming/article/category/2347887" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">mysql</a><span>(8)</span>
+                </li>
+                 <li>
+                    <a href="/wangmuming/article/category/2390205" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">spark</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/wangmuming/article/category/2438899" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">thrift</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/wangmuming/article/category/2462643" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">tools使用</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/wangmuming/article/category/5633435" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">SVN</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/wangmuming/article/category/5648839" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">IT新闻</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/wangmuming/article/category/5653389" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Maven</a><span>(17)</span>
+                </li>
+                 <li>
+                    <a href="/wangmuming/article/category/6456961" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">NoSQL</a><span>(9)</span>
+                </li>
+</ul>
+</div><div id="panel_Archive" class="panel">
+<ul class="panel_head"><span>文章存档</span></ul>
+<ul class="panel_body">
+<div id="archive_list">
+<!--归档统计-->
+<li><a href="/wangmuming/article/month/2017/06">2017年06月</a><span>(1)</span></li><li><a href="/wangmuming/article/month/2017/05">2017年05月</a><span>(8)</span></li><li><a href="/wangmuming/article/month/2017/03">2017年03月</a><span>(1)</span></li><li><a href="/wangmuming/article/month/2016/11">2016年11月</a><span>(9)</span></li><li><a href="/wangmuming/article/month/2016/10">2016年10月</a><span>(1)</span></li><li><a href="/wangmuming/article/month/2016/08">2016年08月</a><span>(1)</span></li><li><a href="/wangmuming/article/month/2016/04">2016年04月</a><span>(1)</span></li><li><a href="/wangmuming/article/month/2015/07">2015年07月</a><span>(22)</span></li><li><a href="/wangmuming/article/month/2015/05">2015年05月</a><span>(1)</span></li><li><a href="/wangmuming/article/month/2015/03">2015年03月</a><span>(2)</span></li><li><a href="/wangmuming/article/month/2015/02">2015年02月</a><span>(2)</span></li><li><a href="/wangmuming/article/month/2015/01">2015年01月</a><span>(2)</span></li><li><a href="/wangmuming/article/month/2014/12">2014年12月</a><span>(1)</span></li><li><a href="/wangmuming/article/month/2014/11">2014年11月</a><span>(4)</span></li><li><a href="/wangmuming/article/month/2014/09">2014年09月</a><span>(2)</span></li><li><a href="/wangmuming/article/month/2014/08">2014年08月</a><span>(3)</span></li><li><a href="/wangmuming/article/month/2014/07">2014年07月</a><span>(15)</span></li><li><a href="/wangmuming/article/month/2014/06">2014年06月</a><span>(14)</span></li><li><a href="/wangmuming/article/month/2014/05">2014年05月</a><span>(14)</span></li><li><a href="/wangmuming/article/month/2014/04">2014年04月</a><span>(34)</span></li><li><a href="/wangmuming/article/month/2014/03">2014年03月</a><span>(13)</span></li><li><a href="/wangmuming/article/month/2014/02">2014年02月</a><span>(15)</span></li>
+</div>
+</ul>
+</div>
+<div id="hotarticls" class="panel tracking-ad" data-mod="popu_340">
+<ul class="panel_head">
+    <span>       
+阅读排行    </span>
+</ul>
+
+<ul class="panel_body itemlist">
+<li>
+<a href="/wangmuming/article/details/22925127" title="Jenkins入门系列之——02第二章 Jenkins安装与配置">Jenkins入门系列之——02第二章 Jenkins安装与配置</a><span>(237500)</span>
+</li>
+<li>
+<a href="/wangmuming/article/details/22926025" title="Jenkins进阶系列之——14配置Jenkins用户和权限">Jenkins进阶系列之——14配置Jenkins用户和权限</a><span>(76688)</span>
+</li>
+<li>
+<a href="/wangmuming/article/details/22924815" title="Jenkins入门系列之——01第一章 Jenkins是什么？">Jenkins入门系列之——01第一章 Jenkins是什么？</a><span>(64066)</span>
+</li>
+<li>
+<a href="/wangmuming/article/details/34079119" title="scala 入门Eclipse环境搭建及第一个入门经典程序HelloWorld">scala 入门Eclipse环境搭建及第一个入门经典程序HelloWorld</a><span>(52539)</span>
+</li>
+<li>
+<a href="/wangmuming/article/details/23455947" title="Jacoco覆盖率工具使用">Jacoco覆盖率工具使用</a><span>(46800)</span>
+</li>
+<li>
+<a href="/wangmuming/article/details/22925961" title="Jenkins进阶系列之——12详解Jenkins节点配置">Jenkins进阶系列之——12详解Jenkins节点配置</a><span>(40260)</span>
+</li>
+<li>
+<a href="/wangmuming/article/details/22925895" title="Jenkins进阶系列之——10Publish Over SSH插件">Jenkins进阶系列之——10Publish Over SSH插件</a><span>(35450)</span>
+</li>
+<li>
+<a href="/wangmuming/article/details/22925357" title="Jenkins进阶系列之——01使用email-ext替换Jenkins的默认邮件通知">Jenkins进阶系列之——01使用email-ext替换Jenkins的默认邮件通知</a><span>(33594)</span>
+</li>
+<li>
+<a href="/wangmuming/article/details/22925931" title="Jenkins进阶系列之——11修改Jenkins用户的密码">Jenkins进阶系列之——11修改Jenkins用户的密码</a><span>(33308)</span>
+</li>
+<li>
+<a href="/wangmuming/article/details/25303831" title="Sqoop-1.4.4工具import和export使用详解">Sqoop-1.4.4工具import和export使用详解</a><span>(25381)</span>
+</li>
+</ul>
+</div>
+<div id="hotarticls2" class="panel tracking-ad" data-mod="popu_341">
+<ul class="panel_head"><span>评论排行</span></ul>
+<ul class="panel_body itemlist">
+<li>
+<a href="/wangmuming/article/details/22925127" title="Jenkins入门系列之——02第二章 Jenkins安装与配置">Jenkins入门系列之——02第二章 Jenkins安装与配置</a><span>(21)</span>
+</li>
+<li>
+<a href="/wangmuming/article/details/23455947" title="Jacoco覆盖率工具使用">Jacoco覆盖率工具使用</a><span>(14)</span>
+</li>
+<li>
+<a href="/wangmuming/article/details/43195341" title="使用svnsync实时备份SVN版本库">使用svnsync实时备份SVN版本库</a><span>(11)</span>
+</li>
+<li>
+<a href="/wangmuming/article/details/46803727" title="Linux SVN服务器做定时增量备份脚本">Linux SVN服务器做定时增量备份脚本</a><span>(10)</span>
+</li>
+<li>
+<a href="/wangmuming/article/details/26616959" title="hadoop-2.4.0.tar.gz linux64位环境下编译完成的安装包分享">hadoop-2.4.0.tar.gz linux64位环境下编译完成的安装包分享</a><span>(8)</span>
+</li>
+<li>
+<a href="/wangmuming/article/details/22924815" title="Jenkins入门系列之——01第一章 Jenkins是什么？">Jenkins入门系列之——01第一章 Jenkins是什么？</a><span>(5)</span>
+</li>
+<li>
+<a href="/wangmuming/article/details/28868833" title="Jacoco覆盖率工具使用之maven篇">Jacoco覆盖率工具使用之maven篇</a><span>(4)</span>
+</li>
+<li>
+<a href="/wangmuming/article/details/22925961" title="Jenkins进阶系列之——12详解Jenkins节点配置">Jenkins进阶系列之——12详解Jenkins节点配置</a><span>(3)</span>
+</li>
+<li>
+<a href="/wangmuming/article/details/23954527" title="hive与hbase的联系与区别">hive与hbase的联系与区别</a><span>(3)</span>
+</li>
+<li>
+<a href="/wangmuming/article/details/19832865" title="java并行执行多个任务">java并行执行多个任务</a><span>(3)</span>
+</li>
+</ul>
+</div>
+<div id="homepageArticles" class="panel tracking-ad" data-mod="popu_4">
+<ul class="panel_head"><span>推荐文章</span></ul>
+<ul class="panel_body" id="ad_commend">
+<ul>
+<li><a href="http://blog.csdn.net/blogdevteam/article/details/76092129" target="_blank">* CSDN日报20170725——《新的开始，从研究生到入职亚马逊》</a></li>
+<li><a href="http://blog.csdn.net/javazejian/article/details/75043422" 
+target="_blank">* 深入剖析基于并发AQS的重入锁(ReetrantLock)及其Condition实现原理</a></li>
+<li><a href="http://blog.csdn.net/jiangwei0910410003/article/details/75512732"target="_blank">* Android版本的"Wannacry"文件加密病毒样本分析(附带锁机)</a></li>
+<li><a href="http://blog.csdn.net/mindfloating/article/details/75948781" 
+target="_blank">* 工作与生活真的可以平衡吗？</a></li>
+<li><a href="http://blog.csdn.net/poem_qianmo/article/details/75943714" 
+target="_blank">* 《Real-Time Rendering 3rd》 提炼总结——高级着色：BRDF及相关技术</a></li>
+<li><a href="http://blog.csdn.net/dog250/article/details/75735806" 
+target="_blank">* 《三体》读后思考-泰勒展开/维度打击/黑暗森林</a></li>
+
+</ul></ul>
+</div>
+
+
+<div id="newcomments" class="panel">
+<ul class="panel_head"><span>最新评论</span></ul>
+<ul class="panel_body itemlist">
+    <li>
+   
+         <a href="/wangmuming/article/details/22925357#comments">Jenkins进阶系列之——01使用email-ext替换Jenkins的默认邮件通知</a>
+    <p style="margin:0px;"><a href="/qq_38280237" class="user_name">qq_38280237</a>:
+请问楼主 如何找回jenkins的用户名跟密码
+    </p>
+    </li>
+    <li>
+   
+         <a href="/wangmuming/article/details/22925127#comments">Jenkins入门系列之——02第二章 Jenkins安装与配置</a>
+    <p style="margin:0px;"><a href="/u013047584" class="user_name">u013047584</a>:
+NB!
+    </p>
+    </li>
+    <li>
+   
+         <a href="/wangmuming/article/details/22925931#comments">Jenkins进阶系列之——11修改Jenkins用户的密码</a>
+    <p style="margin:0px;"><a href="/u013047584" class="user_name">u013047584</a>:
+这里有个加密算法。
+    </p>
+    </li>
+    <li>
+   
+         <a href="/wangmuming/article/details/22925931#comments">Jenkins进阶系列之——11修改Jenkins用户的密码</a>
+    <p style="margin:0px;"><a href="/u013047584" class="user_name">u013047584</a>:
+楼主的这个系列，写的不错。
+    </p>
+    </li>
+    <li>
+   
+         <a href="/wangmuming/article/details/22925931#comments">Jenkins入门系列之——02第二章 Jenkins安装与配置</a>
+    <p style="margin:0px;"><a href="/baidu_39423691" class="user_name">baidu_39423691</a>:
+@sinat_39423631:iOS 中使用Jenkins进行持续集成:http://www.ky...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/wangmuming/article/details/22925931#comments">Jenkins入门系列之——02第二章 Jenkins安装与配置</a>
+    <p style="margin:0px;"><a href="/baidu_39423691" class="user_name">baidu_39423691</a>:
+@sinat_39423631:kyson大神的博客不错，可以参考一下：http://www.kys...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/wangmuming/article/details/22925931#comments">Jenkins入门系列之——02第二章 Jenkins安装与配置</a>
+    <p style="margin:0px;"><a href="/sinat_39423631" class="user_name">sinat_39423631</a>:
+请问博主，iOS下如何做Jenkins集成啊
+    </p>
+    </li>
+    <li>
+   
+         <a href="/wangmuming/article/details/22925931#comments">Jenkins入门系列之——02第二章 Jenkins安装与配置</a>
+    <p style="margin:0px;"><a href="/qqxyy99" class="user_name">qqxyy99</a>:
+谢谢楼主分享。
+    </p>
+    </li>
+    <li>
+   
+         <a href="/wangmuming/article/details/23455947#comments">Jacoco覆盖率工具使用</a>
+    <p style="margin:0px;"><a href="/Vbs_LiuYoung" class="user_name">Vbs_LiuYoung</a>:
+楼主，你好，能加我的QQ455064755吗，有几个问题和你咨询？万分感激
+    </p>
+    </li>
+    <li>
+   
+         <a href="/wangmuming/article/details/23455947#comments">Jenkins入门系列之——02第二章 Jenkins安装与配置</a>
+    <p style="margin:0px;"><a href="/u011626283" class="user_name">u011626283</a>:
+感谢楼主分享~
+    </p>
+    </li>
+</ul>
+</div>
+    </div>
+    <div class="clear">
+    </div>
+
+                   <!-- 广告位开始 -->                    <!-- 广告位结束 -->
+                   <div class="tracking-ad" data-view="true"  data-mtp="63" data-order="40" data-con="ad_content_1260" style="width: 200px; height: 500px;">
+                         <div id="nav_show_top_stop" style="width: 200px;height: 500px;z-index:1000"><div id="cpro_u2734128"></div>
+                             <div id="cpro_u3031287"></div></div>
+                   </div>
+    <script type="text/javascript">
+        setTimeout(function () {
+            var naviga_offsetTop = 0;
+            function naviga_stay_top() { var scrollTop = jQuery(document).scrollTop(); if (scrollTop > naviga_offsetTop) { jQuery("#nav_show_top_stop").css({ "position": "fixed" }); jQuery("#nav_show_top_stop").css({ "top": "0px" }); } else { jQuery("#nav_show_top_stop").css({ "position": "fixed" }); jQuery("#nav_show_top_stop").css({ "top": naviga_offsetTop - scrollTop + "px" }); } }
+            function onload_function() { naviga_offsetTop = jQuery("#nav_show_top_stop").position().top; jQuery(window).bind("scroll", naviga_stay_top); jQuery(window).bind("mousewheel", naviga_stay_top); jQuery(document).bind("scroll", naviga_stay_top); jQuery(document).bind("mousewheel", naviga_stay_top); } jQuery(document).ready(onload_function);
+
+        }, 200);
+    </script>
+<script type="text/javascript">(window.cproArray = window.cproArray || []).push({ id: "u2734128" });  </script> 
+                    <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script> 
+                   <script type="text/javascript">
+                       /*PC端-博客内容页左侧Button2-200*200-2017/7/10*/
+                       (window.cproArray = window.cproArray || []).push({ id: "u3031287" });
+</script>
+<script type="text/javascript" src="http://cpro.baidustatic.com/cpro/ui/c.js"></script>
+
+           </div>   
+
+            <div class="clear">
+            </div>
+        </div>
+
+        
+
+
+
+
+
+
+
+
+    <script type="text/javascript" src="http://passport.csdn.net/content/loginbox/login.js"></script>
+<script type="text/javascript">
+    $(function () {
+        function __get_code_toolbar(snippet_id) {
+            return $("<span class='tracking-ad' data-mod='popu_167'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "' target='_blank' title='在CODE上查看代码片'  style='text-indent:0;'><img src='https://code.csdn.net/assets/CODE_ico.png' width=12 height=12 alt='在CODE上查看代码片' style='position:relative;top:1px;left:2px;'/></a></span>"
+                    + "<span class='tracking-ad' data-mod='popu_170'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "/fork' target='_blank' title='派生到我的代码片' style='text-indent:0;'><img src='https://code.csdn.net/assets/ico_fork.svg' width=12 height=12 alt='派生到我的代码片' style='position:relative;top:2px;left:2px;'/></a></span>");
+        }
+        
+        $("[code_snippet_id]").each(function () {
+            __s_id = $(this).attr("code_snippet_id");
+            if (__s_id != null && __s_id != "" && __s_id != 0 && parseInt(__s_id) > 70020) {
+                __code_tool = __get_code_toolbar(__s_id);
+                $(this).prev().find(".tools").append(__code_tool);
+            }
+        });
+
+        $(".bar").show();
+    });
+</script>
+
+
+
+
+
+    </div>
+      <!--new top-->
+    
+
+     
+
+   
+   
+     <!--new top-->
+   
+   
+
+    
+    
+    
+   
+
+   
+
+
+       <script type="text/javascript" src="http://static.blog.csdn.net/public/res/bower-libs/MathJax/MathJax.js?config=TeX-AMS_HTML"></script>
+          <script type="text/javascript">
+              //$(function () {
+              //    setTimeout(function () {
+              //        var searchtitletags = articletitle + ',' + $("#tags").html();
+              //        searchService({
+              //            index: 'blog',
+              //            query: searchtitletags,
+              //            from: 5,
+              //            size: 5,
+              //            appendTo: '#res',
+              //            url: 'recommend',
+              //            his: 2,
+              //            client: "blog_cf_enhance",
+              //            tmpl: '<dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="#{ url }" title="#{ title }" strategy="#{ strategy }">#{ title }</a></dd>'
+              //        });
+              //    }, 1000);
+              //});
+
+         </script>
+    
+    <script src="http://static.blog.csdn.net/scripts/csdn_blog_detail.min.js" type="text/javascript"></script>
+        
+    <script type="text/javascript" src="http://c.csdnimg.cn/blog/csdn_public_blog_detail.min.js?20170719001"></script>
+
+    <script type="text/javascript" src="http://medal.blog.csdn.net/showblogmedal.ashx?blogid=1162392"></script>
+
+     
+    
+
+
+  <div id="a52b5334d" style="width: 1px; height: 1px; display: none;">
+                    <script id="adJs52b5334"></script>
+                    <script>document.getElementById("adJs52b5334").src = "http://ads.csdn.net/js/opt/52b5334.js?t=" + Math.random();</script>
+   </div>
+
+    
+    
+        
+     
+
+    
+          
+    <div class="pop_CA_cover"  style="display:none"></div>
+    <div class="pop pop_CA"  style="display:none">
+          <div class="CA_header">
+            收藏助手
+            <span class="cancel_icon"  id="fapancle"  onclick="$('.pop_CA').hide();$('.pop_CA_cover').hide();"></span>
+          </div>
+          <iframe src="" id="fa" frameborder="0" width="100%" height="360"  scrolling="no" ></iframe>
+    </div>
+
+
+        <script type="text/javascript">
+
+            $(function () {
+                var fromjs = $("#fromjs");
+                if (fromjs.length > 0) {
+                    $("#fromjs .markdown_views pre").addClass("prettyprint");
+                    prettyPrint();
+
+                    $('pre.prettyprint code').each(function () {
+                        var lines = $(this).text().split('\n').length;
+                        var $numbering = $('<ul/>').addClass('pre-numbering').hide();
+                        $(this).addClass('has-numbering').parent().append($numbering);
+                        for (i = 1; i <= lines; i++) {
+                            $numbering.append($('<li/>').text(i));
+                        };
+                        $numbering.fadeIn(1700);
+                    });
+
+                    $('.pre-numbering li').css("color", "#999");
+                }
+            });
+
+            $(".markdown_views a[target!='_blank']").attr("target", "_blank");
+
+            //$(".toc a[target='_blank']").attr("target", "");
+
+            setTimeout(function () {
+                $(".toc a[target='_blank']").attr("target", "");
+            }, 500);
+
+        </script>
+    
+</body>
+</html>   

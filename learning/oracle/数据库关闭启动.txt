@@ -1,0 +1,50 @@
+数据库的启动（STARTUP）
+启动一个数据库需要三个步骤：
+
+1、 创建一个Oracle实例（非安装阶段）
+
+2、 由实例安装数据库（安装阶段）
+
+3、 打开数据库（打开阶段）
+
+
+命令解释：：：：：：：：：：=====================================================
+STARTUP NOMOUNT  仅仅执行步骤一 
+STARTUP MOUNT    执行步骤一、二                        
+STARTUP          执行步骤一、二、三     
+
+只有执行了三个步骤，数据库才算打开完毕，才能接受用户请求
+
+
+ STARTUP MOUNT 这种打开方式常在数据库维护操作中使用，如对数据文件的更名、改变重作日志以及打开归档方式等 
+如果需要执行第三步，需要如下命令
+ALTER DATABASE MOUNT;  执行第二步
+ALTER DATABASE OPEN;   执行第三步
+
+
+
+
+其他打开方式--------
+STARTUP RESTRICT
+仅仅答应一些特权用户（具有DBA角色的用户）才可以使用数据库。
+ALTER DATABASE OPEN READ ONLY; 
+ 以只读模式打开数据库
+ STARTUP FORCE 该命令其实是强行关闭数据库（shutdown abort）和启动数据库（startup）两条命令的一个综合。该命令仅在关闭数据库碰到问题不能关闭数据库时采用。
+
+
+
+有三种关闭方式：
+1、shutdown normal
+   正常方式关闭数据库。
+
+
+2、shutdown immediate
+   立即方式关闭数据库。
+   在SVRMGRL中执行shutdown immediate，数据库并不立即关闭，
+   而是在Oracle执行某些清除工作后才关闭（终止会话、释放会话资源），
+   当使用shutdown不能关闭数据库时，shutdown immediate可以完成数据库关闭的操作。
+
+
+3、shutdown abort
+   直接关闭数据库，正在访问数据库的会话会被突然终止，
+   如果数据库中有大量操作正在执行，这时执行shutdown abort后，重新启动数据库需要很长时间。
