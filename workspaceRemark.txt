@@ -1,0 +1,4 @@
+一、安装jdk的版本   jdk 1.8
+二、构建工具maven的配置文件设置及本地仓库位置         <localRepository>F:\MavenRepository</localRepository>
+三、编码设置   UTF-8
+四、字体      
