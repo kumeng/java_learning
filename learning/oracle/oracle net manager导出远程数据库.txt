@@ -1,0 +1,91 @@
+导出远程数据库
+直接输入 exp 用户名/密码@远程的IP:端口/实例 file=存放的位置:\文件名称.dmp full = y
+
+
+基本语法和实例：
+    1、EXP:
+      有三种主要的方式（完全、用户、表）
+      1、完全：
+          EXP SYSTEM/MANAGER BUFFER=64000 FILE=C:\FULL.DMP FULL=Y
+          如果要执行完全导出，必须具有特殊的权限
+      2、用户模式：
+          EXP SONIC/SONIC    BUFFER=64000 FILE=C:\SONIC.DMP OWNER=SONIC
+expsystem/manager@TESTfile=d:\daochu.dmpowner=(system,sys)
+          这样用户SONIC的所有对象被输出到文件中。
+      3、表模式：
+          EXP SONIC/SONIC    BUFFER=64000 FILE=C:\SONIC.DMP OWNER=SONIC TABLES=(SONIC)
+expsystem/manager@TESTfile=d:\daochu.dmptables=(table1,table2)
+          这样用户SONIC的表SONIC就被导出
+4将数据库中的表table1中的字段filed1以"00"打头的数据导出
+expsystem/manager@TESTfile=d:\daochu.dmptables=(table1)query=\"wherefiled1like'00%'\"
+上面是常用的导出，对于压缩我不太在意，用winzip把dmp文件可以很好的压缩。
+不过在上面命令后面加上compress=y就可以了
+    2、IMP:
+      具有三种模式（完全、用户、表）
+      1、完全：
+          IMP SYSTEM/MANAGER BUFFER=64000 FILE=C:\FULL.DMP FULL=Y
+      2、用户模式：
+          IMP SONIC/SONIC    BUFFER=64000 FILE=C:\SONIC.DMP FROMUSER=SONIC TOUSER=SONIC
+          这样用户SONIC的所有对象被导入到文件中。必须指定FROMUSER、TOUSER参数，这样才能导入数据。
+      3、表模式：
+          EXP SONIC/SONIC    BUFFER=64000 FILE=C:\SONIC.DMP OWNER=SONIC TABLES=(SONIC)
+          这样用户SONIC的表SONIC就被导入。
+
+
+
+
+C:\Users\Administrator>exp zcbase/zcbase@30.3.3.256:1521/orcl owner=zcbase file=C:\CDRCB\taishij
+iSVN\bcc.dmp log=C:\CDRCB\taishijiSVN\log.log
+
+
+不能exp导出，impdp导入  
+
+
+
+
+
+
+更高效的导出方式，数据泵方式，需要在服务器端运行,expdp 和impdp
+
+expdp 和impdp访问的路径被数据库管理，使用
+	select * from dba_directories 查询可访问的路径 （名字-路径 映射的形式）
+
+创建一个新的路径
+create directory data_path1 as '/home/bs';
+授权路径 给 某个账户
+grant read,write on   directory data_path1  to username2;
+
+
+expdp整个数据库
+expdp zcbase/zcbase full=y  dumpfile=bcc.dmp directory=data_path1  log=log.log;
+expdp按表空间
+expdp zcbase/zcbase tablespaces=temp,users  dumpfile=bcc.dmp directory=data_path1  log=log.log;
+expdp按用户
+expdp zcbase/zcbase@30.3.3.256:1521/orcl dumpfile=bcc.dmp directory=data_path1  log=log.log;
+expdp按表名
+expdp zcbase/zcbase@30.3.3.256:1521/orcl  tables=emp,dept  dumpfile=bcc.dmp directory=data_path1  log=log.log;
+expdp按查询条件，某个表的部分数据
+expdp zcbase/zcbase@30.3.3.256:1521/orcl  tables=emp  dumpfile=bcc.dmp directory=data_path1  log=log.log   query='where empno=20';
+
+
+impdp导入  改变表的owner
+impdp zcbase/zcbase@30.3.3.256:1521/orcl dumpfile=bcc.dmp directory=data_path1  log=log.log  remap_schema=zcbase:ams;
+--remap_schema=zcbase:ams 
+impdp导入  到指定用户下
+impdp zcbase/zcbase@30.3.3.256:1521/orcl dumpfile=bcc.dmp directory=data_path1  log=log.log  schemas=ams;
+impdp导入  表空间
+impdp zcbase/zcbase@30.3.3.256:1521/orcl dumpfile=bcc.dmp directory=data_path1  log=log.log  tablespaces=temp;
+impdp导入  全局
+impdp zcbase/zcbase@30.3.3.256:1521/orcl dumpfile=bcc.dmp directory=data_path1  log=log.log  full=y;
+
+
+impdp追加模式
+impdp zcbase/zcbase dumpfile=bcc.dmp directory=data_path1  log=log.log  schemas=ams TABLE_EXISTS_ACTION
+
+
+
+
+
+
+
+

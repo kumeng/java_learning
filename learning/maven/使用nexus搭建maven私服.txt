@@ -1,0 +1,125 @@
+下载地址：http://repo.maven.apache.org/maven2/org/sonatype/nexus/nexus-webapp/2.9.2-01/nexus-webapp-2.9.2-01.war
+
+第一步：下载nexus-webapp-2.9.2-01.war包，然后拷贝到tomcat下的webapps目录中
+第二步：启动tomcat ,访问http://localhost:8080/nexus-webapp-2.9.2-01/
+第三步：默认登录账户密码为: admin  admin123 ，点击右上角进行登录。
+
+配置说明：
+    
+  在Views/Repositories --Repositories里进行配置, 
+  
+  
+  nexus里可以配置3种类型的仓库，分别是proxy、hosted、group
+
+proxy：是远程仓库的代理。比如说在nexus中配置了一个central repository的proxy，当用户向这个proxy请求一个artifact，这个proxy就会先在本地查找，如果找不到的话，就会从远程仓库下载，然后返回给用户，相当于起到一个中转的作用
+
+Hosted：是宿主仓库，用户可以把自己的一些构件，deploy到hosted中，也可以手工上传构件到hosted里。比如说oracle的驱动程序，ojdbc6.jar，在central repository是获取不到的，就需要手工上传到hosted里
+
+Group：是仓库组，在maven里没有这个概念，是nexus特有的。目的是将上述多个仓库聚合，对用户暴露统一的地址，这样用户就不需要在pom中配置多个地址，只要统一配置group的地址就可以了右边那个Repository Path可以点击进去，看到仓库中artifact列表。不过要注意浏览器缓存。
+
+virtual：也是中央仓库镜像,支持M1老版本
+
+
+
+hosted ：宿主仓库 ，该仓库属于该公司私有的
+        1. 3rd part ： 第三方的jar包，但是该jar包没有在中心仓库保存，驱动.jar
+    2. snapshot ：测试版本、镜像版本  easyNet.war
+    3. release  : 发行版本
+      - proxy  : 代理仓库  :代理中心仓库的jar包
+        
+      - public ：仓库组 ：虚拟的概念  可以包含其他的仓库
+
+
+上传jar包、项目方式;
+5.1 直接在nexus管理后台上传
+
+5.2  使用Eclipse运行maven项目上传
+
+pom.xml脚本配置
+
+    <distributionManagement>
+  <!-- 发布到 快照版本的仓库，即 测试版本仓库 -->
+  <snapshotRepository>
+  <id>snapshots</id>
+  <url>http://127.0.0.1:8080/nexus-2.6.2/content/repositories/snapshots/</url>
+  </snapshotRepository>
+  <!-- 发布到 发行版本的仓库中，也可以发布到3rd party 仓库 -->
+  <repository>
+    <id>releases</id>
+  <url>http://127.0.0.1:8080/nexus-2.6.2/content/repositories/releases/</url>
+  </repository>
+  </distributionManagement>
+
+
+同时需要到我们的maven的conf目录下的settings.xml添加账号密码支持。大约在114行后面的servers中配置：
+
+ <server>
+      <id>releases</id>
+      <username>admin</username>
+      <password>admin123</password>
+    </server>
+	<server>
+      <id>snapshots</id>
+      <username>admin</username>
+      <password>admin123</password>
+    </server>
+
+然后回到我们的myeclipse的项目中，右键这个项目，run as   ->  maven build  ,然后输入deploy进行部署
+
+这样我们的项目都上传到私服
+
+
+
+pom.xml配置私服
+
+ 
+ 
+	
+	<!-- 这里配置了私服
+	maven读取jar时，首先访问本地仓库
+	没有，则访问私服仓库
+	再没有，则访问中央仓库(私服有代理中央仓库，所以这里可以不用配置)。
+	 -->
+	 
+	<!--
+	updatePolicy四种属性
+	always、每次查找时更新	
+	daily、只在第一次的时候查看是否有更新
+	interval、设置一个分钟为单位的间隔时间，在这个间隔时间内只会去远程仓库中查找一次
+	never 不会去远程仓库中查找（这种就和正式版本的行为一样了）
+	
+	interval:XX(XX是间隔分钟数)。daily配置是默认值
+	 --> 
+	 
+	
+	<!-- 第三方jar包仓库 -->
+	<repositories>
+		<repository>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+			<id>public</id>
+			<name>public</name>
+			<url>http://localhost:8080/nexus-webapp-2.9.2-01/content/groups/public/</url>
+		</repository>
+	</repositories>	
+	
+	<!-- maven声明周期插件的jar包 -->
+	<pluginRepositories>
+		<pluginRepository>
+			<releases>
+				<updatePolicy>never</updatePolicy>				
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+			<id>public</id>
+			<name>public</name>
+			<url>http://localhost:8080/nexus-webapp-2.9.2-01/content/groups/public/</url>			
+		</pluginRepository>
+	</pluginRepositories>
+
+  
+  

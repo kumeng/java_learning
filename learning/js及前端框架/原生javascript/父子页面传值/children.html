@@ -1,0 +1,42 @@
+﻿
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>子页面</title>
+        <meta name="Keywords" content="">
+        <meta name="Description" content="">
+    </head>
+    <body>
+        <input type="text" id="sonInpt" />
+        <input type="button" value="保存" id="save">
+    </body>
+<script type="text/javascript">
+    var sonPage = {
+        oSonInpt : document.getElementById('sonInpt'),
+        oParentInpt : window.opener.document.getElementById('parentInpt'),
+        oSave : document.getElementById('save'),
+        //初始化方法
+        init : function(){
+            //子页面自动获取父页面的input值
+            this.oSonInpt.value = this.oParentInpt.value;
+            //点击保存按钮
+            this.oSave.onclick = this.saveFunction;
+            //监听用户是否点击了子页面的关闭窗口按钮，如果是，就传值
+            window.onbeforeunload = sonPage.sonToParent;
+        },
+        //保存
+        saveFunction : function(){
+            sonPage.sonToParent();
+            window.close();
+        },
+        //子页面给父页面传值，执行：
+        sonToParent : function(){
+            var This = sonPage;
+            var oSonInptVal = This.oSonInpt.value;
+            This.oParentInpt.value = oSonInptVal;
+            window.opener.document.getElementsByClassName('clear')[0].style.display = 'none';
+        }
+    };
+    sonPage.init();
+</script>	
+</html>

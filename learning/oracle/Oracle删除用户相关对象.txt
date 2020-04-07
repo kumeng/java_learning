@@ -1,0 +1,28 @@
+﻿--,'MATERIALIZED VIEW'  物理视图，需要单独出来执行
+--drop MATERIALIZED VIEW  ams_acc....
+
+declare
+cursor mycu is  select object_name,object_type from dba_objects 
+where owner=upper('AMS') and object_type  
+in ('SEQUENCE','PROCEDURE','FUNCTION','TABLE','VIEW','TRIGGER','DATABASE_LINK');
+type tmptype is record
+(
+objnmae dba_objects.OBJECT_NAME%type,
+objtype varchar2(50)
+);
+myrow tmptype;
+v_sql varchar2(500):='';
+begin
+   open mycu;
+   loop
+        fetch mycu into myrow;
+        exit when mycu%notfound;
+        if myrow.objtype = 'TABLE' then          
+         v_sql:='drop '||myrow.objtype||' '||myrow.objnmae||' cascade constraints';
+        else
+          v_sql:='drop '||myrow.objtype||' '||myrow.objnmae;
+        end if;
+        execute immediate v_sql;
+   end loop;
+end;
+

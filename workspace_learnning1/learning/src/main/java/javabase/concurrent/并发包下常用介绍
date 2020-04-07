@@ -1,0 +1,22 @@
+
+CountDownLatch
+CountDownLatch类位于java.util.concurrent包下，利用它可以实现类似计数器的功能
+。比如有一个任务A，它要等待其他4个任务执行完毕之后才能执行，此时就可以利用CountDownLatch来实现这种功能了。
+
+
+
+CyclicBarrier
+CyclicBarrier初始化时规定一个数目，然后计算调用了CyclicBarrier.await()进入等待的线程数。当线程数达到了这个数目时，所有进入等待状态的线程被唤醒并继续。 
+ CyclicBarrier就象它名字的意思一样，可看成是个障碍， 所有的线程必须到齐后才能一起通过这个障碍。
+
+
+Semaphore
+Semaphore是一种基于计数的信号量。它可以设定一个阈值，基于此，多个线程竞争获取许可信号，做自己的申请后归还，超过阈值后，线程申请许可信号将会被阻塞。Semaphore可以用来构建一些对象池，资源池之类的，比如数据库连接池，我们也可以创建计数为1的Semaphore，将其作为一种类似互斥锁的机制，这也叫二元信号量，表示两种互斥状态。它的用法如下：
+availablePermits函数用来获取当前可用的资源数量
+wc.acquire(); //申请资源
+wc.release();// 释放资源
+
+
+
+
+

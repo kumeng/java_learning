@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- mapper  中namespace属性，绑定该xml到某个接口 ，代码中执行那个接口，mybatais会找到绑定xml的中对应的sql执行 -->
+<mapper namespace="scanerpac.mybatisDao.sys.SeqsDao" >
+  <resultMap id="BaseResultMap" type="scanerpac.entity.sys.Seqs" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="SEQ_NAME" property="seqName" jdbcType="VARCHAR" />
+    <result column="SEQ_TABLENAME" property="seqTablename" jdbcType="VARCHAR" />
+    <result column="SEQ_CURRNO" property="seqCurrno" jdbcType="DECIMAL" />
+    <result column="SEQ_STEP" property="seqStep" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      ID, SEQ_NAME, SEQ_TABLENAME, SEQ_CURRNO, SEQ_STEP
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="scanerpac.entity.sys.SeqsQuery" >
+    <if test="startRow != null" >
+        select * from (  
+    </if>    
+     select 
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from BASIC_SEQS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+       ) where rownum &gt;=#{startRow} and rownum &lt; (#{startRow}+#{pageSize}) 
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    ID,SEQ_NAME,SEQ_TABLENAME,SEQ_CURRNO,SEQ_STEP
+    from BASIC_SEQS
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from BASIC_SEQS
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="scanerpac.entity.sys.SeqsQuery" >
+    delete from BASIC_SEQS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="scanerpac.entity.sys.Seqs" >
+    insert into BASIC_SEQS (ID, SEQ_NAME, SEQ_TABLENAME, 
+      SEQ_CURRNO, SEQ_STEP)
+    values (#{id,jdbcType=DECIMAL}, #{seqName,jdbcType=VARCHAR}, #{seqTablename,jdbcType=VARCHAR}, 
+      #{seqCurrno,jdbcType=DECIMAL}, #{seqStep,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="scanerpac.entity.sys.Seqs" >
+    insert into BASIC_SEQS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="seqName != null" >
+        SEQ_NAME,
+      </if>
+      <if test="seqTablename != null" >
+        SEQ_TABLENAME,
+      </if>
+      <if test="seqCurrno != null" >
+        SEQ_CURRNO,
+      </if>
+      <if test="seqStep != null" >
+        SEQ_STEP,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="seqName != null" >
+        #{seqName,jdbcType=VARCHAR},
+      </if>
+      <if test="seqTablename != null" >
+        #{seqTablename,jdbcType=VARCHAR},
+      </if>
+      <if test="seqCurrno != null" >
+        #{seqCurrno,jdbcType=DECIMAL},
+      </if>
+      <if test="seqStep != null" >
+        #{seqStep,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="scanerpac.entity.sys.SeqsQuery" resultType="java.lang.Integer" >
+    select count(*) from BASIC_SEQS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update BASIC_SEQS
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.seqName != null" >
+        SEQ_NAME = #{record.seqName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.seqTablename != null" >
+        SEQ_TABLENAME = #{record.seqTablename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.seqCurrno != null" >
+        SEQ_CURRNO = #{record.seqCurrno,jdbcType=DECIMAL},
+      </if>
+      <if test="record.seqStep != null" >
+        SEQ_STEP = #{record.seqStep,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update BASIC_SEQS
+    set ID = #{record.id,jdbcType=DECIMAL},
+      SEQ_NAME = #{record.seqName,jdbcType=VARCHAR},
+      SEQ_TABLENAME = #{record.seqTablename,jdbcType=VARCHAR},
+      SEQ_CURRNO = #{record.seqCurrno,jdbcType=DECIMAL},
+      SEQ_STEP = #{record.seqStep,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="scanerpac.entity.sys.Seqs" >
+    update BASIC_SEQS
+    <set >
+      <if test="seqName != null" >
+        SEQ_NAME = #{seqName,jdbcType=VARCHAR},
+      </if>
+      <if test="seqTablename != null" >
+        SEQ_TABLENAME = #{seqTablename,jdbcType=VARCHAR},
+      </if>
+      <if test="seqCurrno != null" >
+        SEQ_CURRNO = #{seqCurrno,jdbcType=DECIMAL},
+      </if>
+      <if test="seqStep != null" >
+        SEQ_STEP = #{seqStep,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="scanerpac.entity.sys.Seqs" >
+    update BASIC_SEQS
+    set SEQ_NAME = #{seqName,jdbcType=VARCHAR},
+      SEQ_TABLENAME = #{seqTablename,jdbcType=VARCHAR},
+      SEQ_CURRNO = #{seqCurrno,jdbcType=DECIMAL},
+      SEQ_STEP = #{seqStep,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

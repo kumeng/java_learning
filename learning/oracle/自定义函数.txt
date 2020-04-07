@@ -1,0 +1,188 @@
+﻿用户自定义的函数，可以直接在sql语句中直接调用，并且任何一个funciton都必须有返回值，而且该函数声明后，是保存在数据端的，我们随时可以使用；注意：函数只能有一个返回值，如果想返回多个数据，可通过out类型参数将数据传到函数外部；
+
+例如：定义一个函数，该函数根据员工姓名以及部门编号，查找该员工是否在emp中存在，如果存在返回true否则返回false；
+
+createorreplacefunction myFunction(mName invarchar2,mNo innumber)returnbooleanis
+
+  flag boolean:=false;
+
+  total number;
+
+ 
+
+begin
+
+    selectcount(*)into total  from emp where emp.ename=mName and emp.deptno=mNo;
+
+    if total>0then
+
+      flag:=true;
+
+    else flag:=false;
+
+    endif;
+
+  return flag;
+
+end myFunction;
+
+测试：
+
+-- Created on 2017/10/19 by ADMINISTRATOR
+
+declare
+
+    f boolean;
+
+ 
+
+begin
+
+  f:=myfunction('SMITH',30);
+
+  if f then dbms_output.put_line('true');
+
+  else dbms_output.put_line('false');
+
+  endif;
+
+ 
+
+end;
+
+例如：定义一个函数，该函数根据员工姓名以及部门编号，查找该员工是否在emp中存在，如果存在返回true否则返回false；如果存在该员工，那么就将该条数据拿到函数外面；
+
+createorreplacefunction myFunction(mName invarchar2,mNo innumber,msg out emp%rowType)returnbooleanis
+
+  flag boolean:=false;
+
+  total number;
+
+ 
+
+begin
+
+    selectcount(*)into total  from emp where emp.ename=mName and emp.deptno=mNo;
+
+    if total>0then
+
+      flag:=true;
+
+      --将该条数据赋值给msg变量
+
+      select emp.*into msg from emp where  emp.ename=mName and emp.deptno=mNo;
+
+    else flag:=false;
+
+    endif;
+
+  return flag;
+
+end myFunction;
+
+测试：
+
+declare
+
+    f boolean;
+
+    msg emp%rowtype;
+
+begin
+
+  f:=myfunction('SMITH',20,msg);
+
+  if f then dbms_output.put_line('true');
+
+  else dbms_output.put_line('false');
+
+  endif;
+
+ 
+
+  dbms_output.put_line(msg.empno||':'||msg.ename||':'||msg.hiredate);
+
+end;
+
+例如：定义一个函数，该函数根据员工姓名以及部门编号，查找该员工是否在emp中存在，该函数返回值为该条记录；
+
+createorreplacefunction myFunction(mName invarchar2,mNo innumber,msg out emp%rowType)return emp%rowtypeis
+
+  flag boolean:=false;
+
+  total number;
+
+ 
+
+begin
+
+    selectcount(*)into total  from emp where emp.ename=mName and emp.deptno=mNo;
+
+    if total>0then
+
+      flag:=true;
+
+      --将该条数据赋值给msg变量
+
+      select emp.*into msg from emp where  emp.ename=mName and emp.deptno=mNo;
+
+    else flag:=false;
+
+    endif;
+
+  return msg;
+
+end myFunction;
+
+测试：
+
+-- Created on 2017/10/19 by ADMINISTRATOR
+
+declare  
+
+    msg emp%rowtype;
+
+begin
+
+  msg:=myfunction('SMITH',20,msg);
+
+  dbms_output.put_line(msg.empno||':'||msg.ename||':'||msg.hiredate);
+
+end;
+
+
+
+--利用管道 返回 多汗自定义的记录
+-- pipe row (一行)  发送记录到管道
+-- 使用时 select * from  table(function)  函数必须无返回值，从管道获取返回值
+create type rowtype_jidu as object (stardate date,enddate date );
+create type tabletype_jidu as table of rowtype_jidu;
+create or replace function spiltdate(stardate in date,enddate in date) return tabletype_jidu pipelined as 
+rowjidu rowtype_jidu;
+sdate1 date;
+edate1 date;
+i number;
+begin
+  i:=0;
+  sdate1:=stardate;
+  edate1:=enddate;
+  while i<20 loop 
+    if (i=18) then 
+	i:=18;
+	dbms_output.put_line('testprint'||i);
+    end if;
+    rowjidu:= rowtype_jidu(sdate1,edate1);
+    i:=i+1;
+    pipe row(rowjidu);
+  end loop;
+  return;   --return 不能有返回值
+end;
+
+--调用
+select * from table(spiltdate(sysdate,add_months(sysdate,2)));
+
+--删除
+drop function spiltdate;
+drop type tabletype_jidu;
+drop type rowtype_jidu;
+

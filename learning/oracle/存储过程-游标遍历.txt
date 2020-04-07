@@ -1,0 +1,91 @@
+第一种，loop ... exit when ...end loop;   替换while循环，，（不建议使用，需要书写两次fetch）
+create or replace procedure test as
+name varchar(20);
+Cursor cursor is select name from student;
+begin
+open cursor ;
+LOOP
+	fetch 	cursor  into name;
+	exit when cursor%notfound;
+	dbms_output.put_line(name);
+
+end LOOP;
+
+end test;
+
+
+第二种，for循环  
+
+create or replace procedure test as
+name varchar(20);
+Cursor cursor is select name from student;
+Type type1 is record
+(
+name1  varchar2(100)
+);
+record1 type1;
+begin
+
+for record1  in cursor LOOP
+
+begin
+
+dbms_output.putline(record1.name);
+
+end;
+
+end LOOP;
+
+end test;
+
+
+
+系统预定义游标
+
+SYS_REFCURSOR 型游标，该游标是Oracle 以预先定义的游标，可作出参数进行传递
+
+create or replace procedure test(rsCursor out SYS_REFCURSOR) is
+cursor SYS_REFCURSOR;
+begin
+OPEN cursor FOR select name from student where … –SYS_REFCURSOR 只能通过OPEN 方法来打开和赋值
+...
+
+
+
+
+
+自定义数组类型 ( 自定义数据类型时，建议通过创建Package 的方式实现，以便于管理)
+
+create or replace package myPackage is
+
+Public type declarations type info is record( name varchar(20), y number);
+
+type TestArray is table of info index by binary_integer;
+
+– 此处声明了一个TestArray 的类型数据，其实其为一张存储Info 数据类型的Table 而已，及TestArray 就是一张表，有两个字段，一个是name ，一个是y 。需要注意的是此处使用了Index by binary_integer 编制该Table 的索引项，也可以不写，直接写成：type TestArray is
+
+table of info ，如果不写的话使用数组时就需要进行初始化：varArray myPackage.TestArray; varArray := new myPackage.TestArray();
+
+end TestArray;
+
+(2) 循环遍历数组
+
+create or replace procedure test(varArray in myPackage.TestArray) as
+
+–( 输入参数varArray 是自定义的数组类型，定义方式见标题6)
+
+i number;
+
+begin
+
+i := 1; – 存储过程数组是起始位置是从1 开始的，与java 、C 、C 等语言不同。因为在Oracle 中本是没有数组的概念的，数组其实就是一张
+
+– 表(Table), 每个数组元素就是表中的一个记录，所以遍历数组时就相当于从表中的第一条记录开始遍历
+
+for i in 1..varArray.count LOOP
+
+dbms_output.putline(‘The No.’|| i || ’record in varArray is:’||varArray(i));
+
+end LOOP;
+
+end test;

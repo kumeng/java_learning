@@ -1,0 +1,60 @@
+SAX (Simple API for XML)  快速解析XML，一边扫描一边解析
+
+优点 ：解析速度快，，无内存压力
+缺点：不能修改节点
+dom4j-full.jar   SAXReader 类
+
+
+DOM解析（Document Object Model文档对象模型）  ，将xml扫描后在内存建立对象模型
+优点：在内存中构建树形结构，可遍历可修改
+缺点:当xml文件够大时，存在内存压力，解析时间比较长
+
+
+dom4j适合灵活操作(crud)较小的xml文件
+SAX适合读取大型xml
+
+
+
+路径表达式
+XPath是在XML文档查找信息的语言
+使得节点定位变得轻松
+Dom4j对XPath的支持
+需要jar包  jaxen-xx-xx.jar
+
+/bookstore/book/..				绝对路径：			
+bookstore/book/..				相对路径：          		
+.								当前节点：			
+..								上一级节点：		
+nodename						表示选择该节点的所有字节点 
+/bookstore						选择根节点
+/bookstore/book					选择bookstore下所有的book元素
+/								表示选择根节点
+//								表示选择任意位置的节点
+@								表示选择某个属性
+
+附加条件
+/bookstore/book[1]				表示选择第一个子元素
+/bookstore/book[last()]			表示选择最后一个子元素
+/bookstore/book[last()-1]		表示选择倒数第二个子元素
+/bookstore/book[position()<3]	表示选择前两个子元素
+//title[@lang]					表示选择所有具有属性lang 的 title节点
+//title[@lang="en"]				表示选择所有具有属性值lang等于en  的  title节点
+/bookstore/book[price]			表示选择带有 price节点  的book子元素
+/bookstore/book[price>35.00]	表示选择带有 price且节点值大于35.00 的book子元素
+/bookstore/book[price>35.00]/title	再上述集合，寻找title子元素
+/bookstore/book/price[.>35.00]	表示选择price子元素，且子元素值要大于 35.00
+
+通配符
+*				表示任何元素节点
+@*				表示任何属性值
+node()			表示匹配任何类型的节点
+//*				选择所有的元素节点
+/*/*	 		表示选择第二层所有的元素节点
+/bookstore/*	表示选择bookstore所有子节点
+//title[@*]		表示选择所有带属性的title元素
+
+
+
+
+
+

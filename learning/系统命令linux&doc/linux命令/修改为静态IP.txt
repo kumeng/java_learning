@@ -1,0 +1,61 @@
+vi /etc/sysconfig/network-scripts/ifcfg-eth0   编辑网卡信息
+
+如下，注意修改HWADDR  UUID  IPADDR  DNS1 GATEWAY
+
+DEVICE="eth0"
+BOOTPROTO="none"
+HWADDR="00:0C:29:25:09:23"
+IPV6INIT="no"
+NM_CONTROLLED="yes"
+ONBOOT="yes"
+TYPE="Ethernet"
+UUID="5e630ba8-d4de-4fc8-90ee-a949f7e2ac4a"
+BOOTPROTO="none"
+DNS1=192.168.1.1
+IPADDR=192.168.1.8
+NETMASK=255.255.255.0
+GATEWAY=192.168.1.1
+
+
+:wq  写入并退出编辑
+:q!  退出不保存
+
+
+执行
+source /etc/sysconfig/network-scripts/ifcfg-eth0
+
+使用ifconfig 查看，已经生效
+
+重启机器  reboot
+
+
+eth1      Link encap:Ethernet  HWaddr 00:0C:29:B2:9F:6C  
+          inet addr:192.168.1.3  Bcast:192.168.1.255  Mask:255.255.255.0
+          inet6 addr: fe80::20c:29ff:feb2:9f6c/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:399 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:27 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:26877 (26.2 KiB)  TX bytes:2416 (2.3 KiB)
+          Interrupt:19 Base address:0x2024 
+
+
+DEVICE="eth1"
+BOOTPROTO="none"
+HWADDR="00:0C:29:B2:9F:6C"
+IPV6INIT="no"
+NM_CONTROLLED="yes"
+ONBOOT="yes"
+TYPE="Ethernet"
+UUID="5e630ba8-d4de-4fc8-90ee-a949f7e2ac4a"
+BOOTPROTO="none"
+DNS1=192.168.1.1
+IPADDR=192.168.1.7
+NETMASK=255.255.255.0
+GATEWAY=192.168.1.1
+
+
+source /etc/sysconfig/network-scripts/ifcfg-eth1
+
+
+

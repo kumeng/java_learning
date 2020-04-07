@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- mapper  中namespace属性，绑定该xml到某个接口 ，代码中执行那个接口，mybatais会找到绑定xml的中对应的sql执行
+必须属性 
+-->
+<mapper namespace="sys">
+  <resultMap id="BaseResultMap" type="scanerpac.entity.sys.Seqs" >
+    <result column="table_name" property="seqTablename" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="select1_allBusiTables" resultMap="BaseResultMap" >     
+		select c.table_name from user_all_tables c where c.table_name  like 'BASIC%'
+		and c.table_name  <![CDATA[<>]]> 'BASIC_SEQS'
+  </select>
+
+</mapper>

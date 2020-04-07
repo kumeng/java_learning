@@ -1,0 +1,25 @@
+﻿1.
+查看服务器端编码
+select userenv('language') from dual;
+我实际查到的结果为:AMERICAN_AMERICA.AL32UTF8
+2.
+执行语句 select * from V$NLS_PARAMETERS  
+查看第一行中PARAMETER项中为NLS_LANGUAGE 对应的VALUE项中是否和第一步得到的值一样。
+如果不是，需要设置环境变量.
+否则PLSQL客户端使用的编码和服务器端编码不一致,插入中文时就会出现乱码.
+3.
+设置环境变量
+计算机->属性->高级系统设置->环境变量->新建
+设置变量名:NLS_LANG,变量值:第1步查到的值(我的是AMERICAN_AMERICA.AL32UTF8).
+4.
+重新启动PLSQL,插入数据正常
+补充：PL/SQL导入数据到另一数据库乱码
+
+导入数据库为:SIMPLIFIED CHINESE_CHINA.ZHS16GBK;
+导出数据库为： AMERICAN_AMERICA.AL32UTF8
+为了方便解决此问题，所以就修改了导入数据库所使用的语言跟字符集.
+开始菜单打开运行对话框,使用”regedit“命令进入注册表,找到我的电脑下的：HKEY_LOCAL_MACHINE/SOFTWARE
+/Oracle/KEY_OraDb10g_home1(此路径为oracle在注册表中的配置信息)，
+查看名称为NLS_LANG的值为SIMPLIFIED CHINESE_CHINA.ZHS16GBK，修改成AMERICAN_AMERICA.AL32UTF8,
+
+

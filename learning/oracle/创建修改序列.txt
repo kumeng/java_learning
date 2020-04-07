@@ -1,0 +1,16 @@
+通过修改序列增长值，达到设置下一个值得目的
+
+
+drop sequence SEQ_EXTEMPLOYEE_APPLY;
+
+create sequence SEQ_EXTEMPLOYEE_APPLY 
+start with 1
+increment by 1;
+
+alter sequence SEQ_EXTEMPLOYEE_APPLY
+increment by 20;
+
+select SEQ_EXTEMPLOYEE_APPLY.Nextval from dual;
+
+alter sequence SEQ_EXTEMPLOYEE_APPLY
+increment by 1;

@@ -1,0 +1,89 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/task
+   		http://www.springframework.org/schema/task/spring-task-4.0.xsd
+   		http://www.springframework.org/schema/util
+   		http://www.springframework.org/schema/util/spring-util-4.0.xsd
+		http://code.alibabatech.com/schema/dubbo        
+		http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+		
+<!-- 		@RequestMapping 可以用在类和方法上
+		@RequestMapping 标注这个类或方法和哪个请求对应
+		使用@RequestMapping之前需要先定义两个bean
+		org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter  类定义
+		org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping  方法定义-->
+		
+<!-- 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" />
+		<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
+		 -->
+		<!-- spring3.2及以后版本，可以简化为如下配置 -->
+		<mvc:annotation-driven/>
+		
+		
+		
+		
+		<import resource="fisrtSpringConfig.xml" />
+		<import resource="config/*.xml" />
+			
+		<!-- 拦截器 -->
+		<mvc:interceptors>
+		    <mvc:interceptor>
+		        <!-- 需要拦截的访问路径 -->
+		        <mvc:mapping path="/controller/*"/>
+		        <!-- 排除访问路径中的某些路径 ，不拦截-->
+		        <mvc:exclude-mapping path="/controller/login1.do"/>
+		        <bean class="scanerpac.handlerInterceptor.defaultInterceptor" />
+		    </mvc:interceptor>
+		</mvc:interceptors>
+		
+		<!-- 适合全局处理简单异常 -->
+		<!-- 方式1 -->
+		<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver" >
+		    <property name="exceptionMappings">
+		        <props>
+		            <prop key="Constans.MyException1_1">error1_1</prop>
+		           <!--  <prop key="java.util.concurrent.TimeoutException">login</prop> -->
+		        </props>
+		    </property>
+		</bean>
+		<!-- 方式2 实现HandlerExceptionResolver接口 适合全局处理有”处理过程“的异常 -->
+		<bean id="mydefaultHandlerExceptionResvoler" class="scanerpac.handlerExceptionResolver.defaultHandlerExceptionResvoler" ></bean>
+		
+		<!-- 方式3 使用@ExceptionHandler 注解     适合局部处理有”处理过程“的异常-->
+		<!-- 方式4 使用web.xml 的error-page标签     框架外部或代码无法捕捉的异常-->
+		
+		<!-- 文件上传后 文件 解析器 -->
+		<bean id="multipartResolver"  class="org.springframework.web.multipart.commons.CommonsMultipartResolver" >
+		    <property name="maxUploadSize" value="102400" />
+		</bean>
+
+		<!-- 视图解析器  ，解析控制器方法返回的值 为 具体路径 并转发 -->
+		<!-- 配置只对转发有效 -->
+		<!-- 重定向可使用相对路径  如../表示上级目录；success.jsp 表示同级目录的文件 等  需要session传递参数 -->
+		<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
+		    <property name="prefix" value="/" />
+		    <property name="suffix" value=".jsp" />
+		    <property name="contentType" value="text/html; charset=utf-8" />		    
+		</bean>
+		<!-- <mvc:default-servlet-handler default-servlet-name=""/> -->
+		<!-- <mvc:resources location="" mapping=""/> -->
+		<!-- <mvc:view-controller></mvc:view-controller> -->
+
+</beans>    

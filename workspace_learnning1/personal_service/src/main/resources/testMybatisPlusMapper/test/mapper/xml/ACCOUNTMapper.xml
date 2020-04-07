@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="testMybatisPlusMapper.test.mapper.ACCOUNTMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="testMybatisPlusMapper.test.entity.ACCOUNT">
+		<id column="ID" property="ID" />
+		<result column="LOGINNAME" property="LOGINNAME" />
+		<result column="PWD" property="PWD" />
+	</resultMap>
+
+</mapper>

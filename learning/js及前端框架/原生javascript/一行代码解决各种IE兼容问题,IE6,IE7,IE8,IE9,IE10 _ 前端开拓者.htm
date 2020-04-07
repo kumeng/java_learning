@@ -1,0 +1,664 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta name="viewport" content="width=device-width , initial-scale=1.0 , user-scalable=0 , minimum-scale=1.0 , maximum-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>一行代码解决各种IE兼容问题,IE6,IE7,IE8,IE9,IE10 | 前端开拓者</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="pingback" href="http://www.frontopen.com/xmlrpc.php" />
+<link rel="alternate" type="application/rss+xml" title="前端开拓者 &raquo; Feed" href="http://www.frontopen.com/feed" />
+<link rel="alternate" type="application/rss+xml" title="前端开拓者 &raquo; 评论Feed" href="http://www.frontopen.com/comments/feed" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.frontopen.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.4.10"}};
+			!function(a,b,c){function d(a){var c,d,e,f=b.createElement("canvas"),g=f.getContext&&f.getContext("2d"),h=String.fromCharCode;return g&&g.fillText?(g.textBaseline="top",g.font="600 32px Arial","flag"===a?(g.fillText(h(55356,56806,55356,56826),0,0),f.toDataURL().length>3e3):"diversity"===a?(g.fillText(h(55356,57221),0,0),c=g.getImageData(16,16,1,1).data,g.fillText(h(55356,57221,55356,57343),0,0),c=g.getImageData(16,16,1,1).data,e=c[0]+","+c[1]+","+c[2]+","+c[3],d!==e):("simple"===a?g.fillText(h(55357,56835),0,0):g.fillText(h(55356,57135),0,0),0!==g.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g;c.supports={simple:d("simple"),flag:d("flag"),unicode8:d("unicode8"),diversity:d("diversity")},c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.simple&&c.supports.flag&&c.supports.unicode8&&c.supports.diversity||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<script type='text/javascript' src='http://www.frontopen.com/wp-includes/js/jquery/jquery.js?ver=1.11.3'></script>
+<script type='text/javascript' src='http://www.frontopen.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<link rel='https://api.w.org/' href='http://www.frontopen.com/wp-json/' />
+<link rel='prev' title='frontopen2主题v1.4.04.09更新升级日志' href='http://www.frontopen.com/2547.html' />
+<link rel='next' title='如何有效的推广网站 适合没钱的中小站长（转载）' href='http://www.frontopen.com/2538.html' />
+<link rel="canonical" href="http://www.frontopen.com/2552.html" />
+<link rel="alternate" type="application/json+oembed" href="http://www.frontopen.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fwww.frontopen.com%2F2552.html" />
+<link rel="alternate" type="text/xml+oembed" href="http://www.frontopen.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fwww.frontopen.com%2F2552.html&#038;format=xml" />
+<meta name="description" content="一行代码解决各种IE兼容问题,IE6,IE7,IE8,IE9,IE10    在网站开发中不免因为各种兼容问题苦恼，针对兼容问题，其实IE给出了解决方案Google也给出了解决方案百度也应用了这种方案去解决IE的兼容问题&nbsp;  百度源代码如下  &lt;!Doctype html&gt; &lt;html xmlns=http://www.w3.org/1999/xhtml xmlns:bd=http://www.baidu.c">
+<script type="text/javascript">(function(){mod_txt = '#'; adminBar = "" || 0})();</script>
+<script type="text/javascript" src="http://www.frontopen.com/wp-content/themes/frontopen/frontopen.js?ver=1.5.04.15"></script>
+<script type="text/javascript" src="http://www.frontopen.com/wp-content/themes/frontopen/include/lightbox-2.6.min.js"></script>
+<link href="http://www.frontopen.com/wp-content/themes/frontopen/lightbox.css" rel="stylesheet" type="text/css" />
+
+<link rel="stylesheet" type="text/css" media="all" href="http://www.frontopen.com/wp-content/themes/frontopen/style.css?ver=1.5.04.15" />
+<link rel="stylesheet" type="text/css" media="all" href="http://www.frontopen.com/wp-content/themes/frontopen/mobile.css?ver=1.5.04.15" />
+<style type="text/css">@media screen and (min-width:1366px){.c-con{height:140px;}}
+</style>
+
+<!--[if lt IE 9]><script src="http://www.frontopen.com/wp-content/themes/frontopen/html5.js"></script><![endif]-->
+<link rel="stylesheet" href="http://www.frontopen.com/wp-content/themes/frontopen/css/font-awesome.min.css?ver=1.5.04.15">
+<!--[if IE 7]>
+<link rel="stylesheet" href="http://www.frontopen.com/wp-content/themes/frontopen/css/font-awesome-ie7.min.css?ver=1.5.04.15">
+<![endif]-->
+</head>
+
+<body class="single single-post postid-2552 single-format-standard">
+<div class="loading"></div>
+<div class="web_bod">
+<header class="header marauto">
+    <span class="logo">
+        <a href="http://www.frontopen.com/" title="前端开拓者" rel="home"><b class="bclass">FRONTOPEN</b></a>
+        <i>专注于前端开发与程序拓展的技术博客</i>
+    </span>
+    <form role="search" method="get" id="searchform" action="http://www.frontopen.com/">
+      <span class="search">
+        <input name="s" id="s" type="text"  class="input" value="请输入关键词开始搜索吧" onclick="this.value = '';" style="color:#999" onkeypress="javascript:if(event.keyCode == 13){query(this.value);}" x-webkit-speech=""/>
+        <button id="searchsubmit" class="btn">SEARCH</button>
+      </span>
+    </form>
+    <div class="cls"></div>
+</header>
+<div class="nav marauto">
+    <div class="tig">
+      <a href="/post_need" target="_self" rel="nofollow" title="为FRONTOPEN投稿"><span class="sub">欢迎投稿</span></a>  <a href="javascript:;"><span id="rss_open" class="rrs">订阅RSS</span></a><div class="rss_box"><a class="close_rss" href="#"></a><span>邮件订阅</span> - 最后更新：<time>2016-07-21</time><br><br><form class="subscribe-mail" action="http://list.qq.com/cgi-bin/qf_compose_send" target="_blank" method="post"><input type="hidden" name="t" value="qf_booked_feedback"><input type="hidden" name="id" value="cf53846928e2bdd9141bf81f05aca64e0bddd28eb977d267"><input class="rss_input" id="to" name="to" type="email" placeholder="Your E-mail"><input class="rss_submit" type="submit" value="订阅"></form><div class="ress_btn_box">订阅源：<a target="_blank" href="http://www.frontopen.com/feed" rel="alternate" type="application/rss+xml" title="rss Feed">RSS</a> <a target="_blank" rel="external nofollow" href="http://mail.qq.com/cgi-bin/feed?u=http://www.frontopen.com/feed">QQ邮箱</a> </div></div>      <div class="gonggao">
+        <ul id="g_box">
+            <li><span class="gg_tx"><i class="icon-volume-off icon-large"></i> frontopen主题V1.5.04.15版本已发布 推荐更新！<a href="http://www.frontopen.com/1378.html">点击查看</a></span></li>    <li><span class="gg_tx"><i class="icon-volume-off icon-large"></i> frontopen “讨论区” 2013-12-29正式上线 <a href="http://www.frontopen.com/bbs">点击开始体验</a></span></li>    <li><span class="gg_tx"><i class="icon-volume-off icon-large"></i> 鸣谢主题捐赠者：感叹帝,Calon YE，孙玉龙，魂客，创想，孜夕寒</span></li>    <li><span class="gg_tx"><i class="icon-volume-off icon-large"></i> 顾余笑，小菜，晨风，菠菜，*忠杰，浪子，99开发赞助，IT江湖，小熊</span></li>    <li><span class="gg_tx"><i class="icon-volume-off icon-large"></i> 如果发现更新最新版出现缩略图无法显示，请先装回v1.4.03.02版本</span></li>        </ul>
+      </div>
+    </div>
+<div class="navlist">
+    <dl>
+        <dt><a href="/dashiji" title="FRONTOPEN大事记" target="_self" class="nav_button" style="opacity: 0.7;" rel="nofollow"><img src="http://www.frontopen.com/wp-content/themes/frontopen/images/dsj.gif" width="45" height="45"></a></dt>
+        <dd>EVENT</dd>
+    </dl>
+        <dl>
+        <dt><a href="/front-open" title="关于FrontOpen" target="_self" class="nav_button" style="opacity: 0.7;" rel="nofollow"><img src="http://www.frontopen.com/wp-content/themes/frontopen/images/nav_1.gif" width="45" height="45"></a></dt>
+        <dd>ABOUT</dd>
+    </dl>
+        <dl>
+        <dt><a href="/contact" title="联系站长" target="_self" class="nav_button" style="opacity: 0.7;" rel="nofollow"><img src="http://www.frontopen.com/wp-content/themes/frontopen/images/conc.gif" width="45" height="45"></a></dt>
+        <dd>CONTACT</dd>
+    </dl>
+        <dl>
+        <dt><a href="/webtools" title="web前端工具箱" target="_self" class="nav_button" style="opacity: 0.7;" rel=""><img src="http://www.frontopen.com/wp-content/themes/frontopen/images/tools.gif" width="45" height="45"></a></dt>
+        <dd>TOOLS</dd>
+    </dl>
+        <dl>
+        <dt><a href="/front_tutorial" title="《前端开发从零学起》从基础到深入学习教程" target="_self" class="nav_button" style="opacity: 0.7;" rel=""><img src="http://www.frontopen.com/wp-content/themes/frontopen/images/tutorial.gif" width="45" height="45"></a></dt>
+        <dd>TUTORIAL</dd>
+    </dl>
+    <div class="cls"></div>
+</div>
+</div>
+
+
+<nav class="navcon marauto">
+  <div id="mobile_nav_btn">网站导航</div>
+  <div class="menu-header"><ul id="menu-wplook-main-menu" class="menu"><li id="menu-item-18" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-18"><a href="/">首页</a>
+<ul class="sub-menu">
+	<li id="menu-item-4497" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4497"><a href="http://www.frontopen.com/%e6%96%87%e7%ab%a0%e5%bd%92%e6%a1%a3">FRONTOPEN文章归档</a></li>
+	<li id="menu-item-1156" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1156"><a href="http://www.frontopen.com/dashiji">FRONTOPEN大事记</a></li>
+	<li id="menu-item-4498" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4498"><a href="http://www.frontopen.com/links">友情链接</a></li>
+</ul>
+</li>
+<li id="menu-item-13" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor menu-item-has-children menu-item-13"><a href="http://www.frontopen.com/web">web前端开发</a>
+<ul class="sub-menu">
+	<li id="menu-item-14" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-14"><a href="http://www.frontopen.com/web/jquery">jQuery开发</a></li>
+	<li id="menu-item-16" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-16"><a href="http://www.frontopen.com/web/ie">浏览器兼容</a></li>
+	<li id="menu-item-17" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-17"><a href="http://www.frontopen.com/web/javascript">Javascript开发</a></li>
+</ul>
+</li>
+<li id="menu-item-19" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-19"><a href="http://www.frontopen.com/technical">技术资源分享</a>
+<ul class="sub-menu">
+	<li id="menu-item-20" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-20"><a href="http://www.frontopen.com/technical/jqueryshare">jQuery源码分享</a></li>
+</ul>
+</li>
+<li id="menu-item-22" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-22"><a href="http://www.frontopen.com/mobile">移动设备开发</a>
+<ul class="sub-menu">
+	<li id="menu-item-23" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-23"><a href="http://www.frontopen.com/mobile/android-mobile">安卓开发</a></li>
+</ul>
+</li>
+<li id="menu-item-24" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-24"><a href="http://www.frontopen.com/program">程序开发</a>
+<ul class="sub-menu">
+	<li id="menu-item-25" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-25"><a href="http://www.frontopen.com/program/php">PHP开发</a></li>
+	<li id="menu-item-50" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-50"><a href="http://www.frontopen.com/program/net">.NET程序开发</a></li>
+	<li id="menu-item-1157" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1157"><a href="http://www.frontopen.com/program/java%e5%bc%80%e5%8f%91">JAVA开发</a></li>
+	<li id="menu-item-26" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-26"><a href="http://www.frontopen.com/program/opensource">开源系统应用</a>
+	<ul class="sub-menu">
+		<li id="menu-item-27" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-27"><a href="http://www.frontopen.com/program/opensource/dedecms">dedeCMS</a></li>
+		<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-28"><a href="http://www.frontopen.com/program/opensource/discuz">Discuz</a></li>
+	</ul>
+</li>
+</ul>
+</li>
+<li id="menu-item-21" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-21"><a href="http://www.frontopen.com/related">相关文档</a>
+<ul class="sub-menu">
+	<li id="menu-item-49" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-49"><a href="http://www.frontopen.com/related/soft">前端开发软件</a></li>
+	<li id="menu-item-1163" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-1163"><a href="http://www.frontopen.com/related/wordpress-theme">wordpress主题</a>
+	<ul class="sub-menu">
+		<li id="menu-item-1162" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1162"><a href="http://www.frontopen.com/related/wordpress-theme/frontopencourse">FRONTOPEN教程</a></li>
+	</ul>
+</li>
+	<li id="menu-item-1161" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1161"><a href="http://www.frontopen.com/related/operate">网站运营</a></li>
+	<li id="menu-item-43" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-43"><a href="http://www.frontopen.com/related/tutorial">原创教程</a></li>
+	<li id="menu-item-45" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-45"><a href="http://www.frontopen.com/related/cankao">参考手册</a></li>
+	<li id="menu-item-44" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-44"><a href="http://www.frontopen.com/related/news">新闻资讯</a></li>
+</ul>
+</li>
+<li id="menu-item-48" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-48"><a href="http://www.frontopen.com/sucai">素材</a>
+<ul class="sub-menu">
+	<li id="menu-item-47" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-47"><a href="http://www.frontopen.com/sucai/material">设计素材</a></li>
+	<li id="menu-item-46" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-46"><a href="http://www.frontopen.com/sucai/source">源码素材</a></li>
+</ul>
+</li>
+<li id="menu-item-1158" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-1158"><a>合作站点</a>
+<ul class="sub-menu">
+	<li id="menu-item-51" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-51"><a title="大软件-绿色软件下载分享" target="_blank" rel="external nofollow" href="http://www.wanziapp.com">绿色软件大全</a></li>
+	<li id="menu-item-1159" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1159"><a target="_blank" rel="external nofollow" href="http://calonye.com/">互联网中文资讯</a></li>
+	<li id="menu-item-1160" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1160"><a title="关注java趋势，优质内容分享" target="_blank" rel="external nofollow" href="http://aijava.cn/">java开发博客</a></li>
+</ul>
+</li>
+</ul></div>  
+  </nav>   
+  <section class="conter marauto"><script type="text/javascript">loading('33%',350)</script>
+  <div id="container">
+      <div id="content" role="main" style="width:96%">
+      <div class="mbx"><i class="icon-home icon-large" style="font-size:14px;"></i>
+<a href="http://www.frontopen.com"  class="gray">首页</a>  >  <a href="http://www.frontopen.com/web">web前端开发</a>  >  <a href="http://www.frontopen.com/web/ie">浏览器兼容</a>  >  一行代码解决各种IE兼容问题,IE6,IE7,IE8,IE9,IE10</div>
+
+				<div id="post-2552" class="post-2552 post type-post status-publish format-standard hentry category-ie">
+                <div class="c-top2" id="post-55">
+                <div class="datetime">2014<br />04-16</div>
+					<header class="tit"><h1 class="entry-title">一行代码解决各种IE兼容问题,IE6,IE7,IE8,IE9,IE10</h1>
+					<aside class="entry-meta iititle2">
+                        <span><i class="icon-user icon-large"></i> <a href="http://www.frontopen.com/author/jinyinriyue" title="由藏羚羊发布" rel="author">藏羚羊</a></span><span><i class="icon-folder-open icon-large"></i> <a href="http://www.frontopen.com/web/ie" rel="category tag">浏览器兼容</a></span><span><i class="icon-eye-open icon-large"></i> 围观<i id="number">193235</i><script type="text/javascript">jQuery(function($){$.get("http://www.frontopen.com/fo_ajax?ajax=getPostViews&postID=2552",function(data){if(data.length < 10)$('#number').text(data)});})</script>次</span><span><i class="icon-comment-alt icon-large"></i> <a href="http://www.frontopen.com/2552.html#comments">16 条评论</a></span><span><i class="icon-pencil icon-large"></i> 编辑日期：<time>2014-04-16</time></span><span><i class="icon-zoom-in icon-large"></i> 字体：<a href="javascript:;" onclick="checkFontSize(18)">大</a> <a href="javascript:;" onclick="checkFontSize(16)">中</a> <a href="javascript:;" onclick="checkFontSize(14)">小</a></span>					</aside>
+                    </header>
+                    <div class="cls"></div>
+		    </div>
+                    <!-- .entry-meta -->
+
+					<article class="entry-content">
+                    
+						<div class="lp_title_type_3" id="paperTitleArea" align="center"><span id="paperTitle" style="color: #000000; padding-top: 25px;"><span style="font-size: 26px; color: #000000; font-family: 微软雅黑;">一行代码解决各种IE兼容问题,IE6,IE7,IE8,IE9,IE10</span></span></div>
+<div id="blogDetailDiv" style="font-size: 14px; color: #000000;">
+<div class="blog_details_20120222">
+<div> 在网站开发中不免因为各种兼容问题苦恼，针对兼容问题，其实IE给出了解决方案Google也给出了解决方案百度也应用了这种方案去解决IE的兼容问题&nbsp;</p>
+<p>百度源代码如下</p>
+<p>&lt;!Doctype html&gt;<br />
+&lt;html xmlns=<a href="http://www.w3.org/1999/xhtml" target="_blank">http://www.w3.org/1999/xhtml</a> xmlns:bd=<a href="http://www.baidu.com/2010/xbdml%3E" target="_blank">http://www.baidu.com/2010/xbdml&gt;</a>;<br />
+&lt;head&gt;<br />
+&lt;meta http-equiv=Content-Type content=“text/html;charset=utf-8″&gt;<br />
+&lt;meta http-equiv=X-UA-Compatible content=IE=EmulateIE7&gt;<br />
+&lt;title&gt;百度一下，你就知道 &lt;/title&gt;<br />
+&lt;script&gt;var wpo={start:new Date*1,pid:109,page:‘superpage’}&lt;/script&gt;<br />
+&lt;meta http-equiv=X-UA-Compatible content=IE=EmulateIE7&gt;</p>
+<p>可以打开百度，右键查看源码看下！我们可以看下文件头是否存在这样一行代码！</p>
+<p>这句话的意思是强制使用IE7模式来解析网页代码！</p>
+<p>在这里送上几种IE使用模式！</p>
+<p>&lt;meta http-equiv=“X-UA-Compatible” content=“IE=8″&gt;<br />
+2. Google Chrome Frame也可以让IE用上Chrome的引擎:</p>
+<p>&lt;meta http-equiv=“X-UA-Compatible” content=“chrome=1″ /&gt;<br />
+3.强制IE8使用IE7模式来解析</p>
+<p>&lt;meta http-equiv=“X-UA-Compatible” content=“IE=EmulateIE7″&gt;&lt;!– IE7 mode –&gt;<br />
+//或者<br />
+&lt;meta http-equiv=“X-UA-Compatible” content=“IE=7″&gt;&lt;!– IE7 mode –&gt;<br />
+4.强制IE8使用IE6或IE5模式来解析</p>
+<p>&lt;meta http-equiv=“X-UA-Compatible” content=“IE=6″&gt;&lt;!– IE6 mode –&gt;</p>
+<p>&lt;meta http-equiv=“X-UA-Compatible” content=“IE=5″&gt;&lt;!– IE5 mode –&gt;<br />
+5.如果一个特定版本的IE支持所要求的兼容性模式多于一种，如：</p>
+<p>&lt;meta http-equiv=“X-UA-Compatible” content=“IE=5; IE=8″ /&gt;<br />
+二.设定网站服务器以指定预设兼容性模式</p>
+<p>如果服务器是自己的话，可以在服务器上定义一个自订标头来为它们的网站预设一个特定的文件兼容性模式。这个特定的方法取决于你的网站服务器。</p>
+<p>录入，下列的 web.config文件使Microsoft Internet Information Services (IIS)能定义一个自订标头以自动使用IE7 mode来编译所有网页。</p>
+<p>另外还有一起其他的解决方案，例如google的</p>
+<p>ie7 – js中是一个JavaScript库（解决IE与W3C标准的冲突的JS库），使微软的Internet Explorer的行为像一个Web标准兼容的浏览器，支持更多的W3C标准，支持CSS2、CSS3选择器。它修复了许多的HTML和CSS问题，并使 得透明PNG在IE5、IE6下正确显示。</p>
+<p>使IE5,IE6兼容到IE7模式（推荐）</p>
+<p>&lt;!–[if lt IE 7]&gt;<br />
+&lt;script src=”<a href="http://ie7-js.googlecode.com/svn/version/2.0" target="_blank">http://ie7-js.googlecode.com/svn/version/2.0</a>(beta)/IE7.js” type=”text/javascript”&gt;&lt;/script&gt;<br />
+&lt;![endif]–&gt;<br />
+使IE5,IE6,IE7兼容到IE8模式</p>
+<p>&lt;!–[if lt IE 8]&gt;<br />
+&lt;script src=”<a href="http://ie7-js.googlecode.com/svn/version/2.0" target="_blank">http://ie7-js.googlecode.com/svn/version/2.0</a>(beta)/IE8.js” type=”text/javascript”&gt;&lt;/script&gt;<br />
+&lt;![endif]–&gt;<br />
+使IE5,IE6,IE7,IE8兼容到IE9模式</p>
+<p>&lt;!–[if lt IE 9]&gt;<br />
+&lt;script src=”<a href="http://ie7-js.googlecode.com/svn/version/2.1" target="_blank">http://ie7-js.googlecode.com/svn/version/2.1</a>(beta4)/IE9.js”&gt;&lt;/script&gt;<br />
+&lt;![endif]–&gt;<br />
+解决PNG显示问题</p>
+<p>只需将透明png图片命名为*-trans.png</p>
+<p>需要注意的是：此方法对背景平铺(background-repeat)和背景(background-position)无法起到任何作用,默认会占满整个容器。<br />
+三、&lt;meta http-equiv=&#8221;X-UA-Compatible&#8221; content=&#8221;IE=edge,chrome=1&#8243; /&gt;<br />
+创建html5时发现这么一句话，不知其什么意思，百度如下：<br />
+这 样写可以达到的效果是如果安装了GCF，则使用GCF来渲染页面，如果没安装GCF，则使用最高版本的IE内核进行渲染。Google Chrome Frame（谷歌内嵌浏览器框架GCF）。这个插件可以让用户的IE浏览器外不变，但用户在浏览网页时，实际上使用的是Google Chrome浏览器内核，而且支持IE6、7、8等多个版本的IE浏览器。</p>
+</div>
+</div>
+</div>
+ 
+ 										                        <div class="loc_link"><ul><li>本文固定链接: <a href="http://www.frontopen.com/2552.html" rel="bookmark" title="一行代码解决各种IE兼容问题,IE6,IE7,IE8,IE9,IE10">http://www.frontopen.com/2552.html</a></li>
+                        <li>转载请注明: <a href="http://www.frontopen.com/author/jinyinriyue" title="由藏羚羊发布" rel="author">藏羚羊</a> <time>2014年04月16日 </time>于 <a href="http://www.frontopen.com/" title="访问前端开拓者">前端开拓者</a> 发表</li></ul>
+                        </div>
+                        							<div style="margin-top:10px">
+							<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_t163" data-cmd="t163" title="分享到网易微博"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a><a href="#" class="bds_mshare" data-cmd="mshare" title="分享到一键分享"></a><a href="#" class="bds_baidu" data-cmd="baidu" title="分享到百度搜藏"></a><a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a><a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"24"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","t163","sqq","mshare","baidu","copy","print","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","t163","sqq","mshare","baidu","copy","print","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=86835285.js?cdnversion='+~(-new Date()/36e5)];</script>							<div class="cls"></div></div>
+													                        <div class="author_info">
+                        	<div class="au_top_bar"><div class="edit_date">最后编辑：<time>2014-04-16</time></div><b>作者：藏羚羊</b></div>
+                            <div class="avatar"><img alt='' src='http://gravatar.duoshuo.com/avatar/f4669d7feee3682b381ff7ec6ebd6f3f?s=96&#038;d=mm&#038;r=g' srcset='http://gravatar.duoshuo.com/avatar/f4669d7feee3682b381ff7ec6ebd6f3f?s=192&amp;d=mm&amp;r=g 2x' class='avatar avatar-96 photo' height='96' width='96' /></div>
+                            <div class="type_out"><span class="ttxx">这个作者貌似有点懒，什么都没有留下。</span><div class="au_links"><a href="http://www.frontopen.com?author=8" class="c1"><i class="icon-home"></i> 站内专栏</a></div></div>
+                        <div class="cls"></div>
+                        </div>
+                                                <div class="j_zeng">
+                        	<a href="http://www.frontopen.com/juanzeng" target="_blank" class="jz_bt" rel="external nofollow">捐  赠</a><span>如果您觉得这篇文章有用处，请支持作者！鼓励作者写出更好更多的文章！</span>
+                        </div>
+                        					</article>
+                    
+                    <!-- .entry-content -->
+
+					<!-- .entry-utility -->
+				</div><!-- #post-## -->
+<div class="c-bot">
+            <div class="cls"></div>
+    </div>
+    <br />
+				<div id="nav-below" class="navigation">
+					<div class="nav-previous"><a href="http://www.frontopen.com/2538.html" rel="next"><span class="meta-nav"><i class="icon-arrow-left"></i></span> 如何有效的推广网站 适合没钱的中小站长（转载） </a></div>
+					<div class="nav-next"><a href="http://www.frontopen.com/2547.html" rel="prev">frontopen2主题v1.4.04.09更新升级日志  <i class="icon-arrow-right"></i></a></div>
+				</div><!-- #nav-below -->
+<div class="cls"></div>
+				                    <div class="ad_2">
+						<script type="text/javascript">
+/*文章底部，相关阅读上面*/
+var cpro_id = "u1378712";
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>                    </div>
+                                <div class="relatedposts">
+<h3 class="widget-title"><i class="icon-warning-sign"></i> 您可能还会对这些文章感兴趣！</h3>
+<ul>
+		<li><a href="http://www.frontopen.com/1130.html" rel="bookmark" title="详细阅读 IE6中的常见BUG与相应的解决办法">IE6中的常见BUG与相应的解决办法</a></li>
+		<li><a href="http://www.frontopen.com/199.html" rel="bookmark" title="详细阅读 IE6中部分情况下z-index无效的原因，以及解决办法">IE6中部分情况下z-index无效的原因，以及解决办法</a></li>
+		<li><a href="http://www.frontopen.com/258.html" rel="bookmark" title="详细阅读 解决IE6中PNG背景不透明方法">解决IE6中PNG背景不透明方法</a></li>
+		<li><a href="http://www.frontopen.com/253.html" rel="bookmark" title="详细阅读 网页前端关于如何命名css样式">网页前端关于如何命名css样式</a></li>
+		<li><a href="http://www.frontopen.com/894.html" rel="bookmark" title="详细阅读 JS中offsetTop、clientTop、scrollTop、offsetTop各属性介绍">JS中offsetTop、clientTop、scrollTop、offsetTop各属性介绍</a></li>
+		<li><a href="http://www.frontopen.com/1385.html" rel="bookmark" title="详细阅读 浏览器的标准模式与怪异模式的设置与区分方法">浏览器的标准模式与怪异模式的设置与区分方法</a></li>
+		<li><a href="http://www.frontopen.com/700.html" rel="bookmark" title="详细阅读 各浏览器之间，空格符占位大小不一的处理办法">各浏览器之间，空格符占位大小不一的处理办法</a></li>
+		<li><a href="http://www.frontopen.com/107.html" rel="bookmark" title="详细阅读 关于网页前端的html使用技巧1">关于网页前端的html使用技巧1</a></li>
+	</ul>
+<div class="cls"></div>
+</div>
+
+<a name="comments"></a>
+<div id="SOHUCS" sid="2552"></div><script>
+if(window.screen.width > 960) {
+    (function(){var appid = 'cys73unUP',conf = 'prod_880902607506a914c98bd27ef9721c68';
+        var doc = document,
+        s = doc.createElement('script'),
+        h = doc.getElementsByTagName('head')[0] || doc.head || doc.documentElement;
+        s.type = 'text/javascript';
+        s.charset = 'utf-8';
+        s.src =  'http://assets.changyan.sohu.com/upload/changyan.js?conf=' + conf + '&appid=' + appid;
+        h.insertBefore(s,h.firstChild);
+    })()
+    } else {
+    (function(){
+        var expire_time = parseInt((new Date()).getTime()/(5*60*1000));
+        var head = document.head || document.getElementsByTagName("head")[0] || document.documentElement;
+        var script_version = document.createElement("script"),script_cyan = document.createElement("script");
+        script_version.type = script_cyan.type = "text/javascript";
+        script_version.charset = script_cyan.charset = "utf-8";
+        script_version.onload = function(){
+            script_cyan.id = 'changyan_mobile_js';
+            script_cyan.src = 'http://changyan.itc.cn/upload/mobile/wap-js/changyan_mobile.js?client_id=cys73unUP&conf=prod_880902607506a914c98bd27ef9721c68&version=cyan_resource_version';
+            head.insertBefore(script_cyan, head.firstChild);
+        };
+        script_version.src = 'http://changyan.sohu.com/upload/mobile/wap-js/version.js?_='+expire_time;
+        head.insertBefore(script_version, head.firstChild);
+    })();
+}</script>
+<div id="ds-ssr" style="display:none">
+		            <ol id="commentlist">
+                		<li class="comment even thread-even depth-1" id="li-comment-4173">
+			<article id="comment-4173" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn"><a href='http://t.qq.com/pahaba' rel='external nofollow' class='url'>搞笑幽默冷笑话</a></span> on <a rel="nofollow" href="http://www.frontopen.com/2552.html#comment-4173"><time pubdate datetime="2014-05-29T09:50:10+00:00">2014 年 5 月 29 日 at 上午 9:50</time></a> <span class="says">said:</span>					</cite>
+				</footer>
+	
+				<div class="comment-content"><p>说得挺好，为什么所有的新版本兼容性都很差，360极速，安全浏览器都不能显示图片，这个目前占用率已经超过IE了</p>
+</div>
+				
+			</article>
+		</li><!-- #comment-## -->
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-4174">
+			<article id="comment-4174" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn"><a href='http://t.qq.com/love61339422' rel='external nofollow' class='url'>cookies</a></span> on <a rel="nofollow" href="http://www.frontopen.com/2552.html#comment-4174"><time pubdate datetime="2014-06-11T08:51:50+00:00">2014 年 6 月 11 日 at 上午 8:51</time></a> <span class="says">said:</span>					</cite>
+				</footer>
+	
+				<div class="comment-content"><p>楼上头像好屌</p>
+</div>
+				
+			</article>
+		</li><!-- #comment-## -->
+		<li class="comment even thread-even depth-1" id="li-comment-4175">
+			<article id="comment-4175" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn"><a href='http://t.qq.com/a15666666' rel='external nofollow' class='url'>那一兲</a></span> on <a rel="nofollow" href="http://www.frontopen.com/2552.html#comment-4175"><time pubdate datetime="2014-07-07T12:21:29+00:00">2014 年 7 月 7 日 at 下午 12:21</time></a> <span class="says">said:</span>					</cite>
+				</footer>
+	
+				<div class="comment-content"><p>代码放到哪个位置呀！</p>
+</div>
+				
+			</article>
+		<ul class="children">
+		<li class="comment odd alt depth-2" id="li-comment-4179">
+			<article id="comment-4179" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn"><a href='http://www.ido321.com/' rel='external nofollow' class='url'>淡忘~浅思</a></span> on <a rel="nofollow" href="http://www.frontopen.com/2552.html#comment-4179"><time pubdate datetime="2014-10-12T21:12:08+00:00">2014 年 10 月 12 日 at 下午 9:12</time></a> <span class="says">said:</span>					</cite>
+				</footer>
+	
+				<div class="comment-content"><p>&lt;head&gt;里面吧：***www.ido321.com/940.html</p>
+</div>
+				
+			</article>
+		</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+		<li class="comment even thread-odd thread-alt depth-1" id="li-comment-4176">
+			<article id="comment-4176" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn">7123</span> on <a rel="nofollow" href="http://www.frontopen.com/2552.html#comment-4176"><time pubdate datetime="2014-07-31T08:19:47+00:00">2014 年 7 月 31 日 at 上午 8:19</time></a> <span class="says">said:</span>					</cite>
+				</footer>
+	
+				<div class="comment-content"><p>浏览器打网站闪退是怎么个情况 <img title="一行代码解决各种IE兼容问题,IE6,IE7,IE8,IE9,IE10 - 第1张  | 前端开拓者" alt="一行代码解决各种IE兼容问题,IE6,IE7,IE8,IE9,IE10 - 第1张  | 前端开拓者" src="http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/1a/bs_org.gif" /> </p>
+</div>
+				
+			</article>
+		</li><!-- #comment-## -->
+		<li class="comment odd alt thread-even depth-1" id="li-comment-4177">
+			<article id="comment-4177" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn"><a href='http://www.hongnianwang.com/' rel='external nofollow' class='url'>鸿念网</a></span> on <a rel="nofollow" href="http://www.frontopen.com/2552.html#comment-4177"><time pubdate datetime="2014-08-17T23:10:47+00:00">2014 年 8 月 17 日 at 下午 11:10</time></a> <span class="says">said:</span>					</cite>
+				</footer>
+	
+				<div class="comment-content"><p>用好评顶你。</p>
+</div>
+				
+			</article>
+		</li><!-- #comment-## -->
+		<li class="comment even thread-odd thread-alt depth-1" id="li-comment-4178">
+			<article id="comment-4178" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn"><a href='http://t.qq.com/diandu1117' rel='external nofollow' class='url'>wezjia.taobao.com wezjia.com</a></span> on <a rel="nofollow" href="http://www.frontopen.com/2552.html#comment-4178"><time pubdate datetime="2014-09-28T22:07:06+00:00">2014 年 9 月 28 日 at 下午 10:07</time></a> <span class="says">said:</span>					</cite>
+				</footer>
+	
+				<div class="comment-content"><p>每个字都看完了，受益匪浅呀。</p>
+</div>
+				
+			</article>
+		</li><!-- #comment-## -->
+		<li class="comment odd alt thread-even depth-1" id="li-comment-4180">
+			<article id="comment-4180" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn"><a href='http://www.ido321.com/' rel='external nofollow' class='url'>淡忘~浅思</a></span> on <a rel="nofollow" href="http://www.frontopen.com/2552.html#comment-4180"><time pubdate datetime="2014-10-12T21:13:15+00:00">2014 年 10 月 12 日 at 下午 9:13</time></a> <span class="says">said:</span>					</cite>
+				</footer>
+	
+				<div class="comment-content"><p>不错的文章，收藏   前两天在StackOverFlow也看到了此类的问题  ***www.ido321.com/940.html</p>
+</div>
+				
+			</article>
+		</li><!-- #comment-## -->
+		<li class="comment even thread-odd thread-alt depth-1" id="li-comment-4181">
+			<article id="comment-4181" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn"><a href='http://t.qq.com/lh19920602' rel='external nofollow' class='url'>天然呆的唯酱</a></span> on <a rel="nofollow" href="http://www.frontopen.com/2552.html#comment-4181"><time pubdate datetime="2014-10-23T10:15:47+00:00">2014 年 10 月 23 日 at 上午 10:15</time></a> <span class="says">said:</span>					</cite>
+				</footer>
+	
+				<div class="comment-content"><p>根据楼主的帖子。。已经解决了兼容ie8的问题，感谢楼主</p>
+</div>
+				
+			</article>
+		</li><!-- #comment-## -->
+		<li class="comment odd alt thread-even depth-1" id="li-comment-4182">
+			<article id="comment-4182" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn"><a href='http://79px.com' rel='external nofollow' class='url'>源泉</a></span> on <a rel="nofollow" href="http://www.frontopen.com/2552.html#comment-4182"><time pubdate datetime="2014-12-08T17:11:23+00:00">2014 年 12 月 8 日 at 下午 5:11</time></a> <span class="says">said:</span>					</cite>
+				</footer>
+	
+				<div class="comment-content"><p>在GFW的庇护之下，哪里来的勇气使用Google-.-</p>
+</div>
+				
+			</article>
+		</li><!-- #comment-## -->
+		<li class="comment even thread-odd thread-alt depth-1" id="li-comment-4183">
+			<article id="comment-4183" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn"><a href='http://www.sailingtech.cn/' rel='external nofollow' class='url'>塞凌泰克</a></span> on <a rel="nofollow" href="http://www.frontopen.com/2552.html#comment-4183"><time pubdate datetime="2015-02-25T13:37:41+00:00">2015 年 2 月 25 日 at 下午 1:37</time></a> <span class="says">said:</span>					</cite>
+				</footer>
+	
+				<div class="comment-content"><p>兼容性问题太头疼了</p>
+</div>
+				
+			</article>
+		</li><!-- #comment-## -->
+		<li class="comment odd alt thread-even depth-1" id="li-comment-4184">
+			<article id="comment-4184" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn"><a href='http://weibo.com/dingyue518' rel='external nofollow' class='url'>丁岳andy</a></span> on <a rel="nofollow" href="http://www.frontopen.com/2552.html#comment-4184"><time pubdate datetime="2015-03-13T11:24:53+00:00">2015 年 3 月 13 日 at 上午 11:24</time></a> <span class="says">said:</span>					</cite>
+				</footer>
+	
+				<div class="comment-content"><p>一行代码解决各种IE兼容问题,IE6,IE7,IE8,IE9,IE10</p>
+</div>
+				
+			</article>
+		</li><!-- #comment-## -->
+		<li class="comment even thread-odd thread-alt depth-1" id="li-comment-4185">
+			<article id="comment-4185" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn"><a href='http://nn.144n.com/' rel='external nofollow' class='url'>南宁婚纱摄影</a></span> on <a rel="nofollow" href="http://www.frontopen.com/2552.html#comment-4185"><time pubdate datetime="2015-05-07T07:22:18+00:00">2015 年 5 月 7 日 at 上午 7:22</time></a> <span class="says">said:</span>					</cite>
+				</footer>
+	
+				<div class="comment-content"><p>这里真的好热闹哦！</p>
+</div>
+				
+			</article>
+		</li><!-- #comment-## -->
+		<li class="comment odd alt thread-even depth-1" id="li-comment-4186">
+			<article id="comment-4186" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn"><a href='http://www.zuilizhi.net/' rel='external nofollow' class='url'>最励志</a></span> on <a rel="nofollow" href="http://www.frontopen.com/2552.html#comment-4186"><time pubdate datetime="2015-07-17T10:31:24+00:00">2015 年 7 月 17 日 at 上午 10:31</time></a> <span class="says">said:</span>					</cite>
+				</footer>
+	
+				<div class="comment-content"><p>很不错</p>
+</div>
+				
+			</article>
+		</li><!-- #comment-## -->
+		<li class="comment even thread-odd thread-alt depth-1" id="li-comment-4187">
+			<article id="comment-4187" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn"><a href='http://t.qq.com/r674291420' rel='external nofollow' class='url'>90后--成熟曲</a></span> on <a rel="nofollow" href="http://www.frontopen.com/2552.html#comment-4187"><time pubdate datetime="2015-09-11T11:06:53+00:00">2015 年 9 月 11 日 at 上午 11:06</time></a> <span class="says">said:</span>					</cite>
+				</footer>
+	
+				<div class="comment-content"><p>js地址打不开啊</p>
+</div>
+				
+			</article>
+		</li><!-- #comment-## -->
+		<li class="duoshuo odd alt thread-even depth-1" id="li-comment-4188">
+			<article id="comment-4188" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn"><a href='http://t.qq.com/guoranbutong123' rel='external nofollow' class='url'>果然不同</a></span> on <a rel="nofollow" href="http://www.frontopen.com/2552.html#comment-4188"><time pubdate datetime="2015-10-26T01:37:42+00:00">2015 年 10 月 26 日 at 上午 1:37</time></a> <span class="says">said:</span>					</cite>
+				</footer>
+	
+				<div class="comment-content"><p>非常棒</p>
+</div>
+				
+			</article>
+		</li><!-- #comment-## -->
+            </ol>
+
+		    </div>
+      </div><!-- #content -->
+  </div><!-- #container -->
+<script type="text/javascript">loading('55%',350)</script>
+    <aside id="primary" class="side" role="complementary">
+        <ul class="xoxo">
+<li id="frontloginblock-2" class="widget-container widget_login">	 <div class="front_login_box">
+            	<div class="from_box">
+      <form name="loginform" id="loginform" action="http://www.frontopen.com/wp-login.php" method="post">
+            <p class="p1"><span><i class="icon-user icon-2x"></i></span><input onfocus="this.value = '';" name="log" id="user_login" type="text" class="user_name" value="User Name" /></p>
+          <p class="p1" style="margin-bottom:30px;"><span><i class="icon-lock icon-2x"></i></span><input onfocus="this.value = '';this.type = 'password';" name="pwd" id="user_pass" type="text" class="password" value="Your Password" /></p>
+          <p class="p2"><input name="提交" type="submit" class="submit_button" value="登 录" /></p>
+          <p class="p3"><span style="float:right"><i class="icon-signin"></i> <a href="http://www.frontopen.com/wp-login.php?action=register">注册</a></span><span class="keep_me"><label style="display:none;" for="rememberme"><input name="rememberme" type="checkbox" id="rememberme" value="forever"></label><i class="icon-check-empty"></i> 记住我的登录信息</span></p>
+          <input type="hidden" name="redirect_to" value="http://www.frontopen.com/2552.html">
+          </form>
+        </div>
+        <script type="text/javascript">
+		jQuery(function($){
+			$('.keep_me').click(function(){
+				var nowSet = $(this).find('i').attr('class');
+				if(nowSet == "icon-check-empty"){
+					$(this).find('i').attr('class','icon-check');
+					$(this).find('#rememberme').attr('checked','')
+				}else{
+					$(this).find('i').attr('class','icon-check-empty');
+					$(this).find('#rememberme').removeAttr('checked')
+				}
+			})
+		});
+        </script>
+            </div>
+     </li><li id="text-2" class="widget-container widget_text">			<div class="textwidget"><script type="text/javascript">
+    /*首页最上面的固定图片*/
+    var cpro_id = "u1367120";
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script></div>
+		</li><li id="text-3" class="widget-container widget_text">			<div class="textwidget"><div class="d3_btn">
+<a class="down_theme" href="http://www.frontopen.com/1378.html">
+<p>Frontopen Theme 2 主题下载</p>
+</a>
+</div>
+<div class="cls"></div></div>
+		</li><li id="advancedrandomposts-2" class="widget-container widget_advancedrandomposts"><h3 class="widget-title">推荐阅读</h3><ul class="advanced-random-posts"><li><a href="http://www.frontopen.com/331.html" title="基于display:table的CSS布局" >基于display:table的CSS布局</a></li>
+<li><a href="http://www.frontopen.com/199.html" title="IE6中部分情况下z-index无效的原因，以及解决办法" >IE6中部分情况下z-index无效的原因，以及解决办法</a></li>
+<li><a href="http://www.frontopen.com/1130.html" title="IE6中的常见BUG与相应的解决办法" >IE6中的常见BUG与相应的解决办法</a></li>
+<li><a href="http://www.frontopen.com/336.html" title="CSS 行高在各浏览器的区别" >CSS 行高在各浏览器的区别</a></li>
+<li><a href="http://www.frontopen.com/258.html" title="解决IE6中PNG背景不透明方法" >解决IE6中PNG背景不透明方法</a></li>
+<li><a href="http://www.frontopen.com/2552.html" title="一行代码解决各种IE兼容问题,IE6,IE7,IE8,IE9,IE10" >一行代码解决各种IE兼容问题,IE6,IE7,IE8,IE9,IE10</a></li>
+<li><a href="http://www.frontopen.com/1167.html" title="IE6下png透明问题解决的最佳方案" >IE6下png透明问题解决的最佳方案</a></li>
+<li><a href="http://www.frontopen.com/107.html" title="关于网页前端的html使用技巧1" >关于网页前端的html使用技巧1</a></li>
+</ul></li>		<li id="recent-posts-3" class="widget-container widget_recent_entries">		<h3 class="widget-title">最近更新</h3>		<ul>
+					<li>
+				<a href="http://www.frontopen.com/4503.html">wordpress自动更新4.3后数据库无法升级的解决方法</a>
+						</li>
+					<li>
+				<a href="http://www.frontopen.com/4496.html">「转」PHP 获取服务器详细信息的原生方法</a>
+						</li>
+					<li>
+				<a href="http://www.frontopen.com/4467.html">CSS3中毛玻璃效果的使用方法</a>
+						</li>
+					<li>
+				<a href="http://www.frontopen.com/4345.html">JavaWeb开发之开发环境搭建</a>
+						</li>
+					<li>
+				<a href="http://www.frontopen.com/4238.html">xcode 真机调试与应用提交上架经验（转）</a>
+						</li>
+					<li>
+				<a href="http://www.frontopen.com/4233.html">frontopen主题v1.5.04.15更新升级日志</a>
+						</li>
+					<li>
+				<a href="http://www.frontopen.com/4006.html">swfit关于闭包的理解与分析</a>
+						</li>
+					<li>
+				<a href="http://www.frontopen.com/4003.html">swift 函数内部的可变参数写法</a>
+						</li>
+				</ul>
+		</li>		<li id="tag_cloud-2" class="widget-container widget_tag_cloud"><h3 class="widget-title">标签</h3><div class="tagcloud"><a href='http://www.frontopen.com/tag/frontopen' class='tag-link-83' title='30个话题' style='font-size: 14px;'>frontopen (30)</a> 
+<a href='http://www.frontopen.com/tag/wordpress' class='tag-link-166' title='29个话题' style='font-size: 14px;'>wordpress (29)</a> 
+<a href='http://www.frontopen.com/tag/%e6%9b%b4%e6%96%b0' class='tag-link-277' title='26个话题' style='font-size: 14px;'>更新 (26)</a> 
+<a href='http://www.frontopen.com/tag/jquery-2' class='tag-link-112' title='22个话题' style='font-size: 14px;'>jQuery (22)</a> 
+<a href='http://www.frontopen.com/tag/wordpress%e4%b8%bb%e9%a2%98' class='tag-link-167' title='20个话题' style='font-size: 14px;'>wordpress主题 (20)</a> 
+<a href='http://www.frontopen.com/tag/%e5%89%8d%e7%ab%af%e5%bc%80%e5%8f%91' class='tag-link-210' title='13个话题' style='font-size: 14px;'>前端开发 (13)</a> 
+<a href='http://www.frontopen.com/tag/html' class='tag-link-91' title='12个话题' style='font-size: 14px;'>html (12)</a> 
+<a href='http://www.frontopen.com/tag/%e6%95%99%e7%a8%8b' class='tag-link-273' title='10个话题' style='font-size: 14px;'>教程 (10)</a> 
+<a href='http://www.frontopen.com/tag/css3' class='tag-link-60' title='10个话题' style='font-size: 14px;'>CSS3 (10)</a> 
+<a href='http://www.frontopen.com/tag/php-2' class='tag-link-131' title='9个话题' style='font-size: 14px;'>PHP (9)</a> 
+<a href='http://www.frontopen.com/tag/javascript-2' class='tag-link-108' title='7个话题' style='font-size: 14px;'>javascript (7)</a> 
+<a href='http://www.frontopen.com/tag/%e4%b8%bb%e9%a2%98' class='tag-link-188' title='6个话题' style='font-size: 14px;'>主题 (6)</a> 
+<a href='http://www.frontopen.com/tag/dede' class='tag-link-62' title='6个话题' style='font-size: 14px;'>dede (6)</a> 
+<a href='http://www.frontopen.com/tag/ie6' class='tag-link-98' title='4个话题' style='font-size: 14px;'>IE6 (4)</a> 
+<a href='http://www.frontopen.com/tag/js' class='tag-link-114' title='4个话题' style='font-size: 14px;'>JS (4)</a> 
+<a href='http://www.frontopen.com/tag/linux' class='tag-link-119' title='4个话题' style='font-size: 14px;'>linux (4)</a> 
+<a href='http://www.frontopen.com/tag/%e5%ad%a6%e4%b9%a0' class='tag-link-243' title='4个话题' style='font-size: 14px;'>学习 (4)</a> 
+<a href='http://www.frontopen.com/tag/%e9%97%ad%e5%8c%85' class='tag-link-347' title='3个话题' style='font-size: 14px;'>闭包 (3)</a> 
+<a href='http://www.frontopen.com/tag/%e6%a0%b7%e5%bc%8f' class='tag-link-281' title='3个话题' style='font-size: 14px;'>样式 (3)</a> 
+<a href='http://www.frontopen.com/tag/%e6%a8%a1%e6%9d%bf' class='tag-link-284' title='3个话题' style='font-size: 14px;'>模板 (3)</a> 
+<a href='http://www.frontopen.com/tag/photoshop' class='tag-link-128' title='3个话题' style='font-size: 14px;'>Photoshop (3)</a> 
+<a href='http://www.frontopen.com/tag/media-screen' class='tag-link-38' title='3个话题' style='font-size: 14px;'>@media screen (3)</a> 
+<a href='http://www.frontopen.com/tag/frontopen%e4%b8%bb%e9%a2%98' class='tag-link-84' title='3个话题' style='font-size: 14px;'>frontopen主题 (3)</a> 
+<a href='http://www.frontopen.com/tag/each' class='tag-link-78' title='2个话题' style='font-size: 14px;'>each (2)</a> 
+<a href='http://www.frontopen.com/tag/iframe' class='tag-link-101' title='2个话题' style='font-size: 14px;'>iframe (2)</a> 
+<a href='http://www.frontopen.com/tag/divcss' class='tag-link-71' title='2个话题' style='font-size: 14px;'>div+css (2)</a> 
+<a href='http://www.frontopen.com/tag/ajax' class='tag-link-42' title='2个话题' style='font-size: 14px;'>Ajax (2)</a> 
+<a href='http://www.frontopen.com/tag/discuz-2' class='tag-link-68' title='2个话题' style='font-size: 14px;'>discuz (2)</a> 
+<a href='http://www.frontopen.com/tag/bug' class='tag-link-54' title='2个话题' style='font-size: 14px;'>BUG (2)</a> 
+<a href='http://www.frontopen.com/tag/cookie' class='tag-link-57' title='2个话题' style='font-size: 14px;'>cookie (2)</a> </div>
+</li><li id="text-5" class="widget-container widget_text">			<div class="textwidget"><script type="text/javascript">
+/*300*250，创建于2013-9-11*/
+var cpro_id = "u1366678";
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script></div>
+		</li>        </ul>
+    </aside><!-- #primary .widget-area -->
+
+<script type="text/javascript">loading('78%',350)</script>
+<div class="cls"></div>
+</section><!-- #main -->
+<div class="cls"></div>
+	<footer id="footer" role="contentinfo">
+		<div id="colophon">
+
+<div id="site-info">
+<a href="javascript:void(0)" onClick="goRoll(0)" id="goTop">返回顶部</a>  &nbsp; <a href="http://www.miitbeian.gov.cn/" rel="external nofollow">鄂ICP备13006429号-1</a> <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e265bcd47021f0d9841d0e0bb3c30be2";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+ ©2012-2015 FRONTOPEN.COM | Theme <span id='official'>frontopen2</span></div>
+		</div>	</footer></div><script type='text/javascript' src='http://www.frontopen.com/wp-includes/js/comment-reply.min.js?ver=4.4.10'></script>
+<script type='text/javascript' src='http://www.frontopen.com/wp-includes/js/wp-embed.min.js?ver=4.4.10'></script>
+<div id="float"><a id="float_gotop" class="floatbtn"  href="javascript:void()" onClick="goRoll(0)" title="返回顶部"></a><a class="linbak floatbtn" href="http://www.frontopen.com/wp-admin/" title="登陆&注册"></a><a id="float_goend" class="floatbtn" href="javascript:void()" onClick="goend()" title="转到底部"></a></div>
+</body>
+</html><script type="text/javascript">loading('100%',350)</script>
+
+<!-- Dynamic page generated in 0.662 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2017-09-15 11:22:15 -->
+
+<!-- super cache -->

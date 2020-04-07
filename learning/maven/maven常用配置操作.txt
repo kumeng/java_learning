@@ -1,0 +1,27 @@
+﻿安装本地jar包
+
+mvn install:install-file 
+-DgroupId=org.apache.maven.plugins 
+-DartifactId=maven-shade-plugin 
+-Dversion=1.6 
+-Dpackaging=jar 
+-Dfile=/F:/我的工具/maven-shade-plugin/1.6/maven-shade-plugin-1.6.jar
+
+
+开启maven代理设置（公司使用代理服务器访问互联网时需要）
+
+在%MAVEN_HOME%/conf目录下的setting.xml
+配置如下:
+  <proxies>
+  
+	 <proxy>
+      <id>optional_20</id>
+      <active>true</active>
+      <protocol>http</protocol>
+      <username>proxyuser</username>
+      <password>proxypass</password>
+      <host>20.0.22.20</host>
+      <port>8080</port>
+      <nonProxyHosts>local.net|some.host.com</nonProxyHosts>
+    </proxy>
+  </proxies>

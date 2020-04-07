@@ -1,0 +1,21 @@
+scp -rp root@192.168.1.63:/usr/super/app/webapps/cms /usr/super/app/webapps    从192.168.1.63复制到本机
+
+或者
+
+scp -rp /usr/super/app/webapps root@192.168.1.63:/usr/super/app/webapps/cms     从本机复制到192.168.1.63
+
+然后提示输入密码，接着输入该用户名的密码即OK。
+
+
+mv    /usr/file1.txt   /usr/file1.txt.bak 
+重命名
+
+删除
+rm
+-f：强制删除文件或目录；
+	rm -f file1   直接删除
+-i：删除已有文件或目录之前先询问用户；
+    rm  -i 删除之前询问，不能删除目录
+    rm  -i *  删除文件及目录
+-d：直接把欲删除的目录的硬连接数据删除成0，删除该目录；
+     rm  -d  filename  必须制定具体的文件，会把硬链接删除为0

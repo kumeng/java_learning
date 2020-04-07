@@ -1,0 +1,1265 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+     
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    
+<head>  
+
+            <link rel="canonical" href="http://blog.csdn.net/notejs/article/details/49681479"/> 
+ <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848"> 
+       
+    <title>fiddler filters 使用（fiddler只显示指定请求，fiddler不显示指定请求，即filter请求过滤） - 姜哥的技术博客
+        - 博客频道 - CSDN.NET</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="fiddler filters 使用（fiddler只显示指定请求，fiddler不显示指定请求，即filter请求过滤）Fiddler 有一个filters可以很好的帮助我们只显示我们关系的请求或者隐藏掉我们不关心的请求。这在开发中是非常有用的，尤其是你在这边想看请求，那边有程序或者网站在自动频繁发送求情，真的很烦。回想一下买票插件，是不是会在不停的刷，你在fiddler看东西就会很烦。" />
+
+    <meta name="keywords" content="filter,fiddler" />
+
+   
+    <script src="http://static.blog.csdn.net/scripts/blog_static_head.min.js" type="text/javascript"></script>
+
+    
+        <!--new top-->
+                      <!--new top-->
+    
+      <!-- ad begin -->
+         
+    <!-- ad end-->
+
+    <link rel="Stylesheet" type="text/css" href="http://static.blog.csdn.net/skin/dark1/css/style.css?v=1.1" />
+
+    
+
+    <link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="/tt361/rss/list" />
+    <link rel="shortcut icon" href="http://c.csdnimg.cn/public/favicon.ico" />
+    <link type="text/css" rel="stylesheet" href="http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/default.css" />
+ 
+
+
+
+
+    <link href="http://c.csdnimg.cn/blog/csdn_public_blog_detail.min.css" type="text/css" rel="stylesheet" />
+     
+         <link rel="stylesheet" href="http://static.blog.csdn.net/css/csdn_blog_detail.min.css" />
+
+  
+
+
+    <!-- 请置于所有广告位代码之前 --> 
+            <script src="http://dup.baidustatic.com/js/ds.js"></script>
+
+</head>
+
+
+<body>
+        <div class="tracking-ad" data-view="true" data-mod="ad_popu_72"  data-mtp="62" data-order="40" data-con="ad_content_2072" >
+                     <script id="popuLayer_js_q" src="http://ads.csdn.net/js/popuLayer.js" defer="defer"  type="text/javascript"></script>
+                <div id="layerd" style="position: fixed;bottom:0px;right:0px;line-height:0px;z-index:1000">
+    	                <div class="J_close layer_close" style="display:;background-color:#efefef;padding:0px;color:#333;font:12px/24px Helvetica,Tahoma,Arial,sans-serif;text-align:right;">关闭</div><!-- 广告占位容器 --><div id="cpro_u2895327"></div></div>
+                <script>  document.getElementById("popuLayer_js_q").onload = function () { var styObjd = styObj = { width: "300px", "height": parseInt(250) + 28 }; window.CSDN.Layer.PopuLayer("#layerd", { storageName: "layerd", styleObj: styObjd, total: 50, expoire: 1000 * 60 }); }</script><!-- 投放代码 --><script type="text/javascript">                /*服务器频道首页置顶Banner960*90，创建于2014-7-3*/    (window.cproArray = window.cproArray || []).push({ id: "u2895327" });  </script>  <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+     
+        </div>
+
+    <!-- 广告位开始 -->
+        
+    <!-- 广告位结束 -->
+
+    
+   
+      <!--new top-->
+    <script id="toolbar-tpl-scriptId" fixed="true" prod="blog" skin="black" src="http://c.csdnimg.cn/public/common/toolbar/js/html.js" type="text/javascript"></script>
+     <!--new top-->
+    <div id="container">
+        <div id="header">
+    <div class="header">
+        <div id="blog_title">
+            <h2>
+                <a href="http://blog.csdn.net/notejs">姜哥的技术博客</a></h2>
+            <h3>记录学习和工作的点点滴滴。请关注blog.mojijs.com 。</h3>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+        
+     
+    </div>
+</div>
+<div id="navigator">
+    <div class="navigator_bg">
+    </div>
+    <div class="navigator">
+        <ul>           
+                <li id="btnContents"><a href="http://blog.csdn.net/notejs?viewmode=contents"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_mulu'])">
+                    <img src="http://static.blog.csdn.net/images/ico_list.gif">目录视图</span></a></li>
+                <li id="btnView"><a href="http://blog.csdn.net/notejs?viewmode=list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_zhaiyao'])">
+                    <img src="http://static.blog.csdn.net/images/ico_summary.gif">摘要视图</span></a></li>
+                <li id="btnRss"><a href="http://blog.csdn.net/notejs/rss/list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_RSS'])">
+                    <img src="http://static.blog.csdn.net/images/ico_rss.gif">订阅</span></a></li>                
+            
+
+            </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    var username = "tt361";
+    var _blogger = username;
+    var blog_address = "http://blog.csdn.net/notejs";
+    var static_host = "http://static.blog.csdn.net";
+    var currentUserName = "";  
+</script>
+
+        <div id="body">
+            <div id="main">
+                <div class="main">
+                        <div class="ad_class">
+<div class="notice tracking-ad" data-mod='popu_3' > 
+
+
+<a href="http://blog.csdn.net/blogdevteam/article/details/72917467">
+<font color=red><strong>征文 | 从高考，到程序员</strong></font></a>
+
+&nbsp;&nbsp;&nbsp;&nbsp
+
+<a href="http://blog.csdn.net/blogdevteam/article/details/73817254">
+<font color=blue><strong>CSDN日报20170627——《回眸后那流泪的脸——从高考到程序猿》</strong></font></a>
+&nbsp;&nbsp;&nbsp;&nbsp
+
+
+<a href="http://blog.csdn.net/turingbooks/article/details/73480804">
+<font color=red><strong>6 月书讯 | 最受欢迎的 SQL 入门书重磅升级</strong></font></a>
+
+
+</div>                        </div>
+                        
+
+
+
+  
+
+
+
+
+
+
+<script   type="text/javascript" src="http://static.blog.csdn.net/scripts/category.js"></script>
+
+  <script type="text/ecmascript">
+      window.quickReplyflag = true;
+           
+            var isBole = false;
+            
+      
+      var fasrc="http://my.csdn.net/my/favorite/miniadd?t=fiddler+filters+%e4%bd%bf%e7%94%a8%ef%bc%88fiddler%e5%8f%aa%e6%98%be%e7%a4%ba%e6%8c%87%e5%ae%9a%e8%af%b7%e6%b1%82%ef%bc%8cfiddler%e4%b8%8d%e6%98%be%e7%a4%ba%e6%8c%87%e5%ae%9a%e8%af%b7%e6%b1%82%ef%bc%8c%e5%8d%b3filter%e8%af%b7%e6%b1%82%e8%bf%87%e6%bb%a4%ef%bc%89&u=http://blog.csdn.net/notejs/article/details/49681479"
+
+    </script>
+<div id="article_details" class="details">
+    <div class="article_title">   
+         <span class="ico ico_type_Original"></span>
+
+
+    <h1>
+        <span class="link_title"><a href="/notejs/article/details/49681479">
+        fiddler filters 使用（fiddler只显示指定请求，fiddler不显示指定请求，即filter请求过滤）            
+        </a></span>
+    </h1>
+</div>
+
+   
+
+        <div class="article_manage clearfix">
+        <div class="article_l">
+            <span class="link_categories">
+            标签：
+              <a href='http://www.csdn.net/tag/filter' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">filter</a><a href='http://www.csdn.net/tag/fiddler' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">fiddler</a>
+            </span>
+        </div>
+        <div class="article_r">
+            <span class="link_postdate">2015-11-06 12:44</span>
+            <span class="link_view" title="阅读次数">13209人阅读</span>
+            <span class="link_comments" title="评论次数"> <a href="#comments" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_pinglun'])">评论</a>(1)</span>
+            <span class="link_collect tracking-ad" data-mod="popu_171"> <a href="javascript:void(0);" onclick="javascript:collectArticle('fiddler+filters+%e4%bd%bf%e7%94%a8%ef%bc%88fiddler%e5%8f%aa%e6%98%be%e7%a4%ba%e6%8c%87%e5%ae%9a%e8%af%b7%e6%b1%82%ef%bc%8cfiddler%e4%b8%8d%e6%98%be%e7%a4%ba%e6%8c%87%e5%ae%9a%e8%af%b7%e6%b1%82%ef%bc%8c%e5%8d%b3filter%e8%af%b7%e6%b1%82%e8%bf%87%e6%bb%a4%ef%bc%89','49681479');return false;" title="收藏">收藏</a></span>
+             <span class="link_report"> <a href="#report" onclick="javascript:report(49681479,2);return false;" title="举报">举报</a></span>
+
+        </div>
+    </div>
+    <div class="embody"  style="display:none" id="embody">
+        <span class="embody_t">本文章已收录于：</span>
+        <div class="embody_c" id="lib" value="{&quot;err&quot;:0,&quot;msg&quot;:&quot;ok&quot;,&quot;data&quot;:[]}"></div>
+    </div>
+    <style type="text/css">        
+            .embody{
+                padding:10px 10px 10px;
+                margin:0 -20px;
+                border-bottom:solid 1px #ededed;                
+            }
+            .embody_b{
+                margin:0 ;
+                padding:10px 0;
+            }
+            .embody .embody_t,.embody .embody_c{
+                display: inline-block;
+                margin-right:10px;
+            }
+            .embody_t{
+                font-size: 12px;
+                color:#999;
+            }
+            .embody_c{
+                font-size: 12px;
+            }
+            .embody_c img,.embody_c em{
+                display: inline-block;
+                vertical-align: middle;               
+            }
+             .embody_c img{               
+                width:30px;
+                height:30px;
+            }
+            .embody_c em{
+                margin: 0 20px 0 10px;
+                color:#333;
+                font-style: normal;
+            }
+    </style>
+    <script  type="text/javascript">
+        $(function () {
+            try
+            {
+                var lib = eval("("+$("#lib").attr("value")+")");
+                var html = "";
+                if (lib.err == 0) {
+                    $.each(lib.data, function (i) {
+                        var obj = lib.data[i];
+                        //html += '<img src="' + obj.logo + '"/>' + obj.name + "&nbsp;&nbsp;";
+                        html += ' <a href="' + obj.url + '" target="_blank">';
+                        html += ' <img src="' + obj.logo + '">';
+                        html += ' <em><b>' + obj.name + '</b></em>';
+                        html += ' </a>';
+                    });
+                    if (html != "") {
+                        setTimeout(function () {
+                            $("#lib").html(html);                      
+                            $("#embody").show();
+                        }, 100);
+                    }
+                }      
+            } catch (err)
+            { }
+            
+        });
+    </script>
+      <div class="category clearfix">
+        <div class="category_l">
+           <img src="http://static.blog.csdn.net/images/category_icon.jpg">
+            <span>分类：</span>
+        </div>
+        <div class="category_r">
+                    <label  onclick="GetCategoryArticles('1381390','tt361','top','49681479');">
+                        <span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_fenlei']);">js<em>（29）</em></span>
+                      <img class="arrow-down" src="http://static.blog.csdn.net/images/arrow_triangle _down.jpg" style="display:inline;">
+                      <img class="arrow-up" src="http://static.blog.csdn.net/images/arrow_triangle_up.jpg" style="display:none;">
+                        <div class="subItem">
+                            <div class="subItem_t"><a  href="http://blog.csdn.net/tt361/article/category/1381390"  target="_blank">作者同类文章</a><i class="J_close">X</i></div>
+                            <ul class="subItem_l" id="top_1381390">                            
+                            </ul>
+                        </div>
+                    </label>                    
+        </div>
+    </div>
+        <div   class="bog_copyright">         
+            <p  class="copyright_p" >版权声明：本文为博主原创文章，未经博主允许不得转载，本文首发于姜哥的墨迹技术博客。</p>
+        </div>
+
+  
+
+  
+  
+     
+
+
+<div id="article_content" class="article_content tracking-ad" data-mod=popu_307  data-dsm = "post" >
+
+<p style="margin-top:0px; margin-bottom:10px; padding-top:0px; padding-bottom:0px; text-indent:2em; color:rgb(38,38,38); font-family:'Century Gothic','Microsoft yahei'; font-size:16px; line-height:28.8px">
+fiddler filters 使用（fiddler只显示指定请求，fiddler不显示指定请求，即filter请求过滤）</p>
+<p style="margin-top:0px; margin-bottom:10px; padding-top:0px; padding-bottom:0px; text-indent:2em; color:rgb(38,38,38); font-family:'Century Gothic','Microsoft yahei'; font-size:16px; line-height:28.8px">
+Fiddler 有一个filters可以很好的帮助我们只显示我们关系的请求或者隐藏掉我们不关心的请求。这在开发中是非常有用的，尤其是你在这边想看请求，那边有程序或者网站在自动频繁发送求情，真的很烦。回想一下买票插件，是不是会在不停的刷，你在fiddler看东西就会很烦。</p>
+<p style="margin-top:0px; margin-bottom:10px; padding-top:0px; padding-bottom:0px; text-indent:2em; color:rgb(38,38,38); font-family:'Century Gothic','Microsoft yahei'; font-size:16px; line-height:28.8px">
+另外就是使用fiddler的时候我们几乎不会关心js和css请求，现在js越来越多的模块化了，在开发模式下往往会加载很多js文件（可能几百个），这往往都是我们不关系的请求。</p>
+<p style="margin-top:0px; margin-bottom:10px; padding-top:0px; padding-bottom:0px; text-indent:2em; color:rgb(38,38,38); font-family:'Century Gothic','Microsoft yahei'; font-size:16px; line-height:28.8px">
+如下图，先整体看看。</p>
+<p style="margin-top:0px; margin-bottom:10px; padding-top:0px; padding-bottom:0px; text-indent:2em; color:rgb(38,38,38); font-family:'Century Gothic','Microsoft yahei'; font-size:16px; line-height:28.8px">
+<img src="http://blog.mojijs.com/zb_users/upload/2015/10/201510241445674828237240.png" title="201510241445674828237240.png" alt="" style="margin:5px auto 5px -2em; padding:0px; border:0px none; max-width:100%; height:auto; background:rgb(191,191,191)"></p>
+<p style="margin-top:0px; margin-bottom:10px; padding-top:0px; padding-bottom:0px; text-indent:2em; color:rgb(38,38,38); font-family:'Century Gothic','Microsoft yahei'; font-size:16px; line-height:28.8px">
+接下来是分步解释（按照途中标记的号码）：</p>
+<ol class=" list-paddingleft-2" style="margin:0px; padding:0px; color:rgb(38,38,38); font-family:'Century Gothic','Microsoft yahei'; font-size:16px; line-height:28.8px">
+<li style="margin:0px 0px 0px 20px; padding:0px 0px 0px 10px">
+<p style="margin-top:0px; margin-bottom:10px; padding-top:0px; padding-bottom:0px; text-indent:0em">
+是否启用filters。<br>
+</p>
+</li><li style="margin:0px 0px 0px 20px; padding:0px 0px 0px 10px">
+<p style="margin-top:0px; margin-bottom:10px; padding-top:0px; padding-bottom:0px; text-indent:0em">
+我们可以维护多套filters，在不同的情形下加载不同的filter，在Actions中可以把当前的filter保存起来，也可以加载以前保存的filter，如下图。</p>
+<p style="margin-top:0px; margin-bottom:10px; padding-top:0px; padding-bottom:0px; text-indent:0em">
+<img src="http://blog.mojijs.com/zb_users/upload/2015/10/201510241445674828811167.png" title="201510241445674828811167.png" alt="" style="margin:5px auto 5px -2em; padding:0px; border:0px none; max-width:100%; height:auto; background:rgb(191,191,191)"><br>
+</p>
+</li><li style="margin:0px 0px 0px 20px; padding:0px 0px 0px 10px">
+<p style="margin-top:0px; margin-bottom:10px; padding-top:0px; padding-bottom:0px; text-indent:0em">
+根据主机名信息的filter。其中第一个下拉框是只显示内网或者外网选项，个人觉得用处很有限，如下图</p>
+<p style="margin-top:0px; margin-bottom:10px; padding-top:0px; padding-bottom:0px; text-indent:0em">
+<img src="http://blog.mojijs.com/zb_users/upload/2015/10/201510241445674828201559.png" title="201510241445674828201559.png" alt="" style="margin:5px auto 5px -2em; padding:0px; border:0px none; max-width:100%; height:auto; background:rgb(191,191,191)"></p>
+<p style="margin-top:0px; margin-bottom:10px; padding-top:0px; padding-bottom:0px; text-indent:0em">
+另一个是下拉框结合它下面的输入框来完成根据主机名信息显示或者隐藏或者标记指定请求，如下图。</p>
+<p style="margin-top:0px; margin-bottom:10px; padding-top:0px; padding-bottom:0px; text-indent:0em">
+<img src="http://blog.mojijs.com/zb_users/upload/2015/10/201510241445674828108417.png" title="201510241445674828108417.png" alt="" style="margin:5px auto 5px -2em; padding:0px; border:0px none; max-width:100%; height:auto; background:rgb(191,191,191)"></p>
+<p style="margin-top:0px; margin-bottom:10px; padding-top:0px; padding-bottom:0px; text-indent:0em">
+下图是一个例子，可以简单理解为隐藏对本机的请求。</p>
+<p style="margin-top:0px; margin-bottom:10px; padding-top:0px; padding-bottom:0px; text-indent:0em">
+<img src="http://blog.mojijs.com/zb_users/upload/2015/10/201510241445675695140008.png" title="201510241445675695140008.png" alt="7.png" style="margin:5px auto 5px -2em; padding:0px; border:0px none; max-width:100%; height:auto; background:rgb(191,191,191)"></p>
+</li><li style="margin:0px 0px 0px 20px; padding:0px 0px 0px 10px">
+<p style="margin-top:0px; margin-bottom:10px; padding-top:0px; padding-bottom:0px; text-indent:0em">
+根据进程信息的filter，第一个checkbox选上就可以选择进程了，那么fiddler将只显示该进程发出的请求，如下图。另外两个一个是指关心IE，另一个是隐藏来自service host的请求。</p>
+<p style="margin-top:0px; margin-bottom:10px; padding-top:0px; padding-bottom:0px; text-indent:0em">
+<img src="http://blog.mojijs.com/zb_users/upload/2015/10/201510241445674828139450.png" title="201510241445674828139450.png" alt="" style="margin:5px auto 5px -2em; padding:0px; border:0px none; max-width:100%; height:auto; background:rgb(191,191,191)"></p>
+</li><li style="margin:0px 0px 0px 20px; padding:0px 0px 0px 10px">
+<p style="margin-top:0px; margin-bottom:10px; padding-top:0px; padding-bottom:0px; text-indent:0em">
+根据request header的filter。这个可能是我觉得比较有用的一块儿了。</p>
+<p style="margin-top:0px; margin-bottom:10px; padding-top:0px; padding-bottom:0px; text-indent:0em">
+Show only if URL contains 和 Hide if URL contains 使用方法类&#20284; 功能相反。都是url中包含某些字符的filter，多种情况空&#26684;分隔。支持正则表达式和完全匹配，如下是个例子，可以简单理解为隐藏所有js和css请求。</p>
+<p style="margin-top:0px; margin-bottom:10px; padding-top:0px; padding-bottom:0px; text-indent:0em">
+<img src="http://blog.mojijs.com/zb_users/upload/2015/10/201510251445742366125692.png" title="201510251445742366125692.png" alt="8.png" style="margin:5px auto 5px -2em; padding:0px; border:0px none; max-width:100%; height:auto; background:rgb(191,191,191)"></p>
+<p style="margin-top:0px; margin-bottom:10px; padding-top:0px; padding-bottom:0px; text-indent:0em">
+<br>
+</p>
+</li><li style="margin:0px 0px 0px 20px; padding:0px 0px 0px 10px">
+<p style="margin-top:0px; margin-bottom:10px; padding-top:0px; padding-bottom:0px; text-indent:0em">
+这个部分是各种各样的断点，大家应该知道fiddler是有断点功能的，可以在请求发送时断住，之后修改请求，再发送。当然也可以在响应的时候断住，做修改。而且fiddler还可以模拟响应，根本不发送给server端，在项目开发阶段，server端没有准备好API这个就特别有用了，或者用了复现一些问题。</p>
+</li><li style="margin:0px 0px 0px 20px; padding:0px 0px 0px 10px">
+<p style="margin-top:0px; margin-bottom:10px; padding-top:0px; padding-bottom:0px; text-indent:0em">
+如果server端的响应代码属于或者不属于哪一类就隐藏，比较简单。</p>
+</li><li style="margin:0px 0px 0px 20px; padding:0px 0px 0px 10px">
+<p style="margin-top:0px; margin-bottom:10px; padding-top:0px; padding-bottom:0px; text-indent:0em">
+这部分是根据响应类型和大小的filter，前一半是显示隐藏的filter，后block的filter。block的filter也挺有意思，如果你选中了block css那么浏览器就加载不到css了。</p>
+<p style="margin-top:0px; margin-bottom:10px; padding-top:0px; padding-bottom:0px; text-indent:0em">
+<img src="http://blog.mojijs.com/zb_users/upload/2015/10/201510241445674828875454.png" title="201510241445674828875454.png" alt="" style="margin:5px auto 5px -2em; padding:0px; border:0px none; max-width:100%; height:auto; background:rgb(191,191,191)"><br>
+</p>
+</li><li style="margin:0px 0px 0px 20px; padding:0px 0px 0px 10px">
+<p style="margin-top:0px; margin-bottom:10px; padding-top:0px; padding-bottom:0px; text-indent:0em">
+是对response header的flag和修改。比较有用的是如果你想知道哪些请求修改了cookie那么就可以选中第一个checkbox。</p>
+</li></ol>
+<p style="margin-top:0px; margin-bottom:10px; padding-top:0px; padding-bottom:0px; text-indent:2em; color:rgb(38,38,38); font-family:'Century Gothic','Microsoft yahei'; font-size:16px; line-height:28.8px">
+</p>
+<p class="content-footer" style="margin-top:0px; margin-bottom:10px; padding-top:0px; padding-bottom:0px; text-indent:2em; color:rgb(38,38,38); font-family:'Century Gothic','Microsoft yahei'; font-size:16px; line-height:28.8px">
+本文首发于<a target="_blank" href="http://blog.mojijs.com/" style="color:rgb(38,38,38); text-decoration:none; font-weight:bold">姜哥的墨迹技术博客</a>（blog.mojijs.com）。<br>
+本文地址为<a target="_blank" href="http://blog.mojijs.com/post/154.html" style="color:rgb(38,38,38); text-decoration:none; font-weight:bold">http://blog.mojijs.com/post/154.html</a>（blog.mojijs.com/post/154.html）。更多精彩请关注原文。</p>
+   
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+
+
+
+<div class="bdsharebuttonbox tracking-ad" style="float: right;" data-mod="popu_172">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+   
+
+    
+<!--172.16.140.12-->
+
+<!-- Baidu Button BEGIN -->
+<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=1536434" ></script>
+<script type="text/javascript" id="bdshell_js"></script>
+<script type="text/javascript">
+    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+</script>
+<!-- Baidu Button END -->
+
+
+
+ 
+
+
+        <div id="digg" ArticleId="49681479" >
+            <dl id="btnDigg" class="digg digg_disable"  onclick="btndigga();">
+               
+                 <dt>顶</dt>
+                <dd>2</dd>
+            </dl>
+           
+              
+            <dl id="btnBury" class="digg digg_disable"  onclick="btnburya();">
+              
+                  <dt>踩</dt>
+                <dd>1</dd>               
+            </dl>
+            
+        </div>
+     <div class="tracking-ad" data-mod="popu_222"><a href="javascript:void(0);" >&nbsp;</a>   </div>
+    <div class="tracking-ad" data-mod="popu_223"> <a href="javascript:void(0);" >&nbsp;</a></div>
+    <script type="text/javascript">
+                function btndigga() {
+                    $(".tracking-ad[data-mod='popu_222'] a").click();
+                }
+                function btnburya() {
+                    $(".tracking-ad[data-mod='popu_223'] a").click();
+                }
+            </script>
+
+   <ul class="article_next_prev">
+                <li class="prev_article"><span  onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian']);location.href='/notejs/article/details/49681463';">上一篇</span><a href="/notejs/article/details/49681463" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian'])">记我升级电脑硬盘，硬盘升级系统迁移免除安装系统的烦恼 （硬盘克隆）</a></li>
+                <li class="next_article"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian']);location.href='/notejs/article/details/49681517';">下一篇</span><a href="/notejs/article/details/49681517" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian'])">ERR! configure error gyp ERR! stack Error: Can&#39;t find Python executable &quot;python&quot;</a></li>
+    </ul>
+
+    <div style="clear:both; height:10px;"></div>
+
+
+            <div class="similar_article"   >
+                    <h4></h4>
+                    <div class="similar_c"style="margin:20px 0px 0px 0px">
+                        <div class="similar_c_t">
+                          &nbsp;&nbsp;相关文章推荐
+                        </div>
+                   
+                        <div class="similar_wrap tracking-ad" data-mod="popu_36"  style="max-height:195px;">                       
+                            <ul class="similar_list fl">    
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/zhaoyanjun6/article/details/72929800" title="Fiddler抓包使用教程-过滤" strategy="BlogCommendFromCsdn" target="_blank" style="width: 290px;">Fiddler抓包使用教程-过滤</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://hck.iteye.com/blog/1855668" title="使用Fiddler 查看监视调试HTTP请求响应" strategy="BlogCommendFromCsdn" target="_blank" style="width: 290px;">使用Fiddler 查看监视调试HTTP请求响应</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://uule.iteye.com/blog/2105923" title="使用Fiddler拦截http请求" strategy="BlogCommendFromCsdn" target="_blank" style="width: 290px;">使用Fiddler拦截http请求</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://tommy-lu.iteye.com/blog/2238961" title="Fiddler 教程" strategy="BlogCommendFromCsdn" target="_blank" style="width: 290px;">Fiddler 教程</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://woodstudio.iteye.com/blog/494584" title=" 使用Fiddler来查看JVM发出的HTTP请求 " strategy="BlogCommendFromCsdn" target="_blank" style="width: 290px;"> 使用Fiddler来查看JVM发出的HTTP请求 </a>
+                                   </li>
+                            </ul>
+                              <ul class="similar_list fr">      
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/u010142437/article/details/73278776" title="Fiddler界面详解" strategy="BlogCommendFromCsdn" target="_blank" style="width: 290px;">Fiddler界面详解</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://wangxiaohigh.iteye.com/blog/1289840" title="使用fiddler模拟http请求" strategy="BlogCommendFromCsdn" target="_blank" style="width: 290px;">使用fiddler模拟http请求</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://zh-ka-163-com.iteye.com/blog/2252443" title="如何用fiddler2捕获移动设备上的http或者https请求" strategy="BlogCommendFromCsdn" target="_blank" style="width: 290px;">如何用fiddler2捕获移动设备上的http或者https请求</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://xiaoheichuangtianya.iteye.com/blog/2261466" title="使用fiddler抓包手机请求数据" strategy="BlogCommendFromCsdn" target="_blank" style="width: 290px;">使用fiddler抓包手机请求数据</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://lixuguang.iteye.com/blog/2275154" title="三大主流软件负载均衡器对比(LVS、Nginx、HAproxy)" strategy="BlogCommendFromCsdn" target="_blank" style="width: 290px;">三大主流软件负载均衡器对比(LVS、Nginx、HAproxy)</a>
+                                   </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>   
+      
+</div>
+
+     <div>
+           
+
+       
+                           
+            <!-- 广告位：PC端-博客内容页-banner1-960*90 --> 
+            <script> 
+                (function() { 
+                    var s = "_" + Math.random().toString(36).slice(2); 
+                    document.write('<div id="' + s + '"></div>'); 
+                    (window.slotbydup=window.slotbydup || []).push({ 
+                        id: '4228013', 
+                        container: s, 
+                        size: '0,0', 
+                        display: 'inlay-fix' 
+                    }); 
+                })(); 
+            </script>
+    </div>
+
+<div id="suggest"></div>
+         <script  language="javascript" type='text/javascript'>     
+             $(function(){
+                 $.get("/tt361/svc/GetSuggestContent/49681479",function(data){
+                     $("#suggest").html(data);
+                 });     
+             });             
+         </script>  
+
+
+<style>
+.blog-ass-articl dd {
+color: #369;
+width: 99%; /*修改行*/
+float: left;
+overflow: hidden;
+font: normal normal 12px/23px "SimSun";
+height: 23px;
+margin: 0;
+padding: 0 0 0 10px;
+margin-right: 30px;
+background: url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;
+}
+</style>
+
+ 
+
+ 
+
+<dl class="blog-ass-articl tracking-ad" id="res-relatived" data-mod="popu_84"  > 
+     <dt><span>猜你在找</span></dt>    
+
+
+   
+
+    
+                <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                     <a href="http://edu.csdn.net/huiyiCourse/detail/422?ref=blog&amp;loc=r1" title="深度学习基础与TensorFlow实践" strategy="undefined" target="_blank">深度学习基础与TensorFlow实践</a>
+                </dd>
+                <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                     <a href="http://edu.csdn.net/huiyiCourse/series_detail/43?ref=blog&amp;loc=r1" title="【在线峰会】前端开发重点难点技术剖析与创新实践" strategy="undefined" target="_blank">【在线峰会】前端开发重点难点技术剖析与创新实践</a>
+                </dd>
+                <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                     <a href="http://edu.csdn.net/huiyiCourse/series_detail/42?ref=blog&amp;loc=r1" title="【在线峰会】一天掌握物联网全栈开发之道" strategy="undefined" target="_blank">【在线峰会】一天掌握物联网全栈开发之道</a>
+                </dd>
+                <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                     <a href="http://edu.csdn.net/huiyiCourse/series_detail/41?ref=blog&amp;loc=r1" title="【在线峰会】如何高质高效的进行Android技术开发" strategy="undefined" target="_blank">【在线峰会】如何高质高效的进行Android技术开发</a>
+                </dd>
+                <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                     <a href="http://edu.csdn.net/huiyiCourse/detail/404?ref=blog&amp;loc=r1" title="机器学习40天精英计划" strategy="undefined" target="_blank">机器学习40天精英计划</a>
+                </dd>
+                <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                     <a href="http://edu.csdn.net/huiyiCourse/detail/402?ref=blog&amp;loc=r1" title="Python数据挖掘与分析速成班" strategy="undefined" target="_blank">Python数据挖掘与分析速成班</a>
+                </dd>
+                <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                     <a href="http://edu.csdn.net/course/detail/3011?ref=blog&amp;loc=r1" title="微信小程序开发实战" strategy="undefined" target="_blank">微信小程序开发实战</a>
+                </dd>
+                <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                     <a href="http://edu.csdn.net/course/detail/1968?ref=blog&amp;loc=r1" title="JFinal极速开发企业实战" strategy="undefined" target="_blank">JFinal极速开发企业实战</a>
+                </dd>
+                <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                     <a href="http://edu.csdn.net/combo/detail/23?ref=blog&amp;loc=r1" title="备战2017软考 系统集成项目管理工程师 学习套餐" strategy="undefined" target="_blank">备战2017软考 系统集成项目管理工程师 学习套餐</a>
+                </dd>
+                <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                     <a href="http://edu.csdn.net/course/detail/3338?ref=blog&amp;loc=r1" title="Python大型网络爬虫项目开发实战（全套）" strategy="undefined" target="_blank">Python大型网络爬虫项目开发实战（全套）</a>
+                </dd>
+
+    
+
+    
+   
+</dl>
+
+
+
+
+
+    <div id="ad_cen">        
+                <div>
+                                    <div class="tracking-ad" data-view="true" data-mod="ad_popu_199" data-mtp="43" data-order="114" data-con="ad_content_1843" style="width: 960px; height: 90px;">
+                                             <script type="text/javascript">
+                                                 /*博客内容页下方Banner2-960*90，创建于,2016-11-28*/
+                                                 var cpro_id = "u2831143";
+                                            </script>
+                                            <script type="text/javascript" src="http://cpro.baidustatic.com/cpro/ui/c.js"></script>
+                                   </div>
+                    </div>
+    </div>  
+
+        <!-- 广告位开始 -->
+        <!-- 广告位结束 -->
+
+
+<div class="comment_class">
+    <div id="comment_title" class="panel_head">
+        <span class="see_comment">查看评论</span><a name="comments"></a></div>
+    <div id="comment_list">
+    </div>
+    <div id="comment_bar">
+    </div>
+    <div id="comment_form">
+    </div>
+    <div class="announce">
+        * 以上用户言论只代表其个人观点，不代表CSDN网站的观点或立场<a name="reply"></a><a name="quote"></a></div>
+</div>
+
+<script type="text/javascript">
+    var fileName = '49681479';
+    var commentscount = 1;
+    var islock = false
+</script>
+
+    <div id="ad_bot">
+    </div>
+<div id="report_dialog">
+</div>
+
+<div id="d-top"  style="bottom:60px;">
+
+        <a id="quick-reply" class="btn btn-top q-reply" title="快速回复" style="display:none;">
+            <img src="http://static.blog.csdn.net/images/blog-icon-reply.png" alt="快速回复">
+        </a>    
+    <a id="d-top-a" class="btn btn-top backtop"  style="display: none;" title="返回顶部" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_huidaodingbu'])" style="">         
+         <img src="http://static.blog.csdn.net/images/top.png" alt="TOP">
+    </a>
+</div>
+<script type="text/javascript">
+    $(function ()
+    {
+        $("#ad_frm_0").height("90px");
+        
+        setTimeout(function(){
+            $("#ad_frm_2").height("200px");
+        },1000);    
+    });
+  
+</script>
+<style type="text/css">
+    .tag_list
+    {
+        background: none repeat scroll 0 0 #FFFFFF;
+        border: 1px solid #D7CBC1;
+        color: #000000;
+        font-size: 12px;
+        line-height: 20px;
+        list-style: none outside none;
+        margin: 10px 2% 0 1%;
+        padding: 1px;
+    }
+    .tag_list h5
+    {
+        background: none repeat scroll 0 0 #E0DBD3;
+        color: #47381C;
+        font-size: 12px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 5px;
+        margin: 0;
+    }
+    .tag_list h5 a
+    {
+        color: #47381C;
+    }
+    .classify
+    {
+        margin: 10px 0;
+        padding: 4px 12px 8px;
+    }
+    .classify a
+    {
+        margin-right: 20px;
+        white-space: nowrap;
+    }
+</style>
+
+
+
+
+
+<div id="pop_win" style="display:none ;position: absolute; z-index: 10000; border: 1px solid rgb(220, 220, 220); top: 222.5px; left: 630px; opacity: 1; background: none 0px 0px repeat scroll rgb(255, 255, 255);">
+    
+</div>
+<div id="popup_mask"></div>
+<style>
+    #popup_mask
+    {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: 9999;
+        left: 0px;
+        top: 0px;
+        opacity: 0.3;
+        filter: alpha(opacity=30);
+        display: none;
+    }
+
+</style>
+
+
+
+
+<script type="text/javascript">
+    $(function(){        
+        
+        setTimeout(function(){
+            $(".comment_body:contains('回复')").each(function(index,item){
+                var u=$(this).text().split('：')[0].toString().replace("回复","")
+                var thisComment=$(this);
+                if(u)
+                {
+                    $.getJSON("https://passport.csdn.net/get/nick?callback=?", {users: u}, function(a) {
+                        if(a!=null&&a.data!=null&&a.data.length>0)
+                        {
+                            nick=a.data[0].n; 
+                            if(u!=nick)
+                            {
+                                thisComment.text(thisComment.text().replace(u,nick));  
+                            }
+                        }       
+                    });  
+                }
+            });         
+
+        },200);  
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },5000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },10000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },15000);
+        
+        setTimeout(function(){
+            $("a img[src='http://js.tongji.linezing.com/stats.gif']").parent().css({"position":"absolute","left":"50%"});
+        },300);
+    });
+
+    function loginbox(){
+        var $logpop=$("#pop_win");
+        $logpop.html('<iframe src="https://passport.csdn.net/account/loginbox?service=http://static.blog.csdn.net/callback.htm" frameborder="0" height="600" width="400" scrolling="no"></iframe>');
+
+        $('#popup_mask').css({
+            opacity: 0.5,
+            width: $( document ).width() + 'px',
+            height:  $( document ).height() + 'px'
+        });
+        $('#popup_mask').css("display","block");
+ 
+        $logpop.css( {
+            top: ($( window ).height() - $logpop.height())/ 2  + $( window 
+       ).scrollTop() + 'px',
+            left:($( window ).width() - $logpop.width())/ 2
+        } );
+ 
+        setTimeout( function () {
+            $logpop.show();
+            $logpop.css( {
+                opacity: 1
+            } );
+        }, 200 );
+ 
+        $('#popup_mask').unbind("click");
+        $('#popup_mask').bind("click", function(){
+            $('#popup_mask').hide();
+            var $clopop = $("#pop_win");
+            $("#common_ask_div_sc").css("display","none");
+            $clopop.css( {
+                opacity: 0
+            } );
+            setTimeout( function () {
+                $clopop.hide();
+            }, 350 );
+            return false;
+        });
+    }   
+
+    var articletitle='fiddler filters 使用（fiddler只显示指定请求，fiddler不显示指定请求，即filter请求过滤）';
+
+</script>
+
+
+
+
+
+
+
+
+                        <div class="clear">
+                        </div>
+                    </div>                   
+                
+            </div>
+                   
+           <div id="side">
+               
+    <div class="side">
+<div id="panel_Profile" class="panel">
+<ul class="panel_head"><span>个人资料</span></ul>
+<ul class="panel_body profile">
+<div id="blog_userface">
+    <a href="http://my.csdn.net/tt361" target="_blank">
+    <img src="http://avatar.csdn.net/0/A/0/1_tt361.jpg" title="访问我的空间" style="max-width:90%"/>
+    </a>
+    <br />
+    <span><a href="http://my.csdn.net/tt361" class="user_name" target="_blank">tt361</a></span>
+</div>
+<div class="interact">
+
+    <a href="javascript:void(0);" class="attent" id="span_add_follow" title="[加关注]"></a>
+
+ <a href="javascript:void(0);" class="letter"  title="[发私信]" onclick="window.open('http://msg.csdn.net/letters/model?receiver=tt361','_blank','height=350,width=700');_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_sixin'])"></a>  
+</div>
+<div id="blog_medal">
+                <div id="bms_box">
+                                            <a  target="_blank">
+                                                    <img src="http://c.csdnimg.cn/jifen/images/xunzhang/xunzhang/chizhiyiheng.png" onmouseover="m_over_m(this,4)" onmouseout="m_out_m()" alt="1" >
+                                            </a>
+               </div>
+</div>
+<ul id="blog_rank">
+    <li>访问：<span>229543次</span></li>
+    <li>积分：<span>3479</span> </li>    
+    <li >等级： <span style="position:relative;display:inline-block;z-index:1" >
+            <img src="http://c.csdnimg.cn/jifen/images/xunzhang/jianzhang/blog5.png" alt="" style="vertical-align: middle;" id="leveImg">
+            <div id="smallTittle" style=" position: absolute;  left: -24px;  top: 25px;  text-align: center;  width: 101px;  height: 32px;  background-color: #fff;  line-height: 32px;  border: 2px #DDDDDD solid;  box-shadow: 0px 2px 2px rgba (0,0,0,0.1);  display: none;   z-index: 999;">
+            <div style="left: 42%;  top: -8px;  position: absolute;  width: 0;  height: 0;  border-left: 10px solid transparent;  border-right: 10px solid transparent;  border-bottom: 8px solid #EAEAEA;"></div>
+            积分：3479 </div>
+        </span>  </li>
+    <li>排名：<span>第8949名</span></li>
+</ul>
+<ul id="blog_statistics">
+    <li>原创：<span>112篇</span></li>
+    <li>转载：<span>3篇</span></li>
+    <li>译文：<span>4篇</span></li>
+    <li>评论：<span>50条</span></li>
+</ul>
+</ul>
+</div>
+
+
+<div class="panel" id="panel_Search">
+    <ul class="panel_head"><span>文章搜索</span></ul>
+    <ul class="panel_body" class="form_search">
+        <form id="frmSearch" action="http://so.csdn.net/search" class="form_search csdn-tracking-statistics" target="_blank"  data-mod="popu_306">
+        <span><input id="inputSearch" type="text" class="blogsearch" title="请输入关键字" /></span>
+        <input id="btnSubmit" type="button" value="搜索" title="search in blog" />
+        <input type="hidden" name="q" id="inputQ" />
+        <input type="hidden" name="t" value="blog" />
+        <a id="btnSearchBlog" target="_blank"></a>
+        </form>
+    </ul>
+</div>
+
+<script type="text/javascript">
+
+   
+    $(function () {
+        $("#btnSubmit").unbind("click");
+        $("#btnSubmit").click(function () {           
+            search();
+        });
+
+        $("#frmSearch").submit(function () {           
+            search();
+            return false;
+        });
+
+        function search()
+        {
+            if ($("#inputSearch").val() == "") {               
+                alert("请录入搜索关键词！");                         
+                return false;
+            }
+            //var url = "http://so.csdn.net/so/search/s.do?q=" + encodeURIComponent($("#inputSearch").val()) + "&u=" + username + "&t=blog";           
+            var url = "https://www.baidu.com/s?wd=" + encodeURIComponent($("#inputSearch").val()) + "%20site%3Ablog.csdn.net"
+            window.location.href = url;
+        }   
+    });
+</script><div id="panel_Category" class="panel">
+<ul class="panel_head"><span>文章分类</span></ul>
+<ul class="panel_body">    
+                 <li>
+                    <a href="/tt361/article/category/1268916" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">dojo</a><span>(15)</span>
+                </li>
+                 <li>
+                    <a href="/tt361/article/category/1381390" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">js</a><span>(30)</span>
+                </li>
+                 <li>
+                    <a href="/tt361/article/category/1381685" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">node.js</a><span>(14)</span>
+                </li>
+                 <li>
+                    <a href="/tt361/article/category/1397266" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">胡诌八耻</a><span>(16)</span>
+                </li>
+                 <li>
+                    <a href="/tt361/article/category/1522431" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">不务正业</a><span>(36)</span>
+                </li>
+                 <li>
+                    <a href="/tt361/article/category/1736879" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Sencha Touch</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/tt361/article/category/1803619" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">CSS3</a><span>(4)</span>
+                </li>
+</ul>
+</div><div id="panel_Archive" class="panel">
+<ul class="panel_head"><span>文章存档</span></ul>
+<ul class="panel_body">
+<div id="archive_list">
+<!--归档统计-->
+<li><a href="/tt361/article/month/2015/12">2015年12月</a><span>(12)</span></li><li><a href="/tt361/article/month/2015/11">2015年11月</a><span>(15)</span></li><li><a href="/tt361/article/month/2015/10">2015年10月</a><span>(6)</span></li><li><a href="/tt361/article/month/2014/11">2014年11月</a><span>(1)</span></li><li><a href="/tt361/article/month/2014/10">2014年10月</a><span>(2)</span></li><li><a href="/tt361/article/month/2014/08">2014年08月</a><span>(2)</span></li><li><a href="/tt361/article/month/2014/06">2014年06月</a><span>(2)</span></li><li><a href="/tt361/article/month/2014/05">2014年05月</a><span>(7)</span></li><li><a href="/tt361/article/month/2014/04">2014年04月</a><span>(2)</span></li><li><a href="/tt361/article/month/2014/03">2014年03月</a><span>(1)</span></li><li><a href="/tt361/article/month/2013/12">2013年12月</a><span>(7)</span></li><li><a href="/tt361/article/month/2013/11">2013年11月</a><span>(2)</span></li><li><a href="/tt361/article/month/2013/09">2013年09月</a><span>(9)</span></li><li><a href="/tt361/article/month/2013/08">2013年08月</a><span>(4)</span></li><li><a href="/tt361/article/month/2013/07">2013年07月</a><span>(13)</span></li><li><a href="/tt361/article/month/2013/06">2013年06月</a><span>(4)</span></li><li><a href="/tt361/article/month/2013/05">2013年05月</a><span>(7)</span></li><li><a href="/tt361/article/month/2013/04">2013年04月</a><span>(21)</span></li><li><a href="/tt361/article/month/2012/10">2012年10月</a><span>(2)</span></li><li><a href="/tt361/article/month/2012/03">2012年03月</a><span>(1)</span></li>
+</div>
+</ul>
+</div>
+<div id="hotarticls" class="panel">
+<ul class="panel_head">
+    <span>       
+阅读排行    </span>
+</ul>
+
+<ul class="panel_body itemlist">
+<li>
+<a href="/notejs/article/details/49681479" title="fiddler filters 使用（fiddler只显示指定请求，fiddler不显示指定请求，即filter请求过滤）">fiddler filters 使用（fiddler只显示指定请求，fiddler不显示指定请求，即filter请求过滤）</a><span>(13163)</span>
+</li>
+<li>
+<a href="/notejs/article/details/8777675" title="node.js解析xml（xmlreader）">node.js解析xml（xmlreader）</a><span>(10241)</span>
+</li>
+<li>
+<a href="/notejs/article/details/9350935" title="转义字符（\）对JavaScript中JSON.parse的影响">转义字符（\）对JavaScript中JSON.parse的影响</a><span>(10109)</span>
+</li>
+<li>
+<a href="/notejs/article/details/49681649" title="MSBUILD : error MSB3428: 未能加载 Visual C++ 组件“VCBuild.exe”。">MSBUILD : error MSB3428: 未能加载 Visual C++ 组件“VCBuild.exe”。</a><span>(7718)</span>
+</li>
+<li>
+<a href="/notejs/article/details/17318099" title="CSS @font-face(CSS 自定义字体)">CSS @font-face(CSS 自定义字体)</a><span>(7131)</span>
+</li>
+<li>
+<a href="/notejs/article/details/8754901" title="node.js os模块">node.js os模块</a><span>(5350)</span>
+</li>
+<li>
+<a href="/notejs/article/details/9449961" title="windows 7 memcached报failed to install service or service already installed的解决方案">windows 7 memcached报failed to install service or service already installed的解决方案</a><span>(5284)</span>
+</li>
+<li>
+<a href="/notejs/article/details/8769226" title="node.js jsdom gb系列网页中文乱码问题解决方案">node.js jsdom gb系列网页中文乱码问题解决方案</a><span>(4214)</span>
+</li>
+<li>
+<a href="/notejs/article/details/49681517" title="ERR! configure error gyp ERR! stack Error: Can&#39;t find Python executable &quot;python&quot;">ERR! configure error gyp ERR! stack Error: Can&#39;t find Python executable &quot;python&quot;</a><span>(3563)</span>
+</li>
+<li>
+<a href="/notejs/article/details/8770575" title="js实现面向切面的编程（AOP）">js实现面向切面的编程（AOP）</a><span>(3519)</span>
+</li>
+</ul>
+</div>
+<div id="hotarticls2" class="panel">
+<ul class="panel_head"><span>评论排行</span></ul>
+<ul class="panel_body itemlist">
+<li>
+<a href="/notejs/article/details/20608755" title="我为什么离开神州泰岳">我为什么离开神州泰岳</a><span>(7)</span>
+</li>
+<li>
+<a href="/notejs/article/details/9248263" title="你自认为理解了JavaScript？">你自认为理解了JavaScript？</a><span>(6)</span>
+</li>
+<li>
+<a href="/notejs/article/details/8777675" title="node.js解析xml（xmlreader）">node.js解析xml（xmlreader）</a><span>(5)</span>
+</li>
+<li>
+<a href="/notejs/article/details/9296591" title="JavaScript交流贴">JavaScript交流贴</a><span>(4)</span>
+</li>
+<li>
+<a href="/notejs/article/details/41516223" title="Wampserver 2.5 mongo扩展">Wampserver 2.5 mongo扩展</a><span>(3)</span>
+</li>
+<li>
+<a href="/notejs/article/details/49681649" title="MSBUILD : error MSB3428: 未能加载 Visual C++ 组件“VCBuild.exe”。">MSBUILD : error MSB3428: 未能加载 Visual C++ 组件“VCBuild.exe”。</a><span>(3)</span>
+</li>
+<li>
+<a href="/notejs/article/details/8881023" title="dojo/Memory模块隐含bug（dojo1.8.0）">dojo/Memory模块隐含bug（dojo1.8.0）</a><span>(2)</span>
+</li>
+<li>
+<a href="/notejs/article/details/38613415" title="U盘安装 CentOS 64bit （dell c6100, CentOS6.3, 64bit）">U盘安装 CentOS 64bit （dell c6100, CentOS6.3, 64bit）</a><span>(2)</span>
+</li>
+<li>
+<a href="/notejs/article/details/8878958" title="如何使dojo组件具有发布和订阅事件的能力">如何使dojo组件具有发布和订阅事件的能力</a><span>(2)</span>
+</li>
+<li>
+<a href="/notejs/article/details/8770575" title="js实现面向切面的编程（AOP）">js实现面向切面的编程（AOP）</a><span>(2)</span>
+</li>
+</ul>
+</div>
+<div id="homepageArticles" class="panel tracking-ad" data-mod="popu_4">
+<ul class="panel_head"><span>推荐文章</span></ul>
+<ul class="panel_body" id="ad_commend">
+<ul>
+<li><a href="http://blog.csdn.net/blogdevteam/article/details/73740215" target="_blank">* CSDN日报20170626——《我的程序探险之旅》</a></li>
+<li><a href="http://blog.csdn.net/pistolove/article/details/73610588" 
+target="_blank">* 【Java高级开发工程师】近一个月的面试总结</a></li>
+<li><a href="http://blog.csdn.net/reboot123/article/details/73266776"target="_blank">* 一个文科生的工程师之路</a></li>
+<li><a href="http://blog.csdn.net/lqw_student/article/details/73646768" 
+target="_blank">* JavaWeb 与 MySQL 人鬼情未了</a></li>
+<li><a href="http://blog.csdn.net/totond/article/details/73648103" 
+target="_blank">* PermissionsDispatcher、RxPermissions和easypermissions的使用和对比</a></li>
+<li><a href="http://blog.csdn.net/broadview2006/article/details/73550412" 
+target="_blank">* 每周荐书：架构、Scratch、增长黑客（评论送书）</a></li>
+
+</ul></ul>
+</div>
+
+
+<div id="newcomments" class="panel">
+<ul class="panel_head"><span>最新评论</span></ul>
+<ul class="panel_body itemlist">
+    <li>
+   
+         <a href="/notejs/article/details/17320429#comments">mask-image使用方法及其优点</a>
+    <p style="margin:0px;"><a href="/qq_26925495" class="user_name">qq_26925495</a>:
+兼容性不好，太可惜了，呵呵
+    </p>
+    </li>
+    <li>
+   
+         <a href="/notejs/article/details/11076103#comments">神秘的程序员漫画（31-40）</a>
+    <p style="margin:0px;"><a href="/wangjinlong_" class="user_name">wangjinlong_</a>:
+不错
+    </p>
+    </li>
+    <li>
+   
+         <a href="/notejs/article/details/49681649#comments">MSBUILD : error MSB3428: 未能加载 Visual C++ 组件“VCBuild.exe”。</a>
+    <p style="margin:0px;"><a href="/ymcdhr" class="user_name">ymcdhr</a>:
+参考：https://github.com/nodejs/node-gyp#installation
+    </p>
+    </li>
+    <li>
+   
+         <a href="/notejs/article/details/49681649#comments">MSBUILD : error MSB3428: 未能加载 Visual C++ 组件“VCBuild.exe”。</a>
+    <p style="margin:0px;"><a href="/qq_28290705" class="user_name">qq_28290705</a>:
+我的win8.1系统，也出现了这个状况，只装了Microsoft Visual Studio Exp...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/notejs/article/details/49681649#comments">MSBUILD : error MSB3428: 未能加载 Visual C++ 组件“VCBuild.exe”。</a>
+    <p style="margin:0px;"><a href="/tansuangai2008" class="user_name">tansuangai2008</a>:
+你好，一定需要安装Visual Studio C++ 2013吗？有什么其他的方式可以解决吗？
+    </p>
+    </li>
+    <li>
+   
+         <a href="/notejs/article/details/8777675#comments">node.js解析xml（xmlreader）</a>
+    <p style="margin:0px;"><a href="/u012299002" class="user_name">u012299002</a>:
+不能说解析错误，只能是部分错误而且量少的话不会，这样有解决的办法的
+    </p>
+    </li>
+    <li>
+   
+         <a href="/notejs/article/details/8777675#comments">node.js解析xml（xmlreader）</a>
+    <p style="margin:0px;"><a href="/u012299002" class="user_name">u012299002</a>:
+使用xmlreader.read解析大量数据会出错这是为什么？
+    </p>
+    </li>
+    <li>
+   
+         <a href="/notejs/article/details/8777675#comments">node.js解析xml（xmlreader）</a>
+    <p style="margin:0px;"><a href="/sinat_16929851" class="user_name">sinat_16929851</a>:
+你好 想问一下 如果有了一个json对象 怎么把它转换成xml的文本文件流那样的呢
+    </p>
+    </li>
+    <li>
+   
+         <a href="/notejs/article/details/49681479#comments">fiddler filters 使用（fiddler只显示指定请求，fiddler不显示指定请求，即filter请求过滤）</a>
+    <p style="margin:0px;"><a href="/qq_29352123" class="user_name">qq_29352123</a>:
+谢谢，解决了我每次手动Hide某些Url。
+    </p>
+    </li>
+    <li>
+   
+         <a href="/notejs/article/details/50205775#comments">大学生该如何自学前端技术（HTML CSS JavaScript）？</a>
+    <p style="margin:0px;"><a href="/aihuahuade" class="user_name">aihuahuade</a>:
+我是大学生，现在在自学前端，学校里也有一个特别贵的培训在招学生，一直在纠结要不要参加培训。我想问，在...
+    </p>
+    </li>
+</ul>
+</div>
+    </div>
+    <div class="clear">
+    </div>
+
+
+                   <!-- 广告位开始 -->                    <!-- 广告位结束 -->
+                   <div class="tracking-ad" data-view="true"  data-mtp="63" data-order="40" data-con="ad_content_1260" style="width: 200px; height: 200px;">
+                         <div id="nav_show_top_stop" style="width: 200px;height: 200px;z-index:1000"><div id="cpro_u2734128"></div></div>
+                   </div>
+    <script type="text/javascript">    
+        setTimeout(function () {
+            var naviga_offsetTop = 0;
+            function naviga_stay_top() { var scrollTop = jQuery(document).scrollTop(); if (scrollTop > naviga_offsetTop) { jQuery("#nav_show_top_stop").css({ "position": "fixed" }); jQuery("#nav_show_top_stop").css({ "top": "0px" }); } else { jQuery("#nav_show_top_stop").css({ "position": "fixed" }); jQuery("#nav_show_top_stop").css({ "top": naviga_offsetTop - scrollTop + "px" }); } }
+            function onload_function() { naviga_offsetTop = jQuery("#nav_show_top_stop").position().top; jQuery(window).bind("scroll", naviga_stay_top); jQuery(window).bind("mousewheel", naviga_stay_top); jQuery(document).bind("scroll", naviga_stay_top); jQuery(document).bind("mousewheel", naviga_stay_top); } jQuery(document).ready(onload_function);
+               
+        }, 200);    
+    </script>
+<script type="text/javascript">(window.cproArray = window.cproArray || []).push({ id: "u2734128" });  </script> 
+                    <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script> 
+
+           </div>   
+
+            <div class="clear">
+            </div>
+        </div>
+
+        
+
+
+
+
+
+
+
+
+    <script type="text/javascript" src="http://passport.csdn.net/content/loginbox/login.js"></script>
+<script type="text/javascript">
+    $(function () {
+        function __get_code_toolbar(snippet_id) {
+            return $("<span class='tracking-ad' data-mod='popu_167'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "' target='_blank' title='在CODE上查看代码片'  style='text-indent:0;'><img src='https://code.csdn.net/assets/CODE_ico.png' width=12 height=12 alt='在CODE上查看代码片' style='position:relative;top:1px;left:2px;'/></a></span>"
+                    + "<span class='tracking-ad' data-mod='popu_170'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "/fork' target='_blank' title='派生到我的代码片' style='text-indent:0;'><img src='https://code.csdn.net/assets/ico_fork.svg' width=12 height=12 alt='派生到我的代码片' style='position:relative;top:2px;left:2px;'/></a></span>");
+        }
+        
+        $("[code_snippet_id]").each(function () {
+            __s_id = $(this).attr("code_snippet_id");
+            if (__s_id != null && __s_id != "" && __s_id != 0 && parseInt(__s_id) > 70020) {
+                __code_tool = __get_code_toolbar(__s_id);
+                $(this).prev().find(".tools").append(__code_tool);
+            }
+        });
+
+        $(".bar").show();
+    });
+</script>
+
+
+
+
+
+    </div>
+      <!--new top-->
+    
+
+     
+
+   
+        <!--new top-->
+   
+   
+
+    
+    
+    
+   
+
+   
+
+
+       <script type="text/javascript" src="http://static.blog.csdn.net/public/res/bower-libs/MathJax/MathJax.js?config=TeX-AMS_HTML"></script>
+          <script type="text/javascript">
+              //$(function () {
+              //    setTimeout(function () {
+              //        var searchtitletags = articletitle + ',' + $("#tags").html();
+              //        searchService({
+              //            index: 'blog',
+              //            query: searchtitletags,
+              //            from: 5,
+              //            size: 5,
+              //            appendTo: '#res',
+              //            url: 'recommend',
+              //            his: 2,
+              //            client: "blog_cf_enhance",
+              //            tmpl: '<dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="#{ url }" title="#{ title }" strategy="#{ strategy }">#{ title }</a></dd>'
+              //        });
+              //    }, 1000);
+              //});
+
+         </script>
+    
+    <script src="http://static.blog.csdn.net/scripts/csdn_blog_detail.min.js" type="text/javascript"></script>
+        
+    <script type="text/javascript" src="http://c.csdnimg.cn/blog/csdn_public_blog_detail.min.js?20170620001"></script>
+
+    <script type="text/javascript" src="http://medal.blog.csdn.net/showblogmedal.ashx?blogid=855542"></script>
+
+     
+    
+
+
+  <div id="a52b5334d" style="width: 1px; height: 1px; display: none;">
+                    <script id="adJs52b5334"></script>
+                    <script>document.getElementById("adJs52b5334").src = "http://ads.csdn.net/js/opt/52b5334.js?t=" + Math.random();</script>
+   </div>
+
+    
+    
+        
+     
+
+    
+          
+    <div class="pop_CA_cover"  style="display:none"></div>
+    <div class="pop pop_CA"  style="display:none">
+          <div class="CA_header">
+            收藏助手
+            <span class="cancel_icon"  id="fapancle"  onclick="$('.pop_CA').hide();$('.pop_CA_cover').hide();"></span>
+          </div>
+          <iframe src="" id="fa" frameborder="0" width="100%" height="360"  scrolling="no" ></iframe>
+    </div>
+
+
+        <script type="text/javascript">
+
+            $(function () {
+                var fromjs = $("#fromjs");
+                if (fromjs.length > 0) {
+                    $("#fromjs .markdown_views pre").addClass("prettyprint");
+                    prettyPrint();
+
+                    $('pre.prettyprint code').each(function () {
+                        var lines = $(this).text().split('\n').length;
+                        var $numbering = $('<ul/>').addClass('pre-numbering').hide();
+                        $(this).addClass('has-numbering').parent().append($numbering);
+                        for (i = 1; i <= lines; i++) {
+                            $numbering.append($('<li/>').text(i));
+                        };
+                        $numbering.fadeIn(1700);
+                    });
+
+                    $('.pre-numbering li').css("color", "#999");
+                }
+            });
+           
+            $(".markdown_views a[target!='_blank']").attr("target", "_blank");
+
+            //$(".toc a[target='_blank']").attr("target", "");
+
+            setTimeout(function () {
+                $(".toc a[target='_blank']").attr("target", "");
+            },500);
+
+        </script>
+
+</body>
+</html>   
+ 

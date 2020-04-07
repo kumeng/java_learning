@@ -1,0 +1,15 @@
+SOAP  
+Simple Oject Access Protocol，简单对象访问协议,Web服务核心协议之一
+
+
+
+
+webservice  
+    客户端的四种调用方式    
+    一、Wsimport命令 生成客户端调用方式   ，使用方式请查看HelloService.java文件
+    二、service编程调用方式
+    三、HttpURLConnection调用方式
+    四、Ajax调用方式
+
+
+ 

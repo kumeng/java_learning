@@ -1,0 +1,5 @@
+支持较大的sql文件
+
+@  sql_path  
+
+@ C:\CDRCB\3434348.sql 

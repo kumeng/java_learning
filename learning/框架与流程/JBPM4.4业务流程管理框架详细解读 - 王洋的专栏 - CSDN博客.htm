@@ -1,0 +1,1812 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    
+<head>  
+        <script type="text/javascript" src="http://static.blog.csdn.net/scripts/tingyun-rum.js"></script>
+            <link rel="canonical" href="http://blog.csdn.net/wangyang1354/article/details/50014231"/> 
+ <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848"> 
+       
+    <title>JBPM4.4业务流程管理框架详细解读 - 王洋的专栏
+        - CSDN博客</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="1. 什么是JBPM4.4业务流程管理框架？JBPM，全称是Java Business Process Management（业务流程管理），它是覆盖了业务流程管理、工作流、服务协作等领域的一个开源的、灵活的、易扩展的可执行流程语言框架。相关概念：a: 从一个节点到另一个节点==&gt;流转。b:程序预先设定的行为==&gt;活动。2. JBPM工作流的特点2.1 直观描述业务流程采用" />
+
+    <meta name="keywords" content="jbpm" />
+
+   
+    <script src="http://static.blog.csdn.net/scripts/blog_static_head.min.js" type="text/javascript"></script>
+
+    
+        <!--new top-->
+       
+       
+        <!--new top-->
+    
+      <!-- ad begin -->
+         
+    <!-- ad end-->
+
+    <link rel="Stylesheet" type="text/css" href="http://static.blog.csdn.net/skin/light_blue/css/style.css?v=1.1" />
+
+    
+
+    <link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="/wangyang1354/rss/list" />
+    <link rel="shortcut icon" href="http://c.csdnimg.cn/public/favicon.ico" />
+    <link type="text/css" rel="stylesheet" href="http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/default.css" />
+ 
+
+
+
+    <link href="http://c.csdnimg.cn/blog/csdn_public_blog_detail.min.css" type="text/css" rel="stylesheet" />
+     
+         <link rel="stylesheet" href="http://static.blog.csdn.net/css/csdn_blog_detail.min.css" />
+
+  
+
+
+    <!-- 请置于所有广告位代码之前 --> 
+            <script src="http://dup.baidustatic.com/js/ds.js"></script>
+
+</head>
+
+
+<body>
+     
+
+    <!-- 广告位开始 -->
+        
+    <!-- 广告位结束 -->
+
+    
+   
+      <!--new top-->
+    <script id="toolbar-tpl-scriptId" fixed="true" prod="blog" skin="black" src="http://c.csdnimg.cn/public/common/toolbar/js/html.js" type="text/javascript"></script>
+     <!--new top-->
+    <div id="container">
+        <div id="header">
+    <div class="header">
+        <div id="blog_title">
+            <h2>
+                <a href="http://blog.csdn.net/wangyang1354">王洋的专栏</a></h2>
+            <h3>IT</h3>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+        
+     
+    </div>
+</div>
+<div id="navigator">
+    <div class="navigator_bg">
+    </div>
+    <div class="navigator">
+        <ul>           
+                <li id="btnContents"><a href="http://blog.csdn.net/wangyang1354?viewmode=contents"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_mulu'])">
+                    <img src="http://static.blog.csdn.net/images/ico_list.gif">目录视图</span></a></li>
+                <li id="btnView"><a href="http://blog.csdn.net/wangyang1354?viewmode=list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_zhaiyao'])">
+                    <img src="http://static.blog.csdn.net/images/ico_summary.gif">摘要视图</span></a></li>
+                <li id="btnRss"><a href="http://blog.csdn.net/wangyang1354/rss/list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_RSS'])">
+                    <img src="http://static.blog.csdn.net/images/ico_rss.gif">订阅</span></a></li>                
+            
+
+            </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    var username = "wangyang1354";
+    var _blogger = username;
+    var blog_address = "http://blog.csdn.net/wangyang1354";
+    var static_host = "http://static.blog.csdn.net";
+    var currentUserName = "";  
+</script>
+
+        <div id="body">
+            <div id="main">
+                <div class="main">
+                        <div class="ad_class">
+<div class="notice tracking-ad" data-mod='popu_3' > 
+
+
+<a href="http://blog.csdn.net/turingbooks/article/details/76034232">
+<font color=red><strong>评论送书 | 7月书讯：众多畅销书升级！ </strong></font></a>
+
+&nbsp;&nbsp;&nbsp;&nbsp
+
+
+<a href="http://blog.csdn.net/blogdevteam/article/details/74550215">
+<font color=blue><strong>征文 | 你会为 AI 转型么？</strong></font></a>
+&nbsp;&nbsp;&nbsp;&nbsp
+
+
+<a href="http://blog.csdn.net/epubit17/article/details/76066685">
+<font color=red><strong>赠书 | AI专场（AI圣经！《深度学习》中文版）</strong></font></a>
+
+</div>                        </div>
+
+                        
+
+
+
+  
+
+
+
+
+
+
+<script   type="text/javascript" src="http://static.blog.csdn.net/scripts/category.js"></script>
+
+  <script type="text/ecmascript">
+      window.quickReplyflag = true;
+      var isBole = false; 
+      var fasrc="http://my.csdn.net/my/favorite/miniadd?t=JBPM4.4%e4%b8%9a%e5%8a%a1%e6%b5%81%e7%a8%8b%e7%ae%a1%e7%90%86%e6%a1%86%e6%9e%b6%e8%af%a6%e7%bb%86%e8%a7%a3%e8%af%bb&u=http://blog.csdn.net/wangyang1354/article/details/50014231"
+    </script>
+<div id="article_details" class="details">
+    <div class="article_title">   
+         <span class="ico ico_type_Original"></span>
+
+    <h1>
+        <span class="link_title"><a href="/wangyang1354/article/details/50014231">
+        JBPM4.4业务流程管理框架详细解读        
+           
+        </a>
+        </span>
+
+         
+    </h1>
+</div>
+
+   
+
+        <div class="article_manage clearfix">
+        <div class="article_l">
+            <span class="link_categories">
+            标签：
+              <a href='http://www.csdn.net/tag/jbpm' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">jbpm</a>
+            </span>
+        </div>
+        <div class="article_r">
+            <span class="link_postdate">2015-11-24 20:51</span>
+            <span class="link_view" title="阅读次数">9911人阅读</span>
+            <span class="link_comments" title="评论次数"> <a href="#comments" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_pinglun'])">评论</a>(10)</span>
+            <span class="link_collect tracking-ad" data-mod="popu_171"> <a href="javascript:void(0);" onclick="javascript:collectArticle('JBPM4.4%e4%b8%9a%e5%8a%a1%e6%b5%81%e7%a8%8b%e7%ae%a1%e7%90%86%e6%a1%86%e6%9e%b6%e8%af%a6%e7%bb%86%e8%a7%a3%e8%af%bb','50014231');return false;" title="收藏">收藏</a></span>
+             <span class="link_report"> <a href="#report" onclick="javascript:report(50014231,2);return false;" title="举报">举报</a></span>
+
+        </div>
+    </div>    <style type="text/css">        
+            .embody{
+                padding:10px 10px 10px;
+                margin:0 -20px;
+                border-bottom:solid 1px #ededed;                
+            }
+            .embody_b{
+                margin:0 ;
+                padding:10px 0;
+            }
+            .embody .embody_t,.embody .embody_c{
+                display: inline-block;
+                margin-right:10px;
+            }
+            .embody_t{
+                font-size: 12px;
+                color:#999;
+            }
+            .embody_c{
+                font-size: 12px;
+            }
+            .embody_c img,.embody_c em{
+                display: inline-block;
+                vertical-align: middle;               
+            }
+             .embody_c img{               
+                width:30px;
+                height:30px;
+            }
+            .embody_c em{
+                margin: 0 20px 0 10px;
+                color:#333;
+                font-style: normal;
+            }
+    </style>
+    <script  type="text/javascript">
+        $(function () {
+            try
+            {
+                var lib = eval("("+$("#lib").attr("value")+")");
+                var html = "";
+                if (lib.err == 0) {
+                    $.each(lib.data, function (i) {
+                        var obj = lib.data[i];
+                        //html += '<img src="' + obj.logo + '"/>' + obj.name + "&nbsp;&nbsp;";
+                        html += ' <a href="' + obj.url + '" target="_blank">';
+                        html += ' <img src="' + obj.logo + '">';
+                        html += ' <em><b>' + obj.name + '</b></em>';
+                        html += ' </a>';
+                    });
+                    if (html != "") {
+                        setTimeout(function () {
+                            $("#lib").html(html);                      
+                            $("#embody").show();
+                        }, 100);
+                    }
+                }      
+            } catch (err)
+            { }
+            
+        });
+    </script>
+      <div class="category clearfix">
+        <div class="category_l">
+           <img src="http://static.blog.csdn.net/images/category_icon.jpg">
+            <span>分类：</span>
+        </div>
+        <div class="category_r">
+                    <label  onclick="GetCategoryArticles('1543439','wangyang1354','top','50014231');">
+                        <span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_fenlei']);">Java<em>（20）</em></span>
+                      <img class="arrow-down" src="http://static.blog.csdn.net/images/arrow_triangle _down.jpg" style="display:inline;">
+                      <img class="arrow-up" src="http://static.blog.csdn.net/images/arrow_triangle_up.jpg" style="display:none;">
+                        <div class="subItem">
+                            <div class="subItem_t"><a  href="http://blog.csdn.net/wangyang1354/article/category/1543439"  target="_blank">作者同类文章</a><i class="J_close">X</i></div>
+                            <ul class="subItem_l" id="top_1543439">                            
+                            </ul>
+                        </div>
+                    </label>                    
+        </div>
+    </div>
+        <div   class="bog_copyright">         
+            <p  class="copyright_p" >版权声明：本文为博主原创文章，未经博主允许不得转载。</p>
+        </div>
+
+  
+
+  
+  
+     
+
+
+<div id="article_content" class="article_content tracking-ad" data-mod=popu_307  data-dsm = "post" >
+
+<h1><span style="font-size:24px"><strong>1. 什么是JBPM4.4业务流程管理框架？</strong></span></h1>
+<p><strong><span style="font-size:18px">JBPM，全称是Java Business Process Management（业务流程管理），它是覆盖了业务流程管理、工作流、服务协作等领域的一个开源的、灵活的、易扩展的可执行流程语言框架。</span><br>
+</strong></p>
+<p><strong><span style="font-size:18px">相关概念：a: 从一个节点到另一个节点==&gt;流转。b:程序预先设定的行为==&gt;活动。</span></strong></p>
+<h1><strong><span style="font-size:24px">2. JBPM工作流的特点</span></strong></h1>
+<h2><span style="font-size:24px"><strong>2.1 直观描述业务流程</strong></span></h2>
+<div><strong><span style="font-size:18px">采用了自己定义的JPDL:业务流程被看成是UML状态图，详细定义状态图中每个部分，起始、结束每个状态以及状态之间的转换。通过流程图的方式来呈现、直观描述业务流程。如图所示：</span></strong></div>
+<div><span style="font-size:24px"><strong><img src="http://img.blog.csdn.net/20151124163932484?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
+</strong></span></div>
+<div><span style="font-size:24px"><strong><br>
+</strong></span></div>
+<h2><span style="font-size:24px">2.2 使用Hibernate管理数据库</span></h2>
+<div><span style="font-size:18px"><strong>通过Hibernate管理数据库，JBPM就可以把数据的管理分离出去，自己专注于业务流程。</strong></span></div>
+<div><span style="font-size:18px"><strong><br>
+</strong></span></div>
+<h1>3 ProcessEngine的核心服务</h1>
+<div><span style="font-size:18px">RespositoryService:流程定义的服务接口：包括流程定义的部署、查询、删除等操作。</span></div>
+<div><span style="font-size:18px"><br>
+</span></div>
+<div><span style="font-size:18px">ExecutionService: 流程执行的服务接口：包括启动流程、实例推进、设置变量等操作。</span></div>
+<div><span style="font-size:18px"><br>
+</span></div>
+<div><span style="font-size:18px">ManagementService:Web管理控制台的服务接口，包括获得消息和计时器的操作。</span></div>
+<div><span style="font-size:18px"><br>
+</span></div>
+<div><span style="font-size:18px">HistoryService:历史库的服务接口：包括对流程实例、活动实例进行查询。某个流程定义中的所有的活动的平均持续 &nbsp; &nbsp; &nbsp; &nbsp;时间，某个流程定义中的某个活动实例的转移的执行次数等操作。</span></div>
+<div><span style="font-size:18px"><br>
+</span></div>
+<div><span style="font-size:18px">IdentityService:主要包括用户、组、成员关系等相关的操作</span></div>
+<div><span style="font-size:18px"><br>
+</span></div>
+<div><span style="font-size:18px">CommondService:command模式的服务接口，实际上将客户端请求全部封装在一个调用接口中，execute(Command &nbsp; &nbsp; &nbsp;cmd),由这个接口去调用command接口的众多实现类。</span></div>
+<div><br>
+</div>
+<h1>4 怎么用JBMP?</h1>
+<h2><span style="font-size:24px">4.1 所需环境与相关资源</span></h2>
+<div><span style="font-size:18px"><span style="color:#333333">1. jBPM requires a JDK (standard java) version 5 orhigher.</span><br>
+</span></div>
+<div><span style="font-size:18px">&nbsp; &nbsp;&nbsp;<a target="_blank" target="_blank" href="http://java.sun.com/javase/downloads/index.jsp">http://java.sun.com/javase/downloads/index.jsp</a><br>
+</span></div>
+<div><span style="font-size:18px">2.&nbsp;jBPM下载地址：<a target="_blank" target="_blank" href="http://sourceforge.net/projects/jbpm/files/">http://sourceforge.net/projects/jbpm/files/</a></span></div>
+<div><span style="font-size:18px">3.&nbsp;Eclipse下载地址（ Eclipse IDE for Java EE Developers (163 MB)，Version： &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;3.5)：<a target="_blank" target="_blank" href="http://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/galileo">http://www.eclipse.org/downloads/download.php?
+ &nbsp; &nbsp;file=/technology/epp/downloads/release/galileo</a></span></div>
+<div><br>
+</div>
+<div><br>
+</div>
+<h2><span style="font-size:24px">4.2 安装说明</span></h2>
+<div>
+<h3><span style="color:#333333"><strong><span style="font-size:24px">第一步： &nbsp;</span></strong></span></h3>
+<p align="left"><span style="font-size:18px"><strong><span style="color:#555555">Help</span></strong><span style="color:#333333"> --&gt;</span><strong><span style="color:#555555">Install New Software...</span></strong></span></p>
+<p align="left"><span style="font-size:18px"><span style="color:#333333">&nbsp;&nbsp;</span><span style="color:#333333">Click</span><strong><span style="color:#555555">Add...</span></strong></span></p>
+<p align="left"><span style="font-size:18px"><span style="color:#333333">&nbsp;&nbsp;</span><span style="color:#333333">In dialog</span><strong><span style="color:#555555">Add Site</span></strong><span style="color:#333333"> dialog, click</span><strong><span style="color:#555555">Archive...</span></strong></span></p>
+<p align="left"><span style="font-size:18px"><span style="color:#333333">&nbsp;&nbsp;</span><span style="color:#333333">Navigate to</span><strong><span style="color:#555555">install/src/gpd/jbpm-gpd-site.zip</span></strong><span style="color:#333333"> and click 'Open'</span></span></p>
+<p align="left"><span style="font-size:18px"><span style="color:#333333">&nbsp;&nbsp;</span><span style="color:#333333">Clicking</span><strong><span style="color:#555555">OK</span></strong><span style="color:#333333"> in the</span><strong><span style="color:#555555">Add
+ Site</span></strong><span style="color:#333333"> dialog will bring you back to the dialog 'Install'</span></span></p>
+<p align="left"><span style="font-size:18px"><span style="color:#333333">&nbsp;&nbsp;</span><span style="color:#333333">Select the</span><strong><span style="color:#555555">jPDL 4 GPD Update Site</span></strong><span style="color:#333333"> that has appeared</span></span></p>
+<p align="left"><span style="font-size:18px"><span style="color:#333333">&nbsp;&nbsp;</span><span style="color:#333333">Click</span><strong><span style="color:#555555">Next...</span></strong><span style="color:#333333"> and then</span><strong><span style="color:#555555">Finish</span></strong></span></p>
+<p align="left"><span style="font-size:18px"><span style="color:#333333">&nbsp;&nbsp;</span><span style="color:#333333">Approve the license</span></span></p>
+<p align="left"><span style="font-size:18px"><span style="color:#333333">&nbsp;&nbsp;</span><span style="color:#333333">Restart eclipse when that is asked</span></span></p>
+<img src="http://img.blog.csdn.net/20151124192953760?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
+</div>
+<div><br>
+</div>
+<div>
+<h3><span style="font-size:24px"><strong>第二步：</strong></span></h3>
+<p><strong><span style="font-size:18px">流程定义文件的xsd文件的路径为：JBPM_HOME/src/jpdl-4.4.xsd。</span></strong></p>
+<p><strong><span style="font-size:18px">添加到Eclipse中的方法为（jBPM4.4User Guide, 2.11.5. Adding jPDL 4 schema tothe catalog）：</span></strong></p>
+<p align="left"><strong><span style="font-size:18px"><span style="color:#333333">&nbsp;&nbsp;</span><span style="color:#333333">Click</span><span style="color:#555555">Window</span><span style="color:#333333"> --&gt;</span><span style="color:#555555">Preferences</span></span></strong></p>
+<p align="left"><strong><span style="font-size:18px"><span style="color:#333333">&nbsp;&nbsp;</span><span style="color:#333333">Select</span><span style="color:#555555">XML</span><span style="color:#333333"> --&gt;</span><span style="color:#555555">XML Catalog</span></span></strong></p>
+<p align="left"><strong><span style="font-size:18px"><span style="color:#333333">&nbsp;&nbsp;</span><span style="color:#333333">Click 'Add...'</span></span></strong></p>
+<p align="left"><strong><span style="font-size:18px"><span style="color:#333333">&nbsp;&nbsp;</span><span style="color:#333333">The 'Add XML Catalog Entry' dialog opens</span></span></strong></p>
+<p align="left"><strong><span style="font-size:18px"><span style="color:#333333">&nbsp;&nbsp;</span><span style="color:#333333">Click the button with the map-icon next to location and select 'FileSystem...'</span></span></strong></p>
+<p align="left"><strong><span style="font-size:18px"><span style="color:#333333">&nbsp;&nbsp;</span><span style="color:#333333">In the dialog that opens, select file</span><span style="color:#555555">jpdl-4.4.xsd</span><span style="color:#333333"> in the src directoryof
+ the jBPM installation root.</span></span></strong></p>
+<p align="left"><strong><span style="font-size:18px"><span style="color:#333333">&nbsp;&nbsp;</span><span style="color:#333333">Click 'Open' and close all the dialogs</span></span></strong></p>
+<p align="left"><strong><span style="font-size:18px"><span style="color:#333333"><img src="http://img.blog.csdn.net/20151124193710711?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
+</span></span></strong></p>
+<p align="left"><strong><span style="font-size:18px"><span style="color:#333333"><br>
+</span></span></strong></p>
+<h3><span style="font-size:24px"><strong><span style="color:#333333">第三步：</span><span style="color:#333333">添加jar包</span></strong></span></h3>
+<p align="left"><strong><span style="font-size:18px"><span style="color:#333333">1. JBPM解压目录下有一个重要的jar包：jbpm.jar。</span></span></strong></p>
+<p align="left"><strong><span style="font-size:18px"><span style="color:#333333">2. JBPM/lib目录下的jar很多，不要添加的jar包：servlet-api.jar、junit.jar（尤其不要添加）。</span></span></strong></p>
+<p align="left"><strong><span style="font-size:18px"><span style="color:#333333">3. 所使用的数据库对应的驱动的jar包在上面lib目录当中已经有了，所以不需要添加了。</span></span></strong></p>
+<br>
+</div>
+<h3><span style="font-size:24px"><strong>第四步： 添加配置文件</strong></span></h3>
+<div><span style="font-size:18px"><strong>1. 配置文件包括jbpm.cfg.xml和jbpm.hibernate.cfg.xml(解压包当中都有模板，直接拷贝即可)</strong></span></div>
+<div><span style="font-size:18px"><strong>2.&nbsp;<span style="font-size:18px">jbpm.hibernate.cfg.xml中配置的是Hibernate的配置信息，包括数据库连接的必要信息等等</span></strong></span></div>
+<div><span style="font-size:18px"><strong><span style="font-size:18px"></span></strong></span><pre name="code" class="html">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+
+&lt;jbpm-configuration&gt;
+
+  &lt;import resource=&quot;jbpm.default.cfg.xml&quot; /&gt;
+  &lt;import resource=&quot;jbpm.businesscalendar.cfg.xml&quot; /&gt;
+  &lt;import resource=&quot;jbpm.tx.hibernate.cfg.xml&quot; /&gt;
+  &lt;import resource=&quot;jbpm.jpdl.cfg.xml&quot; /&gt;
+  &lt;import resource=&quot;jbpm.bpmn.cfg.xml&quot; /&gt;
+  &lt;import resource=&quot;jbpm.identity.cfg.xml&quot; /&gt;
+
+  &lt;!-- Job executor is excluded for running the example test cases. --&gt;
+  &lt;!-- To enable timers and messages in production use, this should be included. --&gt;
+  &lt;!--
+  &lt;import resource=&quot;jbpm.jobexecutor.cfg.xml&quot; /&gt;
+  --&gt;
+
+&lt;/jbpm-configuration&gt;
+</pre>jbpm.cfg.xml</div>
+<div><span style="font-size:18px"><strong><span style="font-size:18px"><br>
+</span></strong></span></div>
+<div><span style="font-size:18px"><strong><span style="font-size:18px"></span></strong></span><pre name="code" class="html">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+
+&lt;!DOCTYPE hibernate-configuration PUBLIC
+          &quot;-//Hibernate/Hibernate Configuration DTD 3.0//EN&quot;
+          &quot;http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd&quot;&gt;
+
+&lt;hibernate-configuration&gt;
+	&lt;session-factory&gt;
+		&lt;!-- 数据库信息 --&gt;
+		&lt;property name=&quot;hibernate.dialect&quot;&gt;org.hibernate.dialect.MySQL5InnoDBDialect&lt;/property&gt;
+		&lt;property name=&quot;hibernate.connection.driver_class&quot;&gt;com.mysql.jdbc.Driver&lt;/property&gt;
+		&lt;property name=&quot;hibernate.connection.url&quot;&gt;jdbc:mysql:///jbpm4test&lt;/property&gt;
+		&lt;property name=&quot;hibernate.connection.username&quot;&gt;root&lt;/property&gt;
+		&lt;property name=&quot;hibernate.connection.password&quot;&gt;root&lt;/property&gt;
+
+		&lt;!-- 其他配置 --&gt;
+		&lt;property name=&quot;hibernate.hbm2ddl.auto&quot;&gt;update&lt;/property&gt;
+
+		&lt;!-- 导入映射文件 --&gt;
+		&lt;mapping resource=&quot;jbpm.repository.hbm.xml&quot; /&gt;
+		&lt;mapping resource=&quot;jbpm.execution.hbm.xml&quot; /&gt;
+		&lt;mapping resource=&quot;jbpm.history.hbm.xml&quot; /&gt;
+		&lt;mapping resource=&quot;jbpm.task.hbm.xml&quot; /&gt;
+		&lt;mapping resource=&quot;jbpm.identity.hbm.xml&quot; /&gt;
+
+	&lt;/session-factory&gt;
+&lt;/hibernate-configuration&gt;
+</pre>jbpm.hibernate.cfg.xml</div>
+<div><span style="font-size:18px"><strong><span style="font-size:18px"><br>
+</span></strong></span></div>
+<div><span style="font-size:18px"><strong><span style="font-size:18px">配置到此结束</span></strong></span></div>
+<div><span style="font-size:18px"><strong><span style="font-size:18px"><br>
+</span></strong></span></div>
+<div>
+<h2><span style="font-size:18px"><strong><span style="font-size:18px">4.3 JBPM工作流的使用</span></strong></span></h2>
+<span style="font-size:18px"><strong><span style="font-size:18px"><br>
+</span></strong></span>
+<h3><span style="font-size:18px"><strong><span style="font-size:18px">1. 创建jbpm的文件</span></strong></span></h3>
+</div>
+<div><span style="font-size:18px"><strong><span style="font-size:18px"><img src="http://img.blog.csdn.net/20151124195213520?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
+</span></strong></span></div>
+<div><span style="font-size:18px"><strong><span style="font-size:18px"><br>
+</span></strong></span></div>
+<h3><span style="font-size:18px"><strong>2. 绘制工作流程图</strong></span></h3>
+<div><span style="font-size:18px"><strong><br>
+</strong></span></div>
+<div><span style="font-size:18px"><strong><img src="http://img.blog.csdn.net/20151124195308281?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
+</strong></span></div>
+<div><span style="font-size:18px"><strong><br>
+</strong></span></div>
+<div><span style="font-size:18px"><strong>绘制完成流程图之后，会相应的生成其xml中的代码（下面的代码便是自动生成的）</strong></span></div>
+<div><span style="font-size:18px"><strong></strong></span><pre name="code" class="html">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+
+&lt;process name=&quot;员工请假流程&quot; xmlns=&quot;http://jbpm.org/4.4/jpdl&quot;&gt;
+   &lt;start g=&quot;77,20,48,48&quot; name=&quot;start1&quot;&gt;
+      &lt;transition g=&quot;-71,-17&quot; name=&quot;to 提交申请&quot; to=&quot;提交申请&quot;/&gt;
+   &lt;/start&gt;
+   &lt;end g=&quot;77,352,48,48&quot; name=&quot;end1&quot;/&gt;
+   &lt;task assignee=&quot;ww&quot; g=&quot;55,268,92,52&quot; name=&quot;总经理审批&quot;&gt;
+      &lt;transition g=&quot;-47,-17&quot; name=&quot;to end1&quot; to=&quot;end1&quot;/&gt;
+   &lt;/task&gt;
+   &lt;task assignee=&quot;ls&quot; g=&quot;55,184,92,52&quot; name=&quot;部门经理审批&quot;&gt;
+      &lt;transition g=&quot;-26,-8&quot; name=&quot;同意&quot; to=&quot;总经理审批&quot;/&gt;
+   &lt;/task&gt;
+   &lt;task assignee=&quot;#{applyInfo.applier.userName}&quot; g=&quot;55,100,92,52&quot; name=&quot;提交申请&quot;&gt;
+      &lt;transition g=&quot;-96,-16&quot; name=&quot;to 部门经理审批&quot; to=&quot;部门经理审批&quot;/&gt;
+   &lt;/task&gt;
+&lt;/process&gt;</pre>保存之后相应的生成png&#26684;式的对应的图片。</div>
+<div><span style="font-size:18px"><strong><br>
+</strong></span></div>
+<div>
+<h2><strong><span style="font-size:24px">4.4 JBPM工作流编程实例</span></strong></h2>
+<span style="font-size:18px"><strong><br>
+</strong></span></div>
+<h3><strong><span style="font-size:24px">4.4.1 JBPM建表</span></strong></h3>
+<div><span style="font-size:18px"><strong><br>
+</strong></span></div>
+<div><span style="font-size:18px"><strong>Hibernate会自动的帮我们把所需要的表建好。</strong></span></div>
+<div><span style="font-size:18px"><strong></strong></span><pre name="code" class="java">        // 建表
+	@Test
+	public void createSchema() {
+		new org.hibernate.cfg.Configuration()//
+			.configure(&quot;jbpm.hibernate.cfg.xml&quot;)//
+			.buildSessionFactory();
+	}</pre>
+<div><span style="font-size:18px"><strong><br>
+</strong></span></div>
+<h3><strong><span style="font-size:24px">4.4.2 创建ProcessEngine对象</span></strong></h3>
+</div>
+<div><span style="font-size:18px"><strong><br>
+</strong></span></div>
+<div><span style="font-size:18px"><strong>processEngine对象十分的重要，他是使用JBPM各类接口的切入点。</strong></span></div>
+<div><span style="font-size:18px"><strong>1. 指定配置文件生成processEngine对象</strong></span></div>
+<div><span style="font-size:18px"><strong></strong></span><pre name="code" class="java">private static ProcessEngine processEngine = new Configuration()//
+			.setResource(&quot;jbpm.cfg.xml&quot;)//
+			.buildProcessEngine();</pre>
+<div><span style="font-size:18px"><strong><br>
+</strong></span></div>
+<div><span style="font-size:18px"><strong>2. 使用默认的配置文件生成processEngine对象</strong></span></div>
+<div><span style="font-size:18px"><strong></strong></span><pre name="code" class="java">private ProcessEngine processEngine = new Configuration().buildProcessEngine();</pre><br>
+3. 通过默认的配置文件生成单例的processEngine对象</div>
+<div><span style="font-size:18px"><strong></strong></span><pre name="code" class="java">private ProcessEngine processEngine = Configuration.getProcessEngine();</pre><br>
+</div>
+<br>
+<h3><span style="font-size:24px">4.4.3 部署流程定义</span></h3>
+</div>
+<div><span style="font-size:18px"><strong><br>
+</strong></span></div>
+<div><span style="font-size:18px"><strong>流程定义：是这一次流程的步骤的说明,是对工作流程的静态式的说明信息。</strong></span></div>
+<div><span style="font-size:18px"><strong></strong></span><pre name="code" class="java">&lt;span style=&quot;white-space:pre&quot;&gt;	&lt;/span&gt;// 部署流程定义
+	@Test
+	public void deployProcessDefinition()
+	{
+		String reponseStr = processEngine.getRepositoryService()//
+			.createDeployment()//
+			.addResourceFromClasspath(&quot;test/test.jpdl.xml&quot;)//这里目录需要根据自己的目录确定
+			.addResourceFromClasspath(&quot;test/test.png&quot;)//
+			.deploy();
+		System.out.println(reponseStr);// 10001
+	}</pre><br>
+<h3><span style="font-size:24px">4.4.4 启动流程实例</span></h3>
+</div>
+<div><span style="font-size:18px"><strong><br>
+</strong></span></div>
+<div><span style="font-size:18px"><strong>流程实例：代表工作流的一次执行，是一种动态的过程。</strong></span></div>
+<div><span style="font-size:18px"><strong><br>
+</strong></span></div>
+<div><span style="font-size:18px"><strong>1. 需要获得流程实例对象的时候</strong></span></div>
+<div><span style="font-size:18px"><strong></strong></span><pre name="code" class="java">        // 启动流程实例
+	// jbpm4_execution
+	@Test
+	public void testStartProcessInstance() throws Exception {
+		ProcessInstance &lt;strong style=&quot;font-family: Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);&quot;&gt;&lt;/strong&gt;&lt;pre name=&quot;code&quot; class=&quot;java&quot; style=&quot;display: inline !important;&quot;&gt;processInstance </pre>= processEngine.getExecutionService().startProcessInstanceByKey(&quot;test&quot;);System.out.println(&quot;流程实例启动成功：id=&quot; &#43;<span style="font-family:Arial,Helvetica,sans-serif; background-color:rgb(255,255,255)"></span><pre name="code" class="java" style="display: inline !important;">processInstance &lt;strong style=&quot;font-family: Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);&quot;&gt;&lt;/strong&gt;&lt;pre name=&quot;code&quot; class=&quot;java&quot; style=&quot;display: inline !important;&quot;&gt;.getId() //</pre>
+<pre></pre>
+&#43; &quot;, state=&quot; &#43; <span style="font-family:Arial,Helvetica,sans-serif; background-color:rgb(255,255,255)">
+</span><pre name="code" class="java" style="display: inline !important;">processInstance</pre>.getState() // 状态&#43; &quot;, processDefinitionId=&quot; &#43; <span style="font-family:Arial,Helvetica,sans-serif; background-color:rgb(255,255,255)">
+</span><pre name="code" class="java" style="display: inline !important;">processInstance</pre>.getProcessDefinitionId()); // 所使用的流程定义的ID}
+<pre></pre>
+2. 通过key获取并直接启动实例</div>
+<div><span style="font-size:18px"><strong></strong></span><pre name="code" class="java">        // 启动实例
+	@Test
+	public void startProcessInstance() {
+		processEngine.getExecutionService().startProcessInstanceByKey(&quot;test&quot;);
+	}</pre><br>
+<h3><span style="font-size:24px">4.4.5 查看个人的任务列表</span></h3>
+</div>
+<div><span style="font-size:18px"><strong><br>
+</strong></span></div>
+<div><span style="font-size:18px"><strong>通过findPersonalTasks(&quot;person&quot;)可以获得具体的个人的任务列表</strong></span></div>
+<div><span style="font-size:18px"><strong></strong></span><pre name="code" class="java">        // 查询任务列表
+	@Test
+	public void findTaskList() {
+		List&lt;Task&gt; taskList = processEngine.getTaskService().findPersonalTasks(&quot;员工&quot;);
+		System.out.println(&quot;个人任务列表&quot;);
+		System.out.println(taskList);
+		for(Task task : taskList)
+		{
+			System.out.println(&quot;id= &quot; + task.getId() + &quot;, name = &quot; + task.getName() + &quot;, assignee = &quot; + task.getAssignee());
+		}
+	}</pre><br>
+<h3><span style="font-size:24px">4.4.6 查询所有的流程定义</span></h3>
+</div>
+<div><span style="font-size:18px"><strong><br>
+</strong></span></div>
+<div><span style="font-size:18px"><strong></strong></span><pre name="code" class="java">        // 查询所有
+	@Test
+	public void findAll() throws Exception {
+		// 查询
+		List&lt;ProcessDefinition&gt; list = processEngine.getRepositoryService()//
+				.createProcessDefinitionQuery()//
+				// 过滤条件
+				// .processDefinitionKey(&quot;&quot;)//
+				// .processDefinitionNameLike(&quot;%xx%&quot;)//
+				// 排序条件
+				// .orderAsc(ProcessDefinitionQuery.PROPERTY_KEY)//
+				// .orderDesc(ProcessDefinitionQuery.PROPERTY_VERSION)//
+				// 执行查询
+				// .uniqueResult();
+				// .count();
+				// .page(firstResult, maxResults)//
+				.list();
+
+		// 显示
+		for (ProcessDefinition pd : list) {
+		System.out.println(&quot;id=&quot; + pd.getId()// 格式为：{key}-{version}，用于唯一的标识一个流程定义
+		+ &quot;, name=&quot; + pd.getName()// 流程定义的名称，jpdl.xml中根元素的name属性的值
+		+ &quot;, key=&quot; + pd.getKey()// 流程定义的key，jpdl.xml中根元素的key属性的值，默认是name属性的值
+		+ &quot;, version=&quot; + pd.getVersion()// 自动生成的，同一个名称的第一个为1，以后的自动加1.
+		+ &quot;, deploymentId=&quot; + pd.getDeploymentId()); // 所属的部署对象
+		}
+	}</pre><br>
+<h3><span style="font-size:24px">4.4.7 查询最新版的流程定义</span></h3>
+</div>
+<div><span style="font-size:18px"><strong><br>
+</strong></span></div>
+<div><span style="font-size:18px"><strong></strong></span><pre name="code" class="java">        // 查询所有最新版本的流程定义
+	@Test
+	public void findAllLatestVersions() throws Exception {
+		// 查询所有，让所有最大的版本都排到最后面
+		List&lt;ProcessDefinition&gt; all = processEngine.getRepositoryService()//
+				.createProcessDefinitionQuery()//
+				.orderAsc(ProcessDefinitionQuery.PROPERTY_VERSION)//
+				.list();
+
+		// 过滤出所有最新的版本
+		Map&lt;String, ProcessDefinition&gt; map = new HashMap&lt;String, ProcessDefinition&gt;();
+		for (ProcessDefinition pd : all) {
+			map.put(pd.getKey(), pd);
+		}
+
+		// 显示
+		for (ProcessDefinition pd : map.values()) {
+		System.out.println(&quot;id=&quot; + pd.getId()// 格式为：{key}-{version}，用于唯一的标识一个流程定义
+		+ &quot;, name=&quot; + pd.getName()// 流程定义的名称，jpdl.xml中根元素的name属性的值
+		+ &quot;, key=&quot; + pd.getKey()// 流程定义的key，jpdl.xml中根元素的key属性的值，默认是name属性的值
+		+ &quot;, version=&quot; + pd.getVersion()// 自动生成的，同一个名称的第一个为1，以后的自动加1.
+		+ &quot;, deploymentId=&quot; + pd.getDeploymentId()); // 所属的部署对象
+		}
+	}
+</pre>
+<div><span style="font-size:18px"><strong><br>
+</strong></span></div>
+<h3><span style="font-size:24px">4.4.8 删除流程定义</span></h3>
+</div>
+<div><span style="font-size:18px"><strong><br>
+</strong></span></div>
+<div><span style="font-size:18px"><strong></strong></span><pre name="code" class="java">        // 删除
+	@Test
+	public void deleteById() throws Exception {
+		String deploymentId = &quot;80001&quot;;
+
+		// // 删除指定的部署对象（流程定义），如果有关联的执行信息，就会报错
+		// processEngine.getRepositoryService().deleteDeployment(deploymentId);
+
+		// 删除指定的部署对象（流程定义），如果有关联的执行信息，会被同时删除
+		processEngine.getRepositoryService().deleteDeploymentCascade(deploymentId);
+	}</pre><pre name="code" class="java">        // 删除指定key的所有版本的流程定义
+	@Test
+	public void deleteByKey() throws Exception {
+		// 查询出指定key的所有版本的流程定义
+		List&lt;ProcessDefinition&gt; list = processEngine.getRepositoryService()//
+				.createProcessDefinitionQuery()//
+				.processDefinitionKey(&quot;helloworld&quot;)//
+				.list();
+
+		// 一一删除
+		for (ProcessDefinition pd : list) {
+			processEngine.getRepositoryService().deleteDeploymentCascade(pd.getDeploymentId());
+		}
+	}</pre><br>
+<h3><span style="font-size:24px">4.4.9 查看流程图</span></h3>
+</div>
+<div><span style="font-size:18px"><strong><br>
+</strong></span></div>
+<div><span style="font-size:18px"><strong></strong></span><pre name="code" class="java">        // 查看流程图（xxx.png）
+	@Test
+	public void getImageResource() throws Exception {
+		String deploymentId = &quot;50001&quot;;
+		String resourceName = &quot;helloworld/helloworld.png&quot;;
+
+		// 获取指定部署对象中的所有资源的名称
+		Set&lt;String&gt; names = processEngine.getRepositoryService().getResourceNames(deploymentId);
+		System.out.println(&quot;所有的资源名称：&quot;);
+		for (String name : names) {
+			System.out.println(&quot;\t&quot; + name);
+		}
+
+		// 获取指定部署对象中的指下资源的内容
+	InputStream in = processEngine.getRepositoryService().getResourceAsStream(deploymentId, resourceName);
+
+		// 保存到c盘
+		OutputStream out = new FileOutputStream(&quot;c:/process.png&quot;);
+		for (int b = -1; (b = in.read()) != -1;) {
+			out.write(b);
+		}
+		in.close();
+		out.close();
+	}</pre>
+<div><span style="font-size:18px"><strong><br>
+</strong></span></div>
+<h3><span style="font-size:24px">4.4.10 向后执行一步</span></h3>
+</div>
+<div><span style="font-size:18px"><strong></strong></span><pre name="code" class="java">        // 向后执行一步
+	@Test
+	public void testSignalExecution() throws Exception {
+		String executionId = &quot;test.130001&quot;;
+		processEngine.getExecutionService().signalExecutionById(executionId);
+
+                         // processEngine.getExecutionService().signalExecutionById(executionId, parametersMap);                         // 离开前先设置一些流程变量
+		         // processEngine.getExecutionService().signalExecutionById(executionId, signalName);                            // 使用指定名称的Transition离开本活动
+		 // processEngine.getExecutionService().signalExecutionById(executionId, signalName, parameters)                         // 离开前先设置一些流程变量，再使用指定名称的Transition离开本活动
+
+	}</pre><br>
+<h3><span style="font-size:24px">4.4.11 办理任务</span></h3>
+</div>
+<div><span style="font-size:18px"><strong><br>
+</strong></span></div>
+<div><span style="font-size:18px"><strong></strong></span><pre name="code" class="java">        // 办理任务
+	@Test
+	public void testCompleteTask() throws Exception {
+		String taskId = &quot;130002&quot;;
+		processEngine.getTaskService().completeTask(taskId);
+	}</pre>
+<div><span style="font-size:18px"><strong><br>
+</strong></span></div>
+<h3><span style="font-size:24px">4.4.12 设置流程变量</span></h3>
+</div>
+<div><span style="font-size:18px"><strong><br>
+</strong></span></div>
+<div><span style="font-size:18px"><strong></strong></span><pre name="code" class="java">        // 设置流程变量
+	@Test
+	public void testSetVariable() throws Exception {
+		String executionId = &quot;test.150001&quot;;
+		processEngine.getExecutionService().setVariable(executionId, &quot;请假天数&quot;, 15);
+	}</pre>
+<div><span style="font-size:18px"><strong></strong></span><pre name="code" class="java">       // 获取流程变量
+	@Test
+	public void testGetVariable() throws Exception {
+		String executionId = &quot;test.150001&quot;;
+	Integer days = (Integer) processEngine.getExecutionService().getVariable(executionId, &quot;请假天数&quot;);
+		System.out.println(&quot;请假天数 = &quot; + days);
+	}</pre><pre name="code" class="java">{
+		ExecutionService executionService = processEngine.getExecutionService();
+		TaskService taskService = processEngine.getTaskService();
+
+		// ============ 设置变量 ========================
+		executionService.setVariable(executionId, name, value); // 设置一个变量
+		executionService.setVariables(executionId, variablesMap); // 设置多个变量
+		taskService.setVariables(taskId, variables); // 设置多个变量
+
+                executionService.startProcessInstanceByKey(processDefinitionKey, variablesMap);                                 // 启动流程实例时，先设置一些变量
+		taskService.completeTask(taskId, variablesMap); // 真正办理完任务前先设置一些变量
+		
+		
+		// ============ 获取变量 ========================
+		executionService.getVariable(executionId, variableName); // 获取一个变量
+		executionService.getVariableNames(executionId); // 返回Set&lt;String&gt;，是所有变量的名称集合
+		executionService.getVariables(executionId, variableNames);                                                       //获取多个变量，返回Map&lt;String,Object&gt;，表示指定名称的变量信息
+	
+		taskService.getVariable(taskId, variableName);
+		taskService.getVariableNames(taskId);
+		taskService.getVariables(taskId, variableNames);
+	}</pre><br>
+<br>
+</div>
+<h3><span style="font-size:24px">4.4.13 流程执行</span></h3>
+</div>
+<div><span style="font-size:18px"><strong><br>
+</strong></span></div>
+<div><span style="font-size:18px"><strong></strong></span><pre name="code" class="java">        @Test
+	public void testProcess() throws Exception {
+		// 部署流程定义
+		InputStream in = this.getClass().getResourceAsStream(&quot;test.jpdl.xml&quot;);
+		String deploymentId = processEngine.getRepositoryService()//	
+				.createDeployment()//
+				.addResourceFromInputStream(&quot;test.jpdl.xml&quot;, in)//
+				.deploy();
+		System.out.println(&quot;部署流程定义完毕：deploymentId = &quot; + deploymentId);
+
+		// 启动流程实例
+		ProcessInstance pi = processEngine.getExecutionService().startProcessInstanceByKey(&quot;test&quot;);
+		System.out.println(&quot;流程实例启动完毕：processInstanceId = &quot; + pi.getId());
+
+		// 完成第一步“提交申请”的任务，要使用指定的Transition离开当前活动
+		Task task = processEngine.getTaskService()//
+				.createTaskQuery()// 获取本流程实例中当前情况下仅有的一个任务
+				.processInstanceId(pi.getId())//
+				.uniqueResult();
+
+		String transitionName1 = &quot;to 部门经理审批&quot;;
+		String transitionName2 = &quot;to 总经理审批&quot;;
+		processEngine.getTaskService().completeTask(task.getId(), transitionName2);                                     // 使用指定名称的Transition离开本活动
+	}</pre>
+<div><span style="font-size:18px"><strong><br>
+</strong></span></div>
+<h3><span style="font-size:24px">4.4.14 分配任务</span></h3>
+</div>
+<div><span style="font-size:18px"><strong><br>
+</strong></span></div>
+<div><span style="font-size:18px"><strong></strong></span><pre name="code" class="java">public class AssignmentHandlerImpl implements AssignmentHandler {
+
+	// 计算此任务的办理人，并分配任务
+	@Override
+	public void assign(Assignable assignable, OpenExecution execution) throws Exception {
+		System.out.println(&quot;---&gt; AssignmentHandlerImpl.assign()&quot;);
+		// 计算办理人
+		String userId = &quot;李经理--&quot;;
+
+		// 分配个人任务
+		assignable.setAssignee(userId); // 指定个人任务的办理人
+
+		// // 分配组任务
+		// assignable.addCandidateUser(&quot;小A&quot;); // 添加一个候选人（组任务）
+		// assignable.addCandidateUser(&quot;小B&quot;); // 添加一个候选人（组任务）
+		// assignable.addCandidateUser(&quot;小C&quot;); // 添加一个候选人（组任务）
+	}
+
+}</pre><br>
+<h3><span style="font-size:24px">4.4.15 组任务与分配</span></h3>
+</div>
+<div><span style="font-size:18px"><strong><br>
+</strong></span></div>
+<div><span style="font-size:18px"><strong></strong></span><pre name="code" class="java">public class ProcessTest {
+
+	private static ProcessEngine processEngine = Configuration.getProcessEngine();
+
+	@Test
+	public void testProcess() throws Exception {
+		// 部署流程定义
+		InputStream in = this.getClass().getResourceAsStream(&quot;test.jpdl.xml&quot;);
+		String deploymentId = processEngine.getRepositoryService()//	
+				.createDeployment()//
+				.addResourceFromInputStream(&quot;test.jpdl.xml&quot;, in)//
+				.deploy();
+		System.out.println(&quot;部署流程定义完毕：deploymentId = &quot; + deploymentId);
+
+		// 启动流程实例
+		Map&lt;String, Object&gt; variables = new HashMap&lt;String, Object&gt;();
+		variables.put(&quot;manager&quot;, &quot;王经理&quot;);
+		variables.put(&quot;userIds&quot;, &quot;小A,小B,小C,小D&quot;);
+	ProcessInstance pi = processEngine.getExecutionService().startProcessInstanceByKey(&quot;test&quot;, variables);
+		System.out.println(&quot;流程实例启动完毕：processInstanceId = &quot; + pi.getId());
+	}
+
+	// 查询组任务列表
+	@Test
+	public void testFindMyGroupTaskList() throws Exception {
+		String userId = &quot;王工程师&quot;;
+		// String userId = &quot;赵工程师&quot;;
+		// 查询
+		// List&lt;Task&gt; list = processEngine.getTaskService().findGroupTasks(userId);
+		// 分页
+		List&lt;Task&gt; list = processEngine.getTaskService()//
+				.createTaskQuery()//
+				.candidate(userId)// 指定候选人，这是查询组任务
+				.page(0, 100)// 分页
+				.list();
+
+		// 显示
+		System.out.println(&quot;====== &quot; + userId + &quot;的个人任务列表 ======&quot;);
+		for (Task task : list) {
+			System.out.println(&quot;id=&quot; + task.getId()//
+					+ &quot;, name=&quot; + task.getName()//
+					+ &quot;, assignee=&quot; + task.getAssignee()//
+					+ &quot;, createTime=&quot; + task.getCreateTime()//
+					+ &quot;, executionId=&quot; + task.getExecutionId());
+		}
+	}
+
+	// 拾取任务
+	@Test
+	public void testTakeTask() throws Exception {
+		String taskId = &quot;310009&quot;;
+		String userId = &quot;王工程师&quot;;
+		processEngine.getTaskService().takeTask(taskId, userId);
+	}
+
+	// 查询个人任务列表
+	@Test
+	public void testFindMyPersonalTaskList() throws Exception {
+		String userId = &quot;王工程师&quot;;
+
+		// 查询
+		// List&lt;Task&gt; list = processEngine.getTaskService().findPersonalTasks(userId);
+		// 分页
+		List&lt;Task&gt; list = processEngine.getTaskService()//
+				.createTaskQuery()//
+				.assignee(userId)// 指定办理人条件
+				.page(0, 100)// 分页
+				.list();
+
+		// 显示
+		System.out.println(&quot;====== &quot; + userId + &quot;的个人任务列表 ======&quot;);
+		for (Task task : list) {
+			System.out.println(&quot;id=&quot; + task.getId()//
+					+ &quot;, name=&quot; + task.getName()//
+					+ &quot;, assignee=&quot; + task.getAssignee()//
+					+ &quot;, createTime=&quot; + task.getCreateTime()//
+					+ &quot;, executionId=&quot; + task.getExecutionId());
+		}
+	}
+
+	// 直接指定任务的办理人
+	@Test
+	public void testAssignTask() throws Exception {
+		String taskId = &quot;310009&quot;;
+		// String userId = null; // 退回到组任务列表
+		String userId = &quot;赵工程师&quot;;
+		processEngine.getTaskService().assignTask(taskId, userId);
+	}
+
+}</pre>
+<div><span style="font-size:18px"><strong><br>
+</strong></span></div>
+如需转载；请注明原文出处谢谢合作！</div>
+<div><span style="font-size:18px"><strong><br>
+</strong></span></div>
+   
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+
+
+
+<div class="bdsharebuttonbox tracking-ad" style="float: right;" data-mod="popu_172">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+   
+
+<!--172.16.140.11-->
+
+<!-- Baidu Button BEGIN -->
+<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=1536434" ></script>
+<script type="text/javascript" id="bdshell_js"></script>
+<script type="text/javascript">
+    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+</script>
+<!-- Baidu Button END -->
+
+
+
+ 
+
+
+        <div id="digg" ArticleId="50014231" >
+            <dl id="btnDigg" class="digg digg_disable"  onclick="btndigga();">
+               
+                 <dt>顶</dt>
+                <dd>4</dd>
+            </dl>
+           
+              
+            <dl id="btnBury" class="digg digg_disable"  onclick="btnburya();">
+              
+                  <dt>踩</dt>
+                <dd>0</dd>               
+            </dl>
+            
+        </div>
+     <div class="tracking-ad" data-mod="popu_222"><a href="javascript:void(0);" >&nbsp;</a>   </div>
+    <div class="tracking-ad" data-mod="popu_223"> <a href="javascript:void(0);" >&nbsp;</a></div>
+    <script type="text/javascript">
+                function btndigga() {
+                    $(".tracking-ad[data-mod='popu_222'] a").click();
+                }
+                function btnburya() {
+                    $(".tracking-ad[data-mod='popu_223'] a").click();
+                }
+            </script>
+
+   <ul class="article_next_prev">
+                <li class="prev_article"><span  onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian']);location.href='http://blog.csdn.net/wangyang1354/article/details/50014259';">上一篇</span><a href="http://blog.csdn.net/wangyang1354/article/details/50014259" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian'])">Hibernate不同版本的配置信息</a></li>
+                <li class="next_article"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian']);location.href='http://blog.csdn.net/wangyang1354/article/details/50173661';">下一篇</span><a href="http://blog.csdn.net/wangyang1354/article/details/50173661" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian'])">Hibernate之inverse和cascade详解</a></li>
+    </ul>
+
+    <div style="clear:both; height:10px;"></div>
+
+
+            <div class="similar_article"   >
+                    <h4></h4>
+                    <div class="similar_c"style="margin:20px 0px 0px 0px">
+                        <div class="similar_c_t">
+                          &nbsp;&nbsp;相关文章推荐
+                        </div>
+                   
+                        <div class="similar_wrap tracking-ad" data-mod="popu_36" >                       
+                            <ul class="similar_list fl">    
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/bluejoe2000/article/details/39521405" title="Activiti初学者教程" strategy="BlogCommendFromBaidu" target="_blank">Activiti初学者教程</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/bluejoe2000/article/details/39530309" title="工作流引擎Activiti使用总结" strategy="BlogCommendFromBaidu" target="_blank">工作流引擎Activiti使用总结</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/bluejoe2000/article/details/39337265" title="比较Activiti中三种不同的表单及其应用" strategy="BlogCommendFromBaidu" target="_blank">比较Activiti中三种不同的表单及其应用</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/bluejoe2000/article/details/39316485" title="Activiti工作流引擎使用" strategy="BlogCommendFromBaidu" target="_blank">Activiti工作流引擎使用</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/zwk626542417/article/details/46592471" title="工作流学习——重要概念扫盲篇一步曲" strategy="BlogCommendFromBaidu" target="_blank">工作流学习——重要概念扫盲篇一步曲</a>
+                                   </li>
+                            </ul>
+                              <ul class="similar_list fr">      
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/zwk626542417/article/details/46594505" title="工作流学习——Activiti整体认识二步曲" strategy="BlogCommendFromBaidu" target="_blank">工作流学习——Activiti整体认识二步曲</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/zwk626542417/article/details/46602419" title="工作流学习——Activiti流程定义管理三步曲" strategy="BlogCommendFromBaidu" target="_blank">工作流学习——Activiti流程定义管理三步曲</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/zwk626542417/article/details/46646565" title="工作流学习——Activiti流程实例、任务管理四步曲" strategy="BlogCommendFromBaidu" target="_blank">工作流学习——Activiti流程实例、任务管理四步曲</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/zwk626542417/article/details/46648139" title="工作流学习——Activiti流程变量五步曲" strategy="BlogCommendFromBaidu" target="_blank">工作流学习——Activiti流程变量五步曲</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/lilinoscar/article/details/42460895" title="web设计器--设计流程图（raphael）（一）" strategy="BlogCommendFromBaidu" target="_blank">web设计器--设计流程图（raphael）（一）</a>
+                                   </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>   
+      
+</div>
+
+
+<div id="suggest"></div>
+         <script  language="javascript" type='text/javascript'>     
+             $(function(){
+                 $.get("/wangyang1354/svc/GetSuggestContent/50014231",function(data){
+                     $("#suggest").html(data);
+                 });     
+             });             
+         </script>  
+
+        <dl class="blog-ass-articl tracking-ad" id="res-relatived" data-mod="popu_84"  > 
+             <dt><span>猜你在找</span></dt>    
+           
+    
+           
+
+             
+
+                        <img src="http://static.blog.csdn.net/images/946x160.jpg"  style="width:946px;height:160px;" />
+              
+                 
+        </dl>
+
+
+
+
+            
+                                    
+            
+                                    
+
+        <!-- 广告位开始 -->
+        <!-- 广告位结束 -->
+
+
+<div class="comment_class">
+    <div id="comment_title" class="panel_head">
+        <span class="see_comment">查看评论</span><a name="comments"></a></div>
+    <div id="comment_list">
+    </div>
+    <div id="comment_bar">
+    </div>
+    <div id="comment_form">
+    </div>
+    <div class="announce">
+        * 以上用户言论只代表其个人观点，不代表CSDN网站的观点或立场<a name="reply"></a><a name="quote"></a></div>
+</div>
+
+<script type="text/javascript">
+    var fileName = '50014231';
+    var commentscount = 10;
+    var islock = false
+</script>
+
+    <div id="ad_bot">
+    </div>
+<div id="report_dialog">
+</div>
+
+<div id="d-top"  style="bottom:60px;">
+
+        <a id="quick-reply" class="btn btn-top q-reply" title="快速回复" style="display:none;">
+            <img src="http://static.blog.csdn.net/images/blog-icon-reply.png" alt="快速回复">
+        </a>    
+    <a id="d-top-a" class="btn btn-top backtop"  style="display: none;" title="返回顶部" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_huidaodingbu'])" style="">         
+         <img src="http://static.blog.csdn.net/images/top.png" alt="TOP">
+    </a>
+</div>
+<script type="text/javascript">
+    $(function ()
+    {
+        $("#ad_frm_0").height("90px");
+        
+        setTimeout(function(){
+            $("#ad_frm_2").height("200px");
+        },1000);    
+    });
+  
+</script>
+<style type="text/css">
+    .tag_list
+    {
+        background: none repeat scroll 0 0 #FFFFFF;
+        border: 1px solid #D7CBC1;
+        color: #000000;
+        font-size: 12px;
+        line-height: 20px;
+        list-style: none outside none;
+        margin: 10px 2% 0 1%;
+        padding: 1px;
+    }
+    .tag_list h5
+    {
+        background: none repeat scroll 0 0 #E0DBD3;
+        color: #47381C;
+        font-size: 12px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 5px;
+        margin: 0;
+    }
+    .tag_list h5 a
+    {
+        color: #47381C;
+    }
+    .classify
+    {
+        margin: 10px 0;
+        padding: 4px 12px 8px;
+    }
+    .classify a
+    {
+        margin-right: 20px;
+        white-space: nowrap;
+    }
+</style>
+
+
+
+
+
+<div id="pop_win" style="display:none ;position: absolute; z-index: 10000; border: 1px solid rgb(220, 220, 220); top: 222.5px; left: 630px; opacity: 1; background: none 0px 0px repeat scroll rgb(255, 255, 255);">
+    
+</div>
+<div id="popup_mask"></div>
+<style>
+    #popup_mask
+    {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: 9999;
+        left: 0px;
+        top: 0px;
+        opacity: 0.3;
+        filter: alpha(opacity=30);
+        display: none;
+    }
+
+</style>
+
+
+
+
+<script type="text/javascript">
+    $(function(){        
+        
+        setTimeout(function(){
+            $(".comment_body:contains('回复')").each(function(index,item){
+                var u=$(this).text().split('：')[0].toString().replace("回复","")
+                var thisComment=$(this);
+                if(u)
+                {
+                    $.getJSON("https://passport.csdn.net/get/nick?callback=?", {users: u}, function(a) {
+                        if(a!=null&&a.data!=null&&a.data.length>0)
+                        {
+                            nick=a.data[0].n; 
+                            if(u!=nick)
+                            {
+                                thisComment.text(thisComment.text().replace(u,nick));  
+                            }
+                        }       
+                    });  
+                }
+            });         
+
+        },200);  
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },5000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },10000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },15000);
+        
+        setTimeout(function(){
+            $("a img[src='http://js.tongji.linezing.com/stats.gif']").parent().css({"position":"absolute","left":"50%"});
+        },300);
+    });
+
+    function loginbox(){
+        var $logpop=$("#pop_win");
+        $logpop.html('<iframe src="https://passport.csdn.net/account/loginbox?service=http://static.blog.csdn.net/callback.htm" frameborder="0" height="600" width="400" scrolling="no"></iframe>');
+
+        $('#popup_mask').css({
+            opacity: 0.5,
+            width: $( document ).width() + 'px',
+            height:  $( document ).height() + 'px'
+        });
+        $('#popup_mask').css("display","block");
+ 
+        $logpop.css( {
+            top: ($( window ).height() - $logpop.height())/ 2  + $( window 
+       ).scrollTop() + 'px',
+            left:($( window ).width() - $logpop.width())/ 2
+        } );
+ 
+        setTimeout( function () {
+            $logpop.show();
+            $logpop.css( {
+                opacity: 1
+            } );
+        }, 200 );
+ 
+        $('#popup_mask').unbind("click");
+        $('#popup_mask').bind("click", function(){
+            $('#popup_mask').hide();
+            var $clopop = $("#pop_win");
+            $("#common_ask_div_sc").css("display","none");
+            $clopop.css( {
+                opacity: 0
+            } );
+            setTimeout( function () {
+                $clopop.hide();
+            }, 350 );
+            return false;
+        });
+    }   
+
+    var articletitle='JBPM4.4业务流程管理框架详细解读';
+
+</script>
+
+
+
+
+
+
+
+
+
+
+                        <div class="clear">
+                        </div>
+                    </div>                   
+                
+            </div>
+                   
+           <div id="side">
+               
+    <div class="side">
+<div id="panel_Profile" class="panel">
+<ul class="panel_head"><span>个人资料</span></ul>
+<ul class="panel_body profile">
+<div id="blog_userface">
+    <a href="http://my.csdn.net/wangyang1354" target="_blank">
+    <img src="http://avatar.csdn.net/8/4/6/1_wangyang1354.jpg" title="访问我的空间" style="max-width:90%"/>
+    </a>
+    <br />
+    <span><a href="http://my.csdn.net/wangyang1354" class="user_name" target="_blank">wangyang1354</a></span>
+</div>
+<div class="interact">
+
+    <a href="javascript:void(0);" class="attent" id="span_add_follow" title="[加关注]"></a>
+
+ <a href="javascript:void(0);" class="letter"  title="[发私信]" onclick="window.open('http://msg.csdn.net/letters/model?receiver=wangyang1354','_blank','height=350,width=700');_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_sixin'])"></a>  
+</div>
+<div id="blog_medal">
+                       <div class="ico_expert"  onclick="javascript:location='http://blog.csdn.net/experts/rule.html'" title="CSDN认证专家" style="cursor:pointer;width:60px;height:60px;background:url('http://c.csdnimg.cn/jifen/images/xunzhang/xunzhang/bokezhuanjiamiddle.png') no-repeat" ></div>
+                <div id="bms_box">
+                                            <a  target="_blank">
+                                                    <img src="http://c.csdnimg.cn/jifen/images/xunzhang/xunzhang/zhuanlandaren.png" onmouseover="m_over_m(this,2)" onmouseout="m_out_m()" alt="6" >
+                                            </a>
+                                            <a  target="_blank">
+                                                    <img src="http://c.csdnimg.cn/jifen/images/xunzhang/xunzhang/chizhiyiheng.png" onmouseover="m_over_m(this,4)" onmouseout="m_out_m()" alt="3" >
+                                            </a>
+               </div>
+</div>
+<ul id="blog_rank">
+    <li>访问：<span>770862次</span></li>
+    <li>积分：<span>9883</span> </li>    
+    <li >等级： <span style="position:relative;display:inline-block;z-index:1" >
+            <img src="http://c.csdnimg.cn/jifen/images/xunzhang/jianzhang/blog6.png" alt="" style="vertical-align: middle;" id="leveImg">
+            <div id="smallTittle" style=" position: absolute;  left: -24px;  top: 25px;  text-align: center;  width: 101px;  height: 32px;  background-color: #fff;  line-height: 32px;  border: 2px #DDDDDD solid;  box-shadow: 0px 2px 2px rgba (0,0,0,0.1);  display: none;   z-index: 999;">
+            <div style="left: 42%;  top: -8px;  position: absolute;  width: 0;  height: 0;  border-left: 10px solid transparent;  border-right: 10px solid transparent;  border-bottom: 8px solid #EAEAEA;"></div>
+            积分：9883 </div>
+        </span>  </li>
+    <li>排名：<span>第1548名</span></li>
+</ul>
+<ul id="blog_statistics">
+    <li>原创：<span>282篇</span></li>
+    <li>转载：<span>17篇</span></li>
+    <li>译文：<span>0篇</span></li>
+    <li>评论：<span>312条</span></li>
+</ul>
+</ul>
+</div>
+
+
+
+
+<div id="custom_column_43065311" class="panel">
+<ul class="panel_head"><span>与我联系</span></ul>
+<ul class="panel_body">
+<ul>
+	<li style="border-bottom:1px dashed #CCC; border-left:2px solid #c88326; padding:5.5px 18px; margin:6px 5px">
+		<a href="http://weibo.com/u/6053659845?is_all=1" target="_blank">新浪微博</a>
+	</li>
+	<li style="border-bottom:1px dashed #CCC; border-left:2px solid #2880d2; padding:5.5px 18px; margin:6px 5px">
+		<a href="https://github.com/wangyang135" target="_blank">GitHub</a>
+	</li>
+</ul>
+</ul>
+</div><div id="panel_Category" class="panel">
+    <ul class="panel_head"><span>博客专栏</span></ul>
+    <ul class="panel_body" id="sp_column">
+    <table cellpadding="0" cellspacing="0"><tr>
+    <td style="padding:10px 10px 0 0;">
+    <a href="http://blog.csdn.net/column/details/13028.html" target="_blank"><img src="http://img.blog.csdn.net/20160923221959371" style="width:75px;height:75px;" /></a>
+    </td>
+    <td style="padding:10px 0; vertical-align:top;">
+    <a href="http://blog.csdn.net/column/details/13028.html" target="_blank">Hive大数据下的数据仓库</a>
+    <p>文章：15篇</p>
+    <span>阅读：28837</span>
+    </td>
+    </tr></table>
+    <table cellpadding="0" cellspacing="0"><tr>
+    <td style="padding:10px 10px 0 0;">
+    <a href="http://blog.csdn.net/column/details/designpatternforb.html" target="_blank"><img src="http://img.blog.csdn.net/20160418140810165" style="width:75px;height:75px;" /></a>
+    </td>
+    <td style="padding:10px 0; vertical-align:top;">
+    <a href="http://blog.csdn.net/column/details/designpatternforb.html" target="_blank">&quot;围观&quot;设计模式</a>
+    <p>文章：31篇</p>
+    <span>阅读：110281</span>
+    </td>
+    </tr></table>
+    <table cellpadding="0" cellspacing="0"><tr>
+    <td style="padding:10px 10px 0 0;">
+    <a href="http://blog.csdn.net/column/details/springformzero.html" target="_blank"><img src="http://img.blog.csdn.net/20160305204607456" style="width:75px;height:75px;" /></a>
+    </td>
+    <td style="padding:10px 0; vertical-align:top;">
+    <a href="http://blog.csdn.net/column/details/springformzero.html" target="_blank">Spring进阶之路</a>
+    <p>文章：14篇</p>
+    <span>阅读：38791</span>
+    </td>
+    </tr></table>
+    <table cellpadding="0" cellspacing="0"><tr>
+    <td style="padding:10px 10px 0 0;">
+    <a href="http://blog.csdn.net/column/details/hibernateincompany.html" target="_blank"><img src="http://img.blog.csdn.net/20160130150031308" style="width:75px;height:75px;" /></a>
+    </td>
+    <td style="padding:10px 0; vertical-align:top;">
+    <a href="http://blog.csdn.net/column/details/hibernateincompany.html" target="_blank">Hibernate曲径通幽</a>
+    <p>文章：13篇</p>
+    <span>阅读：24786</span>
+    </td>
+    </tr></table>
+    <table cellpadding="0" cellspacing="0"><tr>
+    <td style="padding:10px 10px 0 0;">
+    <a href="http://blog.csdn.net/column/details/acmeronline.html" target="_blank"><img src="http://img.blog.csdn.net/20160116092402179" style="width:75px;height:75px;" /></a>
+    </td>
+    <td style="padding:10px 0; vertical-align:top;">
+    <a href="http://blog.csdn.net/column/details/acmeronline.html" target="_blank">ACM算法修练之道</a>
+    <p>文章：56篇</p>
+    <span>阅读：107123</span>
+    </td>
+    </tr></table>
+    </ul>
+</div><div class="panel" id="panel_Search">
+    <ul class="panel_head"><span>文章搜索</span></ul>
+    <ul class="panel_body" class="form_search">
+        <form id="frmSearch" action="http://so.csdn.net/search" class="form_search csdn-tracking-statistics" target="_blank"  data-mod="popu_306">
+        <span><input id="inputSearch" type="text" class="blogsearch" title="请输入关键字" /></span>
+        <input id="btnSubmit" type="button" value="搜索" title="search in blog" />
+        <input type="hidden" name="q" id="inputQ" />
+        <input type="hidden" name="t" value="blog" />
+        <a id="btnSearchBlog" target="_blank"></a>
+        </form>
+    </ul>
+</div>
+
+<script type="text/javascript">
+
+   
+    $(function () {
+        $("#btnSubmit").unbind("click");
+        $("#btnSubmit").click(function () {           
+            search();
+        });
+
+        $("#frmSearch").submit(function () {           
+            search();
+            return false;
+        });
+
+        function search()
+        {
+            if ($("#inputSearch").val() == "") {               
+                alert("请录入搜索关键词！");                         
+                return false;
+            }
+            //var url = "http://so.csdn.net/so/search/s.do?q=" + encodeURIComponent($("#inputSearch").val()) + "&u=" + username + "&t=blog";           
+            var url = "https://www.baidu.com/s?wd=" + encodeURIComponent($("#inputSearch").val()) + "%20site%3Ablog.csdn.net"
+            window.location.href = url;
+        }   
+    });
+</script><div id="panel_Category" class="panel">
+<ul class="panel_head"><span>文章分类</span></ul>
+<ul class="panel_body">    
+                 <li>
+                    <a href="/wangyang1354/article/category/6181140" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">设计模式</a><span>(31)</span>
+                </li>
+                 <li>
+                    <a href="/wangyang1354/article/category/6079706" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">大数据</a><span>(17)</span>
+                </li>
+                 <li>
+                    <a href="/wangyang1354/article/category/1665961" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">数据库</a><span>(17)</span>
+                </li>
+                 <li>
+                    <a href="/wangyang1354/article/category/1734573" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Spring</a><span>(19)</span>
+                </li>
+                 <li>
+                    <a href="/wangyang1354/article/category/5782153" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Hibernate笔记</a><span>(14)</span>
+                </li>
+                 <li>
+                    <a href="/wangyang1354/article/category/3125295" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">hadoop</a><span>(6)</span>
+                </li>
+                 <li>
+                    <a href="/wangyang1354/article/category/3165337" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">数据挖掘</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/wangyang1354/article/category/1588429" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">web</a><span>(12)</span>
+                </li>
+                 <li>
+                    <a href="/wangyang1354/article/category/1543439" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Java</a><span>(21)</span>
+                </li>
+                 <li>
+                    <a href="/wangyang1354/article/category/1668325" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">生活</a><span>(4)</span>
+                </li>
+                 <li>
+                    <a href="/wangyang1354/article/category/1726369" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">编译原理</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/wangyang1354/article/category/2161703" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">linux</a><span>(5)</span>
+                </li>
+                 <li>
+                    <a href="/wangyang1354/article/category/5871465" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">ACM</a><span>(18)</span>
+                </li>
+                 <li>
+                    <a href="/wangyang1354/article/category/5944353" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">BAT解密</a><span>(7)</span>
+                </li>
+                 <li>
+                    <a href="/wangyang1354/article/category/6054581" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">开发工具</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/wangyang1354/article/category/1278448" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">四年的沉积</a><span>(80)</span>
+                </li>
+                 <li>
+                    <a href="/wangyang1354/article/category/6323921" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">SpringMVC</a><span>(3)</span>
+                </li>
+                 <li>
+                    <a href="/wangyang1354/article/category/6386150" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Mybatis</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/wangyang1354/article/category/6457905" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">JVM</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/wangyang1354/article/category/6559330" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Hbase</a><span>(6)</span>
+                </li>
+                 <li>
+                    <a href="/wangyang1354/article/category/6829484" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">数据结构</a><span>(3)</span>
+                </li>
+</ul>
+</div><div id="panel_Archive" class="panel">
+<ul class="panel_head"><span>文章存档</span></ul>
+<ul class="panel_body">
+<div id="archive_list">
+<!--归档统计-->
+<li><a href="/wangyang1354/article/month/2017/06">2017年06月</a><span>(9)</span></li><li><a href="/wangyang1354/article/month/2017/04">2017年04月</a><span>(2)</span></li><li><a href="/wangyang1354/article/month/2017/03">2017年03月</a><span>(6)</span></li><li><a href="/wangyang1354/article/month/2017/02">2017年02月</a><span>(7)</span></li><li><a href="/wangyang1354/article/month/2017/01">2017年01月</a><span>(1)</span></li><li><a href="/wangyang1354/article/month/2016/12">2016年12月</a><span>(8)</span></li><li><a href="/wangyang1354/article/month/2016/11">2016年11月</a><span>(4)</span></li><li><a href="/wangyang1354/article/month/2016/10">2016年10月</a><span>(8)</span></li><li><a href="/wangyang1354/article/month/2016/09">2016年09月</a><span>(5)</span></li><li><a href="/wangyang1354/article/month/2016/08">2016年08月</a><span>(8)</span></li><li><a href="/wangyang1354/article/month/2016/07">2016年07月</a><span>(13)</span></li><li><a href="/wangyang1354/article/month/2016/06">2016年06月</a><span>(8)</span></li><li><a href="/wangyang1354/article/month/2016/05">2016年05月</a><span>(9)</span></li><li><a href="/wangyang1354/article/month/2016/04">2016年04月</a><span>(9)</span></li><li><a href="/wangyang1354/article/month/2016/03">2016年03月</a><span>(8)</span></li><li><a href="/wangyang1354/article/month/2016/02">2016年02月</a><span>(12)</span></li><li><a href="/wangyang1354/article/month/2016/01">2016年01月</a><span>(5)</span></li><li><a href="/wangyang1354/article/month/2015/12">2015年12月</a><span>(6)</span></li><li><a href="/wangyang1354/article/month/2015/11">2015年11月</a><span>(20)</span></li><li><a href="/wangyang1354/article/month/2015/10">2015年10月</a><span>(12)</span></li><li><a href="/wangyang1354/article/month/2015/09">2015年09月</a><span>(4)</span></li><li><a href="/wangyang1354/article/month/2015/08">2015年08月</a><span>(2)</span></li><li><a href="/wangyang1354/article/month/2015/05">2015年05月</a><span>(6)</span></li><li><a href="/wangyang1354/article/month/2015/04">2015年04月</a><span>(3)</span></li><li><a href="/wangyang1354/article/month/2015/03">2015年03月</a><span>(1)</span></li><li><a href="/wangyang1354/article/month/2015/01">2015年01月</a><span>(1)</span></li><li><a href="/wangyang1354/article/month/2014/04">2014年04月</a><span>(1)</span></li><li><a href="/wangyang1354/article/month/2013/12">2013年12月</a><span>(2)</span></li><li><a href="/wangyang1354/article/month/2013/11">2013年11月</a><span>(8)</span></li><li><a href="/wangyang1354/article/month/2013/10">2013年10月</a><span>(16)</span></li><li><a href="/wangyang1354/article/month/2013/09">2013年09月</a><span>(16)</span></li><li><a href="/wangyang1354/article/month/2013/08">2013年08月</a><span>(6)</span></li><li><a href="/wangyang1354/article/month/2013/07">2013年07月</a><span>(2)</span></li><li><a href="/wangyang1354/article/month/2013/06">2013年06月</a><span>(1)</span></li><li><a href="/wangyang1354/article/month/2013/04">2013年04月</a><span>(13)</span></li><li><a href="/wangyang1354/article/month/2013/03">2013年03月</a><span>(29)</span></li><li><a href="/wangyang1354/article/month/2012/11">2012年11月</a><span>(2)</span></li><li><a href="/wangyang1354/article/month/2012/10">2012年10月</a><span>(16)</span></li><li><a href="/wangyang1354/article/month/2012/09">2012年09月</a><span>(10)</span></li>
+</div>
+</ul>
+</div>
+<div id="hotarticls" class="panel tracking-ad" data-mod="popu_340">
+<ul class="panel_head">
+    <span>       
+阅读排行    </span>
+</ul>
+
+<ul class="panel_body itemlist">
+<li>
+<a href="/wangyang1354/article/details/12237443" title="JDBC增删改查--数据库增加删除、更新、查找实例">JDBC增删改查--数据库增加删除、更新、查找实例</a><span>(36761)</span>
+</li>
+<li>
+<a href="/wangyang1354/article/details/9746979" title="Java经典算法四十例编程详解+程序实例">Java经典算法四十例编程详解+程序实例</a><span>(31845)</span>
+</li>
+<li>
+<a href="/wangyang1354/article/details/50452806" title="ItelliJ IDEA开发工具使用—创建一个web项目">ItelliJ IDEA开发工具使用—创建一个web项目</a><span>(28498)</span>
+</li>
+<li>
+<a href="/wangyang1354/article/details/8079115" title="JAVA第一个窗体小程序">JAVA第一个窗体小程序</a><span>(20856)</span>
+</li>
+<li>
+<a href="/wangyang1354/article/details/49754891" title="TOMCAT内存溢出问题Exception in thread &quot;&quot;http-bio-8080&quot;-exec-6等等">TOMCAT内存溢出问题Exception in thread &quot;&quot;http-bio-8080&quot;-exec-6等等</a><span>(17781)</span>
+</li>
+<li>
+<a href="/wangyang1354/article/details/14522143" title="Spring连接数据库整合-实例">Spring连接数据库整合-实例</a><span>(13589)</span>
+</li>
+<li>
+<a href="/wangyang1354/article/details/11767379" title="Java Web Session 登录实例">Java Web Session 登录实例</a><span>(11749)</span>
+</li>
+<li>
+<a href="/wangyang1354/article/details/12658573" title="JSON数据格式以及与后台交互数据转换实例">JSON数据格式以及与后台交互数据转换实例</a><span>(10952)</span>
+</li>
+<li>
+<a href="/wangyang1354/article/details/49736213" title="将数据封装为Json数据格式">将数据封装为Json数据格式</a><span>(10354)</span>
+</li>
+<li>
+<a href="/wangyang1354/article/details/50014231" title="JBPM4.4业务流程管理框架详细解读">JBPM4.4业务流程管理框架详细解读</a><span>(9899)</span>
+</li>
+</ul>
+</div>
+<div id="hotarticls2" class="panel tracking-ad" data-mod="popu_341">
+<ul class="panel_head"><span>评论排行</span></ul>
+<ul class="panel_body itemlist">
+<li>
+<a href="/wangyang1354/article/details/73335651" title="剑指Offer-栈的压入弹出序列">剑指Offer-栈的压入弹出序列</a><span>(26)</span>
+</li>
+<li>
+<a href="/wangyang1354/article/details/9746979" title="Java经典算法四十例编程详解+程序实例">Java经典算法四十例编程详解+程序实例</a><span>(19)</span>
+</li>
+<li>
+<a href="/wangyang1354/article/details/52194498" title="Spring+SpringMVC+Mybatis整合开发实践（含源码（两个整合实例）、PPT）">Spring+SpringMVC+Mybatis整合开发实践（含源码（两个整合实例）、PPT）</a><span>(18)</span>
+</li>
+<li>
+<a href="/wangyang1354/article/details/12071077" title="JSTL配合EL表达式在JSP中的应用">JSTL配合EL表达式在JSP中的应用</a><span>(12)</span>
+</li>
+<li>
+<a href="/wangyang1354/article/details/50014231" title="JBPM4.4业务流程管理框架详细解读">JBPM4.4业务流程管理框架详细解读</a><span>(10)</span>
+</li>
+<li>
+<a href="/wangyang1354/article/details/51447174" title="&quot;围观&quot;设计模式(13)--结构型之装饰模式（Decorator Pattern）">&quot;围观&quot;设计模式(13)--结构型之装饰模式（Decorator Pattern）</a><span>(9)</span>
+</li>
+<li>
+<a href="/wangyang1354/article/details/50452806" title="ItelliJ IDEA开发工具使用—创建一个web项目">ItelliJ IDEA开发工具使用—创建一个web项目</a><span>(9)</span>
+</li>
+<li>
+<a href="/wangyang1354/article/details/12237443" title="JDBC增删改查--数据库增加删除、更新、查找实例">JDBC增删改查--数据库增加删除、更新、查找实例</a><span>(9)</span>
+</li>
+<li>
+<a href="/wangyang1354/article/details/52955530" title="Hive数据仓库--Java代码JDBC方式访问Hive中表的数据">Hive数据仓库--Java代码JDBC方式访问Hive中表的数据</a><span>(8)</span>
+</li>
+<li>
+<a href="/wangyang1354/article/details/52290461" title="toHexString(b[n] &amp; 0XFF)为什么要和0XFF做与运算">toHexString(b[n] &amp; 0XFF)为什么要和0XFF做与运算</a><span>(7)</span>
+</li>
+</ul>
+</div>
+<div id="homepageArticles" class="panel tracking-ad" data-mod="popu_4">
+<ul class="panel_head"><span>推荐文章</span></ul>
+<ul class="panel_body" id="ad_commend">
+<ul>
+<li><a href="http://blog.csdn.net/blogdevteam/article/details/76092129" target="_blank">* CSDN日报20170725——《新的开始，从研究生到入职亚马逊》</a></li>
+<li><a href="http://blog.csdn.net/javazejian/article/details/75043422" 
+target="_blank">* 深入剖析基于并发AQS的重入锁(ReetrantLock)及其Condition实现原理</a></li>
+<li><a href="http://blog.csdn.net/jiangwei0910410003/article/details/75512732"target="_blank">* Android版本的"Wannacry"文件加密病毒样本分析(附带锁机)</a></li>
+<li><a href="http://blog.csdn.net/mindfloating/article/details/75948781" 
+target="_blank">* 工作与生活真的可以平衡吗？</a></li>
+<li><a href="http://blog.csdn.net/poem_qianmo/article/details/75943714" 
+target="_blank">* 《Real-Time Rendering 3rd》 提炼总结——高级着色：BRDF及相关技术</a></li>
+<li><a href="http://blog.csdn.net/dog250/article/details/75735806" 
+target="_blank">* 《三体》读后思考-泰勒展开/维度打击/黑暗森林</a></li>
+
+</ul></ul>
+</div>
+
+
+<div id="newcomments" class="panel">
+<ul class="panel_head"><span>最新评论</span></ul>
+<ul class="panel_body itemlist">
+    <li>
+   
+         <a href="/wangyang1354/article/details/50452806#comments">ItelliJ IDEA开发工具使用—创建一个web项目</a>
+    <p style="margin:0px;"><a href="/u013040472" class="user_name">u013040472</a>:
+不错
+    </p>
+    </li>
+    <li>
+   
+         <a href="/wangyang1354/article/details/50452806#comments">ItelliJ IDEA开发工具使用—创建一个web项目</a>
+    <p style="margin:0px;"><a href="/lydong_" class="user_name">lydong_</a>:
+这样创建，不感到目录很怪么？？？为毛不是new empty projet再创建web project...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/wangyang1354/article/details/50452806#comments">ItelliJ IDEA开发工具使用—创建一个web项目</a>
+    <p style="margin:0px;"><a href="/qq_29121811" class="user_name">qq_29121811</a>:
+现在用idea不能创建web了 貌似 还有别的方法么
+    </p>
+    </li>
+    <li>
+   
+         <a href="/wangyang1354/article/details/51172635#comments">&quot;围观&quot;设计模式(4)--接口隔离原则(ISP,Interface Segregation Principle)</a>
+    <p style="margin:0px;"><a href="/u010349629" class="user_name">u010349629</a>:
+@wangyang1354:我才刚刚起步，会多多向大神们学习，致敬！
+    </p>
+    </li>
+    <li>
+   
+         <a href="/wangyang1354/article/details/51172635#comments">&quot;围观&quot;设计模式(4)--接口隔离原则(ISP,Interface Segregation Principle)</a>
+    <p style="margin:0px;"><a href="/wangyang1354" class="user_name">wangyang1354</a>:
+@u010349629:你们廊坊信息提高班据说很有名气的
+    </p>
+    </li>
+    <li>
+   
+         <a href="/wangyang1354/article/details/73459421#comments">剑指Offer-不用加减乘除做加法</a>
+    <p style="margin:0px;"><a href="/a893196542" class="user_name">a893196542</a>:
+num2+=temp ；
+    </p>
+    </li>
+    <li>
+   
+         <a href="/wangyang1354/article/details/73335651#comments">剑指Offer-栈的压入弹出序列</a>
+    <p style="margin:0px;"><a href="/wangyang1354" class="user_name">wangyang1354</a>:
+希望各位评论的之前自己动手做一下，不真正的去做一遍体会不到里面的一些技巧，在说程序有问题的时候希望读...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/wangyang1354/article/details/73335651#comments">剑指Offer-栈的压入弹出序列</a>
+    <p style="margin:0px;"><a href="/wangyang1354" class="user_name">wangyang1354</a>:
+@weixin_35093979:你看下程序的意思，先保证的是栈顶恰好能匹配的，匹配不上的留下来最后...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/wangyang1354/article/details/73335651#comments">剑指Offer-栈的压入弹出序列</a>
+    <p style="margin:0px;"><a href="/weixin_35093979" class="user_name">weixin_35093979</a>:
+程序一，第一个循环里面明显有错，当出栈的是连着的数据的时候，你程序里只出了第一个，然后又放数进去了
+    </p>
+    </li>
+    <li>
+   
+         <a href="/wangyang1354/article/details/73335651#comments">剑指Offer-栈的压入弹出序列</a>
+    <p style="margin:0px;"><a href="/weixin_35093979" class="user_name">weixin_35093979</a>:
+程序一，第一个循环里面明显有错，当出栈的是连着的数据的时候，你程序里只出了第一个，然后又放数进去了
+    </p>
+    </li>
+</ul>
+</div>
+    </div>
+    <div class="clear">
+    </div>
+
+
+           </div>   
+
+            <div class="clear">
+            </div>
+        </div>
+
+        
+
+
+
+
+
+
+
+
+    <script type="text/javascript" src="http://passport.csdn.net/content/loginbox/login.js"></script>
+<script type="text/javascript">
+    $(function () {
+        function __get_code_toolbar(snippet_id) {
+            return $("<span class='tracking-ad' data-mod='popu_167'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "' target='_blank' title='在CODE上查看代码片'  style='text-indent:0;'><img src='https://code.csdn.net/assets/CODE_ico.png' width=12 height=12 alt='在CODE上查看代码片' style='position:relative;top:1px;left:2px;'/></a></span>"
+                    + "<span class='tracking-ad' data-mod='popu_170'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "/fork' target='_blank' title='派生到我的代码片' style='text-indent:0;'><img src='https://code.csdn.net/assets/ico_fork.svg' width=12 height=12 alt='派生到我的代码片' style='position:relative;top:2px;left:2px;'/></a></span>");
+        }
+        
+        $("[code_snippet_id]").each(function () {
+            __s_id = $(this).attr("code_snippet_id");
+            if (__s_id != null && __s_id != "" && __s_id != 0 && parseInt(__s_id) > 70020) {
+                __code_tool = __get_code_toolbar(__s_id);
+                $(this).prev().find(".tools").append(__code_tool);
+            }
+        });
+
+        $(".bar").show();
+    });
+</script>
+
+
+
+
+
+    </div>
+      <!--new top-->
+    
+
+     
+
+   
+   
+     <!--new top-->
+   
+   
+
+    
+    
+    
+   
+
+   
+
+
+       <script type="text/javascript" src="http://static.blog.csdn.net/public/res/bower-libs/MathJax/MathJax.js?config=TeX-AMS_HTML"></script>
+          <script type="text/javascript">
+              //$(function () {
+              //    setTimeout(function () {
+              //        var searchtitletags = articletitle + ',' + $("#tags").html();
+              //        searchService({
+              //            index: 'blog',
+              //            query: searchtitletags,
+              //            from: 5,
+              //            size: 5,
+              //            appendTo: '#res',
+              //            url: 'recommend',
+              //            his: 2,
+              //            client: "blog_cf_enhance",
+              //            tmpl: '<dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="#{ url }" title="#{ title }" strategy="#{ strategy }">#{ title }</a></dd>'
+              //        });
+              //    }, 1000);
+              //});
+
+         </script>
+    
+    <script src="http://static.blog.csdn.net/scripts/csdn_blog_detail.min.js" type="text/javascript"></script>
+        
+    <script type="text/javascript" src="http://c.csdnimg.cn/blog/csdn_public_blog_detail.min.js?20170719001"></script>
+
+    <script type="text/javascript" src="http://medal.blog.csdn.net/showblogmedal.ashx?blogid=1346405"></script>
+
+     
+    
+
+
+  <div id="a52b5334d" style="width: 1px; height: 1px; display: none;">
+                    <script id="adJs52b5334"></script>
+                    <script>document.getElementById("adJs52b5334").src = "http://ads.csdn.net/js/opt/52b5334.js?t=" + Math.random();</script>
+   </div>
+
+    
+    
+        
+     
+
+    
+          
+    <div class="pop_CA_cover"  style="display:none"></div>
+    <div class="pop pop_CA"  style="display:none">
+          <div class="CA_header">
+            收藏助手
+            <span class="cancel_icon"  id="fapancle"  onclick="$('.pop_CA').hide();$('.pop_CA_cover').hide();"></span>
+          </div>
+          <iframe src="" id="fa" frameborder="0" width="100%" height="360"  scrolling="no" ></iframe>
+    </div>
+
+
+        <script type="text/javascript">
+
+            $(function () {
+                var fromjs = $("#fromjs");
+                if (fromjs.length > 0) {
+                    $("#fromjs .markdown_views pre").addClass("prettyprint");
+                    prettyPrint();
+
+                    $('pre.prettyprint code').each(function () {
+                        var lines = $(this).text().split('\n').length;
+                        var $numbering = $('<ul/>').addClass('pre-numbering').hide();
+                        $(this).addClass('has-numbering').parent().append($numbering);
+                        for (i = 1; i <= lines; i++) {
+                            $numbering.append($('<li/>').text(i));
+                        };
+                        $numbering.fadeIn(1700);
+                    });
+
+                    $('.pre-numbering li').css("color", "#999");
+                }
+            });
+
+            $(".markdown_views a[target!='_blank']").attr("target", "_blank");
+
+            //$(".toc a[target='_blank']").attr("target", "");
+
+            setTimeout(function () {
+                $(".toc a[target='_blank']").attr("target", "");
+            }, 500);
+
+        </script>
+    
+</body>
+</html>   

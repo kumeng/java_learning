@@ -1,0 +1,16 @@
+输入：netsh interface ipv4 show subinterfaces 查询到目前系统的MTU值
+
+以下命令用来设置MTU
+
+　　netsh interface ipv4 set subinterface "本地连接" mtu=1480 store=persistent
+ 
+　　netsh interface ipv4 set subinterface "无线网络连接" mtu=1480 store=persistent
+ 
+　　其中
+ 
+　　1480 就是我测试出来的 “值1452字节” + “数据包头28字节” = 1480字节。
+
+
+
+ping -f -l 1500 192.168.1.1可以检查是否过大
+（过大，100%丢包）

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="testMybatisPlusMapper.test.mapper.SEQSMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="testMybatisPlusMapper.test.entity.SEQS">
+		<id column="ID" property="ID" />
+		<result column="SEQ_NAME" property="SEQ_NAME" />
+		<result column="SEQ_TABLENAME" property="SEQ_TABLENAME" />
+		<result column="SEQ_CURRNO" property="SEQ_CURRNO" />
+		<result column="SEQ_STEP" property="SEQ_STEP" />
+	</resultMap>
+
+</mapper>

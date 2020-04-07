@@ -1,0 +1,82 @@
+使用Buffer读写数据一般遵循以下四个步骤：
+1.写入数据到Buffer  
+2.调用flip()方法       ，     切换到读模式
+3.从Buffer中读取数据      
+4.调用clear()方法或者compact()方法    
+
+
+clear()  清空整个缓冲区
+compact()  清空缓冲区内已读数据，剩余未读数据，移动到缓冲区其实位置，再写入数据时，接续到未读数据后面写入
+
+
+Buffer的三个重要属性capacity,position和limit
+
+capacity 是Buff的固定大小，也就是Buff你只能写入capacity个 byte、long、char登类型，具体类型依据BUffer类型
+满了以后，就需要clear()方法或者compact()方法  清理出空间 才可以继续写入
+例如：ByteBuffer  bb = ByteBuffer.allocate(48);   capacity=48
+
+position 
+当你写数据到Buffer中时，position表示当前的位置。初始的position值为0.当一个byte、long等数据写到Buffer后， position会向前移动到下一个可插入数据的Buffer单元。
+position最大可为capacity – 1.
+当读取数据时，也是从某个特定位置读。当将Buffer从写模式切换到读模式，position会被重置为0. 当从Buffer的position处读取数据时，position向前移动到下一个可读的位置。
+
+limit
+在写模式下，Buffer的limit表示你最多能往Buffer里写多少数据。 写模式下，limit等于Buffer的capacity。
+当切换Buffer到读模式时， limit表示你最多能读到多少数据。因此，当切换Buffer到读模式时，limit会被设置成写模式下的position值。
+换句话说，你能读到之前写入的所有数据（limit被设置成已写数据的数量，这个值在写模式下就是position）
+
+
+标记（mark）与重置（reset）：标记是一个索引，通过Buffer中的mark()方法指定Buffer中一个特定的position
+，之后可以通过调用reset()方法恢复到这个position
+
+Buffer的类型
+ByteBuffer
+MappedByteBuffer
+CharBuffer
+DoubleBuffer
+FloatBuffer
+IntBuffer
+LongBuffer
+ShortBuffer
+
+向Buffer中写数据 有两种方式：
+从Channel写到Buffer。                                              int bytesRead = inChannel.read(buf); //从Channel中读取
+通过Buffer的put()方法写到Buffer里                   buffer.put(127);
+
+从Buffer中读取数据有两种方式：                          
+1.从Buffer读取数据到Channel。                              int bytesWritten = inChannel.write(buf);//从buffer读，写入Channel
+2.使用get()方法从Buffer中读取数据。                      byte aByte = buf.get();
+
+Buffer.rewind()将position设回0
+
+mark()与reset()方法     
+ 通过调用Buffer.mark()方法，可以标记Buffer中的一个特定position。
+之后可以通过调用Buffer.reset()方法恢复到这个position。
+
+
+equals()
+
+当满足下列条件时，表示两个Buffer相等：
+1.有相同的类型（byte、char、int等）。
+2.Buffer中剩余的byte、char等的个数相等。
+3.Buffer中所有剩余的byte、char等都相同。
+如你所见，equals只是比较Buffer的一部分，不是每一个在它里面的元素都比较。实际上，它只比较Buffer中的剩余元素。
+
+compareTo()方法
+
+compareTo()方法比较两个Buffer的剩余元素(byte、char等)， 如果满足下列条件，则认为一个Buffer“小于”另一个Buffer：
+1.第一个不相等的元素小于另一个Buffer中对应的元素 。
+2.所有元素都相等，但第一个Buffer比另一个先耗尽(第一个Buffer的元素个数比另一个少)。
+
+
+
+
+直接缓冲区与非直接缓冲区
+非直接缓冲区：通过 allocate() 方法分配缓冲区，将缓冲区建立在 JVM 的内存中
+(JVM内存的内容copy到物理内存，或者物理内存copy到JVM内存)
+
+直接缓冲区：通过 allocateDirect() 方法分配直接缓冲区，将缓冲区建立在物理内存中。可以提高效率
+
+
+
+

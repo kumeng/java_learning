@@ -1,0 +1,38 @@
+方法 1：使用 find 命令在 Linux 中搜索文件和文件夹
+
+它搜索当前目录中的给定文件，并根据搜索条件递归遍历其子目录。
+它允许用户根据大小、名称、所有者、组、类型、权限、日期和其他条件执行所有类型的文件搜索。
+
+find / -iname "sshd_config"  		查找名字为sshd_config的文件
+find / -type d -iname "ssh"   		-d查找文件夹
+find / -name "*.config"   		*通配符模糊查找
+find / -empty  				在系统中查找空文件和文件夹
+
+
+使用以下命令组合查找 Linux 上包含特定文本的所有文件。
+
+
+
+# find / -type f -exec grep "Port 22" '{}' \; -print
+
+# find / -type f -print | xargs grep "Port 22"
+
+# find / -type f | xargs grep 'Port 22'
+
+# find / -type f -exec grep -H 'Port 22' {} \;
+
+方法 2：使用 locate 命令在 Linux 中搜索文件和文件夹
+	locate 命令未在大多数发行版中预安装，因此，请使用你的包管理器进行安装。
+
+方法 3：在 Linux 中搜索文件使用 which 命令
+	which 返回在终端输入命令时执行的可执行文件的完整路径
+# which vi
+
+/usr/bin/vi
+
+
+其他命令 1 ： 查找内容对应的行
+	cat  filename | grep -n "" 命令打印出要查找的起始行号和结束行号
+
+其他命令 2 ： 打印n到m行的内容
+	sed -n  'x,yp'  filename 命令 打印出起始行和结束行之间的内容（包括起始行和结束行）。 sed -n '1,100p' tams.log

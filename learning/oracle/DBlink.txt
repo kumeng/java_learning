@@ -1,0 +1,55 @@
+ 1.查看dblink
+
+
+select owner,object_name from dba_objects where object_type='DATABASE LINK';
+
+或者
+
+
+select * from dba_db_links;
+
+2.创建dblink
+前提:
+    创建dblink的用户有对应的数据库权限
+        create public database link 或者create database link 
+        可以使用
+
+
+grant create public database link,create database link to myAccount;
+
+        来授权.
+
+create public database link dblinkname connect to username identified by password
+　　 using '(DESCRIPTION =
+(ADDRESS_LIST =
+(ADDRESS = (PROTOCOL = TCP)(HOST = database_ip)(PORT = 1521))
+)
+(CONNECT_DATA =
+(SERVICE_NAME =servicename)
+)
+)';
+如果在create之后不加public,则创建的dblink就不是公共的,就只有创建者可以使用了.
+补充:如何确定数据库的servicename:
+    1.在sqlplus中使用
+
+
+show parameter[s] service_names;
+
+        注意parameter和parameters都可以
+    2.使用
+
+
+select name,value from v$parameter where name='service_names'
+
+
+    
+3.使用db link
+    例如,在本机数据库上创建了一个scott_rmthost的public dblink(使用远程主机的scott用户连接),则用sqlplus连接到本机数据库,执行select * from scott.emp@scott_rmthot即可以将远程数据库上的scott用户下的emp表中的数据获取到.
+    也可以在本地建一个同义词来指向scott.emp@scott_rmthost,这样取值就方便多了.
+
+4.删除
+    注意:用户有create public database link 或者create database link 权限.
+
+
+drop public database link dblinkname;
+

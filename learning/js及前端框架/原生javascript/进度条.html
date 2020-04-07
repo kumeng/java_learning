@@ -1,0 +1,38 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<style type="text/css">
+		#proccer{
+		width:0px;
+		height:20px;
+		background-color:blue;
+		text-align:center;
+		display:block;
+		}
+	</style>
+</head>
+
+<body>
+<div id="proccer">
+</div>
+</body>
+<script>
+var count = 0;
+
+var div = document.getElementById("proccer");
+function getCount(){
+	 count ++;
+	 if(count>100){
+	 closeP();
+	 }else{
+	 div.innerText = count+"%";
+	 div.style.width=3*count+"px";
+	 }
+}
+var tid = setInterval("getCount()",100);
+function closeP(){
+clearInterval(tid);
+div.style.display="none";
+}
+</script>
+</html>

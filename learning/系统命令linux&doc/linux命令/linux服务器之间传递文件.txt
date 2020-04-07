@@ -1,0 +1,18 @@
+linuxA:30.3.2.1  ams/ams
+linuxB:30.3.2.2  ams2/ams2
+
+在linuxA上运行
+
+sftp  ams2@30.3.2.2
+输入密码
+pwd 
+#打印当前目录  结果：/home/ams2
+
+
+put /home/br/tg.dmp 
+
+#将/home/br/tg.dmp 文件放入linuxB的 目录/home/ams2  下
+
+
+exit  
+#退出sftp

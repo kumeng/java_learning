@@ -1,0 +1,14 @@
+#!/bin/sh
+#http://localhost:7200/  weblogic控制台地址,此脚本需要控制台开启http隧道: 环境-服务器-列表中选择管理服务adminServer(单击)-协议-HTTP，下面勾选开启隧道
+#pro_name部署列表中的项目名
+#server_name服务器列表中的服务器名 
+#app_path源码路径
+
+wlslib="/weblogic/wlserver_10.3/server/lib" 
+java -cp ${wlslib}/weblogic.jar weblogic.Deployer -adminurl http://localhost:7200/  -username username1 -password  password1  -undeploy    -name pro_name
+
+
+java -cp ${wlslib}/weblogic.jar weblogic.Deployer -adminurl http://localhost:7200/  -username username1 -password  password1  -deploy    -name pro_name -targets  server_name -source app_path  -upload
+
+
+

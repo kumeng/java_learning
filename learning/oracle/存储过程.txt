@@ -1,0 +1,87 @@
+create or replace  procedure temp_deleteTable is
+   v_name all_tables.table_name%type;
+   cursor mycur is select table_name from all_tables where OWNER='ZCBASE';
+   begin
+    open mycur;
+    loop
+        fetch mycur into v_name;
+        exit when mycur%NOTFOUND ;
+        --execute immediate 'drop table '|| v_name || 'cascade constraints';
+        dbms_output.put_line('drop table '|| v_name || 'cascade constraints');
+    end loop;
+    close mycur;
+end;
+commit;
+dbms_output.put_line()
+exec temp_deleteTable
+
+
+
+--存储过程，varchar2  类型不能带精度    
+create or replace procedure temp_deleteTable(tablename in varchar2 ) as
+   cursor mycur(tablename2 varchar2) is select *  from user_col_comments@zcgldblink where table_name = tablename2;--定义一个带参数的游标
+   mycur_rec  user_col_comments%rowtype;--定义user_col_comments的行类型
+   begin
+    open  mycur(tablename);
+    loop
+        fetch mycur into mycur_rec;
+        exit when mycur%notfound;
+        --execute immediate 'drop table '|| v_name || 'cascade constraints';
+        --dbms_output.put_line('comment on column '|| mycur_rec.table_name||'.'|| mycur_rec.column_name|| ' is '|| ''''|| mycur_rec.comments||'''');
+        execute immediate 'comment on column '|| mycur_rec.table_name||'.'|| mycur_rec.column_name|| ' is '|| ''''|| mycur_rec.comments||'''';
+    end loop;
+    close mycur;
+end;
+exec temp_deleteTable('tablename'); --plsql需要在命令窗口执行
+
+select a.id from t_yyzcpd_v a where a.deptid = '1001V5100000000009S1' and rownum < 2 order by a.createdate  desc 
+ 
+
+
+declare
+    v_name all_views.view_name%type;
+    cursor mycur is select view_name from all_views where  OWNER='ZCBASE';
+begin
+    open mycur;
+    loop
+        fetch mycur into v_name;
+        exit when mycur%NOTFOUND OR mycur%NOTFOUND IS NULL;
+        execute immediate 'drop view '|| v_name ;
+    end loop;
+    close mycur;
+end;
+
+
+select 'drop table '|| table_name || ' cascade constraints;' from all_tables where OWNER='ZCBASE';
+
+
+ select  'drop view '|| view_name || ';' from all_views where  OWNER='ZCBASE';
+ 
+ 
+ 
+ ----  重置序列的 存储过程，通过更改步长 实现
+ create or replace procedure seq_reset(v_seqname in varchar2,v_seq_initvalue in number) 
+as n number(10);
+tsql varchar2(100);
+ begin
+ execute immediate 'select '||v_seqname||'.nextval from dual' into n;
+  n:= v_seq_initvalue-n ;
+  tsql:='alter sequence '||v_seqname||' increment by '|| n;
+  execute immediate tsql;
+ execute immediate 'select '||v_seqname||'.nextval from dual' into n;
+  tsql:='alter sequence '||v_seqname||' increment by 1';
+ execute immediate tsql;
+ end seq_reset;
+ -- exec('seqname',2000);  重置序列seqname 值到 2000
+ 
+ 
+ --Oracle 存储过程   拼接  单引号   
+ --方式 一  ''
+  select 'c''c' from dual;  
+  select 'c'||''''||'c' from dual;
+ --方式 二 使用 ASCII 编码，单引号 ' 的编码是39
+ select chr(39) from dual;
+ select chr(39)||'c' from dual;
+
+
+

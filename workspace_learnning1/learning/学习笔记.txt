@@ -1,0 +1,100 @@
+
+
+
+1、页面中请求的绝对路径与相对路径
+
+<a href="/toadd.do"    绝对路径= http://localhost:8280/toadd.do
+<a href="toadd.do"     相对路径(相对上次请求，比如上次请求http://localhost:8280/product/list.do)
+此次=http://localhost:8280/product/toadd.do
+
+
+2、Mysql先保存数据后生成id 
+  Oracle反之
+
+
+
+3、集合
+Collections  接口  不唯一，无序
+
+set类              唯一，无序
+list类             不唯一，有序
+map类              key唯一，无序   value不唯一，无序
+
+Vector 和 ArrayList 异同
+
+相同：同样连续分配存储空间，长度可变，jdK实现原理相同，很多情况可以互用
+
+不同：Vector 是线程安全的 ，ArrayList 重速度比Vector 快，但不是线程安全
+长度增长，Vector 默认增长一倍，ArrayList 默认增长50%，ArrayList更有利于节约内存
+
+
+4、集合工具类
+java.util.Collections   提供集合的常用的操作de 静态方法
+
+
+
+5、Mybatis 配置有两种，主配置文件（定义连接参数和框架参数） 和 映射文件（定义sql语句和映射信息，两种方式：可用xml文件和代码注解）
+Mybatis体系结构：
+一、加载映射文件，生成对应的MappedStatement(包含传入参数映射配置，执行sql，结果映射)，存入内存；
+二、SQL解析，API接口层接收调用请求（包含定义的sql 的id和传入参数对象 map,javaBean或者基本数据类型），框架根据id找到对应的MappedStatement，传入参数对象，解析成可执行的sql语句
+三、SQL执行，将解析到的sql往数据库执行，得到结果
+四、结果映射，按照映射配置的结果映射经行转换。可转成map,javaBean或者基本数据类型，即最终结果，最后返回
+
+主要API：
+一、SQlSessionFactoryBuilder ，根据mybatis主配置文件，生成SQlSessionFactory实例
+二、SQlSessionFactory ，  每个mybatis应用程序都一个SQlSessionFactory 对象为核心，负责创建sqlSession对象
+三、SQLSession , 此对象包含所有执行SQL操作的方法，用于执行已映射的sql语句
+
+
+6、对象内存管理
+public class A(){
+    int row =0;
+    public static void main(){
+	    int num = 1;
+		Cell  c = new Cell(row,num);
+		
+	}
+}
+
+堆        存储实例对象（Cell实例：c ）和 全局变量（也叫成员变量）row  
+栈        存储局部变量 如基本类型 num，而引用类型变量c存储的是该实例对象的存储空间地址
+方法区    class A 的类型信息 及 所含方法的定义
+
+垃圾回收机制（GC  jvm自动运行的一个线程）  主动发现无引用的对象，并把这些对象占据的堆内存释放。（gc发生规律由jvm决定）
+也可System.gc() 向jvm建议调度GC线程回收资源
+
+内存泄漏问题     程序中应该将不再使用的对象 释放其引用（obj=null），避免内存占用堆积导致溢出
+
+
+7  线程   
+
+线程安全API  
+StringBuffer     同步的   synchronized append() 
+
+非线程安全API
+StringBuilder     不同步的  append()
+
+java.util.Collections.synchronizedList   获取线程安全的List集合
+java.util.Collections.synchronizedMap    获取线程安全的Map
+
+
+String, StringBuffer 与 StringBuilder
+String 不可变字符串
+StringBuffer 是可变长字符串，线程安全
+StringBuilder 同StringBuffer一样，但是只能在单线程下工作，效率更高
+
+
+
+
+阿里云 账户同步，购买域名
+查看pringboot项目，是否有factory path配置
+
+
+
+
+
+
+
+
+
+
