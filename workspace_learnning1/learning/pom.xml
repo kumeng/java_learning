@@ -25,7 +25,7 @@
 		<druid.version>1.0.9</druid.version>	
 		
 		<freemarker-version>2.3.18</freemarker-version>
-		<fastjson.version>1.2.23</fastjson.version>
+		<fastjson.version>1.2.25</fastjson.version>
 
 		<javax.servlet-version>1.2</javax.servlet-version>
 		<javax.annotation.jsr250.version>1.0</javax.annotation.jsr250.version>
