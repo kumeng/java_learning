@@ -1,0 +1,172 @@
+环境 centos 6.5
+
+01  yum install bind bind-libs bind-utils -y  安装bind
+
+完成后，如下内容 rpm -qa|grep bind*  查看安装的bind相关内容
+查询出
+binutils-2.20.51.0.2-5.36.el6.i686
+samba-winbind-3.6.9-164.el6.i686
+bind-libs-9.8.2-0.62.rc1.el6_9.5.i686
+bind-9.8.2-0.62.rc1.el6_9.5.i686
+samba-winbind-clients-3.6.9-164.el6.i686
+bind-utils-9.8.2-0.62.rc1.el6_9.5.i686
+libproxy-bin-0.3.0-4.el6_3.i686
+PackageKit-device-rebind-0.5.8-21.el6.i686
+
+
+02   vim /etc/named.conf  修改主配置文件
+配置内容格式如下
+  全局配置：options {}
+  日志子系统配置：logging {}
+  区域定义：本机能够为哪些zone进行解析，就要定义哪些zone；
+           格式为  zone "ZONE_NAME" IN {}\
+
+修改主配置如下示例
+listen-on port 53 { any; };    监听任意ip地址
+allow-query     { any; };      允许任何主机查询
+dnssec-enable no;              关闭dnssec功能
+dnssec-validation no;		
+
+
+/etc/named.conf 配置如下
+options {
+        #listen-on port 53 { 127.0.0.1; };
+        listen-on port 53 { any; };    //对所有IP进行监听
+        listen-on-v6 port 53 { ::1; };  //在IPv6环境下的监听端口为53  
+        directory       "/var/named";    //工作目录设定  
+        dump-file       "/var/named/data/cache_dump.db";  //缓存转储位置
+        statistics-file "/var/named/data/named_stats.txt";   //记录统计信息的文件 
+        memstatistics-file "/var/named/data/named_mem_stats.txt";  //记录内存使用的统计信息 
+        #allow-query     { localhost; };  //允许查询的主机，默认只允许本机查询
+        allow-query     { any; };   //
+        recursion yes;    //允许递归查询  
+
+        #dnssec-enable yes;
+        dnssec-enable no;
+        #dnssec-validation yes;
+        dnssec-validation no;
+
+        /* Path to ISC DLV key */
+        bindkeys-file "/etc/named.iscdlv.key";
+
+        managed-keys-directory "/var/named/dynamic";
+};
+
+logging {
+        channel default_debug {
+                file "data/named.run"; //记录了一些named的信息，如监听/解析记录等。它的位置在/var/named/data下。  
+                severity dynamic;
+        };
+};
+
+zone "." IN {
+        type hint; //type只有3种参数：hint/master/slave.只有"."对应的type为hint，其它zone的类型只能为master或slave，即DNS主机和DNS从机。  
+        file "named.ca";  //指定了解析文件的位置，解析文件中记录着域名与IP的对应关系。它的位置在/var/named/data下。  
+};
+
+include "/etc/named.rfc1912.zones";
+include "/etc/named.root.key";   
+
+DNS服务主要配置文件
+
+/etc/named.conf           ##主配置文件
+/etc/named.rfc1912.zones  ##域名设置文件
+/var/named/               ##目录包含名称服务器所使用的其他数据文件
+
+DNS资源记录类型 
+A 地址 此记录列出特定主机名的 IPv4地址。这是名称解析的重要记录。 
+AAAA : 名称至 IPv6 地址 
+CNAME 标准名称 此记录指定标准主机名的别名。 
+PTR : IPv4/IPv6 地址至名称 
+MX：邮件交换器，此记录列出了负责接收发到域中的电子邮件的主机。 
+NS：名称服务器，此记录指定负责给定区域的名称服务器。
+
+dig结果显示中status参数 
+NOERROR : 查询成功 
+NXDOMAIN : DNS 服务器提示不存在这样的名称 
+SERVFAIL : DNS 服务器停机或 DNSSEC 响应验证失败 
+REFUSED : DNS 服务器拒绝回答 ( 也许是出于访问控制原因 )
+
+查看“named.ca”的内容，可以找到全球13台根域服务器的主机名与IP地址]
+cat -n /var/named/chroot/var/named/named.ca
+
+
+03  service named start 启动named服务  
+service named restart  重启named服务 
+DNS服务的启动和关闭
+/etc/init.d/named start ##开启DNS服务
+/etc/init.d/named restart  ##重启named服务 
+chkconfig named on      ##开启自启
+/etc/init.d/named  stop ##关闭DNS服务    
+
+
+04  vim /etc/named.rfc1912.zones    配置域名
+
+zone "localhost" IN {
+        type master;
+        file "named.localhost";
+        allow-update { none; };
+};
+zone "xxxaccount.top" in { 
+       type master;
+       file "xxxaccount.top.zone";
+       allow-update { none; };
+};
+
+zone "154.211.70.125.in-addr.arpa" IN {
+        type master;
+        file "xxxaccount.top.ptr";
+        allow-update { none; };
+};
+
+
+05    cp -p /var/named/named.localhost   /var/named/xxxaccount.top.zone   复制正向解析配置文件
+06    vim /var/named/xxxaccount.top.zone  修改正向解析配置
+$TTL 1D
+@       IN SOA  pbm.xxxaccount.top. root.invalid. (
+                                        0       ; serial
+                                        1D      ; refresh
+                                        1H      ; retry
+                                        1W      ; expire
+                                        3H )    ; minimum
+        NS      pbm.xxxaccount.top.
+pbm        A       125.70.211.154
+www        A       125.70.211.154
+ns1        CNAME       news.xxxaccount.top.
+news       A       125.70.211.154 
+        AAAA    ::1
+xxxaccount.top.   MX 1 125.70.211.154.
+
+07   cp -p /var/named/named.loopback /var/named/xxxaccount.top.ptr   修改反向解析配置
+vim /var/named/xxxaccount.top.ptr
+$TTL 1D
+@       IN SOA  pbm.xxxaccount.top. root.invalid. (
+                                        20180427        ; serial
+                                        1D      ; refresh
+                                        1H      ; retry
+                                        1W      ; expire
+                                        3H )    ; minimum
+        NS      pbm.xxxaccount.top.
+pbm        A       125.70.211.154
+                AAAA    ::1
+1  PTR          www.xxxaccount.top.
+
+
+ns1.xxxaccount.top
+
+pbm.xxxaccount.top
+
+125.70.211.154
+
+
+
+
+
+
+
+
+
+
+
+
+

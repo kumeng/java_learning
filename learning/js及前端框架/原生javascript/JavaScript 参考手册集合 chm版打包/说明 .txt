@@ -1,0 +1,24 @@
+JavaScript 参考手册集合，看到很多朋友因为没有很好的js帮助手册，脚本之家小编特为大家整理了一些来自多个网站的JavaScript 参考手册，以后我们会陆续增加一些js帮助手册， 希望大家多多支持我们。
+
+小编还打包了 ：
+
+1、w3cschool的JavaScript 教程 chm版
+
+2、css8 发布的javascript参考手册
+
+3、javascript-cheat-sheet.pdf
+
+4、微软Jscript手册 chm版
+
+5、迷途知返网站提供了JavaScript语言中文参考手册
+
+
+
+
+红黑联盟：www.2cto.com
+
+
+电子书频道：http://www.2cto.com/ebook/
+
+
+网址：http://www.2cto.com/ebook/201608/66013.html

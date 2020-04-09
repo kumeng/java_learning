@@ -1,0 +1,15 @@
+选中一个返回值的方法，例如pic.getOriginalFilename()
+
+ctrl+2, F       自动增加一个全局String变量 orgiganame ,并将选中的代码替换为 orgiganame  = pic.getOriginalFilename();
+
+ctrl+2, L        自动增加一个局部String变量 orgiganame, 替换为  String  orgiganame  = pic.getOriginalFilename();
+
+
+ctrl+2, M       将选中的代码抽取出来，生成一个本地私有方法。
+
+使用方式：先按 ctrl+2  然后 再按 F等
+
+
+ctrl + alt + ↓     将选中的代码复制一行生成到选中代码下方
+
+ctrl + sheft + F     格式化选中代码,不选则是全部    ，注意：很多输入法也会使用这个快捷键，注意冲突

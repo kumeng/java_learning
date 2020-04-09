@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link type="favicon" rel="shortcut icon" href="/favicon.ico" />
+        <title>gSoap开发（六）——WebService附件机制-生命不息，奋斗不止-51CTO博客</title>
+    <meta name="keywords" content="webservice 附件机制">
+<meta name="description" content="gSoap开发（六）——WebService附件机制&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;本文转载自博客园liyou：WebService附件技术的发展及演变一、WebService附件机制简介&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;WebService通常将业务数据封装在SOAP主体或者SOAP消息附件中进行传输，附件往往采用Ba">    <link href="http://static1.51cto.com/edu/blog/css/header.css?v=1.0.4.7" rel="stylesheet"><link href="http://static1.51cto.com/edu/blog/css/other.css?v=1.0.3.2" rel="stylesheet"><link href="http://static1.51cto.com/edu/blog/css/right.css?v=1.0.4.6" rel="stylesheet"><link href="http://static1.51cto.com/edu/blog/css/blog_details.css?v=1.0.6.9" rel="stylesheet"><link href="http://static1.51cto.com/edu/blog/css/highlight.css" rel="stylesheet">
+    <script src="http://static1.51cto.com/edu/center/js/jquery.min.js"></script><script src="http://static1.51cto.com/edu/blog/js/cookie.js"></script><script src="http://static1.51cto.com/edu/blog/js/login.js?v=1.0.0.6"></script><script src="http://static1.51cto.com/edu/blog/js/common.js?v=1.0.0.7"></script><script src="http://static1.51cto.com/edu/blog/js/mbox.js"></script><script src="http://static1.51cto.com/edu/blog/js/follow.js?v=1.0.0.8"></script><script src="http://static1.51cto.com/edu/blog/js/vip.js?v=1.0.0.1"></script></head>
+<body>
+<img src="http://static1.51cto.com/edu/blog/mobile/images/share_default.jpg" border="0" style="width:0; height:0; position:absolute;">
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+<![endif]-->
+
+<div class="Header">
+  <div class="Page ">
+    <h1 class="Logo"><a href="http://blog.51cto.com/">Logo</a></h1>
+    <ul class="Navigates fl">
+      <li ><a href="http://blog.51cto.com/">首页</a></li>
+      <li ><a href="http://blog.51cto.com/original">文章</a></li>
+      <li ><a href="http://blog.51cto.com/blog/follow">关注</a></li>
+      <li class="">
+        <a class="column-stress" href="http://blog.51cto.com/cloumn/index">订阅专栏<b></b></a>
+      </li>
+            <li class="">
+        <a href="http://blog.51cto.com/expert">专家</a>
+      </li>
+          </ul>
+    <ul class="Navigates Navigates-right fr">
+      <li class="more maps">
+        <a href="javascript:void(0);">网站导航</a>
+        <div>
+            <a href="http://edu.51cto.com" target="_blank">学院</a>
+            <a href="http://blog.51cto.com" target="_blank">博客</a>
+            <a href="http://down.51cto.com" target="_blank">下载</a>
+            <a href="http://home.51cto.com" target="_blank">家园</a>
+            <a href="http://bbs.51cto.com" target="_blank">论坛</a>
+            <a href="http://x.51cto.com" target="_blank">CTO训练营</a>
+            <a href=" http://club.51cto.com?blog" target="_blank">CTO俱乐部</a>
+            <a href="http://wot.51cto.com" target="_blank">WOT</a>
+            <a href="http://www.51cto.com" target="_blank">51CTO</a>
+            <i class="arrow"></i>
+        </div>
+      </li>
+                <li><a href="http://home.51cto.com/user/register?reback=http%253A%252F%252Fblog.51cto.com%252F9291927%252F1914051" target="_self">注册</a></li>
+          <li class="login"><a href="/user/login?reback=http%3A%2F%2Fblog.51cto.com%2F9291927%2F1914051" target="_self">登录</a></li>
+                        <li class="mRead">
+          <a href="javascript:;">手机阅读</a>
+          <div>
+            <img src="http://static1.51cto.com/edu/blog/images/blog_qr.png">
+            <p>扫一扫体验手机阅读</p>
+            <i class="arrow"></i>
+          </div>
+        </li>
+            <li class="search"><a href="http://blog.51cto.com/search/index"  target="_self">搜索</a></li>
+                  <li class="write"><a href="javascript:;" onClick="Login()">写文章</a></li>
+                  </ul>
+          <div class="clear"></div>
+  </div>
+</div>
+<script>
+    var isLogin = '0';
+    var userId = '';
+    var imgpath = 'http://i2.51cto.com/';
+    var BLOG_URL = 'http://blog.51cto.com/';
+    var msg_num_url = '/index/ajax-msg-num';
+    setTimeout(function(){
+            $.ajax({
+                url:msg_num_url,
+                type:"get",
+                dataType:'json',
+                success:function(res){
+                    if(res.status == '0'){
+                       //
+                       var hasNewMsg = false;
+                       if(res.data.msgNum > 0 && !$('#myMsg i').hasClass('dot')){
+                            $('#myMsg i').addClass('dot');
+                            hasNewMsg = true;
+                       }
+                       if(res.data.notifyNum > 0 && !$('#myNotify i').hasClass('dot')){
+                           $('#myNotify i').addClass('dot');
+                           hasNewMsg = true;
+                       }
+                       if(res.data.recommend_new > 0 && !$('#myRecommend i').hasClass('dot')){
+                           $('#myRecommend i').addClass('dot');
+                           hasNewMsg = true;
+                       }
+                       if(hasNewMsg && !$('#myAllMsg i').hasClass('dot')){
+                           $('#myAllMsg i').addClass('dot');
+                       }
+                    }
+
+                }
+            });
+    },70);
+</script>
+<div class="Content-box">
+    	<link rel="stylesheet" href="http://static1.51cto.com/edu/blog/css/fck_editorarea.css">
+	<link rel="stylesheet" href="http://static1.51cto.com/edu/blog/css/shCoreDefault.css?v=1.0.1.1">
+<link rel="stylesheet" href="http://static1.51cto.com/edu/blog/css/tinyscrollbar.css"/>
+<script type="text/javascript" src="http://static1.51cto.com/edu/blog/js/jquery.tinyscrollbar.js"></script>
+<div class="Content Index" style="padding-bottom: 50px;">
+	<div class="Page M764">
+		<!-- left start -->
+		<div class="artical-Left-blog">
+			<div class="status">
+	        					<a class="tab_name reprint">转载</a>
+							</div>
+			<h1 class="artical-title">gSoap开发（六）——WebService附件机制</h1>
+			<div class="artical-title-list">
+				<div class="is-vip-bg-6 fl">
+					<a href="http://blog.51cto.com/9291927" class="a-img" target="_blank"><img class="is-vip-img is-vip-img-4" data-uid="9281927" src="http://ucenter.51cto.com/images/noavatar_middle.gif"></a>
+				</div>
+				<a href="http://blog.51cto.com/9291927" class="name fl" target="_blank">天山老妖S</a>
+					                	                    <a id="checkFollow1_9281927" class="checkFollow-btn on fl">关注</a>
+	                	            				<a class="comment comment-num fr"><font class="comment_number">0</font>人评论</a>
+				<span class="fr"></span>
+				<a href="javascript:;" class="read fr">556人阅读</a>
+				<a href="javascript:;" class="time fr">2017-04-08 10:41:12</a>
+				<div class="clear"></div>
+			</div>
+							<div class="artical-content-bak main-content editor-side-new">
+					<div class="con editor-preview-side"><h1 style="text-align:center;"><span style="font-family:'楷体';">gSoap<span style="font-family:'楷体';">开发（六）——</span></span><strong><span style="font-family:Arial;font-weight:bold;font-size:21px;">WebService</span></strong><span style="font-family:'楷体';"><span style="font-family:'楷体';">附件机制</span></span></h1><p><span style="font-family:'楷体';font-size:19px;"><span style="font-family:'楷体';">&nbsp;&nbsp;&nbsp;&nbsp;本文转载自博客园</span></span><span style="font-family:Calibri;font-size:19px;">liyou</span><span style="font-family:'楷体';font-size:19px;"><span style="font-family:'楷体';">：</span></span><span style="font-family:Calibri;font-size:19px;">WebService<span style="font-family:'楷体';">附件技术的发展及演变</span></span></p><h2><span style="font-family:'楷体';"><span style="font-family:'楷体';">一、</span></span><strong><span style="font-family:Arial;font-weight:bold;font-size:20px;">WebService</span></strong><span style="font-family:'楷体';"><span style="font-family:'楷体';">附件机制简介</span></span></h2><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WebService<span style="font-family:'楷体';">通常将业务数据封装在</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">主体或者</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">消息附件中进行传输，附件往往采用</span><span style="font-family:Calibri;">Base64</span><span style="font-family:'楷体';">编码二进制方式进行封装，这将大大增加待传输的数据量，消耗比较长的编码时间和传输时间。随着</span><span style="font-family:Calibri;">SOA</span><span style="font-family:'楷体';">以及</span><span style="font-family:Calibri;">WebService</span><span style="font-family:'楷体';">技术的广泛采用，由于网络带宽，延时的影响以及内存大小的限制，越来越多的应用对</span><span style="font-family:Calibri;">WebService</span><span style="font-family:'楷体';">附件传输方式以及传输效率提出了更高的要求。</span></span></p><h2><span style="font-family:'楷体';font-weight:bold;font-size:20px;">二、</span><strong><span style="font-family:'楷体';font-weight:bold;font-size:20px;">WebService<span style="font-family:'楷体';">数据交换协议</span></span></strong></h2><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WebService<span style="font-family:'楷体';">使用</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">作为其标准的数据交换协议。</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">是一个基于</span><span style="font-family:Calibri;">XML</span><span style="font-family:'楷体';">的轻量级协议，用于在无中心、分布式环境中交换结构化的数据，</span></span><span style="font-family:'楷体';font-size:19px;">SOAP</span><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">协议完全独立于具体的系统平台、软件架构和编程语言，提供了一种开放和统一的方式支持应用间的集成和互操作。</span></span></p><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOAP <span style="font-family:'楷体';">的设计目标是简单性和扩展性，有助于大量异构程序和平台之间的互操作性，从而使存在的应用程序能够被广泛的用户访问。目前，</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">已经成为开放性互联网络应用中标准的数据交换技术。</span><span style="font-family:Calibri;">2000</span><span style="font-family:'楷体';">年</span><span style="font-family:Calibri;">W3C</span><span style="font-family:'楷体';">推出了</span><span style="font-family:Calibri;">SOAP1.1</span><span style="font-family:'楷体';">版本，</span><span style="font-family:Calibri;">SOAP1.2</span><span style="font-family:'楷体';">在</span><span style="font-family:Calibri;">2007</span><span style="font-family:'楷体';">年</span><span style="font-family:Calibri;">4</span><span style="font-family:'楷体';">月推出，并成为</span><span style="font-family:Calibri;">W3C</span><span style="font-family:'楷体';">的推荐规范。</span></span></p><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOAP<span style="font-family:'楷体';">只是为上层应用提供一个数据的载体，数据的具体语义由上层应用定义。</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">报文最外层元素为</span><span style="font-family:Calibri;">Envelope</span><span style="font-family:'楷体';">，即</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">信封。</span><span style="font-family:Calibri;">Envelope</span><span style="font-family:'楷体';">之下有两个子元素：</span><span style="font-family:Calibri;">Header</span><span style="font-family:'楷体';">元素和</span><span style="font-family:Calibri;">Body</span><span style="font-family:'楷体';">元素。其中</span><span style="font-family:Calibri;">Body</span><span style="font-family:'楷体';">元素是</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">报文的主要数据载体，该元素是必需的。用于存放待交换的信息，具体表示为</span><span style="font-family:Calibri;">Body</span><span style="font-family:'楷体';">的子元素；</span><span style="font-family:Calibri;">Body</span><span style="font-family:'楷体';">的每个直接子元素称为</span><span style="font-family:Calibri;">Body Block</span><span style="font-family:'楷体';">，用于存放具体应用中在逻辑上相关的一组数据；</span><span style="font-family:Calibri;">Header </span><span style="font-family:'楷体';">元素是可选的，主要用于扩展机制，</span><span style="font-family:Calibri;">Header</span><span style="font-family:'楷体';">的直接子元素称为 </span><span style="font-family:Calibri;">Header Block</span><span style="font-family:'楷体';">，每个</span><span style="font-family:Calibri;">Header Block</span><span style="font-family:'楷体';">的扩展语义由基于</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">的上层应用来定义，常用的扩展包括安全、事务、消息相关性等。</span></span></p><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOAP<span style="font-family:'楷体';">故障</span><span style="font-family:Calibri;">(Fault)</span><span style="font-family:'楷体';">报文是一种特殊的</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">报文，用于在发生故障的场景中运载错误信息。在</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">故障报文中，</span><span style="font-family:Calibri;">Body</span><span style="font-family:'楷体';">有且仅有一个名为</span><span style="font-family:Calibri;">Fault</span><span style="font-family:'楷体';">的直接子元素，用于存放和具体故障有关的详细错误信息，包括故障代码、故障原因、发生故障的</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">结点等。</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">数据报文和</span><span style="font-family:Calibri;">SOAP Fault</span><span style="font-family:'楷体';">报文示意图</span></span><span style="font-family:'楷体';font-size:19px;"><span style="font-family:'楷体';">如下：</span></span></p><p><a href="https://s2.51cto.com/wyfs02/M02/8F/A9/wKioL1joS_XDEhUEAAAL0W0NXXE937.png" target="_blank"><img src="https://s2.51cto.com/wyfs02/M02/8F/A9/wKioL1joS_XDEhUEAAAL0W0NXXE937.png" title="图片11.png" alt="wKioL1joS_XDEhUEAAAL0W0NXXE937.png" /></a></p><p><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">&nbsp;&nbsp;&nbsp;&nbsp;在</span>WebService<span style="font-family:'楷体';">的实现中，经常需要在</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">报文中携带各种类型的附件 </span><span style="font-family:Calibri;">(</span><span style="font-family:'楷体';">如图像、文档等</span><span style="font-family:Calibri;">)</span><span style="font-family:'楷体';">一起传输。例如，在典型的电子商务应用中，客户向商家询问某种商品的详细信息，商家向客户发回</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">格式的回复消息，其中包含有商品的详细说明，商品的图片等供客户参考。这些附件可能是文本文件</span></span><span style="font-family:'楷体';font-size:19px;"><span style="font-family:'楷体';">、</span></span><span style="font-family:Calibri;font-size:19px;">XML<span style="font-family:'楷体';">片段</span></span><span style="font-family:'楷体';font-size:19px;"><span style="font-family:'楷体';">、</span></span><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">二进制文件等等。然而，</span>SOAP <span style="font-family:'楷体';">是一种基于</span><span style="font-family:Calibri;">XML</span><span style="font-family:'楷体';">的文本协议，只能使用可见字符组成的文本来表示数据，无法在报文中直接包含其他格式的附件。因此，如何将</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">报文同其他格式的附件组织在一起进行传输便成为一个需要解决的重要问题。</span></span></p><p><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">&nbsp;&nbsp;&nbsp;&nbsp;为了对</span>SOAP<span style="font-family:'楷体';">及其他</span><span style="font-family:Calibri;">WebService</span><span style="font-family:'楷体';">标准进行支持，</span><span style="font-family:Calibri;">Java</span><span style="font-family:'楷体';">社区进程组织</span><span style="font-family:Calibri;">(JCP: Java Community Process)</span><span style="font-family:'楷体';">提供并实现了</span><span style="font-family:Calibri;">Java</span><span style="font-family:'楷体';">方面的</span><span style="font-family:Calibri;">Web</span><span style="font-family:'楷体';">服务的原始标准</span><span style="font-family:Calibri;">JAX-RPC1.x (JavaTM APIs for XML based RPC)</span><span style="font-family:'楷体';">和</span><span style="font-family:Calibri;">JAX-WS (JavaTM API for XML-Based Web Services 2.0)</span><span style="font-family:'楷体';">。</span><span style="font-family:Calibri;">JAX-RPC1.1</span><span style="font-family:'楷体';">提供对 </span><span style="font-family:Calibri;">SOAP1.1</span><span style="font-family:'楷体';">的支持，</span><span style="font-family:Calibri;">JAX-WS2.0</span><span style="font-family:'楷体';">对</span><span style="font-family:Calibri;">SOAP1.1</span><span style="font-family:'楷体';">和</span><span style="font-family:Calibri;">SOAP1.2</span><span style="font-family:'楷体';">进行支持。</span></span></p><h2 style="text-indent:0;"><span style="font-family:'楷体';">三、</span><span style="font-family:'楷体';">Base64<span style="font-family:'楷体';">编码的二进制</span><span style="font-family:Arial;">SOAP</span><span style="font-family:'楷体';">附件</span></span></h2><p><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">&nbsp;&nbsp;&nbsp;&nbsp;为了简单和通用性，</span>XML<span style="font-family:'楷体';">被设计成了以文本的格式来表示数据。使用</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">进行传递的数据首先被序列化，也就是将数据转换成字符串在</span><span style="font-family:Calibri;">XML</span><span style="font-family:'楷体';">文档中传送。在目的地</span></span><span style="font-family:'楷体';font-size:19px;"><span style="font-family:'楷体';">，</span></span><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">字符串再被反序列化，即再被转换成表示原来的值的数据类型。把二进制数据放入</span>SOAP<span style="font-family:'楷体';">报文的最简单的方法，就是使用</span><span style="font-family:Calibri;">Base64</span><span style="font-family:'楷体';">编码的方式对其进行编码，以实现数据的序列化和反序列化。</span></span></p><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Base64<span style="font-family:'楷体';">是一种很常见的编码规范，其作用是将二进制序列转换为可读的</span><span style="font-family:Calibri;">ASCII</span><span style="font-family:'楷体';">字符序列，常用在需用通过文本协议传输二进制数据的情况下，例如</span><span style="font-family:Calibri;">HTTP</span><span style="font-family:'楷体';">和</span><span style="font-family:Calibri;">SMTP</span><span style="font-family:'楷体';">协议。</span><span style="font-family:Calibri;">Base64</span><span style="font-family:'楷体';">编码基本原理是把每三个</span><span style="font-family:Calibri;">8bit</span><span style="font-family:'楷体';">的字节转换为四个</span><span style="font-family:Calibri;">6bit</span><span style="font-family:'楷体';">的字节，然后把</span><span style="font-family:Calibri;">6bit</span><span style="font-family:'楷体';">再添两位高位</span><span style="font-family:Calibri;">0</span><span style="font-family:'楷体';">，组成四个</span><span style="font-family:Calibri;">8bit</span><span style="font-family:'楷体';">的字节，不满四个字节的以 </span><span style="font-family:Calibri;">'=' </span><span style="font-family:'楷体';">填充。因为</span><span style="font-family:Calibri;">Base64</span><span style="font-family:'楷体';">将输入的数据编码成只含有 </span><span style="font-family:Calibri;">{'A'-'Z', 'a'-'z', '0'-'9', '+', '/'} </span><span style="font-family:'楷体';">这</span><span style="font-family:Calibri;">64</span><span style="font-family:'楷体';">个字符的串，所以称之为</span><span style="font-family:Calibri;">Base64</span><span style="font-family:'楷体';">编码。转换后的字符串理论上将要比原来的长</span><span style="font-family:Calibri;">1/3</span><span style="font-family:'楷体';">。</span></span></p><p><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">&nbsp;&nbsp;&nbsp;&nbsp;在</span>W3C<span style="font-family:'楷体';">的</span><span style="font-family:Calibri;">XML Schema Part 2: Datatypes</span><span style="font-family:'楷体';">规范中，定义了 </span><span style="font-family:Calibri;">base64Binary</span><span style="font-family:'楷体';">类型，</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">报文中使用</span><span style="font-family:Calibri;">Base64</span><span style="font-family:'楷体';">编码的二进制内容可以定义为该类型。使用</span><span style="font-family:Calibri;">Base64</span><span style="font-family:'楷体';">编码的图片数据在</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">报文中的结构如</span></span><span style="font-family:'楷体';font-size:19px;"><span style="font-family:'楷体';">下</span></span><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">：</span></span></p><pre class="brush:xml;toolbar:false">&lt;?xml&nbsp;version='1.0'&nbsp;?&gt;&lt;soap:Envelope&nbsp;xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"&nbsp;
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+&nbsp;&lt;soap:Body&gt;
+&nbsp;&lt;Car&nbsp;name="myCar"&gt;
+&nbsp;&lt;BNZE&nbsp;xsi:type="xsi:base64Binary"&gt;L3EWw43eku34EEli34wejlE72=&lt;/BNZE&gt;
+&nbsp;&lt;/Car&gt;
+&nbsp;&lt;/soap:Body&gt;&lt;/soap:Envelope&gt;</pre><p><span style="font-family:'宋体';color:rgb(0,0,255);font-size:16px;"></span><br /></p><h2 style="text-indent:0;"><span style="font-family:'楷体';">四、</span><span style="font-family:'楷体';">MIME<span style="font-family:'楷体';">附件</span></span></h2><p><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">&nbsp;&nbsp;&nbsp;&nbsp;尽管使用</span>Base64<span style="font-family:'楷体';">编码能够将二进制数据放入</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">报文中进行传输，然而其效率非常低下。根据前面对</span><span style="font-family:Calibri;">Base64</span><span style="font-family:'楷体';">编码原理的分析，采用</span><span style="font-family:Calibri;">Base64</span><span style="font-family:'楷体';">编码将会引入</span><span style="font-family:Calibri;">33%</span><span style="font-family:'楷体';">的冗余尺寸，从而使</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">消息变大；另外，对二进制数据进行编码和解码将造成较大的时间开销，严重影响应用程序的性能。鉴于这些问题，</span><span style="font-family:Calibri;">2000</span><span style="font-family:'楷体';">年</span><span style="font-family:Calibri;">12</span><span style="font-family:'楷体';">月，</span><span style="font-family:Calibri;">W3C</span><span style="font-family:'楷体';">组织推出了 </span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">附件标准：</span><span style="font-family:Calibri;">SOAP Messages with Attachments (SwA) </span><span style="font-family:'楷体';">规范，将 </span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">附件置于</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">主体之外，基于</span><span style="font-family:Calibri;">MIME</span><span style="font-family:'楷体';">技术实现了</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">报文同 </span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">附件的封装。</span></span></p><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MIME (Multipurpose Internet Mail Extensions)<span style="font-family:'楷体';">多用途互联网邮件扩展，是当前广泛应用的一种电子邮件技术规范，基本内容定义于 </span><span style="font-family:Calibri;">RFC 2045-2049</span><span style="font-family:'楷体';">。</span><span style="font-family:Calibri;">MIME</span><span style="font-family:'楷体';">出现之前，邮件中只能发送</span><span style="font-family:Calibri;">ASCII</span><span style="font-family:'楷体';">码文本信息，如果要发送二进制文件，如声音和视频等，难以实现。</span><span style="font-family:Calibri;">MIME</span><span style="font-family:'楷体';">使得在邮件中支持多种不同编码文件成为可能。尽管</span><span style="font-family:Calibri;">MIME</span><span style="font-family:'楷体';">一开始用于邮件传输中，现在</span><span style="font-family:Calibri;">MIME</span><span style="font-family:'楷体';">已经成为</span><span style="font-family:Calibri;">HTTP</span><span style="font-family:'楷体';">协议标准的一部分。</span></span></p><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MIME<span style="font-family:'楷体';">消息由消息头和消息体两大部分组成，邮件头与邮件体之间以空行进行分隔。邮件头包含了发件人地址 </span><span style="font-family:Calibri;">(From)</span><span style="font-family:'楷体';">、收件人地址 </span><span style="font-family:Calibri;">(To)</span><span style="font-family:'楷体';">、主题</span><span style="font-family:Calibri;">(Subject)</span><span style="font-family:'楷体';">、</span><span style="font-family:Calibri;">MIM</span></span><span style="font-family:'楷体';font-size:19px;">E</span><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">版本</span>(MIME-Version)<span style="font-family:'楷体';">、内容的类型 </span><span style="font-family:Calibri;">(Content-Type)</span><span style="font-family:'楷体';">，内容的传输编码方式 </span><span style="font-family:Calibri;">(Content-Transfer-Encoding) </span><span style="font-family:'楷体';">等信息，每条信息称为一个域。邮件体包含邮件的内容，类型由邮件头的</span><span style="font-family:Calibri;">“Content-Type”</span><span style="font-family:'楷体';">域指明，分为简单类型和</span><span style="font-family:Calibri;">Multipart</span><span style="font-family:'楷体';">类型。简单类型如 </span><span style="font-family:Calibri;">text/plain, text/html </span><span style="font-family:'楷体';">等，</span><span style="font-family:Calibri;">Multipart</span><span style="font-family:'楷体';">类型表明将邮件体分为多个段，每段又分为段头和段体，也以空行分隔。常见的</span><span style="font-family:Calibri;">Multipart</span><span style="font-family:'楷体';">类型有三种：</span><span style="font-family:Calibri;">Multipart/Mixed, Multipart/Related</span><span style="font-family:'楷体';">和</span><span style="font-family:Calibri;">Multipart/Alternative</span><span style="font-family:'楷体';">。如果邮件中要添加附件，而且附件之间有相互关联关系，则使用 </span><span style="font-family:Calibri;">Multipart/Related</span><span style="font-family:'楷体';">。</span></span></p><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOAP<span style="font-family:'楷体';">附件标准</span><span style="font-family:Calibri;">SwA</span><span style="font-family:'楷体';">只针对</span><span style="font-family:Calibri;">SOAP1.1</span><span style="font-family:'楷体';">版本，其</span><span style="font-family:Calibri;">MIME</span><span style="font-family:'楷体';">类型为 </span><span style="font-family:Calibri;">Multipart/Related</span><span style="font-family:'楷体';">，表示文档的多个部分是相关的，</span><span style="font-family:Calibri;">Multipart/Related </span><span style="font-family:'楷体';">报头的</span><span style="font-family:Calibri;">type</span><span style="font-family:'楷体';">参数值为</span><span style="font-family:Calibri;">”text/xml”</span><span style="font-family:'楷体';">。</span><span style="font-family:Calibri;">SOAP1.1</span><span style="font-family:'楷体';">消息主体位于 </span><span style="font-family:Calibri;">Multipart/Related</span><span style="font-family:'楷体';">结构的第一段，其</span><span style="font-family:Calibri;">Content-Type</span><span style="font-family:'楷体';">的值也为</span><span style="font-family:Calibri;">”text/xml”</span><span style="font-family:'楷体';">。其余的</span><span style="font-family:Calibri;">MIME</span><span style="font-family:'楷体';">段为</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">附件，附件可以是任意类型数据，每个附件 </span><span style="font-family:Calibri;">MIME</span><span style="font-family:'楷体';">段由段头的</span><span style="font-family:Calibri;">Content-ID</span><span style="font-family:'楷体';">或者</span><span style="font-family:Calibri;">Content-Location</span><span style="font-family:'楷体';">唯一标识，比较常用的是</span><span style="font-family:Calibri;">Content-ID</span><span style="font-family:'楷体';">。</span><span style="font-family:Calibri;">SwA</span><span style="font-family:'楷体';">规范下的带附件</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">报文结构图</span></span><span style="font-family:'楷体';font-size:19px;"><span style="font-family:'楷体';">如下：</span></span></p><p><a href="https://s1.51cto.com/wyfs02/M00/8F/AB/wKiom1joTB3h-zHzAAAS4beoNcA997.png" target="_blank"><img src="https://s1.51cto.com/wyfs02/M00/8F/AB/wKiom1joTB3h-zHzAAAS4beoNcA997.png" title="图片12.png" alt="wKiom1joTB3h-zHzAAAS4beoNcA997.png" /></a></p><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOAP<span style="font-family:'楷体';">消息由</span><span style="font-family:Calibri;">MIME</span><span style="font-family:'楷体';">头，一个封装主体</span><span style="font-family:Calibri;">SOAP1.1</span><span style="font-family:'楷体';">消息的</span><span style="font-family:Calibri;">MIME</span><span style="font-family:'楷体';">段和一个或多个封装</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">附件的</span><span style="font-family:Calibri;">MIME</span><span style="font-family:'楷体';">段三部分组成。其中每部分以 </span><span style="font-family:Calibri;">MIME</span><span style="font-family:'楷体';">边界分隔，</span><span style="font-family:Calibri;">Context-Type</span><span style="font-family:'楷体';">用于指定</span><span style="font-family:Calibri;">MIME</span><span style="font-family:'楷体';">段的数据的类型、</span><span style="font-family:Calibri;">Content Transfer-encoding</span><span style="font-family:'楷体';">用于指定用于</span><span style="font-family:Calibri;">MIME</span><span style="font-family:'楷体';">段的编码方式、</span><span style="font-family:Calibri;">Content-ID</span><span style="font-family:'楷体';">或者</span><span style="font-family:Calibri;">Content-Location</span><span style="font-family:'楷体';">用于作为该</span><span style="font-family:Calibri;">MIME</span><span style="font-family:'楷体';">部件的标识符。</span></span></p><p style="margin-left:0;text-indent:0;"><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">&nbsp;&nbsp;&nbsp;&nbsp;基于</span>SwA<span style="font-family:'楷体';">的</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">报文示例</span></span><span style="font-family:'楷体';font-size:19px;"><span style="font-family:'楷体';">如下：</span></span></p><pre class="brush:xml;toolbar:false">POST&nbsp;/test&nbsp;HTTP/1.0
+Content-Type:&nbsp;Multipart/Related;&nbsp;boundary=MIME_boundary;&nbsp;type=text/xml
+Content-Length:&nbsp;XXXX
+SOAPAction:&nbsp;http://www.soapattach.com/test
+&nbsp;
+--MIME_boundary
+Content-Type:&nbsp;text/xml;&nbsp;charset=UTF-8
+Content-Transfer-Encoding:&nbsp;8bit
+&lt;?xml&nbsp;version='1.0'?&gt;&lt;soap:Envelope&nbsp;xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"&gt;
+&nbsp;&lt;soap:Body&gt;
+&nbsp;&lt;Car&nbsp;name="myCar"&gt;
+&nbsp;&lt;Picture&nbsp;href&nbsp;=&nbsp;“cid:benz@pictures.soapattach.com”/&gt;
+&nbsp;&lt;/Car&gt;
+&nbsp;&lt;/soap:Body&gt;&lt;/soap:Envelope&gt;
+&nbsp;
+--MIME_boundary
+Content-Type:&nbsp;image/jpeg
+Content-Transfer-Encoding:&nbsp;binary
+Content-ID:&nbsp;&lt;benz@pictures.soapattach.com&gt;
+&nbsp;
+...binary&nbsp;JPEG&nbsp;image...
+&nbsp;
+--MIME_boundary--</pre><p><span style="font-family:'宋体';font-size:16px;"></span><br /></p><p><span style="font-family:'宋体';font-size:16px;">&nbsp;</span></p><p><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">&nbsp;&nbsp;&nbsp;&nbsp;图像数据在一个</span>MIME<span style="font-family:'楷体';">结构中，通过属性</span><span style="font-family:Calibri;">”href”</span><span style="font-family:'楷体';">被引用的，</span><span style="font-family:Calibri;">href</span><span style="font-family:'楷体';">的值为一个</span><span style="font-family:Calibri;">URI</span><span style="font-family:'楷体';">，</span><span style="font-family:Calibri;">URI</span><span style="font-family:'楷体';">使用</span><span style="font-family:Calibri;">MIME</span><span style="font-family:'楷体';">头的</span><span style="font-family:Calibri;">Content-ID</span><span style="font-family:'楷体';">值来找到附件。</span></span></p><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SwA <span style="font-family:'楷体';">避免了编码的开销和冗余，但是也带来了一些新的问题。首先，</span><span style="font-family:Calibri;">SwA</span><span style="font-family:'楷体';">使用字符串作为</span><span style="font-family:Calibri;">MIME</span><span style="font-family:'楷体';">结构的定界符，为了解析出</span><span style="font-family:Calibri;">MIME</span><span style="font-family:'楷体';">结构，必须遍历所有数据，当数据量较大时，效率非常低下，当</span><span style="font-family:Calibri;">MIME </span><span style="font-family:'楷体';">结构中出现和定界字符串相同内容的情况时，处理起来更复杂；其次，通用的</span><span style="font-family:Calibri;">XML</span><span style="font-family:'楷体';">技术，如</span><span style="font-family:Calibri;">XPath</span><span style="font-family:'楷体';">、</span><span style="font-family:Calibri;">XQuery</span><span style="font-family:'楷体';">、</span><span style="font-family:Calibri;">XSLT</span><span style="font-family:'楷体';">以及</span><span style="font-family:Calibri;">XML schema</span><span style="font-family:'楷体';">等，对于</span><span style="font-family:Calibri;">XML</span><span style="font-family:'楷体';">文件中包含的二进制内容无法处理，因而也无法对符合 </span><span style="font-family:Calibri;">SwA </span><span style="font-family:'楷体';">的</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">报文使用各种通用的</span><span style="font-family:Calibri;">XML</span><span style="font-family:'楷体';">技术进行处理。尽管程序知道附件数据的存在，但是文档自身并不知道，另外，不同的</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">报文处理器，以及</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">消息和</span><span style="font-family:Calibri;">WSDL</span><span style="font-family:'楷体';">之间存在大量的互操作性问题。在</span><span style="font-family:Calibri;">Web </span><span style="font-family:'楷体';">服务互操作性组织</span><span style="font-family:Calibri;">WS-I</span><span style="font-family:'楷体';">的官方网站上可以找到其所总结的各种</span><span style="font-family:Calibri;">Web Service</span><span style="font-family:'楷体';">互操作性问题的详细信息。</span></span></p><p><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">&nbsp;&nbsp;&nbsp;&nbsp;在</span>SwA<span style="font-family:'楷体';">的具体实现中，涉及到三种主要的</span><span style="font-family:Calibri;">API</span><span style="font-family:'楷体';">：</span><span style="font-family:Calibri;">SAAJ (SOAP with Attachments API for Java)</span></span><span style="font-family:'楷体';font-size:19px;"><span style="font-family:'楷体';">，</span></span><span style="font-family:Calibri;font-size:19px;">JAXM (Java API for XML messaging)</span><span style="font-family:'楷体';font-size:19px;"><span style="font-family:'楷体';">，</span></span><span style="font-family:Calibri;font-size:19px;">&nbsp;JAX-RPC<span style="font-family:'楷体';">。三种</span><span style="font-family:Calibri;">API</span><span style="font-family:'楷体';">都是</span><span style="font-family:Calibri;">JCP</span><span style="font-family:'楷体';">所制定的</span><span style="font-family:Calibri;">WebService</span><span style="font-family:'楷体';">的</span><span style="font-family:Calibri;">Java</span><span style="font-family:'楷体';">实现标准。</span><span style="font-family:Calibri;">SAAJ</span><span style="font-family:'楷体';">是实现</span><span style="font-family:Calibri;">SwA</span><span style="font-family:'楷体';">规范的</span><span style="font-family:Calibri;">API</span><span style="font-family:'楷体';">，是从</span><span style="font-family:Calibri;">JAXM 1.1</span><span style="font-family:'楷体';">中分离出来的。</span><span style="font-family:Calibri;">SAAJ</span><span style="font-family:'楷体';">包含许多类和接口，用来定义</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">元素</span><span style="font-family:Calibri;">(Envelope</span></span><span style="font-family:'楷体';font-size:19px;"><span style="font-family:'楷体';">，</span></span><span style="font-family:Calibri;font-size:19px;">Body</span><span style="font-family:'楷体';font-size:19px;"><span style="font-family:'楷体';">，</span></span><span style="font-family:Calibri;font-size:19px;">Header</span><span style="font-family:'楷体';font-size:19px;"><span style="font-family:'楷体';">，</span></span><span style="font-family:Calibri;font-size:19px;">Fault <span style="font-family:'楷体';">等</span><span style="font-family:Calibri;">)</span></span><span style="font-family:'楷体';font-size:19px;"><span style="font-family:'楷体';">、</span></span><span style="font-family:Calibri;font-size:19px;">XML<span style="font-family:'楷体';">名称空间以及</span><span style="font-family:Calibri;">MIME</span><span style="font-family:'楷体';">附件等。通过</span><span style="font-family:Calibri;">SAAJ</span><span style="font-family:'楷体';">提供的</span><span style="font-family:Calibri;">API</span><span style="font-family:'楷体';">可以生成带</span><span style="font-family:Calibri;">MIME</span><span style="font-family:'楷体';">附件的</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">消息。</span><span style="font-family:Calibri;">J2EE1.4</span><span style="font-family:'楷体';">包含了</span><span style="font-family:Calibri;">SAAJ1.2</span><span style="font-family:'楷体';">，该版本支持 </span><span style="font-family:Calibri;">SOAP1.1</span><span style="font-family:'楷体';">，</span><span style="font-family:Calibri;">J2EE1.5</span><span style="font-family:'楷体';">包含了最新的</span><span style="font-family:Calibri;">SAAJ1.3</span><span style="font-family:'楷体';">。而</span><span style="font-family:Calibri;">JAXM</span><span style="font-family:'楷体';">是面向文档的用于将</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">消息以</span><span style="font-family:Calibri;">XML</span><span style="font-family:'楷体';">格式进行异步传送的</span><span style="font-family:Calibri;">API</span><span style="font-family:'楷体';">。</span><span style="font-family:Calibri;">JAXM</span><span style="font-family:'楷体';">客户端使用</span><span style="font-family:Calibri;">SAAJ </span><span style="font-family:'楷体';">来构造和解析</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">消息。</span><span style="font-family:Calibri;">JAX-RPC</span><span style="font-family:'楷体';">依赖于</span><span style="font-family:Calibri;">SAAJ</span><span style="font-family:'楷体';">，提供了</span><span style="font-family:Calibri;">RPC</span><span style="font-family:'楷体';">方式</span><span style="font-family:Calibri;">Web </span><span style="font-family:'楷体';">服务实现，定义了三种客户端编程模型：</span><span style="font-family:Calibri;">Generated Stub</span><span style="font-family:'楷体';">、</span><span style="font-family:Calibri;">Dynamic Proxy</span><span style="font-family:'楷体';">和</span><span style="font-family:Calibri;">Dynamic Invocation Interface</span><span style="font-family:'楷体';">。</span></span></p><h2 style="text-indent:0;"><span style="font-family:'楷体';">五、</span><span style="font-family:'楷体';">DIME<span style="font-family:'楷体';">附件</span></span></h2><p><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">&nbsp;&nbsp;&nbsp;&nbsp;为了解决</span>SwA<span style="font-family:'楷体';">的效率低下问题，</span><span style="font-family:Calibri;">2002</span><span style="font-family:'楷体';">年</span><span style="font-family:Calibri;">7</span><span style="font-family:'楷体';">月，</span><span style="font-family:Calibri;">IBM</span><span style="font-family:'楷体';">和微软向</span><span style="font-family:Calibri;">IETF </span><span style="font-family:'楷体';">提交了直接因特网消息封装提议</span><span style="font-family:Calibri;">(DIME: Direct Internet Message Encapsulation)</span><span style="font-family:'楷体';">以及相应的</span><span style="font-family:Calibri;">WS-Attachments</span><span style="font-family:'楷体';">规范，</span></span><span style="font-family:'楷体';font-size:19px;"><span style="font-family:'楷体';">使用</span></span><span style="font-family:Calibri;font-size:19px;">DIM</span><span style="font-family:'楷体';font-size:19px;">E</span><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">和</span> WS-Attachments<span style="font-family:'楷体';">对</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">消息附件进行封装。</span></span></p><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DIME<span style="font-family:'楷体';">是一个轻量级二进制消息格式，能够将任意格式数据的多个记录序依次序列化为流，使用有效的二进制标头进行说明。</span></span></p><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DIME<span style="font-family:'楷体';">记录标头包含</span><span style="font-family:Calibri;">DIME</span><span style="font-family:'楷体';">版本、数据的类型信息、唯一标识每个记录的</span><span style="font-family:Calibri;">ID</span><span style="font-family:'楷体';">、数据长度信息以及可选信息等。</span><span style="font-family:Calibri;">DIME</span><span style="font-family:'楷体';">消息的第一个记录在标头中设置了消息开始标志</span><span style="font-family:Calibri;">MB</span><span style="font-family:'楷体';">，最后一个记录设置了消息结束标志</span><span style="font-family:Calibri;">ME</span><span style="font-family:'楷体';">。</span><span style="font-family:Calibri;">MB</span><span style="font-family:'楷体';">和</span><span style="font-family:Calibri;">ME</span><span style="font-family:'楷体';">标志均是一个</span><span style="font-family:Calibri;">1</span><span style="font-family:'楷体';">位字段，当被置位时，分别表明 </span><span style="font-family:Calibri;">DIME</span><span style="font-family:'楷体';">消息的开始和结束。对于较大的记录或最初不知道数据大小的记录，</span><span style="font-family:Calibri;">DIME</span><span style="font-family:'楷体';">定义了</span><span style="font-family:Calibri;">“</span><span style="font-family:'楷体';">记录区块</span><span style="font-family:Calibri;">”</span><span style="font-family:'楷体';">，使用记录区块将单个记录分解成多个块。记录区块在标头中设置了区块标志</span><span style="font-family:Calibri;">CF</span><span style="font-family:'楷体';">，表明该数据是分块记录的一部分，并且其后包含更多的数据。</span></span></p><p><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">&nbsp;&nbsp;&nbsp;&nbsp;数据字段携带</span>DIME<span style="font-family:'楷体';">用户应用程序的有效负载。数据字段内携带的数据的内部结构对</span><span style="font-family:Calibri;">DIME</span><span style="font-family:'楷体';">是不透明的。数据字段的长度必须是</span><span style="font-family:Calibri;">4</span><span style="font-family:'楷体';">个 </span><span style="font-family:Calibri;">8bit</span><span style="font-family:'楷体';">数据的倍数。如果有效负载的长度不是</span><span style="font-family:Calibri;">4</span><span style="font-family:'楷体';">个</span><span style="font-family:Calibri;">8bit</span><span style="font-family:'楷体';">数据的倍数，那么用全零</span><span style="font-family:Calibri;">8bit</span><span style="font-family:'楷体';">数据填充。填充部分并不算在数据长度字段中，并且绝不可以用超过</span><span style="font-family:Calibri;">3</span><span style="font-family:'楷体';">个</span><span style="font-family:Calibri;">8bit</span><span style="font-family:'楷体';">数据填充数据字段。</span><span style="font-family:Calibri;">DIME</span><span style="font-family:'楷体';">数据记录格式</span></span><span style="font-family:'楷体';font-size:19px;"><span style="font-family:'楷体';">如下：</span></span></p><p><a href="https://s1.51cto.com/wyfs02/M00/8F/A9/wKioL1joTELgBedoAAAYwFhwEDI366.png" target="_blank"><img src="https://s1.51cto.com/wyfs02/M00/8F/A9/wKioL1joTELgBedoAAAYwFhwEDI366.png" title="图片13.png" alt="wKioL1joTELgBedoAAAYwFhwEDI366.png" /></a></p><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DIME<span style="font-family:'楷体';">根据某个记录的开始位置，可以轻松地定位到下一个记录的位置，只需将标头固定区域的长度与可选数据、</span><span style="font-family:Calibri;">ID</span><span style="font-family:'楷体';">、类型和数据部分的长度相加。这种以高效方式确定记录长度对于在流的记录之间快速移动十分重要。</span></span></p><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DIME<span style="font-family:'楷体';">本身只是一种用来对任意格式的数据记录集合进行打包的机制。它对于记录有效负载的内容、</span><span style="font-family:Calibri;">ID</span><span style="font-family:'楷体';">字段中包含的内容或者如何将 </span><span style="font-family:Calibri;">SOAP </span><span style="font-family:'楷体';">消息封装到</span><span style="font-family:Calibri;">DIME</span><span style="font-family:'楷体';">消息中等没有任何要求。</span><span style="font-family:Calibri;">DIME</span><span style="font-family:'楷体';">的记录内容没有任何限制，其有效负载甚至可以包含其他</span><span style="font-family:Calibri;">DIME</span><span style="font-family:'楷体';">消息，只需将该记录的类型设置为</span><span style="font-family:Calibri;">“application/dime”</span><span style="font-family:'楷体';">。</span></span></p><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WS-Attachments <span style="font-family:'楷体';">定义了如何使用</span><span style="font-family:Calibri;">DIME</span><span style="font-family:'楷体';">数据包发送包含附件的 </span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">消息，标识了</span><span style="font-family:Calibri;">DIME</span><span style="font-family:'楷体';">消息中哪些是</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">消息，哪些是附件。对于包含附件的</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">消息，将主要消息称为</span><span style="font-family:Calibri;">“</span><span style="font-family:'楷体';">主</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">消息部分</span><span style="font-family:Calibri;">”</span><span style="font-family:'楷体';">，将附加的部分称为</span><span style="font-family:Calibri;">“</span><span style="font-family:'楷体';">从属部分</span><span style="font-family:Calibri;">”</span><span style="font-family:'楷体';">。</span><span style="font-family:Calibri;">WS-Attachments</span><span style="font-family:'楷体';">要求主</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">消息部分必须包含在</span><span style="font-family:Calibri;">DIME</span><span style="font-family:'楷体';">消息的第一个记录中，主</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">消息部分通过使用 </span><span style="font-family:Calibri;">href</span><span style="font-family:'楷体';">属性引用附件，其值为</span><span style="font-family:Calibri;">HTTP URL</span><span style="font-family:'楷体';">。此外，</span><span style="font-family:Calibri;">WS-Attachments</span><span style="font-family:'楷体';">还说明了如何使用</span><span style="font-family:Calibri;">DIME</span><span style="font-family:'楷体';">记录标头的</span><span style="font-family:Calibri;">ID</span><span style="font-family:'楷体';">字段引用特定的</span><span style="font-family:Calibri;">DIME</span><span style="font-family:'楷体';">记录。</span></span></p><p><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">&nbsp;&nbsp;&nbsp;&nbsp;基于</span>WS-Attachments<span style="font-family:'楷体';">的</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">报文</span></span><span style="font-family:'楷体';font-size:19px;"><span style="font-family:'楷体';">如下：</span></span></p><pre class="brush:xml;toolbar:false">&lt;soap:Envelope&nbsp;
+&nbsp;xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"&nbsp;
+&nbsp;&lt;soap:Body&gt;&nbsp;
+&nbsp;&lt;attach:responseMesssage&nbsp;xmlns:attach="http://example.net&nbsp;/attachment"&gt;
+&nbsp;&lt;attach:message&nbsp;
+&nbsp;href="uuid:&nbsp;6FF57555-8750-4555-8237-95ELIWEK87B4F"/&gt;&nbsp;
+&nbsp;&lt;/attach:responseMessage&gt;
+&lt;/soap:Body&gt;&nbsp;&lt;/soap:Envelope&gt;</pre><p><span style="font-family:'宋体';color:rgb(0,0,255);font-size:16px;"></span><br /></p><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DIM</span><span style="font-family:'楷体';font-size:19px;">E</span><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">消息的从属部分的</span>ID<span style="font-family:'楷体';">为</span><span style="font-family:Calibri;">uui</span></span><span style="font-family:'楷体';font-size:19px;">d</span><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">：</span>6FF57555-8750-4555-8237-95ELIWEK87B4F</span><span style="font-family:'楷体';font-size:19px;"><span style="font-family:'楷体';">。</span></span><span style="font-family:Calibri;font-size:19px;">message<span style="font-family:'楷体';">元素的</span><span style="font-family:Calibri;">href</span><span style="font-family:'楷体';">属性用来指定</span><span style="font-family:Calibri;">DIME</span><span style="font-family:'楷体';">记录的</span><span style="font-family:Calibri;">ID</span><span style="font-family:'楷体';">。</span><span style="font-family:Calibri;">DIME</span><span style="font-family:'楷体';">记录中的数据可能是此消息所响应的另一个</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">消息，此时</span><span style="font-family:Calibri;">DIME</span><span style="font-family:'楷体';">消息的接收方可以从</span><span style="font-family:Calibri;">DIME</span><span style="font-family:'楷体';">消息指定的从属部分中找到该消息。</span><span style="font-family:Calibri;">WS-Attachments</span><span style="font-family:'楷体';">不但可以从</span></span><span style="font-family:'楷体';font-size:19px;"><span style="font-family:'楷体';">主</span></span><span style="font-family:Calibri;font-size:19px;">SOAP<span style="font-family:'楷体';">消息部分中引用</span><span style="font-family:Calibri;">DIME</span><span style="font-family:'楷体';">消息的从属部分，也可以从从属部分中进行类似引用，这样两个从属部分就可以相互引用，甚至一个从属部分还可以引用主</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">消息部分。</span></span></p><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WS-Attachments<span style="font-family:'楷体';">还说明了如何在</span><span style="font-family:Calibri;">HTTP</span><span style="font-family:'楷体';">请求中发送复合</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">消息。这种情况下，</span><span style="font-family:Calibri;">HTTP</span><span style="font-family:'楷体';">的</span><span style="font-family:Calibri;">Content-Type</span><span style="font-family:'楷体';">标头必须设为</span><span style="font-family:Calibri;">“application/dime”</span><span style="font-family:'楷体';">，</span><span style="font-family:Calibri;">HTTP </span><span style="font-family:'楷体';">请求的正文为</span><span style="font-family:Calibri;">DIME</span><span style="font-family:'楷体';">消息而不是</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">消息。</span></span></p><p><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">&nbsp;&nbsp;&nbsp;&nbsp;尽管</span>DIME<span style="font-family:'楷体';">解决了</span><span style="font-family:Calibri;">SwA</span><span style="font-family:'楷体';">中遍历定界符导致的效率低下问题， </span><span style="font-family:Calibri;">DIME</span><span style="font-family:'楷体';">强迫开发者从</span><span style="font-family:Calibri;">MIME</span><span style="font-family:'楷体';">完全转向</span><span style="font-family:Calibri;">DIME</span><span style="font-family:'楷体';">，最后导致</span><span style="font-family:Calibri;">DIME</span><span style="font-family:'楷体';">和 </span><span style="font-family:Calibri;">WS-Attachments</span><span style="font-family:'楷体';">并没有得到广泛应用。</span></span></p><h2 style="text-indent:0;"><span style="font-family:'楷体';">六、</span><span style="font-family:'楷体';">MTOM<span style="font-family:'楷体';">附件</span></span></h2><p><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">&nbsp;&nbsp;&nbsp;&nbsp;为了解决</span>SwA<span style="font-family:'楷体';">导致的互操作性问题，</span><span style="font-family:Calibri;">2003</span><span style="font-family:'楷体';">年</span><span style="font-family:Calibri;">4</span><span style="font-family:'楷体';">月</span><span style="font-family:Calibri;">Microsoft</span></span><span style="font-family:'楷体';font-size:19px;"><span style="font-family:'楷体';">、</span></span><span style="font-family:Calibri;font-size:19px;">BEA</span><span style="font-family:'楷体';font-size:19px;"><span style="font-family:'楷体';">、</span></span><span style="font-family:Calibri;font-size:19px;">Canon</span><span style="font-family:'楷体';font-size:19px;"><span style="font-family:'楷体';">、</span></span><span style="font-family:Calibri;font-size:19px;">SAP<span style="font-family:'楷体';">和</span><span style="font-family:Calibri;">Tibco</span><span style="font-family:'楷体';">等公司提出了规范</span><span style="font-family:Calibri;">Proposed Infoset Addendum to SOAP Messages with Attachments (PASwA)</span><span style="font-family:'楷体';">。</span><span style="font-family:Calibri;">PASwA</span><span style="font-family:'楷体';">基于</span><span style="font-family:Calibri;">SwA</span><span style="font-family:'楷体';">规范，是对</span><span style="font-family:Calibri;">SwA</span><span style="font-family:'楷体';">规范的补充。</span></span></p><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PASwA<span style="font-family:'楷体';">一个重要目标是使</span><span style="font-family:Calibri;">XML Infoset</span><span style="font-family:'楷体';">具有一个统一的逻辑视图，而不需要对由于</span><span style="font-family:Calibri;">XML</span><span style="font-family:'楷体';">中包含二进制数据，</span><span style="font-family:Calibri;">SwA</span><span style="font-family:'楷体';">和 </span><span style="font-family:Calibri;">WSDL</span><span style="font-family:'楷体';">之间的互操作性等问题而另外处理。</span><span style="font-family:Calibri;">XML Infoset</span><span style="font-family:'楷体';">定义了一种抽象的方式，把</span><span style="font-family:Calibri;">XML </span><span style="font-family:'楷体';">文档描述为一系列信息项，为需要引用</span><span style="font-family:Calibri;">XML</span><span style="font-family:'楷体';">文档中的信息的规范提供了一致的定义。</span></span></p><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PASwA<span style="font-family:'楷体';">主要增加了如下内容：</span></span></p><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xmime:mediaType<span style="font-family:'楷体';">属性：用于指明</span><span style="font-family:Calibri;">XML</span><span style="font-family:'楷体';">文件中</span><span style="font-family:Calibri;">base64</span><span style="font-family:'楷体';">编码部分的媒体类型，例如</span><span style="font-family:Calibri;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xmime:mediaType</span><span style="font-family:'楷体';">的值可以为</span><span style="font-family:Calibri;">image/png</span><span style="font-family:'楷体';">，</span><span style="font-family:Calibri;">audio/mpeg</span><span style="font-family:'楷体';">，</span><span style="font-family:Calibri;">application/pkcs7-signature </span><span style="font-family:'楷体';">等，这些值在</span><span style="font-family:Calibri;">RFC 2045</span><span style="font-family:'楷体';">和 </span><span style="font-family:Calibri;">RFC 2046</span><span style="font-family:'楷体';">指定</span></span><span style="font-family:'楷体';font-size:19px;"><span style="font-family:'楷体';">。</span></span></p><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xmime:Binary<span style="font-family:'楷体';">类型：基于</span><span style="font-family:Calibri;">xs:base64Binary</span><span style="font-family:'楷体';">的复合类型，</span><span style="font-family:Calibri;">xmime:mediaType</span><span style="font-family:'楷体';">为其可选属性</span></span></p><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Swa:Accept<span style="font-family:'楷体';">属性：用于申明其所支持的媒体类型，主要用于 </span><span style="font-family:Calibri;">WSDL</span><span style="font-family:'楷体';">中</span></span></p><p><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">带有</span>herf<span style="font-family:'楷体';">属性的</span><span style="font-family:Calibri;">xbinc:Include</span><span style="font-family:'楷体';">元素：在</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">消息中链接到相关的附件数据</span></span></p><p><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">&nbsp;&nbsp;&nbsp;&nbsp;在</span>SOAP<span style="font-family:'楷体';">消息头中增加了</span><span style="font-family:Calibri;">xbinc:DoInclude</span><span style="font-family:'楷体';">和</span><span style="font-family:Calibri;">swa:Representation </span><span style="font-family:'楷体';">块：</span><span style="font-family:Calibri;">xbinc:DoInclude</span><span style="font-family:'楷体';">用于表示</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">报文中包含</span><span style="font-family:Calibri;">xbinc:Include</span><span style="font-family:'楷体';">元素，</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">消息处理器应该特殊处理；</span><span style="font-family:Calibri;">swa:Representation</span><span style="font-family:'楷体';">表示允许</span><span style="font-family:Calibri;">SOAP </span><span style="font-family:'楷体';">节点发送缓存的</span><span style="font-family:Calibri;">Web</span><span style="font-family:'楷体';">资源</span></span></p><p><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">&nbsp;&nbsp;&nbsp;&nbsp;尽管</span>PASwA<span style="font-family:'楷体';">并没有被</span><span style="font-family:Calibri;">W3C</span><span style="font-family:'楷体';">所采纳，然而，</span><span style="font-family:Calibri;">PASwA</span><span style="font-family:'楷体';">直接导致了</span><span style="font-family:Calibri;">W3C</span><span style="font-family:'楷体';">的</span><span style="font-family:Calibri;">XML</span><span style="font-family:'楷体';">二进制优化打包</span><span style="font-family:Calibri;">(XOP: XML-binary Optimized Packaging) </span><span style="font-family:'楷体';">和</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">消息传输优化机制</span><span style="font-family:Calibri;">(MTOM: Message Transmission Optimization Mechanism)</span><span style="font-family:'楷体';">规范的产生。</span></span></p><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XOP<span style="font-family:'楷体';">使用</span><span style="font-family:Calibri;">MIME</span><span style="font-family:'楷体';">将原始二进制数据引入到</span><span style="font-family:Calibri;">XML 1.0</span><span style="font-family:'楷体';">文档中。</span><span style="font-family:Calibri;">XOP </span><span style="font-family:'楷体';">是</span><span style="font-family:Calibri;">XML</span><span style="font-family:'楷体';">的可选序列化方法，在</span><span style="font-family:Calibri;">XOP</span><span style="font-family:'楷体';">数据包里，被命名为</span><span style="font-family:Calibri;">base64</span><span style="font-family:'楷体';">字符串的事物都可以作为其附件，方法与</span><span style="font-family:Calibri;">SwA</span><span style="font-family:'楷体';">类似。所不同的是：数据和附件之间的链接不是依靠应用程序进行处理，而是由该格式自行处理。</span><span style="font-family:Calibri;">XOP</span><span style="font-family:'楷体';">使用</span><span style="font-family:Calibri;">xop:Include</span><span style="font-family:'楷体';">元素显式地将内容与附件关联起来，并避免了</span><span style="font-family:Calibri;">SwA</span><span style="font-family:'楷体';">中存在的歧义性。</span></span></p><p><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">&nbsp;&nbsp;&nbsp;&nbsp;在</span>XOP<span style="font-family:'楷体';">规范中主要有如下基本元素：</span><span style="font-family:Calibri;">Original XML Infoset</span><span style="font-family:'楷体';">，</span><span style="font-family:Calibri;">Optimized Content</span><span style="font-family:'楷体';">，</span><span style="font-family:Calibri;">XOP Infoset</span><span style="font-family:'楷体';">，</span><span style="font-family:Calibri;">XOP Document</span><span style="font-family:'楷体';">，</span><span style="font-family:Calibri;">XOP Package </span><span style="font-family:'楷体';">和 </span><span style="font-family:Calibri;">Reconstituted XML Infoset</span><span style="font-family:'楷体';">。其定义如下：</span></span></p><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Original XML Infoset<span style="font-family:'楷体';">是需要被优化的原始</span><span style="font-family:Calibri;">XML Infoset</span></span></p><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Optimized Content<span style="font-family:'楷体';">是原始</span><span style="font-family:Calibri;">XML Infoset</span><span style="font-family:'楷体';">中需要被优化的内容</span></span></p><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XOP Infoset<span style="font-family:'楷体';">是使用</span><span style="font-family:Calibri;">xop:Include</span><span style="font-family:'楷体';">元素替换掉原来</span><span style="font-family:Calibri;">XML Infoset</span><span style="font-family:'楷体';">中的相应信息得到的新的</span><span style="font-family:Calibri;">XML Infoset</span></span></p><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XOP Document<span style="font-family:'楷体';">是符合</span><span style="font-family:Calibri;">W3C recommendation</span><span style="font-family:'楷体';">规范序列化后的 </span><span style="font-family:Calibri;">XOP Infoset</span></span></p><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XOP Package<span style="font-family:'楷体';">是</span><span style="font-family:Calibri;">XOP Document</span><span style="font-family:'楷体';">和</span><span style="font-family:Calibri;">Optimized Content</span><span style="font-family:'楷体';">的打包。</span><span style="font-family:Calibri;">XOP Package</span><span style="font-family:'楷体';">是原始</span><span style="font-family:Calibri;">XML Infoset</span><span style="font-family:'楷体';">的一种可选的序列化方式</span></span></p><p><span style="font-family:Calibri;font-size:19px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reconstituted XML Infoset<span style="font-family:'楷体';">是使用</span><span style="font-family:Calibri;">XOP</span><span style="font-family:'楷体';">包组成的</span><span style="font-family:Calibri;">XML Infoset</span></span></p><p><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">&nbsp;&nbsp;&nbsp;&nbsp;一个完整的</span>XOP<span style="font-family:'楷体';">消息包包括以下</span><span style="font-family:Calibri;">3</span><span style="font-family:'楷体';">个部分：</span><span style="font-family:Calibri;">MIME</span><span style="font-family:'楷体';">头</span></span><span style="font-family:'楷体';font-size:19px;"><span style="font-family:'楷体';">、</span></span><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">主体</span>SOAP <span style="font-family:'楷体';">消息部分和附件部分。其中，</span><span style="font-family:Calibri;">MIME</span><span style="font-family:'楷体';">头的类型，即</span><span style="font-family:Calibri;">Content-Type</span><span style="font-family:'楷体';">的值总是为</span><span style="font-family:Calibri;">Multipart/Related</span><span style="font-family:'楷体';">，其</span><span style="font-family:Calibri;">type</span><span style="font-family:'楷体';">参数总是等于主体</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">消息的 </span><span style="font-family:Calibri;">Content-Type</span><span style="font-family:'楷体';">的值，也就是</span><span style="font-family:Calibri;">application/xop+xml</span><span style="font-family:'楷体';">；主体</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">消息部分，用于存储</span><span style="font-family:Calibri;">XOP Infoset</span><span style="font-family:'楷体';">格式的</span><span style="font-family:Calibri;">SOAP Envelop</span><span style="font-family:'楷体';">；附件部分，用于存储二进制或者非二进制附件数据。</span></span></p><p><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">&nbsp;&nbsp;&nbsp;&nbsp;原始</span> XML Infoset</span></p><pre class="brush:xml;toolbar:false">&lt;soap:Envelope&nbsp;xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
+&nbsp;xmlns:xmlmime="http://www.w3.org/2004/06/xmlmime"&gt;
+&nbsp;&lt;soap:Body&gt;
+&nbsp;&lt;attach:Car&nbsp;name="Eric"&nbsp;xmlns:attach="http://example.cn/attachment"&gt;
+&nbsp;&lt;attach:Picture&nbsp;xmlmime:content-type='image/jpeg'&gt;WE72WEWTi2VuYJY=
+&nbsp;&lt;/attach:Picture&gt;
+&nbsp;&lt;/attach:Car&gt;
+&nbsp;&lt;/soap:Body&gt;&lt;/soap:Envelope&gt;</pre><p><span style="font-family:'宋体';color:rgb(0,0,255);font-size:16px;"></span><br /></p><p><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">&nbsp;&nbsp;&nbsp;&nbsp;序列化后的</span> XOP Package</span></p><pre class="brush:xml;toolbar:false">MIME-Version:&nbsp;1.0
+Content-Type:&nbsp;Multipart/Related;&nbsp;boundary=MIME_boundary;
+type=&nbsp;application/xop+xml;
+start="&lt;paper@example.cn&gt;";
+start-info="application/xop+xml"
+&nbsp;
+--MIME_boundary
+Content-Type:&nbsp;application/xop+xml;&nbsp;charset=UTF-8
+Content-Transfer-Encoding:&nbsp;8bit
+Content-ID:&nbsp;&lt;paper@example.cn&gt;
+&lt;?xml&nbsp;version='1.0'?&gt;&lt;soap:Envelope&nbsp;xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
+&nbsp;xmlns:xmlmime="http://www.w3.org/2004/06/xmlmime"&gt;
+&nbsp;&lt;soap:Body&gt;
+&nbsp;&lt;attach:Car&nbsp;name="Eric"&nbsp;xmlns:attach="http://example.cn/attachment"&gt;
+&nbsp;&lt;attach:Picture&nbsp;xmlmime:content-type='image/jpeg'&gt;
+&nbsp;&lt;xop:Include&nbsp;xmlns:xop='http://www.w3.org/2004/08/xop/include'&nbsp;
+&nbsp;href="cid:Eric@pictures.example.com"/&gt;
+&nbsp;&lt;/attach:Picture&gt;
+&nbsp;&lt;/attach:Car&gt;
+&nbsp;&lt;/soap:Body&gt;&lt;/soap:Envelope&gt;
+&nbsp;
+--MIME_boundary
+Content-Type:&nbsp;image/jpeg
+Content-Transfer-Encoding:&nbsp;binary
+Content-ID:&nbsp;&lt;Eric@pictures.example.com&gt;
+&nbsp;
+...binary&nbsp;JPEG&nbsp;image...
+&nbsp;
+--MIME_boundary--</pre><p><span style="font-family:'宋体';color:rgb(0,0,0);font-size:16px;"></span><br /></p><p><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">&nbsp;&nbsp;&nbsp;&nbsp;在</span>SOAP<span style="font-family:'楷体';">消息构造和传输中使用</span><span style="font-family:Calibri;">XOP</span><span style="font-family:'楷体';">的过程称为</span><span style="font-family:Calibri;">MTOM</span><span style="font-family:'楷体';">。</span><span style="font-family:Calibri;">MTOM </span><span style="font-family:'楷体';">的目的在于优化</span><span style="font-family:Calibri;">base64</span><span style="font-family:'楷体';">编码数据的传输。只有具有</span><span style="font-family:Calibri;">xs:base64Binary </span><span style="font-family:'楷体';">标准格式的字符组成的节点才可以被优化。使用</span><span style="font-family:Calibri;">MTOM</span><span style="font-family:'楷体';">，</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">消息包以</span><span style="font-family:Calibri;">XOP</span><span style="font-family:'楷体';">消息包的格式传输。</span></span></p><p><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">&nbsp;&nbsp;&nbsp;&nbsp;此外，为了解决</span>SwA<span style="font-family:'楷体';">导致的互操作性问题，与</span><span style="font-family:Calibri;">PASwA</span><span style="font-family:'楷体';">和</span><span style="font-family:Calibri;">MTOM</span><span style="font-family:'楷体';">同时进行的，还有</span><span style="font-family:Calibri;">WS-I</span><span style="font-family:'楷体';">的附件概要规范。</span><span style="font-family:Calibri;">2004</span><span style="font-family:'楷体';">年</span><span style="font-family:Calibri;">8</span><span style="font-family:'楷体';">月</span><span style="font-family:Calibri;">24</span><span style="font-family:'楷体';">日，</span><span style="font-family:Calibri;">WS-I</span><span style="font-family:'楷体';">推出了附件概要</span><span style="font-family:Calibri;">AP1.0 (Attachment Profile Version 1.0) </span><span style="font-family:'楷体';">规范，用以解决</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">消息和基于附件的</span><span style="font-family:Calibri;">Web</span><span style="font-family:'楷体';">服务之间的互操作性问题，最新版为 </span><span style="font-family:Calibri;">2006</span><span style="font-family:'楷体';">年</span><span style="font-family:Calibri;">4</span><span style="font-family:'楷体';">月</span><span style="font-family:Calibri;">20</span><span style="font-family:'楷体';">日发布的</span><span style="font-family:Calibri;">AP1.0</span><span style="font-family:'楷体';">第二版。</span><span style="font-family:Calibri;">AP1.0 </span><span style="font-family:'楷体';">和</span><span style="font-family:Calibri;">WS-I </span><span style="font-family:'楷体';">的另一规范，简单</span><span style="font-family:Calibri;">SOAP</span><span style="font-family:'楷体';">绑定概要</span><span style="font-family:Calibri;">SSBP1.0 (Simple SOAP Binding Profile 1.0)</span><span style="font-family:'楷体';">，构成了 </span><span style="font-family:Calibri;">WS-I</span><span style="font-family:'楷体';">的基本概要</span><span style="font-family:Calibri;">BP1.1(Basic Profile Version 1.1) </span><span style="font-family:'楷体';">的补充规范。由于 </span><span style="font-family:Calibri;">AP1.0</span><span style="font-family:'楷体';">和</span><span style="font-family:Calibri;">PASwA</span><span style="font-family:'楷体';">以及</span><span style="font-family:Calibri;">MTOM</span><span style="font-family:'楷体';">的冲突，很多开发者并没有采用</span><span style="font-family:Calibri;">AP1.0</span><span style="font-family:'楷体';">，而是直接转向</span><span style="font-family:Calibri;">MTOM</span><span style="font-family:'楷体';">。</span></span></p><p><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">&nbsp;&nbsp;&nbsp;&nbsp;在</span>JAX-RPC1.1<span style="font-family:'楷体';">中，提供了对</span><span style="font-family:Calibri;">BP1.0</span><span style="font-family:'楷体';">的支持，</span><span style="font-family:Calibri;">JAX-WS2.0</span><span style="font-family:'楷体';">已经提供或者即将提供对</span><span style="font-family:Calibri;">BP1.1</span></span><span style="font-family:'楷体';font-size:19px;"><span style="font-family:'楷体';">、</span></span><span style="font-family:Calibri;font-size:19px;">AP1.0</span><span style="font-family:'楷体';font-size:19px;"><span style="font-family:'楷体';">、</span></span><span style="font-family:Calibri;font-size:19px;">SSBP1.0</span><span style="font-family:'楷体';font-size:19px;"><span style="font-family:'楷体';">、</span></span><span style="font-family:Calibri;font-size:19px;">XOP<span style="font-family:'楷体';">以及</span><span style="font-family:Calibri;">MTOM</span><span style="font-family:'楷体';">的支持。</span></span></p><p><span style="font-family:Calibri;font-size:19px;"><span style="font-family:'楷体';">&nbsp;&nbsp;&nbsp;&nbsp;目前，</span>IBM WebSphere<span style="font-family:'楷体';">产品已经提供了对</span><span style="font-family:Calibri;">MTOM</span><span style="font-family:'楷体';">和</span><span style="font-family:Calibri;">XOP</span><span style="font-family:'楷体';">的支持，在其最新发布</span><span style="font-family:Calibri;">WebSphere Application Server Feature Pack for Web Services</span><span style="font-family:'楷体';">中可以找到相应实现，用户只需安装</span><span style="font-family:Calibri;">WAS 6.1 feature pack for Web Services</span><span style="font-family:'楷体';">，关于</span><span style="font-family:Calibri;">IBM</span><span style="font-family:'楷体';">对</span><span style="font-family:Calibri;">MTOM</span><span style="font-family:'楷体';">更详细的实现信息可见参考资料中的</span><span style="font-family:Calibri;">WAS6.1</span><span style="font-family:'楷体';">专门针对</span><span style="font-family:Calibri;">Web Service</span><span style="font-family:'楷体';">包的介绍。</span></span></p></div>
+				</div>
+															<div class="for-tag mt26">
+																						<a href="http://blog.51cto.com/search/result?q=webservice+%E9%99%84%E4%BB%B6%E6%9C%BA%E5%88%B6" target="_blank">webservice 附件机制</a>
+															                				<a class="last" href="http://blog.51cto.com/9291927/category23.html" target="_blank"><i></i>WebService</a>
+                				<div class="clear"></div>
+			</div>
+			<div class="more-list">
+				<p class="is-praise fl "><span type="1" blog_id="1914051" userid='9281927'>0</span></p>
+				<div class="share-box fr">
+					<p class="share"><i></i>分享</p>
+					<div class="bdsharebuttonbox">
+					  <span></span>
+					  <a class="bds_tsina" data-cmd="tsina" >微博</a>
+					  <a class="bds_sqq" data-cmd="sqq" >QQ</a>
+					  <a class="bds_weixin" data-cmd="weixin" >微信</a>
+					  <img src="/qr/qr-url?url=http%3A%2F%2Fblog.51cto.com%2F9291927%2F1914051">
+					</div>
+				</div>
+				<p class="favorites favorites-opt fr"><i></i>收藏</p>
+								<div class="clear"></div>
+			</div>
+							<div class="artical-list">
+	            					<a class="fl" href="http://blog.51cto.com/9291927/1914048" title="gSoap开发（五）——序列化与反序列化">
+						上一篇：gSoap开发（五）——序列化与...</a>
+	            	            					<a class="fr" href="http://blog.51cto.com/9291927/1962022" title="RHEL7.3 NVIDIA显卡驱动安装">
+						下一篇：RHEL7.3 NVIDIA显卡...</a>
+	            					<div class="clear"></div>
+				</div>
+						<div class="author-module">
+				<div class="is-vip-bg-6 fl">			
+					<a href="http://blog.51cto.com/9291927" class="a-img" target="_blank">
+						<img class="is-vip-img is-vip-img-4" data-uid="9281927" src="http://ucenter.51cto.com/images/noavatar_middle.gif">
+					</a>
+				</div>
+				<div class="author-module-center fl">
+					<a class="h2" href="http://blog.51cto.com/9291927" target="_blank">天山老妖S</a>
+					<h3>261篇文章，75W+人气，36粉丝</h3>
+									</div>
+									<div class="author-module-right author-checkFollow fr">
+	                		                        <a id="checkFollow2_9281927" class="follow-1 checkFollow on">关注</a>
+	                    					</div>
+		        				<div class="clear"></div>
+			</div>
+		</div>
+		<div class="artical-Left" id="comment">
+			<!-- 发布评论 -->
+			<div class="comment-creat">
+				<div class="is-vip-bg-6 fl">			
+					<a href="http://blog.51cto.com/9291927" class="header-img" target="_blank">
+						<img  src="http://ucenter.51cto.com/images/noavatar_middle.gif"/>
+					</a>
+				</div>
+				<div class="first-publish fr publish_user_id">
+					<textarea class="textareadiv textareadiv-publish" name="" id="" placeholder="提问和评论都可以，用心的回复会被更多人看到和认可"  maxlength="500"></textarea>
+					<div class="comment-push">
+						<p class="msg fl">Ctrl+Enter&nbsp;发布</p>
+													<p class="publish-btn blue-btn fr" flag="1">发布</p>
+												<p class="cancel-btn cancel-btn-1 fr">取消</p>
+						<div class="clear"></div>
+					</div>
+					<input type="hidden" class="user_id" value="9281927">
+					<input type="hidden" class="reply_id" value="1914051">
+					<input type="hidden" class="first_pid" value="">
+				</div>
+				<div class="clear"></div>
+			</div>
+						<div class="commentList">
+						</div>
+			<!-- page -->
+			<div class="act_pageList_box"></div>
+		</div>
+		<!-- end left -->
+		<!-- right start -->
+		<div class="Blog-Right artical-Right">
+			<a class="catalog"></a>
+			<a class="scrollTop" href="javascript:void(0);" onclick="$(window).scrollTop(0);"></a>
+		</div>
+		<!-- end right  -->
+	</div>
+			<div class="special-column">
+			<div class="Page M764">
+				 
+					<div class="column-1">
+						<h2 class="column-tit">推荐专栏</h2>
+													<div class="column-box">
+								<a href="http://blog.51cto.com/cloumn/detail/4" class="a-img fl cloumn-tab-par" target="_blank">
+									<img src="http://i2.51cto.com/images/blog/201804/27/92f96bca4a81e7c15a63e696e2a8d8e5.jpg">
+                															<span class="cloumn-tab-new cloumn-tab-new-1 cloumn-tab1 f12">最近更新</span>
+                													</a>
+								<div class="center fl">
+									<a class="h2 white-space" href="http://blog.51cto.com/cloumn/detail/4" target="_blank">微服务技术架构和大数据治理实战</a>
+									<h3 class="white-space">大数据时代的微服务之路</h3>
+									<h4 class="white-space">共18章&nbsp;|&nbsp;<a href="http://blog.51cto.com/ityouknow" target="_blank">纯洁微笑</a></h4>
+									<h5><span class="price">￥51.00</span><span>486人订阅</span></h5>
+								</div>
+								<div class="right fr">
+							        								          <a class="cloumn-subscribe" cid="4" href="/cloumn/subscribe?id=4" ask='1' >订阅</a>
+								    								</div>
+								<div class="clear"></div>
+							</div>
+											</div>
+													<div class="column-2" style="margin-top: 76px;">
+						<h2 class="column-tit">猜你喜欢</h2>
+						<div class="column-box">
+															<a class="white-space" href="http://blog.51cto.com/9291927/2143283?source=dra" target="_blank">C++语言学习（九）——C++标准库简介</a>
+															<a class="white-space" href="http://blog.51cto.com/9291927/2143237?source=dra" target="_blank">C++语言学习（八）——操作符重载</a>
+															<a class="white-space" href="http://blog.51cto.com/11623741/1921208?source=drt" target="_blank">java万年历简单制作</a>
+															<a class="white-space" href="http://blog.51cto.com/2960629/701227?source=drt" target="_blank">Android强制设置横屏或竖屏</a>
+															<a class="white-space" href="http://blog.51cto.com/369369/790921?source=drt" target="_blank">mysql主从复制（超简单）</a>
+															<a class="white-space" href="http://blog.51cto.com/yuqian2203/2135284?source=drh" target="_blank">java通过url读取远程数据并保持到本地</a>
+															<a class="white-space" href="http://blog.51cto.com/13697184/2117787?source=drh" target="_blank">以太坊ERC20代币开发</a>
+															<a class="white-space" href="http://blog.51cto.com/13697184/2107539?source=drh" target="_blank">solidity开发以太坊代币智能合约</a>
+														<div class="clear"></div>
+						</div>
+					</div>
+							</div>
+		</div>
+		<div class="the-lowest-bg">
+		<div class="the-lowest Page M764">
+			<p class="is-praise fl "><span type="1" blog_id="1914051" userid='9281927'>0</span></p>
+			<p class="b-favorites favorites-opt fl"><i></i><b>0</b></p>
+			<a class="b-reply fl"><i></i><font class="comment_number">0</font></a>
+			<div class="b-share fl">
+				<i></i>分享
+				<div class="bdsharebuttonbox">
+				  <a class="bds_tsina p2" data-cmd="tsina"></a>
+				  <a class="bds_sqq p3" data-cmd="sqq"></a>
+				  <a class="bds_weixin p1" data-cmd="weixin"><em class="code-icon"></em><img class="code-img" src="/qr/qr-url?url=http%3A%2F%2Fblog.51cto.com%2F9291927%2F1914051"></a>
+				</div>
+			</div>
+            				<div class="b-fllow author-checkFollow fr">
+                                            <a id="checkFollow3_9281927" class="follow-1 checkFollow on">关注</a>
+                    				</div>
+            			<a href="http://blog.51cto.com/9291927" class="b-name fr">天山老妖S</a>
+			<div class="is-vip-bg-6 fr">
+				<a href="http://blog.51cto.com/9291927" class="b-img"><img class="is-vip-img is-vip-img-4" data-uid="9281927" src="http://ucenter.51cto.com/images/noavatar_middle.gif"></a>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+</div>
+<!-- 老博文美观处理 -->
+	<script src="http://static1.51cto.com/edu/blog/js/shCores.js?v=1.0.0.1"></script>
+<script>
+	var praise_url = 'http://blog.51cto.com/praise/praise'
+		addReply_url = 'http://blog.51cto.com/comments/add'
+		removeUrl = 'http://blog.51cto.com/comments/del'
+		blog_id = '1914051'
+		rid = '0'
+		is_comment = '0'
+		comment_list = '/blog/ajax-comment-list'
+		comment_sort = "asc"
+		index_url = 'http://blog.51cto.com/9291927';
+    	uc_url = 'http://ucenter.51cto.com/'
+    	blog_url = 'http://blog.51cto.com/'
+    	img_url = 'http://static1.51cto.com/edu/blog/'
+    	i_user_id = ''
+    	c_user_id ='9281927'
+		collect_url = 'http://blog.51cto.com/collect/add'
+		is_old = '1'
+		nicknameurl = 'http://blog.51cto.com/9291927'
+		nickname = '天山老妖S'
+		myself = window.location.href
+	$('.you-like-list li:odd').css({'margin-left': '10%'});
+	$('.column-box a:odd').addClass('left-list')
+	$('.myUrl').text(myself).click(function(){window.open(myself)})
+	setTimeout(function(){$('.Footer').css({'margin-top':'-50px'})},50)
+    		function FollowBtnSucc(e){//1:未关注,2:已关注,3:互相关注
+		    if(e==2||e==3){
+		        $.post('/index/wxbind',{uid:userId},function(res){
+		            if(res.data.wxBind == 0){//没绑定
+	                    if(getCookie('follow1'))return false;
+	                    box1()
+	                }else{
+	                    if(getCookie('follow2'))return false;
+	                    box2()
+	                }
+		        },'json')
+		    }
+		}
+		FollowBtn = new Follow($('#checkFollow1_9281927'),'9281927','1',['on','in','mutual','off']);
+		FollowBtn.success=FollowBtnSucc;
+		FollowBtn = new Follow($('#checkFollow2_9281927'),'9281927','1',['on','in','mutual','off']);
+		FollowBtn.success=FollowBtnSucc;
+		FollowBtn = new Follow($('#checkFollow3_9281927'),'9281927','1',['on','in','mutual','off']);
+		FollowBtn.success=FollowBtnSucc;
+        	if(is_old==1){SyntaxHighlighter.all();}
+	window._bd_share_config={
+    "common":{
+      "bdText":"gSoap开发（六）——WebService附件机制",
+      "bdDesc":$("#abstract_bdshare").text(),
+      "bdMini":"2",
+      "bdMiniList":false,
+      "bdPic":"https://s1.51cto.com/images/201710/25/bd540a4f14d822f6e69087758699358b.jpg",
+      "bdStyle":"0",
+      "bdSize":"16"
+    },
+    "share":{}
+  };
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+  setTimeout(function(){
+  	$('.bdsharebuttonbox a').removeAttr('title')
+  },1000)
+</script>
+</div>
+<script src="http://static1.51cto.com/edu/blog/js/marked.min.js?v=1.0.0.5"></script><script src="http://static1.51cto.com/edu/blog/js/highlight.js"></script><script src="http://static1.51cto.com/edu/blog/js/detail_mp.js?v=2.0.1.7"></script><script src="http://static1.51cto.com/edu/blog/js/detail.js?v=1.0.6.8"></script><script src="http://static1.51cto.com/edu/blog/js/details_new.js?v=1.1.1"></script><script src="http://static1.51cto.com/edu/blog/js/copy.js?v=1.0.0.0"></script>    <script src="http://static1.51cto.com/edu/blog/js/pvlog.js"></script>
+<script src="https://logs.51cto.com/rizhi/count/count.js"></script>
+<script>
+  $(".gotop").click(function(){$(window).scrollTop(0)})
+</script>
+
+<script>
+  document.write('<iframe src ="http://news.51cto.com" width="0px" height="0px" style="display: none"></iframe>');
+</script>
+
+    <script type="text/javascript">
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2283d46608159c3b39fc9f1178809c21";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+
+    //自动推送链接
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+      var _vds = _vds || [];
+      window._vds = _vds;
+      (function(){
+        _vds.push(['setAccountId', '8c51975c40edfb67']);
+        (function() {
+          var vds = document.createElement('script');
+          vds.type='text/javascript';
+          vds.async = true;
+          vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'assets.growingio.com/vds.js';
+          var s = document.getElementsByTagName('script')[0];
+          s.parentNode.insertBefore(vds, s);
+        })();
+      })();
+      document.write(decodeURI("%3Cscript src='https://tongji.51cto.com/frontend/tj.gif' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    
+<script>
+  var uid = '';
+  var BLOG_URL = 'http://blog.51cto.com/';
+</script>
+<script src="http://static1.51cto.com/edu//blog/js/jquery.cookie.js"></script>
+<script src="http://static1.51cto.com/edu/blog/js/time-on-page.js?v=1.0.2" charset="utf-8"></script>
+<script>
+    (function(){
+        var wh=$(window).height(),fh=$('.Footer').outerHeight(true),hh=$('.Header').outerHeight(true)
+        $('.Content-box').css({'min-height': wh-fh-hh})
+    })()
+</script>
+</body>
+</html>

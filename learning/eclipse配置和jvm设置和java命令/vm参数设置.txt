@@ -1,0 +1,6 @@
+1:jre中的Default VM Arguments: -Xms256M -Xmx640M -XX:PermSize=256m -XX:MaxPermSize=768m
+
+2:Tomcat的Optional Java VM Arguments： -Xms256M -Xmx512M -XX:PermSize=256m -XX:MaxPermSize=512m
+
+
+3:eclipse.ini中： -vmargs-Xms256m-Xmx512m

@@ -1,0 +1,11 @@
+修改一列
+alter table basic_account modify  pwd  varchar2(200);
+移除一列
+alter table basic_account drop column  pwd  ;
+
+添加多列
+alter table basic_account add ( t1 varchar2(100) , t2 varchar2(100)  );
+修改多列
+alter table basic_account modify ( t1 varchar2(100) , t2 varchar2(100)  );
+移除多列
+alter table basic_account drop ( t1 varchar2(100) , t2 varchar2(100)  );

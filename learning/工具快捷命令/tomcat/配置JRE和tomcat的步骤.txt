@@ -1,0 +1,46 @@
+配置Java环境变量:
+===windows7 旗舰 x64
+我的电脑 , 属性，高级系统设置  ，高级（选项卡），环境变量  
+
+一、添加系统变量JAVA_HOME
+JAVA_HOME
+C:\Program Files\Java\jdk1.7.0
+
+
+二、
+在系统变量中选择变量“Path”然后单击编辑,在变量值后添加“;%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin;”
+
+三、
+然后再在系统变量下新建（或者添加）一个“CLASS_PATH”变量值为“.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar;”
+
+
+检查Java环境
+java -version ，显示版本，即OK
+
+配置tomcat
+
+一、
+添加CATALINA_HOME
+F:\20150323\apache-tomcat-7.0.59安装的路径
+
+二、
+编辑path
+在最后加上;%CATALINA_HOME%\bin;
+
+检查tomcat环境
+查看http://locahost:8080/
+or  http://127.0.0.1:8080/
+
+
+下面我先跟大家确认一下问题出现的前提条件（本机版本java：1.6.20，tomcat：6.0.32）
+1）在eclipse里面启动tomcat时都是正常的。
+2）在系统中配置了各种环境变量如下：
+JAVA_HOME：H:\DevelopTools\Java\jdk1.6.0_20
+CATALINA_BASE：H:\DevelopTools\apache-tomcat-6.0.32
+CATALINA_HOME：H:\DevelopTools\apache-tomcat-6.0.32
+CLASSPATH：.;%JAVA_HOME%;%JAVA_HOME%\jre\lib;
+PATH：.;%JAVA_HOME%\bin;%CATALINA_HOME%\bin;
+
+
+
+

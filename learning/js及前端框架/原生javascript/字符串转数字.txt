@@ -1,0 +1,4 @@
+ parseInt（）和parseFloat()
+
+在js里 其实也可以这么做将字符串转为数字
+num1 = $("#id").val() - 0;

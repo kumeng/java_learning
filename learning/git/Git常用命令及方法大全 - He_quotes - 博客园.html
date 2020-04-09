@@ -1,0 +1,3098 @@
+<!DOCTYPE html>
+<!-- saved from url=(0058)https://www.cnblogs.com/miracle77hp/articles/11163532.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="never">
+    <meta property="og:description" content="Git常用命令及方法大全 https://blog.csdn.net/web_csdn_share/article/details/79243308 下面是我整理的常用 Git 命令清单。几个专用名词">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Git常用命令及方法大全 - He_quotes - 博客园</title>
+    
+    <link rel="stylesheet" href="./Git常用命令及方法大全 - He_quotes - 博客园_files/blog-common.min.css">
+    <link id="MainCss" rel="stylesheet" href="./Git常用命令及方法大全 - He_quotes - 博客园_files/bundle-coffee.min.css">
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./Git常用命令及方法大全 - He_quotes - 博客园_files/bundle-coffee-mobile.min.css">
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/miracle77hp/rss">
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/miracle77hp/rsd.xml">
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/miracle77hp/wlwmanifest.xml">
+    <script src="./Git常用命令及方法大全 - He_quotes - 博客园_files/amp4ads-host-v0.js.下载"></script><script src="./Git常用命令及方法大全 - He_quotes - 博客园_files/pubads_impl_rendering_2020021802.js.下载"></script><script async="" src="./Git常用命令及方法大全 - He_quotes - 博客园_files/analytics.js.下载"></script><script src="./Git常用命令及方法大全 - He_quotes - 博客园_files/jquery-2.2.0.min.js.下载"></script>
+    <script src="./Git常用命令及方法大全 - He_quotes - 博客园_files/blog-common.min.js.下载"></script>
+    <script>
+        var currentBlogId = 281133;
+        var currentBlogApp = 'miracle77hp';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+    </script>
+    <script type="text/x-mathjax-config;executed=true">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="./Git常用命令及方法大全 - He_quotes - 博客园_files/MathJax.js.下载"></script>
+    
+<style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><link rel="preload" href="./Git常用命令及方法大全 - He_quotes - 博客园_files/f.txt" as="script"><script type="text/javascript" src="./Git常用命令及方法大全 - He_quotes - 博客园_files/f.txt"></script><script src="./Git常用命令及方法大全 - He_quotes - 博客园_files/pubads_impl_2020021802.js.下载" async=""></script><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover, .MJXp-munder {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > *, .MJXp-munder > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style><link rel="prefetch" href="https://tpc.googlesyndication.com/safeframe/1-0-37/html/container.html"></head>
+<body><div id="MathJax_Message" style="display: none;"></div>
+    <a name="top"></a>
+    
+    
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a href="https://www.cnblogs.com/miracle77hp/"><img id="blogLogo" src="./Git常用命令及方法大全 - He_quotes - 博客园_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/miracle77hp/">Hibbert</a>
+</h1>
+<h2>
+
+</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="navigator">
+			
+<ul id="navList">
+	<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+	<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/miracle77hp/">
+首页</a>
+</li>
+	<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+	<li>
+</li>
+	<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+	<li>
+
+	
+</li>
+</ul>
+
+
+
+			<div class="blogStats">
+				
+				<!--done-->
+随笔- 
+49&nbsp;
+文章- 
+139&nbsp;
+评论- 
+2&nbsp;
+
+
+
+				
+			</div><!--end: blogStats -->
+		</div><!--end: navigator 博客导航栏 -->
+		<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			
+<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/miracle77hp/articles/11163532.html">Git常用命令及方法大全</a>
+
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			
+<div id="cnblogs_post_body" class="blogpost-body ">
+    <h1>Git常用命令及方法大全</h1>
+<p><a href="https://blog.csdn.net/web_csdn_share/article/details/79243308">https://blog.csdn.net/web_csdn_share/article/details/79243308</a></p>
+<p>&nbsp;</p>
+<blockquote>
+<p>&nbsp;</p>
+<p><img class="has" src="./Git常用命令及方法大全 - He_quotes - 博客园_files/bg2015120901.png" alt=""></p>
+<p>下面是我整理的常用 Git 命令清单。几个专用名词的译名如下。</p>
+<blockquote>
+<ul>
+<li>Workspace：工作区</li>
+<li>Index / Stage：暂存区</li>
+<li>Repository：仓库区（或本地仓库）</li>
+<li>Remote：远程仓库</li>
+</ul>
+</blockquote>
+本地分支关联远程：git branch --set-upstream-to=origin/beta beta</blockquote>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2><a name="t1"></a>一、新建代码库</h2>
+<blockquote><ol class="hljs-ln">
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 在当前目录新建一个Git代码库</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git init</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 新建一个目录，将其初始化为Git代码库</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git init [project-name]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 下载一个项目和它的整个代码历史</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git <span class="hljs-built_in">clone [url]</span></div>
+</div>
+</li>
+</ol></blockquote>
+<h2><a name="t2"></a>二、配置</h2>
+<p>&nbsp;</p>
+<p>Git的设置文件为<code>.gitconfig</code>，它可以在用户主目录下（全局配置），也可以在项目目录下（项目配置）。</p>
+<blockquote><ol class="hljs-ln">
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 显示当前的Git配置</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git config --list</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 编辑Git配置文件</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git config -e [--global]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 设置提交代码时的用户信息</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git config [--global] user.name <span class="hljs-string">"[name]"</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git config [--global] user.email <span class="hljs-string">"[email address]"</span></div>
+</div>
+</li>
+</ol></blockquote>
+<h2><a name="t3"></a>三、增加/删除文件</h2>
+<blockquote><ol class="hljs-ln">
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 添加指定文件到暂存区</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git add [file1] [file2] ...</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 添加指定目录到暂存区，包括子目录</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git add [dir]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 添加当前目录的所有文件到暂存区</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git add .</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 添加每个变化前，都会要求确认</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 对于同一个文件的多处变化，可以实现分次提交</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git add -p</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 删除工作区文件，并且将这次删除放入暂存区</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git rm [file1] [file2] ...</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 停止追踪指定文件，但该文件会保留在工作区</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git rm --cached [file]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 改名文件，并且将这个改名放入暂存区</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git mv [file-original] [file-renamed]</div>
+</div>
+</li>
+</ol></blockquote>
+<h2><a name="t4"></a>四、代码提交</h2>
+<blockquote><ol class="hljs-ln">
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 提交暂存区到仓库区</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git commit -m [message]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 提交暂存区的指定文件到仓库区</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git commit [file1] [file2] ... -m [message]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 提交工作区自上次commit之后的变化，直接到仓库区</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git commit -a</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 提交时显示所有diff信息</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git commit -v</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 使用一次新的commit，替代上一次提交</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 如果代码没有任何新变化，则用来改写上一次commit的提交信息</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git commit --amend -m [message]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 重做上一次commit，并包括指定文件的新变化</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git commit --amend [file1] [file2] ...</div>
+</div>
+</li>
+</ol></blockquote>
+<h2><a name="t5"></a>五、分支</h2>
+<blockquote><ol class="hljs-ln">
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 列出所有本地分支</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git branch</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 列出所有远程分支</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git branch -r</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 列出所有本地分支和远程分支</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git branch -a</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 新建一个分支，但依然停留在当前分支</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git branch [branch-name]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 新建一个分支，并切换到该分支</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git checkout -b [branch]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 新建一个分支，指向指定commit</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git branch [branch] [commit]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 新建一个分支，与指定的远程分支建立追踪关系</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git branch --track [branch] [remote-branch]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 切换到指定分支，并更新工作区</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git checkout [branch-name]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 切换到上一个分支</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git checkout -</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 建立追踪关系，在现有分支与指定的远程分支之间</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git branch --<span class="hljs-built_in">set-upstream [branch] [remote-branch]</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 合并指定分支到当前分支</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git merge [branch]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 选择一个commit，合并进当前分支</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git cherry-pick [commit]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 删除分支</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git branch -d [branch-name]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 删除远程分支</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git push origin --delete [branch-name]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git branch -dr [remote/branch]</div>
+</div>
+</li>
+</ol></blockquote>
+<h2><a name="t6"></a>六、标签</h2>
+<blockquote><ol class="hljs-ln">
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 列出所有tag</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git tag</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 新建一个tag在当前commit</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git tag [tag]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 新建一个tag在指定commit</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git tag [tag] [commit]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 删除本地tag</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git tag -d [tag]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 删除远程tag</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git push origin :refs/tags/[tagName]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 查看tag信息</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git show [tag]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 提交指定tag</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git push [remote] [tag]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 提交所有tag</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git push [remote] --tags</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 新建一个分支，指向某个tag</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git checkout -b [branch] [tag]</div>
+</div>
+</li>
+</ol></blockquote>
+<h2><a name="t7"></a>七、查看信息</h2>
+<blockquote><ol class="hljs-ln">
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 显示有变更的文件</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git status</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 显示当前分支的版本历史</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git <span class="hljs-built_in">log</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 显示commit历史，以及每次commit发生变更的文件</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git <span class="hljs-built_in">log --<span class="hljs-built_in">stat</span></span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 搜索提交历史，根据关键词</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git <span class="hljs-built_in">log -S [keyword]</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 显示某个commit之后的所有变动，每个commit占据一行</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git <span class="hljs-built_in">log [tag] HEAD --pretty=format:%s</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 显示某个commit之后的所有变动，其"提交说明"必须符合搜索条件</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git <span class="hljs-built_in">log [tag] HEAD --grep feature</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 显示某个文件的版本历史，包括文件改名</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git <span class="hljs-built_in">log --follow [file]</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git whatchanged [file]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 显示指定文件相关的每一次diff</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git <span class="hljs-built_in">log -p [file]</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 显示过去5次提交</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git <span class="hljs-built_in">log -5 --pretty --oneline</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 显示所有提交过的用户，按提交次数排序</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git shortlog -sn</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 显示指定文件是什么人在什么时间修改过</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git blame [file]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 显示暂存区和工作区的差异</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git diff</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 显示暂存区和上一个commit的差异</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git diff --cached [file]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 显示工作区与当前分支最新commit之间的差异</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git diff HEAD</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 显示两次提交之间的差异</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git diff [first-branch]...[second-branch]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 显示今天你写了多少行代码</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git diff --shortstat <span class="hljs-string">"@{0 day ago}"</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 显示某次提交的元数据和内容变化</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git show [commit]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 显示某次提交发生变化的文件</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git show --name-only [commit]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 显示某次提交时，某个文件的内容</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git show [commit]:[filename]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 显示当前分支的最近几次提交</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git reflog</div>
+</div>
+</li>
+</ol></blockquote>
+<h2><a name="t8"></a>八、远程同步</h2>
+<blockquote><ol class="hljs-ln">
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 下载远程仓库的所有变动</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git fetch [remote]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 显示所有远程仓库</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git remote -v</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 显示某个远程仓库的信息</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git remote show [remote]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 增加一个新的远程仓库，并命名</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git remote add [shortname] [url]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 取回远程仓库的变化，并与本地分支合并</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git pull [remote] [branch]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 上传本地指定分支到远程仓库</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git push [remote] [branch]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 强行推送当前分支到远程仓库，即使有冲突</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git push [remote] --force</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 推送所有分支到远程仓库</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git push [remote] --all</div>
+</div>
+</li>
+</ol></blockquote>
+<h2><a name="t9"></a>九、撤销</h2>
+<blockquote><ol class="hljs-ln">
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 恢复暂存区的指定文件到工作区</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git checkout [file]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 恢复某个commit的指定文件到暂存区和工作区</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git checkout [commit] [file]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 恢复暂存区的所有文件到工作区</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git checkout .</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 重置暂存区的指定文件，与上一次commit保持一致，但工作区不变</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git reset [file]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 重置暂存区与工作区，与上一次commit保持一致</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git reset --hard</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 重置当前分支的指针为指定commit，同时重置暂存区，但工作区不变</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git reset [commit]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 重置当前分支的HEAD为指定commit，同时重置暂存区和工作区，与指定commit一致</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git reset --hard [commit]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 重置当前HEAD为指定commit，但保持暂存区和工作区不变</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git reset --keep [commit]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 新建一个commit，用来撤销指定commit</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 后者的所有变化都将被前者抵消，并且应用到当前分支</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git revert [commit]</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 暂时将未提交的变化移除，稍后再移入</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git stash</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git stash pop</div>
+</div>
+</li>
+</ol></blockquote>
+<h2><a name="t10"></a>十、其他</h2>
+<blockquote><ol class="hljs-ln">
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-comment"># 生成一个可供发布的压缩包</span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git archive</div>
+</div>
+</li>
+</ol></blockquote>
+<h1><a name="t11"></a>Git分支管理策略</h1>
+<p>&nbsp;</p>
+<p>一、主分支Master</p>
+<p>首先，代码库应该有一个、且仅有一个主分支。所有提供给用户使用的正式版本，都在这个主分支上发布。</p>
+<p><img class="has" src="./Git常用命令及方法大全 - He_quotes - 博客园_files/bg2012070503.png" alt=""></p>
+<p>Git主分支的名字，默认叫做Master。它是自动建立的，版本库初始化以后，默认就是在主分支在进行开发。</p>
+<p>二、开发分支Develop</p>
+<p>主分支只用来分布重大版本，日常开发应该在另一条分支上完成。我们把开发用的分支，叫做Develop。</p>
+<p><img class="has" src="./Git常用命令及方法大全 - He_quotes - 博客园_files/bg2012070504.png" alt=""></p>
+<p>这个分支可以用来生成代码的最新隔夜版本（nightly）。如果想正式对外发布，就在Master分支上，对Develop分支进行"合并"（merge）。</p>
+<p>Git创建Develop分支的命令：</p>
+<blockquote>
+<p>　　git checkout -b develop master</p>
+</blockquote>
+<p>将Develop分支发布到Master分支的命令：</p>
+<blockquote>
+<p>　　# 切换到Master分支<br>　　git checkout master</p>
+<p>　　# 对Develop分支进行合并<br>　　git merge --no-ff develop</p>
+
+
+</blockquote>
+<p>这里稍微解释一下，上一条命令的--no-ff参数是什么意思。默认情况下，Git执行"快进式合并"（fast-farward merge），会直接将Master分支指向Develop分支。</p>
+<p><img class="has" src="./Git常用命令及方法大全 - He_quotes - 博客园_files/bg2012070505.png" alt=""></p>
+<p>使用--no-ff参数后，会执行正常合并，在Master分支上生成一个新节点。为了保证版本演进的清晰，我们希望采用这种做法。关于合并的更多解释，请参考Benjamin Sandofsky的<a href="http://sandofsky.com/blog/git-workflow.html" rel="nofollow">《Understanding the Git Workflow》</a>。</p>
+<p><img class="has" src="./Git常用命令及方法大全 - He_quotes - 博客园_files/bg2012070506.png" alt=""></p>
+<p>三、临时性分支</p>
+<p>前面讲到版本库的两条主要分支：Master和Develop。前者用于正式发布，后者用于日常开发。其实，常设分支只需要这两条就够了，不需要其他了。</p>
+<p>但是，除了常设分支以外，还有一些临时性分支，用于应对一些特定目的的版本开发。临时性分支主要有三种：</p>
+<blockquote>
+<p>　　* 功能（feature）分支</p>
+<p>　　* 预发布（release）分支</p>
+<p>　　* 修补bug（fixbug）分支</p>
+
+
+</blockquote>
+<p>这三种分支都属于临时性需要，使用完以后，应该删除，使得代码库的常设分支始终只有Master和Develop。</p>
+<p>四、 功能分支</p>
+<p>接下来，一个个来看这三种"临时性分支"。</p>
+<p>第一种是功能分支，它是为了开发某种特定功能，从Develop分支上面分出来的。开发完成后，要再并入Develop。</p>
+<p><img class="has" src="./Git常用命令及方法大全 - He_quotes - 博客园_files/bg2012070507.png" alt=""></p>
+<p>功能分支的名字，可以采用feature-*的形式命名。</p>
+<p>创建一个功能分支：</p>
+<blockquote>
+<p>　　git checkout -b feature-x develop</p>
+
+
+</blockquote>
+<p>开发完成后，将功能分支合并到develop分支：</p>
+<blockquote>
+<p>　　git checkout develop</p>
+<p>　　git merge --no-ff feature-x</p>
+
+
+</blockquote>
+<p>删除feature分支：</p>
+<blockquote>
+<p>　　git branch -d feature-x</p>
+
+
+</blockquote>
+<p>五、预发布分支</p>
+<p>第二种是预发布分支，它是指发布正式版本之前（即合并到Master分支之前），我们可能需要有一个预发布的版本进行测试。</p>
+<p>预发布分支是从Develop分支上面分出来的，预发布结束以后，必须合并进Develop和Master分支。它的命名，可以采用release-*的形式。</p>
+<p>创建一个预发布分支：</p>
+<blockquote>
+<p>　　git checkout -b release-1.2 develop</p>
+
+
+</blockquote>
+<p>确认没有问题后，合并到master分支：</p>
+<blockquote>
+<p>　　git checkout master</p>
+<p>　　git merge --no-ff release-1.2</p>
+<p>　　# 对合并生成的新节点，做一个标签<br>　　git tag -a 1.2</p>
+
+
+</blockquote>
+<p>再合并到develop分支：</p>
+<blockquote>
+<p>　　git checkout develop</p>
+<p>　　git merge --no-ff release-1.2</p>
+
+
+</blockquote>
+<p>最后，删除预发布分支：</p>
+<blockquote>
+<p>　　git branch -d release-1.2</p>
+
+
+</blockquote>
+<p>六、修补bug分支</p>
+<p>最后一种是修补bug分支。软件正式发布以后，难免会出现bug。这时就需要创建一个分支，进行bug修补。</p>
+<p>修补bug分支是从Master分支上面分出来的。修补结束以后，再合并进Master和Develop分支。它的命名，可以采用fixbug-*的形式。</p>
+<p><img class="has" src="./Git常用命令及方法大全 - He_quotes - 博客园_files/bg2012070508.png" alt=""></p>
+<p>创建一个修补bug分支：</p>
+<blockquote>
+<p>　　git checkout -b fixbug-0.1 master</p>
+
+
+</blockquote>
+<p>修补结束后，合并到master分支：</p>
+<blockquote>
+<p>　　git checkout master</p>
+<p>　　git merge --no-ff fixbug-0.1</p>
+<p>　　git tag -a 0.1.1</p>
+
+
+</blockquote>
+<p>再合并到develop分支：</p>
+<blockquote>
+<p>　　git checkout develop</p>
+<p>　　git merge --no-ff fixbug-0.1</p>
+
+
+</blockquote>
+<p>最后，删除"修补bug分支"：</p>
+<blockquote>
+<p>　　git branch -d fixbug-0.1</p>
+
+
+</blockquote>
+<p>&nbsp;</p>
+<h1><a name="t12"></a>版本回退-撤销文件修改</h1>
+<p>{针对文件修改恢复}</p>
+<h2><a name="t13"></a>工作区修改一个文件后，又想回到修改前(git add前)</h2>
+<p>1. 当然可以直接手动再在工作区中将文件修改回去</p>
+<p>2. 修改后，通过命令git status查看</p>
+<ol class="hljs-ln">
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git status</div>
+
+
+</div>
+
+
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"># On branch master</div>
+
+
+</div>
+
+
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"># Changes not staged for commit:</div>
+
+
+</div>
+
+
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">#   (use "git add <span class="hljs-tag">&lt;<span class="hljs-name">file&gt;..." to update what will be committed)</span></span></div>
+
+
+</div>
+
+
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">#   (use "git checkout -- <span class="hljs-tag">&lt;<span class="hljs-name">file&gt;..." to discard changes in working directory)</span></span></div>
+
+
+</div>
+
+
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">#</div>
+
+
+</div>
+
+
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">#       modified:   readme.txt</div>
+
+
+</div>
+
+
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">#</div>
+
+
+</div>
+
+
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">no changes added to commit (use "git add" and/or "git commit -a")</div>
+
+
+</div>
+
+
+</li>
+
+
+</ol>
+<p>这时Git会告诉你，git checkout -- file可以丢弃工作区的修改：</p>
+<pre><code class="language-html hljs xml">$ git checkout -- readme.txt
+</code></pre>
+<p>Note:</p>
+<p>1.&nbsp;git checkout -- file命令中的--很重要，没有--，就变成了“切换到另一个分支”的命令，我们在后面的分支管理中会再次遇到git checkout命令。</p>
+<p>2. 命令git checkout -- readme.txt意思就是，把readme.txt文件在工作区的修改全部撤销，这里有两种情况：</p>
+<p>一种是readme.txt自修改后还没有被放到暂存区，现在，撤销修改就回到和版本库一模一样的状态；一种是readme.txt已经添加到暂存区后，又作了修改，现在，撤销修改就回到添加到暂存区后的状态。总之，就是让这个文件回到最近一次git commit或git add时的状态。</p>
+<p>3.&nbsp;工作区、暂存区的概念不清楚的可见于<a href="http://blog.csdn.net/pipisorry/article/details/44588351" rel="nofollow">Git版本控制教程 - Git本地仓库</a></p>
+<h2><a name="t14"></a>如果在工作区中修改了文件还git add到暂存区（但是在commit之前）</h2>
+<p>用git status查看一下，修改只是添加到了暂存区，还没有提交：</p>
+<ol class="hljs-ln">
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git status</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"># On branch master</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"># Changes to be committed:</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"># (use "git reset HEAD <span class="hljs-tag">&lt;<span class="hljs-name">file&gt;..." to unstage)</span></span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">#</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"># modified: readme.txt</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">#</div>
+</div>
+</li>
+</ol>
+<p>Git同样告诉我们，用命令git reset HEAD file可以把暂存区的修改撤销掉（unstage），重新放回工作区：</p>
+<ol class="hljs-ln">
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git reset HEAD readme.txt</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">Unstaged changes after reset:</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">M readme.txt</div>
+</div>
+</li>
+</ol>
+<p>git reset命令既可以回退版本，也可以把暂存区的修改回退到工作区。当我们用HEAD时，表示最新的版本。</p>
+<p>再用git status查看一下，现在暂存区是干净的，工作区有修改。</p>
+<p>然后丢弃工作区的修改</p>
+<ol class="hljs-ln">
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git checkout -- readme.txt</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git status</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"># On branch master</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">nothing to commit (working directory clean)</div>
+</div>
+</li>
+</ol>
+<h2><a name="t15"></a>不但修改了文件还从暂存区提交commit到了版本库 - 版本回退</h2>
+<p>版本回退可以回退到上一个版本。不过，这是有条件的，就是你还没有把自己的本地版本库推送到远程。Git是分布式版本控制系统。</p>
+<p>在工作中对某个文件（如readme.txt）进行多次修改交commit。</p>
+<p>可以通过版本控制系统命令告诉我们提交的历史记录，在Git中，我们用git log命令查看：</p>
+<ol class="hljs-ln">
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git log</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">commit 3628164fb26d48395383f8f31179f24e0882e1e0</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">Author: Michael Liao <span class="hljs-tag">&lt;<span class="hljs-name">askxuefeng@gmail.com&gt;</span></span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">Date: Tue Aug 20 15:11:49 2013 +0800</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">append GPL</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">commit ea34578d5496d7dd233c827ed32a8cd576c5ee85</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">Author: Michael Liao <span class="hljs-tag">&lt;<span class="hljs-name">askxuefeng@gmail.com&gt;</span></span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">Date: Tue Aug 20 14:53:12 2013 +0800</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">add distributed</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">commit cb926e7ea50ad11b8f9e909c05226233bf755030</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">Author: Michael Liao <span class="hljs-tag">&lt;<span class="hljs-name">askxuefeng@gmail.com&gt;</span></span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">Date: Mon Aug 19 17:51:55 2013 +0800</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">wrote a readme file</div>
+</div>
+</li>
+</ol>
+<p>Note:</p>
+<p>1.&nbsp;git log命令显示从最近到最远的提交日志，我们可以看到3次提交，最近的一次是append GPL，上一次是add distributed，最早的一次是wrote a readme file。</p>
+<p>2. 如果嫌输出信息太多，看得眼花缭乱的，可以试试加上--pretty=oneline参数：</p>
+<ol class="hljs-ln">
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git log --pretty=oneline</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">3628164fb26d48395383f8f31179f24e0882e1e0 append GPL</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">ea34578d5496d7dd233c827ed32a8cd576c5ee85 add distributed</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">cb926e7ea50ad11b8f9e909c05226233bf755030 wrote a readme file</div>
+</div>
+</li>
+</ol>
+<p>3.&nbsp;你看到的一大串类似3628164...882e1e0的是commit id（版本号），和SVN不一样，Git的commit id不是1，2，3……递增的数字，而是一个SHA1计算出来的一个非常大的数字，用十六进制表示，而且你看到的commit id和我的肯定不一样，以你自己的为准。为什么commit id需要用这么一大串数字表示呢？因为Git是分布式的版本控制系统，后面我们还要研究多人在同一个版本库里工作，如果大家都用1，2，3……作为版本号，那肯定就冲突了。</p>
+<p>4.&nbsp;每提交一个新版本，实际上Git就会把它们自动串成一条时间线。如果使用可视化工具（如GitX、github的客户端、pycharm）查看Git历史，就可以更清楚地看到提交历史的时间线。0</p>
+<h3><a name="t16"></a>现在我们想要把readme.txt回退到上一个版本</h3>
+<p>如“add distributed”的那个版本，怎么做呢？首先，Git必须知道当前版本是哪个版本，在Git中，用HEAD表示当前版本，也就是最新的提交3628164...882e1e0（注意我的提交ID和你的肯定不一样），上一个版本就是HEAD^，上上一个版本就是HEAD^^，当然往上100个版本写100个^比较容易数不过来，所以写成HEAD~100。</p>
+<p>现在，我们要把当前版本“append GPL”回退到上一个版本“add distributed”，就可以使用git reset命令：</p>
+<ol class="hljs-ln">
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git <span class="hljs-keyword">re<span class="hljs-keyword">set <span class="hljs-comment">--hard HEAD^</span></span></span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line"><span class="hljs-keyword">HEAD <span class="hljs-keyword">is <span class="hljs-keyword">now <span class="hljs-keyword">at ea34578 <span class="hljs-keyword">add <span class="hljs-keyword">distributed</span></span></span></span></span></span></div>
+</div>
+</li>
+</ol>
+<p>这时readme.txt的内容就成了版本add distributed</p>
+<p>我们用git log再看看现在版本库的状态：</p>
+<ol class="hljs-ln">
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git log</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">commit ea34578d5496d7dd233c827ed32a8cd576c5ee85</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">Author: Michael Liao <span class="hljs-tag">&lt;<span class="hljs-name">askxuefeng@gmail.com&gt;</span></span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">Date: Tue Aug 20 14:53:12 2013 +0800</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">add distributed</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">commit cb926e7ea50ad11b8f9e909c05226233bf755030</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">Author: Michael Liao <span class="hljs-tag">&lt;<span class="hljs-name">askxuefeng@gmail.com&gt;</span></span></div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">Date: Mon Aug 19 17:51:55 2013 +0800</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">&nbsp;</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">wrote a readme file</div>
+</div>
+</li>
+</ol>
+<p>最新的那个版本append GPL已经看不到了！</p>
+<h2><a name="t17"></a>恢复文件后，要是我们又想回到修改后的文件呢？（命令行窗口还没有被关掉）</h2>
+<p>{这个是git reset --hard后，又反悔了，想回到修改后的状态}</p>
+<p>只要上面的命令行窗口还没有被关掉，你就可以顺着往上找啊找啊，找到那个append GPL的commit id是3628164...，于是就可以指定回到未来的某个版本：</p>
+<ol class="hljs-ln">
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git reset --hard 3628164</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">HEAD is now at 3628164 append GPL</div>
+</div>
+</li>
+</ol>
+<p>版本号没必要写全，前几位就可以了，Git会自动去找。</p>
+<p>Git的版本回退速度非常快，因为Git在内部有个指向当前版本的HEAD指针，当你回退版本的时候，Git仅仅是把HEAD从指向append GPL：</p>
+<p><img class="has" src="./Git常用命令及方法大全 - He_quotes - 博客园_files/20150824103212235" alt="git-head" width="235" height="162"></p>
+<p>改为指向add distributed：</p>
+<p><img class="has" src="./Git常用命令及方法大全 - He_quotes - 博客园_files/20150824103242645" alt="git-head-move" width="235" height="162"></p>
+<p>然后顺便把工作区的文件更新了。所以你让HEAD指向哪个版本号，你就把当前版本定位在哪。</p>
+<h2><a name="t18"></a>恢复文件后，要是我们又想回到修改后的文件呢？（命令行窗口早就关掉了）</h2>
+<p>{这个是git reset --hard后，又反悔了，想回到修改后的状态}</p>
+<p>想恢复到新版本怎么办？找不到新版本的commit id怎么办？当你用$ git reset --hard HEAD^回退到add distributed版本时，再想恢复到append GPL，就必须找到append GPL的commit id。</p>
+<p>Git提供了一个命令git reflog用来记录你的每一次命令：[<a href="http://blog.csdn.net/pipisorry/article/details/50669350" rel="nofollow">Git高级教程</a>:git log与git reflog]</p>
+<ol class="hljs-ln">
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">$ git reflog</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">ea34578 HEAD@{0}: reset: moving to HEAD^</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">3628164 HEAD@{1}: commit: append GPL</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">ea34578 HEAD@{2}: commit: add distributed</div>
+</div>
+</li>
+<li>
+<div class="hljs-ln-numbers">&nbsp;</div>
+<div class="hljs-ln-code">
+<div class="hljs-ln-line">cb926e7 HEAD@{3}: commit (initial): wrote a readme file</div>
+</div>
+</li>
+</ol>
+<p>第二行显示append GPL的commit id是3628164，现在，你又可以乘坐时光机回到未来了。</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block"><div id="BlogPostCategory">
+    分类: 
+            <a href="https://www.cnblogs.com/miracle77hp/category/1500704.html" target="_blank">2019-Git</a></div>
+
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(11163532,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow(&#39;3dbb5786-3d5f-e411-b908-9dcfd8948a71&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./Git常用命令及方法大全 - He_quotes - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./Git常用命令及方法大全 - He_quotes - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/miracle77hp/" target="_blank"><img src="./Git常用命令及方法大全 - He_quotes - 博客园_files/20180810111036.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/miracle77hp/">He_quotes</a><br>
+            <a href="https://home.cnblogs.com/u/miracle77hp/followees/">关注 - 21</a><br>
+            <a href="https://home.cnblogs.com/u/miracle77hp/followers/">粉丝 - 0</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;3dbb5786-3d5f-e411-b908-9dcfd8948a71&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(11163532,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">1</span>
+    </div>
+    <div class="buryit" onclick="votePost(11163532,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+		</div>
+		<div class="postDesc">posted @ 
+<span id="post-date">2019-07-10 14:06</span>&nbsp;
+<a href="https://www.cnblogs.com/miracle77hp/">He_quotes</a>&nbsp;
+阅读(<span id="post_view_count">3777</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditArticles.aspx?postid=11163532" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(11163532);return false;">收藏</a></div>
+	</div>
+	
+	
+</div><!--end: topics 文章、评论容器-->
+<script src="./Git常用命令及方法大全 - He_quotes - 博客园_files/highlight.min.js.下载"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 281133, cb_blogApp = 'miracle77hp', cb_blogUserGuid = '3dbb5786-3d5f-e411-b908-9dcfd8948a71';
+    var cb_entryId = 11163532, cb_entryCreatedDate = '2019-07-10 14:06', cb_postType = 2; 
+    loadViewCount(cb_entryId);
+</script><a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<script>
+    var commentManager = new blogCommentManager();
+    commentManager.renderComments(0);
+</script>
+
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/miracle77hp/articles/11163532.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/miracle77hp/articles/11163532.html#top">返回顶部</a></div>
+    <div id="comment_form_container"><div class="login_tips">
+    注册用户登录后才能发表评论，请 
+    <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a>
+     或 
+    <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，
+    <a href="https://www.cnblogs.com/">访问</a> 网站首页。
+</div></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-ucancode&#39;)">【推荐】超50万行VC++源码: 大型组态工控、电力仿真CAD与GIS源码库</a><br><a href="https://cloud.tencent.com/act/season?fromSource=gwzcw.3422970.3422970.3422970&amp;utm_medium=cpc&amp;utm_id=gwzcw.3422970.3422970.3422970" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-腾讯云&#39;)">【活动】腾讯云服务器推出云产品采购季 1核2G首年仅需99元</a><br><a href="https://developer.aliyun.com/ask/257928?utm_content=g_1000088948" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-阿里云开发者社区&#39;)">【推荐】精品问答：精品问答：Python 技术 1000 问</a><br><a href="https://developer.aliyun.com/article/718700?utm_content=g_1000088931" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-阿里云开发者社区&#39;)">【推荐】免费下载《阿里工程师的自我修养》</a><br></div>
+    <div id="opt_under_post"></div>
+    <script async="async" src="./Git常用命令及方法大全 - He_quotes - 博客园_files/gpt.js.下载"></script>
+    <script>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+    </script>
+    <script>
+        googletag.cmd.push(function () {
+            googletag.defineSlot("/1090369/C1", [300, 250], "div-gpt-ad-1546353474406-0").addService(googletag.pubads());
+            googletag.defineSlot("/1090369/C2", [468, 60], "div-gpt-ad-1539008685004-0").addService(googletag.pubads());
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+    </script>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;" data-google-query-id="CKz-t6Gy5-cCFcOxlgodVFMPvQ"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" data-google-container-id="1" data-load-complete="true" src="./Git常用命令及方法大全 - He_quotes - 博客园_files/saved_resource.html"></iframe></div></div>
+    </div>
+    <div id="under_post_news"><div class="recomm-block"><b>相关博文：</b><br>·  <a title="【git】Git 常用命令大全" href="https://www.cnblogs.com/qlqwjy/p/7507450.html" target="_blank" onclick="clickRecomItmem(7507450)">【git】Git 常用命令大全</a><br>·  <a title="Git使用教程及常用命令大全" href="https://www.cnblogs.com/xkloveme/p/7366200.html" target="_blank" onclick="clickRecomItmem(7366200)">Git使用教程及常用命令大全</a><br>·  <a title="Git 常用命令大全" href="https://www.cnblogs.com/smallstupidwife/p/4836070.html" target="_blank" onclick="clickRecomItmem(4836070)">Git 常用命令大全</a><br>·  <a title="Git常用命令大全" href="https://www.cnblogs.com/wf-linux/p/11009396.html" target="_blank" onclick="clickRecomItmem(11009396)">Git常用命令大全</a><br>·  <a title="Git常用命令及软件推荐" href="https://www.cnblogs.com/PeunZhang/p/5957211.html" target="_blank" onclick="clickRecomItmem(5957211)">Git常用命令及软件推荐</a><br>»  <a target="_blank" href="https://recomm.cnblogs.com/blogpost/11163532">更多推荐...</a><div id="cnblogs_t5"><a href="https://developer.aliyun.com/article/714297?utm_content=g_1000088937" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T5-阿里云开发者社区&#39;)">35个面试详解，170道挑战题，1460个精彩问答 | Java面试宝典</a></div></div></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;"></div>
+    </div>
+    <div id="under_post_kb">
+<div class="itnews c_ad_block">
+    <b>最新 IT 新闻</b>:
+    <br>
+ ·              <a href="https://news.cnblogs.com/n/656193/" target="_blank">Netflix的亚洲「幻想」</a>
+            <br>
+ ·              <a href="https://news.cnblogs.com/n/656194/" target="_blank">疫情下的职场众生相：请别拿理想绑架我降薪</a>
+            <br>
+ ·              <a href="https://news.cnblogs.com/n/656192/" target="_blank">Google Play恶意软件分析</a>
+            <br>
+ ·              <a href="https://news.cnblogs.com/n/656191/" target="_blank">蛋壳公寓为何要“道德裸奔”</a>
+            <br>
+ ·              <a href="https://news.cnblogs.com/n/656190/" target="_blank">一颗小小的芯片，掩盖不住苹果的大野心</a>
+            <br>
+    » <a href="https://news.cnblogs.com/" title="IT 新闻" target="_blank">更多新闻...</a>
+</div></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+        fixPostBody();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);        deliverAdT2();
+        deliverAdC1();
+        deliverAdC2();
+        loadNewsAndKb();
+        loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+        loadOptUnderPost();
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div></div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<div id="sidebar_news" class="newsItem"><!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	
+<div id="blog-news">
+    <img border="0" src="./Git常用命令及方法大全 - He_quotes - 博客园_files/20180810111036(1).png">
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/miracle77hp/">
+            He_quotes
+        </a>
+        <br>
+        园龄：
+        <a href="https://home.cnblogs.com/u/miracle77hp/" title="入园时间：2014-10-29">
+            5年3个月
+        </a>
+        <br>
+        粉丝：
+        <a href="https://home.cnblogs.com/u/miracle77hp/followers/">
+            0
+        </a>
+        <br>
+        关注：
+        <a href="https://home.cnblogs.com/u/miracle77hp/followees/">
+            21
+        </a>
+        <div id="p_b_follow">
+<a href="javascript:void(0)" onclick="follow(&#39;3dbb5786-3d5f-e411-b908-9dcfd8948a71&#39;)">+加关注</a></div>
+        <script>getFollowStatus('3dbb5786-3d5f-e411-b908-9dcfd8948a71');</script>
+    </div>
+</div>
+</div>
+
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style="">
+
+<table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar" border="0">
+    <tbody>
+        <tr>
+            <td colspan="7">
+                <table class="CalTitle" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2020/01/23&#39;); return false;">&lt;</a>
+                            </td>
+                            <td align="center">2020年2月</td>
+                            <td align="right" class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2020/03/23&#39;); return false;">&gt;</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr>
+                    <th class="CalDayHeader" align="center" abbr="日" scope="col">日</th>
+                    <th class="CalDayHeader" align="center" abbr="一" scope="col">一</th>
+                    <th class="CalDayHeader" align="center" abbr="二" scope="col">二</th>
+                    <th class="CalDayHeader" align="center" abbr="三" scope="col">三</th>
+                    <th class="CalDayHeader" align="center" abbr="四" scope="col">四</th>
+                    <th class="CalDayHeader" align="center" abbr="五" scope="col">五</th>
+                    <th class="CalDayHeader" align="center" abbr="六" scope="col">六</th>
+        </tr>
+            <tr>
+                            <td class="CalOtherMonthDay" align="center">26</td>
+                            <td class="CalOtherMonthDay" align="center">27</td>
+                            <td class="CalOtherMonthDay" align="center">28</td>
+                            <td class="CalOtherMonthDay" align="center">29</td>
+                            <td class="CalOtherMonthDay" align="center">30</td>
+                            <td class="CalOtherMonthDay" align="center">31</td>
+                    <td class="CalWeekendDay" align="center">
+                        1
+                    </td>
+            </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            2
+                        </td>
+                            <td class="" align="center">
+                                3
+                            </td>
+                            <td class="" align="center">
+                                4
+                            </td>
+                            <td class="" align="center">
+                                5
+                            </td>
+                            <td class="" align="center">
+                                6
+                            </td>
+                            <td class="" align="center">
+                                7
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            8
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            9
+                        </td>
+                            <td class="" align="center">
+                                10
+                            </td>
+                            <td class="" align="center">
+                                11
+                            </td>
+                            <td class="" align="center">
+                                12
+                            </td>
+                            <td class="" align="center">
+                                13
+                            </td>
+                            <td class="" align="center">
+                                14
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            15
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            16
+                        </td>
+                            <td class="" align="center">
+                                17
+                            </td>
+                            <td class="" align="center">
+                                18
+                            </td>
+                            <td class="" align="center">
+                                19
+                            </td>
+                            <td class="" align="center">
+                                20
+                            </td>
+                            <td class="" align="center">
+                                21
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            22
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalTodayDay" align="center">
+                            23
+                        </td>
+                            <td class="" align="center">
+                                24
+                            </td>
+                            <td class="" align="center">
+                                25
+                            </td>
+                            <td class="" align="center">
+                                26
+                            </td>
+                            <td class="" align="center">
+                                27
+                            </td>
+                            <td class="" align="center">
+                                28
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            29
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalOtherMonthDay" align="center">
+                            1
+                        </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                2
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                3
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                4
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                5
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                6
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            7
+                        </td>
+                </tr>
+    </tbody>
+</table></div><script>loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn">
+<!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    
+</div>
+
+<!-- 常用链接 -->
+
+
+<!-- 最新随笔 -->
+
+
+
+<!-- 我的标签 -->
+
+
+<!-- 积分与排名 -->
+<div id="sidebar_scorerank" class="sidebar-block">
+    <div class="catListBlogRank">
+<h3 class="catListTitle">积分与排名</h3>
+<ul>
+	<li class="liScore">
+        积分 -	
+19401
+    </li>
+	<li class="liRank">
+		排名 -	
+38227
+	</li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+    
+<div class="catListPostCategory">
+<h3 class="catListTitle">
+
+随笔分类
+<span style="font-size:11px;font-weight:normal">(49)</span>
+
+</h3>
+
+
+<ul>
+
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1350145.html" rel="" target="">
+    2018-Docker(2)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1403318.html" rel="" target="">
+    2018-Dubbo(1)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1350625.html" rel="" target="">
+    2018-Java(20)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1374929.html" rel="" target="">
+    2018-MySql(1)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1198957.html" rel="" target="">
+    2018-spring(7)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1332303.html" rel="" target="">
+    2018-SpringBoot(3)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1339411.html" rel="" target="">
+    2018-SpringCloud(2)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1352059.html" rel="" target="">
+    2018-Web(2)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1336058.html" rel="" target="">
+    2018-测试(6)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1335853.html" rel="" target="">
+    2018-分布式调度服务(1)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1336992.html" rel="" target="">
+    2018-日志(1)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1201561.html" rel="" target="">
+    2018-设计模式
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1369653.html" rel="" target="">
+    2018-事物(2)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1439630.html" rel="" target="">
+    2019-Mysql
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/821649.html" rel="" target="">
+    Spring(1)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/824943.html" rel="" target="">
+    Tomcat
+</a>
+ 
+</li>
+
+</ul>
+
+
+</div>
+<div class="catListArticleCategory">
+<h3 class="catListTitle">
+
+文章分类
+<span style="font-size:11px;font-weight:normal">(136)</span>
+
+</h3>
+
+
+<ul>
+
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1211576.html" rel="" target="">
+    2018-JAVA(4)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1211122.html" rel="" target="">
+    2018-mybatis(1)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1211121.html" rel="" target="">
+    2018-mysql(1)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1198960.html" rel="" target="">
+    2018-spring(6)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1274948.html" rel="" target="">
+    2018-服务(1)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1203463.html" rel="" target="">
+    2018-线程(1)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1515420.html" rel="" target="">
+    2019-Apache Shiro(1)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1438827.html" rel="" target="">
+    2019-dubbo(1)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1500704.html" rel="" target="">
+    2019-Git(1)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1463652.html" rel="" target="">
+    2019-Java 8(3)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1463180.html" rel="" target="">
+    2019-Java 监控(1)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1501528.html" rel="" target="">
+    2019-JS(1)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1578191.html" rel="" target="">
+    2019-LDAP(1)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1495957.html" rel="" target="">
+    2019-maven(3)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1499131.html" rel="" target="">
+    2019-Mybatis(4)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1439631.html" rel="" target="">
+    2019-Mysql(3)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1515375.html" rel="" target="">
+    2019-Nginx(1)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1507149.html" rel="" target="">
+    2019-redis(1)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1438442.html" rel="" target="">
+    2019-Spring(15)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1495297.html" rel="" target="">
+    2019-Zookeeper(1)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1439772.html" rel="" target="">
+    2019-辅助类(1)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1523012.html" rel="" target="">
+    2019-密码(3)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1579709.html" rel="" target="">
+    2019-日志(1)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1522424.html" rel="" target="">
+    2019-通讯协议(2)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/1438447.html" rel="" target="">
+    2019-小知识点(3)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/837345.html" rel="" target="">
+    Hibernate(6)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/849510.html" rel="" target="">
+    Java IO
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/835532.html" rel="" target="">
+    Java 多线程(6)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/831077.html" rel="" target="">
+    Java 基础(32)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/835530.html" rel="" target="">
+    Java 集合(1)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/835531.html" rel="" target="">
+    Java 设计模式(2)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/849511.html" rel="" target="">
+    Java 异常
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/910285.html" rel="" target="">
+    Java性能
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/848594.html" rel="" target="">
+    JVM(1)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/873255.html" rel="" target="">
+    Maven(2)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/896557.html" rel="" target="">
+    MyBatis(1)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/844072.html" rel="" target="">
+    MySql(6)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/894165.html" rel="" target="">
+    Redis(2)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/821648.html" rel="" target="">
+    Spring(12)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/825028.html" rel="" target="">
+    Tomcat(1)
+</a>
+ 
+</li>
+<li>
+<a href="https://www.cnblogs.com/miracle77hp/category/825406.html" rel="" target="">
+    WEB(3)
+</a>
+ 
+</li>
+
+</ul>
+
+
+</div>
+
+
+</div>
+
+<!-- 最新评论 -->
+<div id="sidebar_recentcomments" class="sidebar-block">
+    <div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div class="RecentCommentBlock">
+        <ul>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/miracle77hp/p/10341288.html#4352281">1. Re:Java中Comparable和Comparator区别</a></li>
+                    <li class="recent_comment_body">又活捉一只人工爬虫</li>
+                    <li class="recent_comment_author">--xh龙渊</li>
+                    <li class="recent_comment_title"><a href="http://www.cnblogs.com/miracle77hp/articles/5643403.html#3809984">2. Re:interrupt()、interrupted() 、isInterrupted() 区别</a></li>
+                    <li class="recent_comment_body">A线程中如何去调用B线程对象的isInterrupted方法？</li>
+                    <li class="recent_comment_author">--woniuyang</li>
+        </ul>
+    </div>
+</div>
+
+
+</div>
+
+
+
+<!-- 阅读排行榜 -->
+<div id="sidebar_topviewedposts" class="sidebar-block">
+    <div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/miracle77hp/p/10106633.html">
+                            1. @Autowired还可以注入List和Map(1555)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/miracle77hp/p/10027555.html">
+                            2. 你的JavaBean是否真的需要实现Serializable(780)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/miracle77hp/p/9915105.html">
+                            3. 分布式调度服务浅谈(658)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/miracle77hp/p/10106616.html">
+                            4. springcloud ribbon的 @LoadBalanced注解(396)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/miracle77hp/p/10208405.html">
+                            5. Mysql的复制原理以及流程(349)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div>
+
+
+</div>
+
+<!-- 评论排行榜 -->
+<div id="sidebar_topcommentedposts" class="sidebar-block">
+    <div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/miracle77hp/p/10341288.html">
+                            1. Java中Comparable和Comparator区别(1)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div>
+
+
+</div>
+
+<!-- 推荐排行榜 -->
+<div id="sidebar_topdiggedposts" class="sidebar-block">
+    <div id="topdigg_posts_wrap">
+    <div class="catListView">
+        <h3 class="catListTitle">推荐排行榜</h3>
+        <div id="TopDiggPostsBlock">
+            <ul style="word-break: break-all">
+                        <li>
+                            <a href="https://www.cnblogs.com/miracle77hp/p/10341288.html">
+                                1. Java中Comparable和Comparator区别(1)
+                            </a>
+                        </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</div></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright © 2020 He_quotes
+<br><span id="poweredby">Powered by .NET Core on Linux</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+</body></html>

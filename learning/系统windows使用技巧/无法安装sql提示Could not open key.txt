@@ -1,0 +1,16 @@
+据提示，很明显是注册表项权限问题
+解决SQL Server 2008 R2安装过程中提示Could not open key的解决方法： 
+以管理员身份运行CMD命令提示符，输入以下语句并运行就OK了
+secedit /configure /cfg %windir%\inf\defltbase.inf /db defltbase.sdb /verbose   
+按照错误提示，去找到了注册表项000021599B0090400100000000F01FEC，但这项administrator权限下无法授权，更无法删除，知道是这里的问题，但怎么着就是无法更改，一些注册表工具使用了也无济于事，这条命令就是重置系统权限配置。
+红字部分命令解析：总得来说，这条命令的意思是把系统安全配置重置为系统默认设置；defltbase.inf是系统安全配置模版，defltbase.sdb 是系统安全配置库，就是以系统默认安全模版重写系统安全配置库。这条命令可以解决很多安装软件遇到的权限问题，这些权限问题大多是之前安装过相同的软件，卸载不完全造成的注册表项锁死，无法更改权限或删除表项。
+
+secedit 命令用法， 网上搜一下吧。
+
+
+
+C:\Users\zhangxiankun>secedit /configure /cfg %windir%\inf\defltbase.inf /db def
+ltbase.sdb /verbose
+
+任务已结束。在此操作期间，一些属性出现警告。 可以忽略此警告。
+有关详细信息，请参阅日志 %windir%\security\logs\scesrv.log。

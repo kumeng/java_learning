@@ -1,0 +1,136 @@
+wsdl soap binding风格和序列化方式 (2012-08-06 16:22:21)转载▼
+标签： wsdl soap binding rpc document it 	分类： xml、SOA、JMS
+一、SOAP数据传输样式介绍
+SOAP 规范中style与use这两个属性决定SOAP数据的编码样式。
+style属性可是两个值中的一个： rpc 或 document 。当属性被设定为文档样式时，客户端使用 XML 模式调用约定；当属性设置成RPC，客户端使用远程过程调用约定。
+
+1)RPC Stype指定包含Web服务调用的XML节点，该节点以Web服务调用方法命名，XML节点依次包含方法调用的各个参数。
+
+
+2)Document Style指定内直接包含消息，该消息没有SOAP格式限制。服务器的应用层负责将XML文档映射成内存对象（参数、方法调用等等）。
+
+Use属性值决定消息的编码方式：可以是encoded或者是 literal。
+
+1)encoded值表示XML的消息使用类型属性引用抽象数据类型，使用Section 5编码（SOAP规范第五章定义的编码）进行xml的序列化和反序列化。
+
+2) Literal值表示XML的消息使用类型属性或者Element元素引用具体的Schema定义，也就是说，根据具体的Schema将内存对象序列化成XML消息。
+
+Style和Use的值进行组合，SOAP可以有四种编码样式，比较常用的如下：
+
+1) RPC/Encoded编码，使用SOAP编码，也称为 Section 5 编码，它由 SOAP 1.1 规范定义。
+
+2) Document/literal编码。
+
+3) RPC/literal编码，它使用 RPC 方法进行调用但使用 XML 自制的方法编入数据。
+    第一种RPC/Encoded曾在JAVA开发中应用非常广泛；第二种编码样式是DOT NET开发社区使用的缺省编码方式；第三种编码样式是第一种和第二种编码方式的混合，使用RPC的方式传送文档型数据。最近几年RPC/Encoded遭受了不少质疑和反对声浪。
+    在WS-I 基本概要1.1（WS-I Basic Profile Version 1.1）中，已经禁止使用这种编码样式。WS-I 基本概要1.1要求使用 WSDL SOAP 绑定的 RPC/literal 或 Document/literal形式。WS-I 基本概要禁止对 soap:Envelope 或派生的 soap:Body 元素使用 soap:encodingStyle 属性。因此， RPC/literal 和Document/literal 是 WS-I 标准唯一支持的 2 种格式。引用原文如下：
+R1007 An ENVELOPE described in an rpc-literal binding MUST NOT contain soap:encodingStyle attribute on any element that is a grandchild of soap:Body.
+ 
+为什么RPC/Encoded被抛弃？
+二、RPC/Encoded的问题。
+    在RPC/Encoded中，SOAP 编码定义了一系列的编码规则，方便了从SOAP数据模型到 XML 的映射。编码规则非常灵活并支持图形数据和多态的表示，而Document/literal依赖于自然树结构来表示数据对象。在RPC/Encoded中，使用SOAP 编码规则的多引用，引用可以很简单地表示，因此，循环引用如果采用 SOAP 编码作为消息绑定，可以表达一个循环的对象图。
+
+    在Document/literal中，方法基于 XML 脚本定义了消息类型作为固定类型。XML 脚本利用 XSD 基本类型作为叶子节点来表示自然树结构，一个循环对象图不能够转换为树结构。因此对象的引用必须在每一处对象引用中重复定义对象。
+ 
+    从上面的分析看来，无疑是RPC/Encoded更加有吸引力，事实上，很长一段时间来大部分 J2EE Web 服务缺省采用 RPC/encoded 方式。然而WS-I 基本概要（WS-I Basic Profile）为何抛弃这种编码样式呢？
+在同一平台下SOAP 消息的编写者和阅读者具有同步的存根来理解编码的 SOAP 消息，此时RPC/encoded无疑是易用。但是对于跨平台的使用场合，多引用访问器编码在 XSD 中难以表达，在不同的平台之间的实现有些细微的不同，带来了跨平台互操作性的问题。当反序列化XML消息的时候，SOAP协议栈会碰到WSDL中没有定义的多引用访问器，此时的处理每种平台每种类库都有所不同。
+RPC/encoded 模型使用 SOAP 编码规则来表述抽象 SOAP 数据模型，依赖厂商的 SOAP 库来提供抽象数据模型的具体实现。
+    当然这个不是程序员考虑的问题，各种WebService开发工具包屏蔽了SOAP编码方案的细节，呈现给程序员的，是面向接口编程熟悉的领域，然而却带来了处理的复杂性。有性能测试文章表明，RPC/ENC的样式实现的远程调用性能不佳，特别是随着XML消息payload的增大性能非线性下降，而DOC/LIT则能保持线性下降。
+比起DOC/LIT，RPC/ENC样式下的SOAP协议栈除了单纯的XML处理之外，还要处理SOAP编码的逻辑，还原多引用的对象图。
+    对DOC/LIT的样式来说，是单纯的XML处理。应用定义WSDL文件，由应用本身进行解释，因此要简单快捷。
+性能测试的相关文章如下：
+http://dev2dev.bea.com/pub/a/2003/03/Cohen.html
+http://www.ibm.com/developerworks/cn/webservices/ws-soapenc/index.html
+三：Document/literal的好处。
+1、更松散的客户端和服务器端耦合性
+    RPC样式，定义了SOAP客户端和服务器端之间的远程方法调用接口。该接口引用了抽象的SOAP数据类型，根据编码方案将SOAP数据模型转换成SOAP消息。客户端和服务器端的耦合度是远程过程调用的接口。
+    在Document样式，SOAP客户端与服务器端交互的是符合WSDL约束一段文本型数据。SOAP客户端与服务器端的契约或者说耦合度是仅仅WSDL描述的限制。
+    可以看出，Document样式中，客户端和服务器端的耦合性更低，远程过程调用必须是相对静态的，并且对接口的任何变化都将破坏服务和应用程序之间的契约。如果服务是广泛分布的，那么很可能大量的应用程序已经从它的 WSDL 文档中产生了存根代码。改变 WSDL 将会导致所有依赖于特定方法签名的应用程序被破坏。使用文档消息传递，规则更不严格，并且可以使 XML 模式得到显著增强和改变，同时又不会破坏调用应用程序。
+2、充分利用XML的好处，包括自描述、自验证等
+3、在异步调用的场合，由于文档消息通常是自包含的，因此适合于异步处理，可以直接放到服务器的队列中。
+4、更好的互操作性
+四：Document/literal模拟的RPC调用
+    在标准Document/literal 方式下，程序员不得不处理所有的事务，包括基于 XML 的 SOAP 消息的序列化和反序列化。标准的Document/literal不是面向RPC的，也没有定义与远程调用相关的信息，对仍然酷爱RPC调用的开发者来说无疑是欠缺的，在SOAP工具开发者看来Document/literal标准方式主要是缺乏函数的方法名。
+于是微软提出了使用Document/literal模拟RPC的方法调用，定义了一种用特殊的Document/literal使用方法，有名称叫做Document/literal wrapped。其实就是故意在WSDL中定义一个复杂类型complexType节点，该节点的名称与远程调用的方法名相同，该节点把发送的所有参数再封装一层。这样，SOAP的开发工具可以在接受到XML消息的时候根据节点上的方法名将XML消息处理后分发到具体的处理函数中。为帮助理解，先看一段普通的Document/literal样式的WSDL和SOAP消息。
+xml 代码
+ 
+<types>  
+    <schema>  
+        <element name="xElement" type="xsd:int"/>  
+        <element name="yElement" type="xsd:float"/>  
+    </schema>  
+</types>  
+  
+<message name="myMethodRequest">  
+    <part name="x" element="xElement"/>  
+    <part name="y" element="yElement"/>  
+</message>  
+<message name="empty"/>  
+  
+<portType name="PT">  
+    <operation name="myMethod">  
+        <input message="myMethodRequest"/>  
+        <output message="empty"/>  
+    </operation>  
+</portType>  
+
+soap消息，该SOAP消息中不含方法名的信息：
+xml 代码
+ 
+<soap:envelope>  
+    <soap:body>  
+        <xElement>5</xElement>  
+        <yElement>5.0</yElement>  
+    </soap:body>  
+</soap:envelope>  
+
+下面是使用Document/literal wrapped样式对应的WSDL定义：
+xml 代码
+ 
+<types>  
+    <schema>  
+        <element name="myMethod">  
+            <complexType>  
+                <sequence>  
+                    <element name="x" type="xsd:int"/>  
+                    <element name="y" type="xsd:float"/>  
+                </sequence>  
+            </complexType>  
+        </element>  
+        <element name="myMethodResponse">  
+            <complexType/>  
+        </element>  
+    </schema>  
+</types>  
+<message name="myMethodRequest">  
+    <part name="parameters" element="myMethod"/>  
+</message>  
+<message name="empty">  
+    <part name="parameters" element="myMethodResponse"/>  
+</message>  
+  
+<portType name="PT">  
+    <operation name="myMethod">  
+        <input message="myMethodRequest"/>  
+        <output message="empty"/>  
+    </operation>  
+</portType>  
+
+对应的SOAP消息，消息中包含了方法名信息，虽然，只是WSDL定义的myMethod节点：
+xml 代码
+ 
+<soap:envelope>  
+    <soap:body>  
+        <myMethod>  
+            <x>5</x>  
+            <y>5.0</y>  
+        </myMethod>  
+    </soap:body>  
+</soap:envelope>  
+
+这种编码样式，兼顾了Document/literal和RPC的好处，具有更好的跨平台互操作性，目前许多类库都是采用这种方案，例如，大名鼎鼎的XFIRE。当然，这个方案肯定也有一些问题。
+1、 这其实不是真正的RPC样式，方法名不能重载。
+
+2、 WSDL文件比标准的Document/literal要复杂一些。
+ 
+转载地址：http://www.javaeye.com/topic/145061
