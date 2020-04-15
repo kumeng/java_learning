@@ -129,6 +129,53 @@ public class _basic {
 	 * 关系运算符
 	 * ==  != > <  >=  <=
 	 */
+	@Test
+	public void test11111(){
+		//测试== 的意义,首先基础类型
+		int a = 2;int b=2;
+		System.out.println(a==b); //true
+		a=3;
+		System.out.println(a==b); //false
+		int c = 3;
+		System.out.println(a==c); //true 
+		//基础类型，在非堆-栈(stack)中 的a/b/c三个变量名地址不同，两个数值 2 和 3 的地址不变。
+		//a/b/c三个指向的值相同时 为true,指向值不同时 为 false   实际比较是值的内存地址
+		
+		System.out.println();
+		
+		//引用类型String
+		String  sa = "滴滴";   String  sb = "滴滴";
+		System.out.println(sa==sb); //true
+		sa = "哒哒";
+		System.out.println(sa==sb); //false
+		String  sc = "哒哒"; 
+		System.out.println(sa==sc); //true
+		//引用类型String, sa sb  sc三个变量名的地址都在非堆-栈中，两个 "滴滴" 和 "哒哒" 都在非堆-方法区(常量池)中
+		//三个变量名的地址不同，两个值的地址不变.      实际比较是值的内存地址
+		
+		System.out.println();
+		
+		//引用类型new String()  
+		//System.out.println(sb);  //此时sb 指向常量池的  "滴滴"		
+		String  sd = new String ("滴滴");  //new一个 滴滴
+		System.out.println(sb==sd);	//比较两个 "滴滴"  ,false
+		//由于new String("滴滴") 会把  sd 指向堆内存的一个"滴滴" .两个"滴滴"的值一致但内存地址不一致,结果是false。  					
+		//所以 实际比较是值的内存地址
+		System.out.println();
+		//反过来执行，验证一下new 出来的字符，是否会被放入常量池
+		String  se = new String ("默默");
+		String  sf ="默默";
+		System.out.println(se==sf);   //结果false
+		
+		System.out.println("我们验证一下Integer");
+		Integer a1 = 127;Integer b1 = 127;Integer c1 = new Integer(127);
+		System.out.println(a1==b1); //true		说明<=127指向的是同一个数字
+		System.out.println(a1==c1); //false
+		System.out.println();
+		Integer a2 = 128;Integer b2 = 128;Integer c2 = new Integer(128);
+		System.out.println(a2==b2); //false     说明>127时，都会执行new Integer() 
+		System.out.println(a2==c2); //false
+	}
 	/*
 	 * 逻辑运算符
 	 * &   逻辑与      两个数都转为二进制，然后从高位开始比较，如果两个数都为1则为1，否则为0。

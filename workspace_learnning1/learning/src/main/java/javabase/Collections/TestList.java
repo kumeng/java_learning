@@ -108,6 +108,41 @@ public class TestList {
 		long currentTimeMillis2 = System.currentTimeMillis();
 		return currentTimeMillis2-currentTimeMillis;		
 	}
-	
+	/**
+	 * 测试移除list中的元素,移除后跳过一些遍历到的元素。
+	 */
+	@Test
+	public void testremovelist(){
+		int i=100;
+		List<Integer> xlist = new ArrayList<Integer>(100);
+		for(int x =0;x<i;x++){
+			xlist.add(x);
+		}
+		System.out.println(xlist);
+		for(int x =0;x<xlist.size();x++){
+			xlist.remove(x);
+//			x --;   //修复手段
+		}
+		System.out.println(xlist);
+	}
+	/**
+	 * 测试移除list中的元素,移除后跳过一些遍历到的元素。
+	 */
+	@Test
+	public void testremovelist2(){
+		int i=100;
+		List<Integer> xlist = new ArrayList<Integer>(100);
+		for(int x =0;x<i;x++){
+			xlist.add(x);
+		}
+		System.out.println(xlist);
+		for(int x =0;x<xlist.size();x++){
+			if(xlist.get(x)%3==1){
+				xlist.remove(x);
+				x --;   //修复手段				
+			}
+		}
+		System.out.println(xlist);
+	}	
 	
 }
