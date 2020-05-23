@@ -17,15 +17,16 @@ public class testproxys {
 第x2人买房
 初始化时间:4
 执行时间:0
+没有实现延迟加载
 	 */
 	private static void test01() {
 		// TODO Auto-generated method stub
 		Long p1 = System.currentTimeMillis();		
 		house  h1 = new maifang_x1();
-		house  h2 = new maifang_x2();
+		maizhuangxiu  h2 = new maizhuangxiu();
 		Long p2 = System.currentTimeMillis();
 		h1.maifang();
-		h2.maifang();
+		h2.maizhuangxiu();
 		Long p3 = System.currentTimeMillis();
 		System.out.println("初始化时间:"+(p2-p1)/1000);
 		System.out.println("执行时间:"+(p3-p2)/1000);
@@ -40,13 +41,14 @@ public class testproxys {
 买房完成
 初始化时间:4
 执行时间:0
+没有实现延迟加载
 	 * 
 	 */
 	
 	private static void test02() {
 		// TODO Auto-generated method stub
 		Long p1 = System.currentTimeMillis();		
-		house h = new proxystatic(new maifang_x1(),new maifang_x2());
+		house h = new proxystatic(new maifang_x1(),new maizhuangxiu());
 		Long p2 = System.currentTimeMillis();
 		h.maifang();
 		Long p3 = System.currentTimeMillis();

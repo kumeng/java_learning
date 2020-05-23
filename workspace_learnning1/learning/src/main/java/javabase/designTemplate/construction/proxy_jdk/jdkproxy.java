@@ -3,8 +3,9 @@ package javabase.designTemplate.construction.proxy_jdk;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 /**
- * jdk动态代理，只能代理实现了接口InvocationHandler的类
+ * jdk动态代理，通过实现接口InvocationHandler来实现代理
  * @author Administrator
+ *jdk动态代理，,必须是接口中定义的方法才可以，没有再接口中定义的方法，不能被代理
  *
  */
 public class jdkproxy implements InvocationHandler {
