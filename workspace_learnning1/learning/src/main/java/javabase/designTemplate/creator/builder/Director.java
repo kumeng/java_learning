@@ -6,4 +6,10 @@ package javabase.designTemplate.creator.builder;
  */
 public class Director {
 //	public void 
+	public MobilePhone createMobilePhone(PhoneBuilder builder){
+		builder.buildPhoneBody();
+		builder.buildScreen();
+		builder.buildBattery();
+		return builder.buildMobilePhone();
+	}
 }
