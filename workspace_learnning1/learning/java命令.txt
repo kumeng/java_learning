@@ -1,0 +1,17 @@
+
+
+当前执行目录，test的上级目录
+相应jar丢在当前执行目录的
+推测  .;表示当前目录
+
+
+编译某个test包下所有Java文件, 指定编码 和 引用包
+javac  I:\testcompile\test\*.java -encoding utf-8 -cp .;gson-2.8.6.jar;jackson-annotations-2.8.0.jar
+
+
+
+
+
+执行编译完的主文件   执行 test.testStrSub
+java -classpath .;gson-2.8.6.jar;jackson-annotations-2.8.0.jar test.testStrSub
+

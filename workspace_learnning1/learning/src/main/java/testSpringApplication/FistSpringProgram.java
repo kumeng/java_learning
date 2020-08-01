@@ -21,8 +21,8 @@ public class FistSpringProgram  {
 		//初始化容器   classpath路径下
 		FistSpringProgram sdf = new FistSpringProgram();
 		
-//		sdf.testMybatis3();
-		sdf.testMybatis4();
+		sdf.testMybatis3();
+//		sdf.testMybatis4();
 			
 		
 	}
@@ -79,9 +79,11 @@ public class FistSpringProgram  {
 	
 	@Test
 	public void testMybatis3(){
-		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("springbasic\\SpringMVC.xml");		
+		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("springbasic\\SpringMVC.xml");
+		System.out.println(applicationContext);
 		MybatisBusiness  myta = (MybatisBusiness)applicationContext.getBean("mybatisBusiness");
-		myta.initAllTablePrimaryKeySeqs();
+		System.out.println(myta);
+//		myta.initAllTablePrimaryKeySeqs();
 //		myta.initAllAccount();
 	}	
 	

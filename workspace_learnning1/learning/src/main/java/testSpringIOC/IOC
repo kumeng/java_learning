@@ -1,0 +1,41 @@
+IOC是一种编程思想，控制反转
+
+程序选择具体接口实现，用户调用。控制权在程序。
+class print{
+	process do = new processImpl1();
+	do.print()
+}
+更改一次process实现,如下
+class print{
+	process do = new processImpl2();
+	do.print()
+}
+
+假如有一万个class print使用process。那么程序就需要更改一万个地方.可怕不
+
+控制反转的思想，就是把程序的控制权移交出去，谁调用谁控制。
+class print{
+	process do ；
+	public void setProcess(Process p1){
+		do = p1;
+	} 
+	do.print();
+}
+还是修改process，程序只需要提供processImpl2就行，1万次修改被分散到各个用户调用端.控制权在用户
+class User{
+   print p = new print();
+   p.set(new ProcessImpl);
+   //p.set(new ProcessImpl2);
+   p.print();
+}
+
+把程序的控制权丢出去，交给用户来控制，就是控制反转，IOC 。 通过动态注入实现，
+动态注入的方式，Set().构造器等
+
+IOC容器，将各模块接口组件装载到容器，调用时，也通过IOC容器来获得需要的组件。通过XML配置，注解来实现
+
+
+
+
+
+
