@@ -9,9 +9,13 @@ public class DateUtils {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		SimpleDateFormat	s1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date d3 = new Date(1596174101000L);
+		System.out.println(s1.format(d3));
+		
 		Date d1 = new Date();
 
-		SimpleDateFormat	s1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
 		try {
 			Date d2 = s1.parse("2020-06-03 19:00:00");
 			
