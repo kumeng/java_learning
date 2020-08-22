@@ -1,0 +1,173 @@
+分页查询
+select * from student  where statu= 1           limit(curPage-1)*pageSize,pageSize; 
+
+
+=================数学函数=================
+
+（1）ABS(x)
+
+返回x的绝对值
+
+（2）PI()
+
+返回圆周率π，默认显示6位小数
+
+（3）SQRT(x)
+
+返回非负数的x的二次方根
+
+（4）MOD(x,y)
+
+返回x被y除后的余数
+
+（5）CEIL(x)、CEILING(x)
+
+返回不小于x的最小整数
+
+（6）FLOOR(x)
+
+返回不大于x的最大整数
+
+（7）ROUND(x)、ROUND(x,y)
+
+前者返回最接近于x的整数，即对x进行四舍五入；后者返回最接近x的数，其值保留到小数点后面y位，若y为负值，则将保留到x到小数点左边y位
+
+（8）SIGN(x)
+
+返回参数x的符号，-1表示负数，0表示0，1表示正数
+
+（9）POW(x,y)和、POWER(x,y)
+
+返回x的y次乘方的值
+
+（10）EXP(x)
+
+返回e的x乘方后的值
+
+（11）LOG(x)
+
+返回x的自然对数，x相对于基数e的对数
+
+（12）LOG10(x)
+
+返回x的基数为10的对数
+
+（13）RADIANS(x)
+
+返回x由角度转化为弧度的值
+
+（14）DEGREES(x)
+
+返回x由弧度转化为角度的值
+
+（15）SIN(x)、ASIN(x)
+
+前者返回x的正弦，其中x为给定的弧度值；后者返回x的反正弦值，x为正弦
+
+（16）COS(x)、ACOS(x)
+
+前者返回x的余弦，其中x为给定的弧度值；后者返回x的反余弦值，x为余弦
+
+（17）TAN(x)、ATAN(x)
+
+前者返回x的正切，其中x为给定的弧度值；后者返回x的反正切值，x为正切
+
+（18）COT(x)
+
+返回给定弧度值x的余切
+
+
+=================字符串函数=================
+
+CONCAT(s1,s2，...)	返回连接参数产生的字符串，一个或多个待拼接的内容，任意一个为NULL则返回值为NULL。
+CONCAT_WS(x,s1,s2,...)	返回多个字符串拼接之后的字符串，每个字符串之间有一个x。
+SUBSTRING(s,n,len)、MID(s,n,len)	两个函数作用相同，从字符串s中返回一个第n个字符开始、长度为len的字符串。
+LEFT(s,n)、RIGHT(s,n)	前者返回字符串s从最左边开始的n个字符，后者返回字符串s从最右边开始的n个字符。
+INSERT(s1,x,len,s2)	返回字符串s1，其子字符串起始于位置x，被字符串s2取代len个字符。
+REPLACE(s,s1,s2)	返回一个字符串，用字符串s2替代字符串s中所有的字符串s1。
+LOCATE(str1,str)、POSITION(str1 IN str)、INSTR(str,str1)	三个函数作用相同，返回子字符串str1在字符串str中的开始位置（从第几个字符开始）。
+FIELD(s,s1,s2,...)	返回第一个与字符串s匹配的字符串的位置。 
+
+=================聚合函数=========================
+
+select t , GROUP_CONCAT(DISTINCT home_town ORDER BY home_town DESC SEPARATOR '!') from table    group by  t
+
+
+=================日期和时间函数=================
+
+（1）CURDATE()、CURRENT_DATE()
+ 将当前日期按照"YYYY-MM-DD"或者"YYYYMMDD"格式的值返回
+（2）CURRENT_TIMESTAMP()、LOCALTIME()、NOW()、SYSDATE()
+ 返回当前日期和时间值，格式为"YYYY_MM-DD HH:MM:SS"或"YYYYMMDDHHMMSS"
+UNIX_TIMESTAMP()、UNIX_TIMESTAMP(date)
+（3）UNIX_TIMESTAMP()、UNIX_TIMESTAMP(date)
+返回一个格林尼治标准时间1970-01-01 00:00:00到指定时间的秒数
+（4）FROM_UNIXTIME(date)
+和UNIX_TIMESTAMP互为反函数，把UNIX时间戳转换为普通格式的时间
+（5）UTC_DATE()和UTC_TIME()
+返回当前UTC时间值，其格式为"YYYY-MM-DD"或"YYYYMMDD"。
+（6）MONTH(date)和MONTHNAME(date)
+  提取月份
+（11）EXTRACE(type FROM date)
+从日期中提取一部分，type可以是YEAR、YEAR_MONTH、DAY_HOUR、DAY_MICROSECOND、DAY_MINUTE、DAY_SECOND
+ (14）DATE_ADD(date,INTERVAL expr type)、ADD_DATE(date,INTERVAL expr type)
+返回将起始时间加上expr type之后的时间，比如DATE_ADD('2010-12-31 23:59:59', INTERVAL 1 SECOND)表示的就是把第一个时间加1秒
+（15）DATE_SUB(date,INTERVAL expr type)、SUBDATE(date,INTERVAL expr type)
+返回将起始时间减去expr type之后的时间
+（16）ADDTIME(date,expr)、SUBTIME(date,expr)
+前者进行date的时间加操作，后者进行date的时间减操作
+
+
+=================条件判断函数================
+
+（1）IF(expr,v1,v2)
+
+如果expr是TRUE则返回v1，否则返回v2
+
+（2）IFNULL(v1,v2)
+
+如果v1不为NULL，则返回v1，否则返回v2
+
+（3）CASE expr WHEN v1 THEN r1 [WHEN v2 THEN v2] [ELSE rn] END
+
+如果expr等于某个vn，则返回对应位置THEN后面的结果，如果与所有值都不想等，则返回ELSE后面的rn
+
+加密函数
+
+（2）MD5(str)
+
+为字符串算出一个MD5 128比特校验和，改值以32位十六进制数字的二进制字符串形式返回
+
+（3）ENCODE(str, pswd_str)
+
+使用pswd_str作为密码，加密str
+
+（4）DECODE(crypt_str,pswd_str)
+
+使用pswd_str作为密码，解密加密字符串crypt_str，crypt_str是由ENCODE函数返回的字符串
+
+=================其他函数=================
+
+（1）FORMAT(x,n)
+
+将数字x格式化，并以四舍五入的方式保留小数点后n位，结果以字符串形式返回
+
+（2）CONV(N,from_base,to_base)
+
+不同进制数之间的转换，返回值为数值N的字符串表示，由from_base进制转换为to_base进制
+
+（3）INET_ATON(expr)
+
+给出一个作为字符串的网络地址的点地址表示，返回一个代表该地址数值的整数，地址可以使4或8比特
+
+（4）INET_NTOA(expr)
+
+给定一个数字网络地址（4或8比特），返回作为字符串的该地址的点地址表示
+
+（5）BENCHMARK(count,expr)
+
+重复执行count次表达式expr，它可以用于计算MySQL处理表达式的速度，结果值通常是0（0只是表示很快，并不是没有速度）。另一个作用是用它在MySQL客户端内部报告语句执行的时间
+
+（6）CONVERT(str USING charset)
+
+使用字符集charset表示字符串str
