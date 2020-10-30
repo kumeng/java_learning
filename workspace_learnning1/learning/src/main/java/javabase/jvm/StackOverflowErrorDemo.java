@@ -1,8 +1,8 @@
 
-package javabase.jvm.jvm002;
+package javabase.jvm;
 
 //什么是栈溢出？ 无线递归调用
-public class Demo006 {
+public class StackOverflowErrorDemo {
 	private static int count = 0;
 
 	public static void getCount() {
