@@ -21,6 +21,15 @@ import scanerpac.entity.MsgModel;
 import scanerpac.entity.PersonLoginModel;
 import scanerpac.service.PersonLoginService;
 
+/**
+ * return "success";  默认返回视图名称，使用servlet转发
+ * 
+ * 要使用重定向的话
+ * return "redirect:../error.jsp"; 
+ * @author jiawen
+ *
+ */
+
 @Controller
 @RequestMapping("/controller/")
 public class LoginController {
@@ -204,7 +213,6 @@ public class LoginController {
 		return new ModelAndView(view);
 	}	
 	/**
-	 * redirect前缀
 	 * 
 	 * @param name
 	 * @param pwd

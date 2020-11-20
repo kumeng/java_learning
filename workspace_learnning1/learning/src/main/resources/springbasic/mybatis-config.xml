@@ -5,6 +5,23 @@
 
 
 <configuration>
+
+	<!-- 引入外部文件 -->
+	<!-- <properties resource="xx.properties" /> -->
+	
+	<!-- 设置 -->
+	<!-- 开启日志 工厂,mybatatis提供了一些日志工厂实现的选项-->
+	<!-- 显示开启全局缓存,又叫二级缓存，默认也是开启的 ,要使用二级缓存，还需要在mapper.xml中配置 标签 <cache  /> -->
+	<settings>		
+		<setting name="logImpl" value="STDOUT_LOGGING"/>
+		<setting name="cacheEnabled" value="true"/>
+	</settings>
+	
+	<!-- mybatis缓存，有一级缓存和二级缓存
+	一级缓存 是sqlsession级别，默认开启。作用域低，一般不管
+	二级缓存 是 nameSpace级别的。 一般一个mapper都是使用单一的命名空间nameSpace。可以自定义来实现，也可以使用mybatis已经实现的
+	
+	 -->
 	<!-- setting 二级缓存  -->
 	
 	<!-- 别名 -->
@@ -12,6 +29,18 @@
 		<!-- <package name="cn.itcast.core.bean"/> -->
 	</typeAliases>
 	
+	<!-- 配置里设置数据源 ，也可以再spring中注入mybatis时注入-->
+<!-- 	<environments default="devlopment">
+		<environment id="devlopment">
+			<transactionManager type="JDBC"/>
+			<dataSource type="POOLED">			
+				<property name="driver" value="${driver}"/>
+				<property name="url" value="${url}"/>
+				<property name="username" value="${username}"/>
+				<property name="password" value="${password}"/>
+			</dataSource>
+		</environment>
+	</environments> -->
 	
 	
 	<!-- Mapper位置，

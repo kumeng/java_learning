@@ -33,11 +33,33 @@
 <!-- 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" />
 		<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
 		 -->
-		<!-- spring3.2及以后版本，可以简化为如下配置 -->
-		<mvc:annotation-driven/>
+		<!-- spring3.2及以后版本，可以简化为如下配置 ,即springmvc的处理器映射器+处理器适配器合并-->
+		<mvc:annotation-driven/> 
 		
+		<!-- springMVC不处理静态资源  .css .js .html .mp4  -->
+		<mvc:default-servlet-handler/>
 		
+	
+		<!-- util:properties 加载文件 注意文件头的命名空间 -->
+		<!-- 	<util:properties id="jdbcproperties" location="classpath:springbasic/jdbc_mysql_zcbase.properties" />
+		<util:properties id="jdbcproperties" location="classpath:springbasic/jdbc_oracle_zcbase.properties" />
+		 -->
+		<util:properties id="jdbcproperties" location="classpath:springbasic/jdbc_oracle_zcbase3.properties" />					
 		
+		<!-- 自动扫描包创建有注解实例并根据注解自动装配 -->
+		<context:component-scan base-package="scanerpac"/>
+		<!--  
+		装配注解
+		@Resource  设置在属性 或者set方法上    java提供，spring支持     jar包javax.annotation.jsr250
+		1：先查找是否有属性名相同的元素，有就注入
+		2：如果没有找到，则看是否有name属性（@Resource  name=“”），有则按name值查询并注入
+		3:否则按属性的类型去匹配注入
+		@Autowired   spring提供   jar  spring-beans.jar  
+		提示:pom配置spring-context即可导入context、aop、beans、core、expression等
+		1 只按照byType 注入
+		2 如果允许null值，可以设置它required属性为false。
+		3 如果我们想使用按名称装配，可以结合@Qualifier注解一起使用   @Autowired  @Qualifier("userDao")
+	    -->    			
 		
 		<import resource="fisrtSpringConfig.xml" />
 		<import resource="config/*.xml" />
@@ -82,8 +104,5 @@
 		    <property name="suffix" value=".jsp" />
 		    <property name="contentType" value="text/html; charset=utf-8" />		    
 		</bean>
-		<!-- <mvc:default-servlet-handler default-servlet-name=""/> -->
-		<!-- <mvc:resources location="" mapping=""/> -->
-		<!-- <mvc:view-controller></mvc:view-controller> -->
 
 </beans>    

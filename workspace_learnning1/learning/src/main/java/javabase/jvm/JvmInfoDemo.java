@@ -3,7 +3,9 @@ package javabase.jvm;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 /**
  * @author jiawen
  * HotSpot虚拟机    sun公司
@@ -35,6 +37,8 @@ import java.util.List;
 public class JvmInfoDemo{
 	///-Xms20m -Xmx20m -Xmn1m -XX:SurvivorRatio=2 -XX:+PrintGCDetails -XX:+UseSerialGC
 	//-Xms20m -Xmx20m -XX:SurvivorRatio=2 -XX:+PrintGCDetails -XX:+UseSerialGC -XX:NewRatio=2
+	
+	//堆溢出错误时，对jvm内存进行快照导出
 	////-Xms1m -Xmx20m -XX:+HeapDumpOnOutOfMemoryError
 		
 	
@@ -49,7 +53,7 @@ public class JvmInfoDemo{
 		
 		//多少k
 		int num = 204700;
-		userMemory2(num);
+		userMemory3(num);
 		System.out.println("分配了"+toM(num*1024)+"M内存");
 		jvmInfo();
 		System.out.println("老年代内存total:"+toM(204700*1024)+"M");
@@ -64,7 +68,11 @@ public class JvmInfoDemo{
 	}
 	private static void userMemory2(int num){
 		byte[] bytes02 = new byte[num*1024];
-	}	
+	}
+	private static void userMemory3(int num){
+		Map<byte[],byte[]> map  = new HashMap<byte[],byte[]>();
+		map.put(new byte[1], new byte[num*1024]);
+	}		
 
 	static private String toM(long maxMemory) {
 		float num = (float) maxMemory / (1024 * 1024);

@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <!-- mapper  中namespace属性，绑定该xml到某个接口 ，代码中执行那个接口，mybatais会找到绑定xml的中对应的sql执行 -->
 <mapper namespace="scanerpac.mybatisDao.sys.SeqsDao" >
+
+<!-- 在当前namespace使用二级缓存 -->
+<cache  />
+
   <resultMap id="BaseResultMap" type="scanerpac.entity.sys.Seqs" >
     <id column="ID" property="id" jdbcType="INTEGER" />
     <result column="SEQ_NAME" property="seqName" jdbcType="VARCHAR" />
