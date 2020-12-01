@@ -9,31 +9,30 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import scanerpac.ServiceInterface.PersonLogin;
 
-
-@ContextConfiguration(locations={"classpath:springbasic/SpringMVC.xml"})
+@ContextConfiguration(locations = { "classpath:springbasic/SpringMVC.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
 
 public class FistSpringProgram2 {
 
-	@Resource(name="animalServicecat")
-	private  AnimalsServices service;
-	@Resource(name="animalServicedog")
+	@Resource(name = "animalServicecat")
+	private AnimalsServices service;
+	@Resource(name = "animalServicedog")
 	private AnimalsServices service2;
-	
-	@Resource(name="personLoginImpl")
-	private PersonLogin login;	
-	
+
+	@Resource(name = "personLoginImpl")
+	private PersonLogin login;
+
 	@Test
-	public void testSpringJdbcDao(){
-		
+	public void testSpringJdbcDao() {
+
 		service.run();
 		service2.run();
-		
-		UsePersonLogin   use = new UsePersonLogin();  
+
+		UsePersonLogin use = new UsePersonLogin();
 		use.print();
-		
-//		login.dologin("2","1");
-			
+
+		// login.dologin("2","1");
+
 	}
 
 	public AnimalsServices getService() {
@@ -59,6 +58,5 @@ public class FistSpringProgram2 {
 	public void setLogin(PersonLogin login) {
 		this.login = login;
 	}
-
 
 }

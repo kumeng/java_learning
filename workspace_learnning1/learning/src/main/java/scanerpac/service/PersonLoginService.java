@@ -17,16 +17,16 @@ import scanerpac.dao.JdbcDatasourceDAO;
 public class PersonLoginService implements PersonLogin {
 
 	@Resource
-	private  JdbcDatasourceDAO  jdbcDatasourceDAO;
-	
+	private JdbcDatasourceDAO jdbcDatasourceDAO;
+
 	/**
-	 * 1 成功  ，其他表示失败
+	 * 1 成功 ，其他表示失败
 	 */
 	public Integer dologin(String name, String pwd) {
 		// TODO Auto-generated method stub
 		Connection connection = null;
-		PreparedStatement  pst = null;
-		ResultSet  result = null;
+		PreparedStatement pst = null;
+		ResultSet result = null;
 		try {
 			connection = jdbcDatasourceDAO.getConnection();
 			String sql = "select count(1) from basic_account where loginname =? and pwd=? ";
@@ -34,18 +34,18 @@ public class PersonLoginService implements PersonLogin {
 			pst.setString(1, name);
 			pst.setString(2, pwd);
 			result = pst.executeQuery();
-			if(result.next()){
+			if (result.next()) {
 				return result.getInt(1);
-			}			
+			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally{
+		} finally {
 			jdbcDatasourceDAO.colseConnection(connection);
-			if(pst!=null){
+			if (pst != null) {
 				try {
 					pst.close();
 				} catch (SQLException e) {
@@ -53,25 +53,23 @@ public class PersonLoginService implements PersonLogin {
 					e.printStackTrace();
 				}
 			}
-			if(result!=null){
+			if (result != null) {
 				try {
 					result.close();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}			
+			}
 		}
 
-		
 		return 0;
 	}
 
-	
 	public boolean Register(String name, String pwd) {
 		// TODO Auto-generated method stub
 		Connection connection = null;
-		PreparedStatement  pst = null;	
+		PreparedStatement pst = null;
 		try {
 			connection = jdbcDatasourceDAO.getConnection();
 			String sql = "insert into  basic_account values (2,?,?) ";
@@ -85,9 +83,9 @@ public class PersonLoginService implements PersonLogin {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally{
+		} finally {
 			jdbcDatasourceDAO.colseConnection(connection);
-			if(pst!=null){
+			if (pst != null) {
 				try {
 					pst.close();
 				} catch (SQLException e) {
@@ -95,8 +93,8 @@ public class PersonLoginService implements PersonLogin {
 					e.printStackTrace();
 				}
 			}
-			
-		}		
+
+		}
 		return false;
 	}
 

@@ -1,5 +1,5 @@
 package common;
 
-public class CommonLoggerObj  extends CommonLogger {
+public class CommonLoggerObj extends CommonLogger {
 
 }

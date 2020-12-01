@@ -11,21 +11,22 @@ import scanerpac.entity.sys.Seqs;
 import scanerpac.mybatisServer.SeqsService;
 
 @Repository("mybatisBusiness")
-public class MybatisBusiness extends CommonLoggerObj{
-	@Resource(name="sys_seqService")
-	private SeqsService  seqsService;
-	
-	@Resource(name="myBatisSqlSession")
+public class MybatisBusiness extends CommonLoggerObj {
+	@Resource(name = "sys_seqService")
+	private SeqsService seqsService;
+
+	@Resource(name = "myBatisSqlSession")
 	private MyBatisSqlSession myBatisSqlSession;
-	
-	public void initAllTablePrimaryKeySeqs(){
+
+	public void initAllTablePrimaryKeySeqs() {
 		List<Object> selectAllBusineTables = myBatisSqlSession.selectAllBusineTables();
-		for(Object obj:selectAllBusineTables){
-			Seqs se2 = (Seqs)obj;
+		for (Object obj : selectAllBusineTables) {
+			Seqs se2 = (Seqs) obj;
 			seqsService.createSeqsByTableName(se2.getSeqTablename());
 		}
 	}
-	public void initAllAccount(){
+
+	public void initAllAccount() {
 		myBatisSqlSession.select();
-	}	
+	}
 }

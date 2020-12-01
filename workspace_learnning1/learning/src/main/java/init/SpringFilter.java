@@ -15,11 +15,11 @@ import org.slf4j.LoggerFactory;
 
 public class SpringFilter implements Filter {
 
-	private final Logger   log = (Logger) LoggerFactory.getLogger(this.getClass());
-	
+	private final Logger log = (Logger) LoggerFactory.getLogger(this.getClass());
+
 	public void destroy() {
 		// TODO Auto-generated method stub
-		
+
 		log.debug("destroy");
 	}
 
@@ -36,9 +36,9 @@ public class SpringFilter implements Filter {
 		log.trace("init");
 		log.info("init");
 		log.error("init");
-		log.debug("init"+ arg0.getFilterName());
+		log.debug("init" + arg0.getFilterName());
 		ServletContext servletContext = arg0.getServletContext();
-		System.out.println(servletContext.toString()); 
+		System.out.println(servletContext.toString());
 	}
 
 }

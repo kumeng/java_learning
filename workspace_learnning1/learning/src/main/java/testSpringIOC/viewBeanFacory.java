@@ -4,7 +4,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
-public class viewBeanFacory  implements BeanFactory {
+public class viewBeanFacory implements BeanFactory {
 
 	public boolean containsBean(String arg0) {
 		// TODO Auto-generated method stub

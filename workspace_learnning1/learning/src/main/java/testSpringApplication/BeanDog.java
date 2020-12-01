@@ -1,9 +1,9 @@
 package testSpringApplication;
 
-public class BeanDog extends BeanAnimals{
+public class BeanDog extends BeanAnimals {
 
 	private String dog;
-	
+
 	@Override
 	public void say() {
 		// TODO Auto-generated method stub

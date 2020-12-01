@@ -1,6 +1,6 @@
 package testSpringApplication;
 
-public class BeanCat extends BeanAnimals{
+public class BeanCat extends BeanAnimals {
 	private String cat;
 
 	@Override

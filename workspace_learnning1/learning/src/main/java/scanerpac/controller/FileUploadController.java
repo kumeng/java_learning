@@ -14,19 +14,20 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/controller/")
 public class FileUploadController {
 	@RequestMapping("fileupload")
-	public String dologin1(@RequestParam(value="file2",required=false)MultipartFile file,HttpServletRequest req,ModelMap modelmap){
+	public String dologin1(@RequestParam(value = "file2", required = false) MultipartFile file, HttpServletRequest req,
+			ModelMap modelmap) {
 		System.out.println(file.getName());
 		System.out.println(file.getOriginalFilename());
-		modelmap.put("msg", "上传成功 "+file.getName()+IOUtils.LINE_SEPARATOR+file.getOriginalFilename());
+		modelmap.put("msg", "上传成功 " + file.getName() + IOUtils.LINE_SEPARATOR + file.getOriginalFilename());
 		return "success";
-	}	
+	}
+
 	@RequestMapping("fileupload2")
-	public String dologin2(HttpServletRequest req,ModelMap modelmap){
-//		MultipartFile partfile = req.getParameter("file");
-//		modelmap.put("msg", "上传成功 "+partfile.getName()+IOUtils.LINE_SEPARATOR+partfile.getOriginalFilename());
+	public String dologin2(HttpServletRequest req, ModelMap modelmap) {
+		// MultipartFile partfile = req.getParameter("file");
+		// modelmap.put("msg", "上传成功
+		// "+partfile.getName()+IOUtils.LINE_SEPARATOR+partfile.getOriginalFilename());
 		modelmap.put("msg", "上传成功 ");
 		return "success";
-	}		
+	}
 }
-
-

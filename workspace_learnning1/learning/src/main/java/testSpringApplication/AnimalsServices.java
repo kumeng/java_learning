@@ -1,20 +1,21 @@
 package testSpringApplication;
 
 public class AnimalsServices {
-	
+
 	private BeanAnimals animals;
-	
-	public AnimalsServices(BeanAnimals animals2){
+
+	public AnimalsServices(BeanAnimals animals2) {
 		this.animals = animals2;
 	}
-	public AnimalsServices(){		
-	}	
 
-	public void run(){
+	public AnimalsServices() {
+	}
+
+	public void run() {
 		animals.excuse();
 		animals.say();
 	}
-	
+
 	public BeanAnimals getAnimals() {
 		return animals;
 	}
@@ -22,8 +23,6 @@ public class AnimalsServices {
 	public void setAnimals(BeanAnimals animals) {
 		this.animals = animals;
 	}
-	
-	
 
 	public void init() {
 		// TODO Auto-generated method stub
@@ -33,5 +32,5 @@ public class AnimalsServices {
 	public void destroy() {
 		// TODO Auto-generated method stub
 		System.out.println("AnimalsServices destroy");
-	}	
+	}
 }

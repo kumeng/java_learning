@@ -6,25 +6,25 @@ import scanerpac.entity.sys.Seqs;
 import scanerpac.entity.sys.SeqsQuery;
 
 public interface SeqsDao {
-    int countByExample(SeqsQuery example);
+	int countByExample(SeqsQuery example);
 
-    int deleteByExample(SeqsQuery example);
+	int deleteByExample(SeqsQuery example);
 
-    int deleteByPrimaryKey(Integer id);
+	int deleteByPrimaryKey(Integer id);
 
-    int insert(Seqs record);
+	int insert(Seqs record);
 
-    int insertSelective(Seqs record);
+	int insertSelective(Seqs record);
 
-    List<Seqs> selectByExample(SeqsQuery example);
+	List<Seqs> selectByExample(SeqsQuery example);
 
-    Seqs selectByPrimaryKey(Integer id);
+	Seqs selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") Seqs record, @Param("example") SeqsQuery example);
+	int updateByExampleSelective(@Param("record") Seqs record, @Param("example") SeqsQuery example);
 
-    int updateByExample(@Param("record") Seqs record, @Param("example") SeqsQuery example);
+	int updateByExample(@Param("record") Seqs record, @Param("example") SeqsQuery example);
 
-    int updateByPrimaryKeySelective(Seqs record);
+	int updateByPrimaryKeySelective(Seqs record);
 
-    int updateByPrimaryKey(Seqs record);
+	int updateByPrimaryKey(Seqs record);
 }

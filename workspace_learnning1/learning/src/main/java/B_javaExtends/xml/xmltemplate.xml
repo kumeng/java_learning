@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"    ?>
+<root>
+    <subroot>
+        <description>小于</description>
+        <value>&lt;</value>
+    </subroot>
+    <subroot>
+        <description>大于</description>
+        <value>&gt;</value>
+    </subroot>    
+    <subroot>
+        <description>与字符</description>
+        <value>&amp;</value>
+    </subroot>      
+    <subroot>
+        <description>单引号</description>
+        <value>&apos;</value>
+    </subroot>   
+    <subroot>
+        <description>双引号</description>
+        <value>&quot;</value>
+    </subroot>
+    <subroot2>
+		<description tri="1"  tri2="2">元数据</description>
+		<value>
+		    <![CDATA[
+		    元数据，写什么就显示什么<root>
+		    <subroot>
+		        <description>小于</description>
+		        <value>&lt;</value>
+		    </subroot>    
+		       </root>
+		    ]]>		    
+		</value>        
+    </subroot2>             
+</root>

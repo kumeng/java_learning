@@ -156,7 +156,7 @@ public class SpringApplicationContext implements ApplicationContext {
 
 	public void publishEvent(ApplicationEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public Resource[] getResources(String arg0) throws IOException {

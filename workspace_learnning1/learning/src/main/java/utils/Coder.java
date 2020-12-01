@@ -27,13 +27,13 @@ public abstract class Coder {
 	public static byte[] decryptBASE64(String cipherText) throws Exception {
 		return (new BASE64Decoder()).decodeBuffer(cipherText);
 	}
-	
+
 	/**
-	 * 默认的String 与  Byte[] 互转是存在问题的 ：
-	 * 即 一个 Byte[] 数组转换为 一个   str 后， str.getbytes()返回的 字节组，与 原先的数组不同
+	 * 默认的String 与 Byte[] 互转是存在问题的 ： 即 一个 Byte[] 数组转换为 一个 str 后，
+	 * str.getbytes()返回的 字节组，与 原先的数组不同
 	 * 
 	 * 可用base64编码解决
-	 */	
+	 */
 
 	/**
 	 * BASE64加密。<br>
@@ -83,7 +83,8 @@ public abstract class Coder {
 
 	/**
 	 * SHA加密。<br>
-	 * SHA(Secure Hash Algorithm，安全散列算法），数字签名等密码学应用中重要的工具，被广泛地应用于电子商务等信息安全领域。<br>
+	 * SHA(Secure Hash Algorithm，安全散列算法），数字签名等密码学应用中重要的工具，被广泛地应用于电子商务等信息安全领域。
+	 * <br>
 	 * 虽然，SHA与MD5通过碰撞法都被破解了，但是SHA仍然是公认的安全加密算法，较之MD5更为安全。
 	 * 
 	 * @param plainData
@@ -151,8 +152,7 @@ public abstract class Coder {
 	 * @throws Exception
 	 *             加密失败
 	 */
-	public static byte[] encryptHMAC(byte[] plainData, String key)
-			throws Exception {
+	public static byte[] encryptHMAC(byte[] plainData, String key) throws Exception {
 		SecretKey secretKey = new SecretKeySpec(decryptBASE64(key), KEY_MAC);
 		Mac mac = Mac.getInstance(secretKey.getAlgorithm());
 		mac.init(secretKey);
@@ -180,15 +180,15 @@ public abstract class Coder {
 	 *             测试失败
 	 */
 	public static void main(String[] args) throws Exception {
-//		String inputStr1 = "xzswb@cdrcb.com";
-//		System.out.println("原文:" + inputStr1);
-//
-//		byte[] inputData = inputStr1.getBytes();
-//		String code = Coder.encryptBASE64(inputData);
-//		System.out.println("BASE64加密后:" + code);
-//
-//		byte[] output = Coder.decryptBASE64(inputStr1);
-//		String outputStr = new String(output);
-//		System.out.println("BASE64解密后:" + outputStr);
+		// String inputStr1 = "xzswb@cdrcb.com";
+		// System.out.println("原文:" + inputStr1);
+		//
+		// byte[] inputData = inputStr1.getBytes();
+		// String code = Coder.encryptBASE64(inputData);
+		// System.out.println("BASE64加密后:" + code);
+		//
+		// byte[] output = Coder.decryptBASE64(inputStr1);
+		// String outputStr = new String(output);
+		// System.out.println("BASE64解密后:" + outputStr);
 	}
 }

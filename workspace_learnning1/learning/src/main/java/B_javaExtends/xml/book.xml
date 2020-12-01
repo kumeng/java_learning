@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<tt:书架 	xmlns:tt="http://www.myxmlschema2018/bookschema"  
+     	xmlns:dd="http://www.w3.org/2001/XMLSchema-instance"
+		dd:schemaLocation="http://www.myxmlschema2018/bookschema book.xsd" >
+		<tt:书 >
+			<tt:书名>fdgfd</tt:书名>
+			<tt:总页数>3434</tt:总页数>
+			<tt:价格>2342.34</tt:价格>			
+		</tt:书>
+</tt:书架>

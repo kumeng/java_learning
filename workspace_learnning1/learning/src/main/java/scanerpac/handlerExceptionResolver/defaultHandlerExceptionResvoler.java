@@ -15,8 +15,8 @@ import Constans.MyException1_3;
 import Constans.MyException1_4;
 
 /**
- * 异常处理2
- * 适合全局处理有”处理过程“的异常
+ * 异常处理2 适合全局处理有”处理过程“的异常
+ * 
  * @author Administrator
  *
  */
@@ -25,22 +25,19 @@ public class defaultHandlerExceptionResvoler implements HandlerExceptionResolver
 	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
 			Exception ex) {
 		// TODO Auto-generated method stub
-		Map<String, Object> map = new HashMap<String,Object>();
-		String msg = ex.getCause()==null?ex.getMessage():ex.getCause().getMessage();		
+		Map<String, Object> map = new HashMap<String, Object>();
+		String msg = ex.getCause() == null ? ex.getMessage() : ex.getCause().getMessage();
 		map.put("ex", msg);
-		if(MyException1_1.class.isInstance(ex)){
-			return new ModelAndView("error1_1",map);
-		}
-		else if(MyException1_2.class.isInstance(ex)){
-			return new ModelAndView("error1_2",map);
-		}
-		else if(MyException1_3.class.isInstance(ex)){
-			return new ModelAndView("error1_3",map);
-		}
-		else if(MyException1_4.class.isInstance(ex)){
-			return new ModelAndView("error1_4",map);
-		}else{
-			return new ModelAndView("error",map);
+		if (MyException1_1.class.isInstance(ex)) {
+			return new ModelAndView("error1_1", map);
+		} else if (MyException1_2.class.isInstance(ex)) {
+			return new ModelAndView("error1_2", map);
+		} else if (MyException1_3.class.isInstance(ex)) {
+			return new ModelAndView("error1_3", map);
+		} else if (MyException1_4.class.isInstance(ex)) {
+			return new ModelAndView("error1_4", map);
+		} else {
+			return new ModelAndView("error", map);
 		}
 	}
 

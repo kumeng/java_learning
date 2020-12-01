@@ -17,6 +17,7 @@ public class defaultInterceptor implements HandlerInterceptor {
 		System.out.println("defaultInterceptor.preHandle");
 		return true;
 	}
+
 	/**
 	 * 处理器执行后、视图解析前被调用
 	 */
@@ -27,8 +28,8 @@ public class defaultInterceptor implements HandlerInterceptor {
 	}
 
 	/**
-	 * 整个处理请求完毕被调用     必须preHandle为TRUE 才执行
-	 */	
+	 * 整个处理请求完毕被调用 必须preHandle为TRUE 才执行
+	 */
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
 		// TODO Auto-generated method stub

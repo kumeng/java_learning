@@ -110,27 +110,27 @@ public class SpringServletContext implements ServletContext {
 
 	public void log(String arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void log(Exception arg0, String arg1) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void log(String arg0, Throwable arg1) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void removeAttribute(String arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void setAttribute(String arg0, Object arg1) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
