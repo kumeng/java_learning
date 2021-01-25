@@ -1,0 +1,20 @@
+#普通的key: value
+name: zxk
+
+#对象,map赋值
+cat:
+  name: kitty${random.uuid}
+  age: ${random.int}
+  
+#对象行内写法
+dog: {name: hasgiq,age: 4}
+
+#数组,list 赋值
+pets:
+  - cat
+  - dog
+  
+#数组行内写法
+pets2: [cat,dog]  
+
+#yml配置可以给实体类赋值

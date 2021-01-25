@@ -21,7 +21,7 @@ public class FistSpringProgram {
 		// 初始化容器 classpath路径下
 		FistSpringProgram sdf = new FistSpringProgram();
 
-		sdf.testMybatis3();
+		sdf.testMybatis5();
 		// sdf.testMybatis4();
 
 	}
@@ -107,5 +107,14 @@ public class FistSpringProgram {
 		se2.InsertAccount(acc);
 
 	}
+
+	@Test
+	public void testMybatis5() {
+		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("springbasic\\SpringMVC.xml");
+
+		
+		//jta 分布式事务实现 待学习
+	}
+	
 
 }

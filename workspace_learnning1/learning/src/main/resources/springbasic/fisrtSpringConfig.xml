@@ -31,8 +31,7 @@
     
     <!-- 无参构造器实例化 -->
 	<bean id="animalsFactory" class="testSpringApplication.AnimalsFactocry"   >
-	</bean>  
-
+	</bean>
 
 	<!-- 实例化工厂实例化一个BeanDog 返回Object对象 -->  
 	<bean id="dog" factory-bean="animalsFactory" factory-method="getAnimals" 
@@ -62,15 +61,19 @@
 		<property name="name" value="mm" />
 		<property name="age" value="2" />		
 	</bean>
-	
+	<!-- autowire自动装配，xml手动配置 -->
 	<bean id="animalServicecat" class="testSpringApplication.AnimalsServices"
 	scope="singleton"  init-method="init"  destroy-method="destroy" 
 	lazy-init="true"   autowire="byType" >
 	</bean>
 	<!-- 自动装配 -->
+	<!-- 
+	一，显示手动装配  xml中 autowire 属性值 
+	二，
+	 -->
 	<!--
 	no  禁止自动装配   默认值
-	byName  根据属性名自动装配
+	byName  根据属性名自动装配,使用set方法
 	byType  类型相同 。实例中：animalService 存在一个属性beanAnimal且有set方法 ，spring将把容器中属性为beanAnimal的对象注入
 	constructor  与byType类似，，不过是通过有参构造器注入
 	autodetect   spring自动决定byType还是constructor，如果有无参构造器则使用 byType

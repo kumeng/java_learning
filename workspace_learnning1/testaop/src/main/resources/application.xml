@@ -24,35 +24,9 @@
 		http://code.alibabatech.com/schema/dubbo        
 		http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 		
-   
-    <!-- 这里是Spring 中整合mybatis的  配置 -->
-    <!-- 配置SqlSession工厂 -->
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="druidDataSource"/>
-        <!-- 全局框架配置文件 位置     mybatis-config.xml的位置注意，如果放在classpath:config/* 下 ，会加载两次，要出问题的 -->
-        <property name="configLocation" value="classpath:springbasic/mybatis-config.xml"/>
-    </bean>
-    
-	<!--
-	配置扫描文件夹位置
-	 
-	扫描 接口 及Mapper文件
-	第一：接口与Mapper在一个文件夹下
-	第二：接口与Mapper文件名相同
-	才能扫描 
-	
-	 -->    
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="scanerpac.mybatisDao" />
-    </bean>
-    
-    <!-- 注解式事务 -->
-    <tx:annotation-driven transaction-manager="transactionManager" />
-    
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" >
-    	<property name="dataSource" ref="druidDataSource" ></property>
-    </bean>
-</beans>
-
-
-
+		
+		<context:component-scan base-package="example"></context:component-scan>
+		
+		<!-- 开启aop注解,默认使用jdk动态代理  proxy-target-class="false"  改成true时使用cglib动态代理  -->
+		<aop:aspectj-autoproxy proxy-target-class="false" />
+</beans>		

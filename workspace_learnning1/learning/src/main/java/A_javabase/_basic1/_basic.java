@@ -125,6 +125,13 @@ package A_javabase._basic1;
 	 * +=  -=  *= /= %=
 	 * i += 6 等于  i = i+6;其他类似
 	 */
+	@Test
+	public void tescalc(){
+		int x = 1000;
+		int y = 30;
+		System.out.println(x/y);
+		System.out.println(x%y);
+	} 	
 	/*
 	 * 关系运算符
 	 * ==  != > <  >=  <=

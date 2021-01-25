@@ -6,7 +6,7 @@ public class druidEncrytPwd {
 		// TODO Auto-generated method stub
 		try {
 			
-		 String privatekey = com.alibaba.druid.filter.config.ConfigTools.encrypt("dfgdfgd");
+		 String privatekey = com.alibaba.druid.filter.config.ConfigTools.encrypt("tams");
 			System.out.println(privatekey);
 			privatekey=com.alibaba.druid.filter.config.ConfigTools.decrypt(privatekey);
 			System.out.println(privatekey);

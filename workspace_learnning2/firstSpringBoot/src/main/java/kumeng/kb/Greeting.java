@@ -1,4 +1,4 @@
-package example.restservice;
+package kumeng.kb;
 
 public class Greeting {
 
