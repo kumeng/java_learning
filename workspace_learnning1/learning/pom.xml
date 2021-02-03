@@ -10,7 +10,7 @@
 	
 	<!-- 设置统一控制版本 -->
 	<properties>
-		<ant.version>1.7.1</ant.version>
+		<ant.version>1.10.9</ant.version>
 		<activemq.version>5.8.0</activemq.version>
 		<aspectjweaver-version>1.6.6</aspectjweaver-version>	
 		<commons-io-version>2.2</commons-io-version>
